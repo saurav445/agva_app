@@ -6,52 +6,64 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DeviceAbout extends StatelessWidget {
+class DeviceAbout extends StatefulWidget {
   final String deviceId;
+
+  DeviceAbout(this.deviceId);
+
+  @override
+  _DeviceAboutState createState() => _DeviceAboutState();
+}
+
+class _DeviceAboutState extends State<DeviceAbout> {
+  Map<String, dynamic>? data;
+
+  var mydeviceid = '724963b4f3ae2a8f';
+
+  @override
+  void initState() {
+    super.initState();
+    getProductionDetails();
+  }
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('mytoken');
   }
 
-  DeviceAbout(this.deviceId);
-
-  var mydeviceid = '724963b4f3ae2a8f';
-  
-void getProductionDetails() async {
-  String? token = await getToken(); 
-  if (token != null) {
-    print(token);
-    var response = await http.get(
-      Uri.parse('$getProductionData/$mydeviceid'),
-      headers: {
-        "Authorization": 'Bearer $token',
-      },
-    );
-    var jsonResponse = jsonDecode(response.body);
-    print(jsonResponse);
-    if (jsonResponse['statusValue'] == 'SUCCESS') {
-      var data = jsonResponse['data'];
-      print('production data $data');
-      // print('production data $deviceId');
+  void getProductionDetails() async {
+    String? token = await getToken();
+    if (token != null) {
+      // print(token);
+      var response = await http.get(
+        Uri.parse('$getProductionData/$mydeviceid'),
+        headers: {
+          "Authorization": 'Bearer $token',
+        },
+      );
+      var jsonResponse = jsonDecode(response.body);
+      print(jsonResponse);
+      if (jsonResponse['statusValue'] == 'SUCCESS') {
+        setState(() {
+          data = jsonResponse['data'];
+        });
+        print('production data $data');
+      } else {
+        print('Invalid User Credential: ${response.statusCode}');
+      }
     } else {
-      print('Invalid User Credential: ${response.statusCode}');
+      print('Token not found');
     }
-  } else {
-    print('Token not found'); 
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
-      getProductionDetails();
+    getProductionDetails();
     return Container(
       decoration: BoxDecoration(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Stack(
-          // alignment: Alignment.center,
           children: [
             Container(
               alignment: Alignment.center,
@@ -82,8 +94,6 @@ void getProductionDetails() async {
                               children: [
                                 Text(
                                   'Product :',
-                                  //  deviceId,
-                                  //  data['productType'],
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
                                     color: Color.fromARGB(255, 58, 58, 58),
@@ -153,12 +163,12 @@ void getProductionDetails() async {
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 20),
+                              padding: const EdgeInsets.only(left: 40),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    deviceId,
+                                    data?['productType'],
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 58, 58, 58),
@@ -167,25 +177,16 @@ void getProductionDetails() async {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    '--',
+                                       'AgVa-Pro',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 46, 105, 7),
+                           color: Color.fromARGB(255, 58, 58, 58),
                                       fontSize: 16,
                                     ),
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    '--',
-                                    style: TextStyle(
-                                      fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 58, 58, 58),
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    '--',
+                                       data?['dispatchDate'],
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 58, 58, 58),
@@ -194,7 +195,7 @@ void getProductionDetails() async {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    '--',
+                                       data?['manufacturingDate'],
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 58, 58, 58),
@@ -203,7 +204,7 @@ void getProductionDetails() async {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    '--',
+                                       data?['batchNumber'],
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 58, 58, 58),
@@ -212,7 +213,16 @@ void getProductionDetails() async {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    '--',
+                                       data?['dateOfWarranty'],
+                                    style: TextStyle(
+                                      fontFamily: 'Avenir',
+                                      color: Color.fromARGB(255, 58, 58, 58),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                       'No Data Available',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 58, 58, 58),
