@@ -34,7 +34,6 @@ class _ActiveDevicesState extends State<ActiveDevices> {
             padding: const EdgeInsets.only(top: 10),
             child: AnimatedContainer(
               duration: Duration(milliseconds: 200),
-              // height: isExpanded ? 300 : 120,
               width: 380,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
@@ -42,12 +41,12 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                   color: Colors.grey,
                   width: 0.2,
                 ),
-                color: Colors.white,
+                color: const Color.fromARGB(255, 52, 52, 52),
                 boxShadow: const [
                   BoxShadow(
-                    offset: Offset(5, 15),
-                    color: Color.fromARGB(255, 199, 199, 199),
-                    blurRadius: 20,
+                    offset: Offset(0, 0.5),
+                    color: Color.fromARGB(255, 74, 74, 74),
+                    blurRadius: 2,
                   ),
                 ],
               ),
@@ -76,7 +75,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                     deviceData['message'],
                     style: TextStyle(
                       fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 4, 75, 7),
+                      color: Color.fromARGB(255, 0, 202, 10),
                       fontSize: 12,
                     ),
                   ),
@@ -102,7 +101,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                         '${info['DeviceType']}',
                         style: TextStyle(
                           fontFamily: 'Avenir',
-                          color: Color.fromARGB(255, 58, 58, 58),
+                          color: Color.fromARGB(255, 218, 218, 218),
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                         ),
@@ -113,7 +112,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                       '',
                       style: TextStyle(
                         fontFamily: 'Avenir',
-                        color: const Color.fromARGB(255, 65, 65, 65),
+                             color: Color.fromARGB(255, 218, 218, 218),
                         fontSize: 12,
                       ),
                     ),
@@ -153,7 +152,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                       'Device ID :',
                       style: TextStyle(
                         fontFamily: 'Avenir',
-                        color: const Color.fromARGB(255, 65, 65, 65),
+                              color: Color.fromARGB(255, 218, 218, 218),
                         fontSize: 12,
                       ),
                     ),
@@ -164,7 +163,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                       'Hospital Name :',
                       style: TextStyle(
                         fontFamily: 'Avenir',
-                        color: const Color.fromARGB(255, 65, 65, 65),
+                              color: Color.fromARGB(255, 218, 218, 218),
                         fontSize: 12,
                       ),
                     ),
@@ -175,7 +174,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                       'Department Name :',
                       style: TextStyle(
                         fontFamily: 'Avenir',
-                        color: const Color.fromARGB(255, 65, 65, 65),
+                              color: Color.fromARGB(255, 218, 218, 218),
                         fontSize: 12,
                       ),
                     ),
@@ -186,7 +185,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                       'Doctor Name :',
                       style: TextStyle(
                         fontFamily: 'Avenir',
-                        color: const Color.fromARGB(255, 65, 65, 65),
+                              color: Color.fromARGB(255, 218, 218, 218),
                         fontSize: 12,
                       ),
                     ),
@@ -197,7 +196,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                       'Alias Name :',
                       style: TextStyle(
                         fontFamily: 'Avenir',
-                        color: const Color.fromARGB(255, 65, 65, 65),
+                              color: Color.fromARGB(255, 218, 218, 218),
                         fontSize: 12,
                       ),
                     ),
@@ -208,7 +207,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                       'Ward No :',
                       style: TextStyle(
                         fontFamily: 'Avenir',
-                        color: const Color.fromARGB(255, 65, 65, 65),
+                              color: Color.fromARGB(255, 218, 218, 218),
                         fontSize: 12,
                       ),
                     ),
@@ -219,7 +218,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                       'Bio-Med :',
                       style: TextStyle(
                         fontFamily: 'Avenir',
-                        color: const Color.fromARGB(255, 65, 65, 65),
+                              color: Color.fromARGB(255, 218, 218, 218),
                         fontSize: 12,
                       ),
                     ),
@@ -239,7 +238,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                         '${info['DeviceId']}',
                         style: TextStyle(
                           fontFamily: 'Avenir',
-                          color: const Color.fromARGB(255, 65, 65, 65),
+                                color: Color.fromARGB(255, 218, 218, 218),
                           fontSize: 12,
                         ),
                       ),
@@ -251,7 +250,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                         '${info['Hospital_Name']}',
                         style: TextStyle(
                           fontFamily: 'Avenir',
-                          color: const Color.fromARGB(255, 65, 65, 65),
+                                color: Color.fromARGB(255, 218, 218, 218),
                           fontSize: 12,
                         ),
                       ),
@@ -263,7 +262,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                         '${info['Department_Name']}',
                         style: TextStyle(
                           fontFamily: 'Avenir',
-                          color: const Color.fromARGB(255, 65, 65, 65),
+                                color: Color.fromARGB(255, 218, 218, 218),
                           fontSize: 12,
                         ),
                       ),
@@ -275,7 +274,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                         '${info['Doctor_Name']}',
                         style: TextStyle(
                           fontFamily: 'Avenir',
-                          color: const Color.fromARGB(255, 65, 65, 65),
+                                color: Color.fromARGB(255, 218, 218, 218),
                           fontSize: 12,
                         ),
                       ),
@@ -287,7 +286,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                         '${info['Alias_Name']}',
                         style: TextStyle(
                           fontFamily: 'Avenir',
-                          color: const Color.fromARGB(255, 65, 65, 65),
+                                color: Color.fromARGB(255, 218, 218, 218),
                           fontSize: 12,
                         ),
                       ),
@@ -299,7 +298,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                         '${info['Ward_No']}',
                         style: TextStyle(
                           fontFamily: 'Avenir',
-                          color: const Color.fromARGB(255, 65, 65, 65),
+                                color: Color.fromARGB(255, 218, 218, 218),
                           fontSize: 12,
                         ),
                       ),
@@ -311,7 +310,7 @@ class _ActiveDevicesState extends State<ActiveDevices> {
                         '${info['Bio_Med']}',
                         style: TextStyle(
                           fontFamily: 'Avenir',
-                          color: const Color.fromARGB(255, 65, 65, 65),
+                                color: Color.fromARGB(255, 218, 218, 218),
                           fontSize: 12,
                         ),
                       ),

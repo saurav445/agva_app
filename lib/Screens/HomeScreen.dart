@@ -89,234 +89,234 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               const SizedBox(height: 10),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Container(
-                        height: 60,
-                        width: 130,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 3,
-                              blurRadius: 20,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromARGB(255, 157, 0, 86),
-                              Color.fromARGB(255, 157, 0, 86)
-                            ],
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10, top: 5),
-                              child: Text(
-                                'Name',
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    '$name',
-                                    style: TextStyle(
-                                      fontFamily: 'Avenir',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Container(
-                        height: 60,
-                        width: 130,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 3,
-                              blurRadius: 20,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromARGB(255, 157, 0, 86),
-                              Color.fromARGB(255, 157, 0, 86)
-                            ],
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10, top: 5),
-                              child: Text(
-                                'Designation',
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Text(
-                                'Not Specified',
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Container(
-                        height: 60,
-                        width: 130,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 3,
-                              blurRadius: 20,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromARGB(255, 157, 0, 86),
-                              Color.fromARGB(255, 157, 0, 86)
-                            ],
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10, top: 5),
-                              child: Text(
-                                'Hospital',
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Text(
-                                '$hospitalName',
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Container(
-                        height: 60,
-                        width: 130,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 3,
-                              blurRadius: 20,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromARGB(255, 157, 0, 86),
-                              Color.fromARGB(255, 157, 0, 86)
-                            ],
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10, top: 5),
-                              child: Text(
-                                'Department',
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Text(
-                                'Not Specified',
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                  ],
-                ),
-              ),
+              // SingleChildScrollView(
+              //   scrollDirection: Axis.horizontal,
+              //   child: Row(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Padding(
+              //         padding: const EdgeInsets.all(5.0),
+              //         child: Container(
+              //           height: 60,
+              //           width: 130,
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(10),
+              //             boxShadow: [
+              //               BoxShadow(
+              //                 color: Colors.grey.withOpacity(0.2),
+              //                 spreadRadius: 1,
+              //                 blurRadius: 10,
+              //                 offset: Offset(0, 1),
+              //               ),
+              //             ],
+              //             gradient: LinearGradient(
+              //               begin: Alignment.topCenter,
+              //               end: Alignment.bottomCenter,
+              //               colors: [
+              //                 Color.fromARGB(255, 157, 0, 86),
+              //                 Color.fromARGB(255, 157, 0, 86)
+              //               ],
+              //             ),
+              //           ),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               Padding(
+              //                 padding: EdgeInsets.only(left: 10, top: 5),
+              //                 child: Text(
+              //                   'Name',
+              //                   style: TextStyle(
+              //                     fontFamily: 'Avenir',
+              //                     color: Colors.white,
+              //                   ),
+              //                 ),
+              //               ),
+              //               Row(
+              //                 children: [
+              //                   Padding(
+              //                     padding: EdgeInsets.only(left: 10),
+              //                     child: Text(
+              //                       '$name',
+              //                       style: TextStyle(
+              //                         fontFamily: 'Avenir',
+              //                         fontSize: 15,
+              //                         fontWeight: FontWeight.bold,
+              //                         color: Colors.white,
+              //                       ),
+              //                     ),
+              //                   ),
+              //                 ],
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       SizedBox(width: 10),
+              //       Padding(
+              //         padding: const EdgeInsets.all(5.0),
+              //         child: Container(
+              //           height: 60,
+              //           width: 130,
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(10),
+              //             boxShadow: [
+              //               BoxShadow(
+              //                 color: Colors.grey.withOpacity(0.2),
+              //                 spreadRadius: 1,
+              //                 blurRadius: 10,
+              //                 offset: Offset(0, 1),
+              //               ),
+              //             ],
+              //             gradient: LinearGradient(
+              //               begin: Alignment.topCenter,
+              //               end: Alignment.bottomCenter,
+              //               colors: [
+              //                 Color.fromARGB(255, 157, 0, 86),
+              //                 Color.fromARGB(255, 157, 0, 86)
+              //               ],
+              //             ),
+              //           ),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               Padding(
+              //                 padding: EdgeInsets.only(left: 10, top: 5),
+              //                 child: Text(
+              //                   'Designation',
+              //                   style: TextStyle(
+              //                     fontFamily: 'Avenir',
+              //                     color: Colors.white,
+              //                   ),
+              //                 ),
+              //               ),
+              //               Padding(
+              //                 padding: EdgeInsets.only(left: 10),
+              //                 child: Text(
+              //                   'Not Specified',
+              //                   style: TextStyle(
+              //                     fontFamily: 'Avenir',
+              //                     fontSize: 15,
+              //                     fontWeight: FontWeight.bold,
+              //                     color: Colors.white,
+              //                   ),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       SizedBox(width: 10),
+              //       Padding(
+              //         padding: const EdgeInsets.all(5.0),
+              //         child: Container(
+              //           height: 60,
+              //           width: 130,
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(10),
+              //             boxShadow: [
+              //               BoxShadow(
+              //                 color: Colors.grey.withOpacity(0.2),
+              //                 spreadRadius: 1,
+              //                 blurRadius: 10,
+              //                 offset: Offset(0, 1),
+              //               ),
+              //             ],
+              //             gradient: LinearGradient(
+              //               begin: Alignment.topCenter,
+              //               end: Alignment.bottomCenter,
+              //               colors: [
+              //                 Color.fromARGB(255, 157, 0, 86),
+              //                 Color.fromARGB(255, 157, 0, 86)
+              //               ],
+              //             ),
+              //           ),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               Padding(
+              //                 padding: EdgeInsets.only(left: 10, top: 5),
+              //                 child: Text(
+              //                   'Hospital',
+              //                   style: TextStyle(
+              //                     fontFamily: 'Avenir',
+              //                     color: Colors.white,
+              //                   ),
+              //                 ),
+              //               ),
+              //               Padding(
+              //                 padding: EdgeInsets.only(left: 10),
+              //                 child: Text(
+              //                   '$hospitalName',
+              //                   style: TextStyle(
+              //                     fontFamily: 'Avenir',
+              //                     fontSize: 15,
+              //                     fontWeight: FontWeight.bold,
+              //                     color: Colors.white,
+              //                   ),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       SizedBox(width: 10),
+              //       Padding(
+              //         padding: const EdgeInsets.all(5.0),
+              //         child: Container(
+              //           height: 60,
+              //           width: 130,
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(10),
+              //             boxShadow: [
+              //               BoxShadow(
+              //                 color: Colors.grey.withOpacity(0.2),
+              //                 spreadRadius: 1,
+              //                 blurRadius: 10,
+              //                 offset: Offset(0, 1),
+              //               ),
+              //             ],
+              //             gradient: LinearGradient(
+              //               begin: Alignment.topCenter,
+              //               end: Alignment.bottomCenter,
+              //               colors: [
+              //                 Color.fromARGB(255, 157, 0, 86),
+              //                 Color.fromARGB(255, 157, 0, 86)
+              //               ],
+              //             ),
+              //           ),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               Padding(
+              //                 padding: EdgeInsets.only(left: 10, top: 5),
+              //                 child: Text(
+              //                   'Department',
+              //                   style: TextStyle(
+              //                     fontFamily: 'Avenir',
+              //                     color: Colors.white,
+              //                   ),
+              //                 ),
+              //               ),
+              //               Padding(
+              //                 padding: EdgeInsets.only(left: 10),
+              //                 child: Text(
+              //                   'Not Specified',
+              //                   style: TextStyle(
+              //                     fontFamily: 'Avenir',
+              //                     fontSize: 15,
+              //                     fontWeight: FontWeight.bold,
+              //                     color: Colors.white,
+              //                   ),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       SizedBox(width: 10),
+              //     ],
+              //   ),
+              // ),
               SizedBox(height: 10),
               if (deviceDataList.isNotEmpty) ActiveDevices(deviceDataList, []),
               SizedBox(height: 20),
@@ -331,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.white,
+                // color: Colors.white,
               ),
               child: Align(
                 alignment: Alignment.center,
@@ -339,18 +339,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   'AgVa',
                   style: TextStyle(
                     color: Color.fromARGB(255, 157, 0, 86),
-                    fontSize: 25,
+                    fontSize: 50,
                   ),
                 ),
               ),
             ),
             ListTile(
               leading:
-                  const Icon(Icons.home, color: Color.fromARGB(255, 0, 0, 0)),
+                  const Icon(Icons.home, color: Colors.white),
               title: Text(
                 'HOME',
                 style: TextStyle(
-                  color: const Color.fromARGB(255, 0, 0, 0),
+               color: Colors.white,
                   fontSize: 14,
                 ),
               ),
@@ -358,44 +358,44 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               leading:
-                  const Icon(Icons.person, color: Color.fromARGB(255, 0, 0, 0)),
+                  const Icon(Icons.person, color: Colors.white),
               title: Text(
                 'PROFILE',
                 style: TextStyle(
-                  color: const Color.fromARGB(255, 0, 0, 0),
+                     color: Colors.white,
                   fontSize: 14,
                 ),
               ),
               onTap: () {},
             ),
             ListTile(
-              leading: const Icon(Icons.devices_other, color: Colors.black),
+              leading: const Icon(Icons.devices_other, color: Colors.white),
               title: Text(
                 'DEVICES',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 14,
                 ),
               ),
               onTap: () {},
             ),
             ListTile(
-              leading: const Icon(Icons.circle, color: Colors.black),
+              leading: const Icon(Icons.circle, color: Colors.white),
               title: Text(
                 'LIVE',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 14,
                 ),
               ),
               onTap: () {},
             ),
             ListTile(
-              leading: const Icon(Icons.settings, color: Colors.black),
+              leading: const Icon(Icons.settings, color: Colors.white),
               title: Text(
                 'SETTINGS',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 14,
                 ),
               ),

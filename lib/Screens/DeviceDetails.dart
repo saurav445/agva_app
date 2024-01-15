@@ -21,7 +21,7 @@ class DeviceDetails extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.grey,
         body: Stack(
           children: [
             Container(
@@ -57,7 +57,7 @@ class DeviceDetails extends StatelessWidget {
                                   // 'deviceId',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                    color: Color.fromARGB(255, 58, 58, 58),
+                                            color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize: 16,
                                     // fontWeight: FontWeight.bold,
                                   ),
@@ -67,7 +67,7 @@ class DeviceDetails extends StatelessWidget {
                                   'Running Status :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                    color: Color.fromARGB(255, 58, 58, 58),
+                                            color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -76,8 +76,7 @@ class DeviceDetails extends StatelessWidget {
                                   'Hours :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                    color:
-                                        const Color.fromARGB(255, 65, 65, 65),
+                                                color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -86,8 +85,7 @@ class DeviceDetails extends StatelessWidget {
                                   'Total Hours :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                    color:
-                                        const Color.fromARGB(255, 65, 65, 65),
+                                                color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -96,8 +94,7 @@ class DeviceDetails extends StatelessWidget {
                                   'Health :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                    color:
-                                        const Color.fromARGB(255, 65, 65, 65),
+                                                color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -106,8 +103,7 @@ class DeviceDetails extends StatelessWidget {
                                   'Address :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                    color:
-                                        const Color.fromARGB(255, 65, 65, 65),
+                                                color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -123,7 +119,7 @@ class DeviceDetails extends StatelessWidget {
                                     '${deviceData['deviceId']}',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 58, 58, 58),
+                                              color: Color.fromARGB(255, 218, 218, 218),
                                       fontSize: 16,
                                       // fontWeight: FontWeight.bold,
                                     ),
@@ -133,7 +129,7 @@ class DeviceDetails extends StatelessWidget {
                                     '${deviceData['message']}',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 46, 105, 7),
+                           color: Color.fromARGB(255, 0, 202, 10),
                                       fontSize: 16,
                                       // fontWeight: FontWeight.bold,
                                     ),
@@ -143,7 +139,7 @@ class DeviceDetails extends StatelessWidget {
                                     '${deviceData['last_hours']}',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 58, 58, 58),
+                                              color: Color.fromARGB(255, 218, 218, 218),
                                       fontSize: 16,
                                       // fontWeight: FontWeight.bold,
                                     ),
@@ -153,7 +149,7 @@ class DeviceDetails extends StatelessWidget {
                                     '${deviceData['total_hours']}',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 58, 58, 58),
+                                              color: Color.fromARGB(255, 218, 218, 218),
                                       fontSize: 16,
                                       // fontWeight: FontWeight.bold,
                                     ),
@@ -163,7 +159,7 @@ class DeviceDetails extends StatelessWidget {
                                     '${deviceData['health']}',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 58, 58, 58),
+                                              color: Color.fromARGB(255, 218, 218, 218),
                                       fontSize: 16,
                                       // fontWeight: FontWeight.bold,
                                     ),
@@ -173,7 +169,7 @@ class DeviceDetails extends StatelessWidget {
                                     '${deviceData['address']}',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 58, 58, 58),
+                                              color: Color.fromARGB(255, 218, 218, 218),
                                       fontSize: 16,
                                       // fontWeight: FontWeight.bold,
                                     ),
