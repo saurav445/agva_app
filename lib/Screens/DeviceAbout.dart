@@ -36,7 +36,8 @@ class _DeviceAboutState extends State<DeviceAbout> {
     if (token != null) {
       // print(token);
       var response = await http.get(
-        Uri.parse('$getProductionData/$mydeviceid'),
+        // Uri.parse('$getProductionData/$mydeviceid'),
+        Uri.parse('$getProductionData/${widget.deviceId}'),
         headers: {
           "Authorization": 'Bearer $token',
         },
@@ -47,7 +48,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
         setState(() {
           data = jsonResponse['data'];
         });
-        print('production data $data');
+        // print('production data $data');
       } else {
         print('Invalid User Credential: ${response.statusCode}');
       }
@@ -58,7 +59,6 @@ class _DeviceAboutState extends State<DeviceAbout> {
 
   @override
   Widget build(BuildContext context) {
-    getProductionDetails();
     return Container(
       decoration: BoxDecoration(),
       child: Scaffold(
@@ -163,12 +163,12 @@ class _DeviceAboutState extends State<DeviceAbout> {
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 40),
+                              padding: const EdgeInsets.only(left: 70),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    data?['productType'],
+                                    data?['productType'] ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 58, 58, 58),
@@ -186,7 +186,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                       data?['dispatchDate'],
+                                       data?['dispatchDate'] ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 58, 58, 58),
@@ -195,7 +195,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                       data?['manufacturingDate'],
+                                       data?['manufacturingDate'] ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 58, 58, 58),
@@ -204,7 +204,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                       data?['batchNumber'],
+                                       data?['batchNumber'] ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 58, 58, 58),
@@ -213,7 +213,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                       data?['dateOfWarranty'],
+                                       data?['dateOfWarranty'] ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 58, 58, 58),
@@ -222,7 +222,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                       'No Data Available',
+                                       'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 58, 58, 58),
