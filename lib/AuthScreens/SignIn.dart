@@ -11,7 +11,7 @@ import './SignUp.dart';
 class SignIn extends StatefulWidget {   
   @override       
   _SignInState createState() => _SignInState();
-}
+}      
 
 class _SignInState extends State<SignIn> {
   TextEditingController emailController = TextEditingController();
