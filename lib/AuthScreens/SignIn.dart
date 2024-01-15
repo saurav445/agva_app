@@ -52,7 +52,7 @@ class _SignInState extends State<SignIn> {
           var hospitalName = data['hospitalName'];
           var token = data['token'];
 
-          // Save the token
+          // Save token
           saveToken(token);
 
           Navigator.push(

@@ -18,8 +18,6 @@ class DeviceAbout extends StatefulWidget {
 class _DeviceAboutState extends State<DeviceAbout> {
   Map<String, dynamic>? data;
 
-  var mydeviceid = '724963b4f3ae2a8f';
-
   @override
   void initState() {
     super.initState();
@@ -36,7 +34,6 @@ class _DeviceAboutState extends State<DeviceAbout> {
     if (token != null) {
       // print(token);
       var response = await http.get(
-        // Uri.parse('$getProductionData/$mydeviceid'),
         Uri.parse('$getProductionData/${widget.deviceId}'),
         headers: {
           "Authorization": 'Bearer $token',

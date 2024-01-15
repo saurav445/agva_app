@@ -1,14 +1,16 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable
 
-import 'dart:convert';
-import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/MDWidget.dart';
-import 'package:http/http.dart' as http;
 
 class MonitorData extends StatefulWidget {
   final Map<String, dynamic> deviceData;
+
+  Future<String?> saveDeviceId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('deviceId');
+  }
 
   MonitorData(this.deviceData);
 
@@ -26,26 +28,6 @@ class _MonitorDataState extends State<MonitorData> {
   void initState() {
     super.initState();
     deviceInfoList = widget.deviceData['deviceInfo'];
-     getEventusingId();
-  }
-
- Future<String?> getDeviceId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('deviceId');
-  }
-
-  void getEventusingId() async {
-    String? deviceId = await getDeviceId();
-    if (deviceId != null) {
-        var response = await http.get(
-      Uri.parse('$getEventById/$deviceId'),
-    );
-    var jsonResponse = jsonDecode(response.body);
-    print(jsonResponse);
-    if (jsonResponse['statusCode'] == 200 ) {
-    } else {
-      print('Invalid User Credential: ${response.statusCode}');
-    }}
   }
 
   @override

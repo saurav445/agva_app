@@ -7,3 +7,4 @@ final getDevicesByHospital = '$url/devices/get-devices-by-hospital';
 final getDeviceForUser = '$url/api/logger/logs/Allevents/get-devices-for-users';
 final getProjects = '$url/api/logger/projects';
 final getProductionData = '$url/production/get-byid';
+final getEventById = '$url/api/logger/logs/deviceEvents';

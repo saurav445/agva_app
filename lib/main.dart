@@ -1,7 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable, prefer_const_literals_to_create_immutables
 
 import 'package:agva_app/Screens/DeviceDetails.dart';
-import 'package:agva_app/Screens/MonitorData.dart';
+// import 'package:agva_app/Screens/MonitorData.dart';
 import 'package:agva_app/Screens/Products.dart';
 import 'package:flutter/material.dart';
 import 'AuthScreens/SignIn.dart';
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         "/splash": (context) => SplashScreen(),
         "/home": (context) => HomeScreen({}),
         "/devicedetails": (context) => DeviceDetails({}),
-        "/monitordata": (context) => MonitorData({}),
+        // "/monitordata": (context) => MonitorData({}),
         "/tandc": (context) => TermsCondition(),
         "/projects": (context) => Products(),
       },

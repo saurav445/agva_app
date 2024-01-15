@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../config.dart';
 import '../widgets/ActiveDevices.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -20,17 +21,25 @@ class _HomeScreenState extends State<HomeScreen> {
   late String name;
   late String hospitalName;
   late String token;
+  late SharedPreferences prefs;
   List<Map<String, dynamic>> deviceDataList = [];
 
   @override
   void initState() {
     super.initState();
+    initSharedPref();
     name = widget.data['name'];
     hospitalName = widget.data['hospitalName'];
     token = widget.data['token'];
     // print('Frontend Response : Token: $token');
     fetchGetdevicesForUsers();
   }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+    String deviceId = "deviceId";
 
   void fetchGetdevicesForUsers() async {
     var response = await http.get(
@@ -43,21 +52,28 @@ class _HomeScreenState extends State<HomeScreen> {
     if (jsonResponse['statusValue'] == 'SUCCESS') {
       var data = jsonResponse['data'];
       var devicesList = data['data'];
-for (var deviceData in devicesList) {
-      var deviceId = deviceData['deviceId'];
-      var deviceInfoList = deviceData['deviceInfo'];
-      print('deviceInfoList $deviceInfoList');
-      setState(() {
-        deviceDataList.add(deviceData);
-      });
+      for (var deviceData in devicesList) {
+        var deviceId = deviceData['deviceId'];
+        var deviceInfoList = deviceData['deviceInfo'];
+        print('deviceInfoList $deviceInfoList');
+        print(deviceId);
+         saveDeviceId(deviceId);
+        setState(() {
+          deviceDataList.add(deviceData);
+        });
+      }
+    } else {
+      print('Invalid User Credential: ${response.statusCode}');
     }
-  } else {
-    print('Invalid User Credential: ${response.statusCode}');
   }
-}
+
+    Future<void> saveDeviceId(String deviceId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('deviceId', deviceId);
+  }
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[

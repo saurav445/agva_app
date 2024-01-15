@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../config.dart';
 
@@ -11,9 +12,6 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  var token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjU4YTcxNjc4OTc4NTYzYWZjODZlNGFkIiwianRpIjoiQ2xjb05xQjdGWCIsImlhdCI6MTcwNTA0MDk2NywiZXhwIjoxNzA2MzM2OTY3fQ.J4gXkfgnSnmttAzcSRyjn_uTQ1XI-jHCQWE8iBdsSd4';
-
   List<String> projectNames = [];
 
   @override
@@ -22,8 +20,15 @@ class _ProductsState extends State<Products> {
     fetchProjects();
   }
 
+  Future<String?> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('mytoken');
+  }
+
   void fetchProjects() async {
-    try {
+    String? token = await getToken();
+    if (token != null) {
+      print(token);
       var response = await http.get(
         Uri.parse(getProjects),
         headers: {
@@ -43,8 +48,6 @@ class _ProductsState extends State<Products> {
       } else {
         print('Invalid User Credential: ${response.statusCode}');
       }
-    } catch (error) {
-      print('Error fetching projects: $error');
     }
   }
 
@@ -64,21 +67,23 @@ class _ProductsState extends State<Products> {
                         height: 200,
                         width: 300,
                         decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 1,
-                  blurRadius: 10,
-                  offset: Offset(0, 3),
-                ),
-              ],
-              color: Colors.white,
-            ),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 1,
+                              blurRadius: 10,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                          color: Colors.white,
+                        ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                                  SizedBox(width: 10,),
+                            SizedBox(
+                              width: 10,
+                            ),
                             Container(
                               height: 150,
                               width: 100,
@@ -86,7 +91,9 @@ class _ProductsState extends State<Products> {
                                 "assets/images/AgVaCrop.png",
                               ),
                             ),
-                            SizedBox(width: 30,),
+                            SizedBox(
+                              width: 30,
+                            ),
                             Text(
                               projectNames[index],
                               style: TextStyle(
