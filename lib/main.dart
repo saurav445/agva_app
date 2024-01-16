@@ -1,8 +1,8 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable, prefer_const_literals_to_create_immutables
 
 import 'package:agva_app/Screens/DeviceDetails.dart';
-// import 'package:agva_app/Screens/MonitorData.dart';
 import 'package:agva_app/Screens/Products.dart';
+import 'package:agva_app/Screens/mainscreen.dart';
 import 'package:flutter/material.dart';
 import 'AuthScreens/SignIn.dart';
 import 'AuthScreens/SignUp.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.blue),
       darkTheme: ThemeData(brightness: Brightness.dark),
       debugShowCheckedModeBanner: false,
-      initialRoute: "/splash",
+      initialRoute: "/mainscreen",
       routes: {
         "/signup": (context) => SignUp(),
         "/signin": (context) => SignIn(),
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         // "/monitordata": (context) => MonitorData({}),
         "/tandc": (context) => TermsCondition(),
         "/projects": (context) => Products(),
+                "/mainscreen": (context) => MainScreen(),
       },
     );
   }

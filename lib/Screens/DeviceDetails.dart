@@ -29,16 +29,25 @@ class DeviceDetails extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: 100),
+                  SizedBox(height: 60),
                   Text(
-                    "Device Details",
+                    "Details",
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       fontSize: 24,
-                      color: Color.fromARGB(255, 157, 0, 86),
+                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
-                  SizedBox(height: 40),
+                  SizedBox(height: 50),
+                  Text(
+                    "AGVA PRO",
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      fontSize: 50,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
+                  SizedBox(height: 50),
                   Padding(
                     padding: const EdgeInsets.only(
                       left: 30,
@@ -53,57 +62,84 @@ class DeviceDetails extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'DeviceID :',
+                                  'DEVICE ID :',
                                   // 'deviceId',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                            color: Color.fromARGB(255, 218, 218, 218),
+                                    color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize: 16,
                                     // fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 SizedBox(height: 10),
                                 Text(
-                                  'Running Status :',
+                                  'RUNNING STATUS :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                            color: Color.fromARGB(255, 218, 218, 218),
+                                    color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize: 16,
                                   ),
                                 ),
                                 SizedBox(height: 10),
                                 Text(
-                                  'Hours :',
+                                  'PATIENT :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                                color: Color.fromARGB(255, 218, 218, 218),
+                                    color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize: 16,
                                   ),
                                 ),
                                 SizedBox(height: 10),
                                 Text(
-                                  'Total Hours :',
+                                  'AGE :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                                color: Color.fromARGB(255, 218, 218, 218),
+                                    color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize: 16,
                                   ),
                                 ),
                                 SizedBox(height: 10),
                                 Text(
-                                  'Health :',
+                                  'WEIGHT :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                                color: Color.fromARGB(255, 218, 218, 218),
+                                    color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize: 16,
                                   ),
                                 ),
                                 SizedBox(height: 10),
                                 Text(
-                                  'Address :',
+                                  'MODE :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                                color: Color.fromARGB(255, 218, 218, 218),
+                                    color: Color.fromARGB(255, 218, 218, 218),
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'WARD :',
+                                  style: TextStyle(
+                                    fontFamily: 'Avenir',
+                                    color: Color.fromARGB(255, 218, 218, 218),
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'HOSPITAL :',
+                                  style: TextStyle(
+                                    fontFamily: 'Avenir',
+                                    color: Color.fromARGB(255, 218, 218, 218),
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'CITY :',
+                                  style: TextStyle(
+                                    fontFamily: 'Avenir',
+                                    color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -111,7 +147,7 @@ class DeviceDetails extends StatelessWidget {
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 70),
+                              padding: const EdgeInsets.only(left: 40),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
@@ -119,9 +155,8 @@ class DeviceDetails extends StatelessWidget {
                                     '${deviceData['deviceId']}',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                              color: Color.fromARGB(255, 218, 218, 218),
+                                      color: Color.fromARGB(255, 218, 218, 218),
                                       fontSize: 16,
-                                      // fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   SizedBox(height: 10),
@@ -129,9 +164,8 @@ class DeviceDetails extends StatelessWidget {
                                     '${deviceData['message']}',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                           color: Color.fromARGB(255, 0, 202, 10),
+                                      color: Color.fromARGB(255, 0, 202, 10),
                                       fontSize: 16,
-                                      // fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   SizedBox(height: 10),
@@ -139,9 +173,8 @@ class DeviceDetails extends StatelessWidget {
                                     '${deviceData['last_hours']}',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                              color: Color.fromARGB(255, 218, 218, 218),
+                                      color: Color.fromARGB(255, 218, 218, 218),
                                       fontSize: 16,
-                                      // fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   SizedBox(height: 10),
@@ -149,9 +182,8 @@ class DeviceDetails extends StatelessWidget {
                                     '${deviceData['total_hours']}',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                              color: Color.fromARGB(255, 218, 218, 218),
+                                      color: Color.fromARGB(255, 218, 218, 218),
                                       fontSize: 16,
-                                      // fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   SizedBox(height: 10),
@@ -159,9 +191,8 @@ class DeviceDetails extends StatelessWidget {
                                     '${deviceData['health']}',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                              color: Color.fromARGB(255, 218, 218, 218),
+                                      color: Color.fromARGB(255, 218, 218, 218),
                                       fontSize: 16,
-                                      // fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   SizedBox(height: 10),
@@ -169,9 +200,35 @@ class DeviceDetails extends StatelessWidget {
                                     '${deviceData['address']}',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                              color: Color.fromARGB(255, 218, 218, 218),
+                                      color: Color.fromARGB(255, 218, 218, 218),
                                       fontSize: 16,
-                                      // fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    '${deviceData['address']}',
+                                    style: TextStyle(
+                                      fontFamily: 'Avenir',
+                                      color: Color.fromARGB(255, 218, 218, 218),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    '${deviceData['address']}',
+                                    style: TextStyle(
+                                      fontFamily: 'Avenir',
+                                      color: Color.fromARGB(255, 218, 218, 218),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    '${deviceData['address']}',
+                                    style: TextStyle(
+                                      fontFamily: 'Avenir',
+                                      color: Color.fromARGB(255, 218, 218, 218),
+                                      fontSize: 16,
                                     ),
                                   ),
                                   SizedBox(height: 10),
@@ -181,136 +238,191 @@ class DeviceDetails extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 20),
-                        Row(
+                        Column(
                           children: [
-                            Container(
-                              height: 45,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 1,
-                                    blurRadius: 10,
-                                    offset: Offset(0, 3),
+                            Row(
+                              children: [
+                                Container(
+                                  height: 60,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Color.fromARGB(255, 82, 82, 82),
                                   ),
-                                ],
-                                color: Colors.white,
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Color.fromARGB(255, 255, 255, 255),
-                                    Color.fromARGB(255, 255, 255, 255),
-                                  ],
-                                ),
-                              ),
-                              child: TextButton(
-                                onPressed: () {},
-                                style: TextButton.styleFrom(),
-                                child: Text(
-                                  "Live",
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 157, 0, 86),
-                                    fontSize: 15,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DeviceAbout(
+                                              deviceData['deviceId']),
+                                        ),
+                                      );
+                                    },
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      "ABOUT",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  height: 60,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Color.fromARGB(255, 82, 82, 82),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              MonitorData(deviceData),
+                                        ),
+                                      );
+                                    },
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      "MONITOR",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(
-                              width: 20,
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  height: 60,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Color.fromARGB(255, 82, 82, 82),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 15),
+                                        child: Container(
+                                          width: 15,
+                                          child: Image.asset(
+                                            "assets/images/active.png",
+                                          ),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MonitorData(deviceData),
+                                            ),
+                                          );
+                                        },
+                                        style: TextButton.styleFrom(),
+                                        child: Text(
+                                          "LIVE VIEW",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  height: 60,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Color.fromARGB(255, 82, 82, 82),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              MonitorData(deviceData),
+                                        ),
+                                      );
+                                    },
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      "SUPPORT",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
                             ),
                             Container(
-                              height: 45,
-                              width: 150,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 1,
-                                    blurRadius: 10,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
-                                color: Colors.white,
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Color.fromARGB(255, 255, 255, 255),
-                                    Color.fromARGB(255, 255, 255, 255),
-                                  ],
-                                ),
+                                color: Color.fromARGB(255, 174, 34, 104),
                               ),
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          // MonitorData(deviceData['deviceId']),
-                                             MonitorData(deviceData),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Container(
+                                  height: 60,
+                                  width: 170,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Color.fromARGB(255, 82, 82, 82),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              MonitorData(deviceData),
+                                        ),
+                                      );
+                                    },
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      "ADD TO FOCUS",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  );
-                                },
-                                style: TextButton.styleFrom(),
-                                child: Text(
-                                  "Monitor Data",
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 157, 0, 86),
-                                    fontSize: 15,
                                   ),
                                 ),
                               ),
                             ),
                           ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          height: 45,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.3),
-                                spreadRadius: 1,
-                                blurRadius: 10,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                            color: Colors.white,
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color.fromARGB(255, 255, 255, 255),
-                                Color.fromARGB(255, 255, 255, 255),
-                              ],
-                            ),
-                          ),
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DeviceAbout(deviceData['deviceId']),
-                                ),
-                              );
-                            },
-                            style: TextButton.styleFrom(),
-                            child: Text(
-                              "About",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 157, 0, 86),
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
                         ),
                       ],
                     ),
@@ -318,25 +430,6 @@ class DeviceDetails extends StatelessWidget {
                 ],
               ),
             ),
-          //   Positioned(
-          //   top: 10,
-          //   right: 10,
-          //   child: FutureBuilder<String?>(
-          //     future: getToken(),
-          //     builder: (context, snapshot) {
-          //       if (snapshot.connectionState == ConnectionState.waiting) {
-          //         return CircularProgressIndicator();
-          //       } else if (snapshot.hasError) {
-          //         return Text('Error: ${snapshot.error}');
-          //       } else if (snapshot.hasData) {
-          //         String? token = snapshot.data;
-          //         return Text('Token: $token', style: TextStyle(fontSize: 16));
-          //       } else {
-          //         return Text('Token not found', style: TextStyle(fontSize: 16));
-          //       }
-          //     },
-          //   ),
-          // ),
           ],
         ),
       ),
