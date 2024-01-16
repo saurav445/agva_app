@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable, prefer_const_literals_to_create_immutables
 
 import 'package:agva_app/Screens/DeviceDetails.dart';
+import 'package:agva_app/Screens/Hospitals.dart';
 import 'package:agva_app/Screens/Products.dart';
 import 'package:agva_app/Screens/mainscreen.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         // "/monitordata": (context) => MonitorData({}),
         "/tandc": (context) => TermsCondition(),
         "/projects": (context) => Products(),
-                "/mainscreen": (context) => MainScreen(),
+                "/mainscreen": (context) => Hospitals(),
       },
     );
   }
