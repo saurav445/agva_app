@@ -45,12 +45,12 @@ class _HospitalsState extends State<Hospitals> {
               height: 120,
               width: 330,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(12),
                 color: Color.fromARGB(255, 91, 91, 91),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(
-                  left: 30,
+                  left: 20,
                 ),
                 child: Row(
                   children: [
@@ -82,7 +82,7 @@ class _HospitalsState extends State<Hospitals> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 44, top: 30),
+                      padding: const EdgeInsets.only(left: 54, top: 30),
                       child: Container(
                         width: 100,
                         child: Image.asset("assets/images/hospital.png"),
