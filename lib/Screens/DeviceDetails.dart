@@ -248,13 +248,12 @@ class DeviceDetails extends StatelessWidget {
                                   ),
                                   child: TextButton(
                                     onPressed: () {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => DeviceAbout(
-                                      //         deviceData['deviceId']),
-                                      //   ),
-                                      // );
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DeviceAbout(),
+                                        ),
+                                      );
                                     },
                                     style: TextButton.styleFrom(),
                                     child: Text(

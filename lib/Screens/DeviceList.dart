@@ -16,18 +16,25 @@ class _DeviceListState extends State<DeviceList> {
   List<Map<String, dynamic>> devicesList = [];
   late String hospitalName;
   String? savedHospitalName;
+    String mydeviceId = "mydeviceId";
+      late SharedPreferences prefs;
 
-@override
-void initState() {
-  super.initState();
-  fetchGetdevicesForUsers();
-  getDevicesByHospitalName();
-  gethospital().then((name) {
-    setState(() {
-      savedHospitalName = name;
+  @override
+  void initState() {
+    super.initState();
+        initSharedPref();
+    fetchGetdevicesForUsers();
+    getDevicesByHospitalName();
+    gethospital().then((name) {
+      setState(() {
+        savedHospitalName = name;
+      });
     });
-  });
-}
+  }
+
+ void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -53,7 +60,7 @@ void initState() {
       );
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
-             print('Device by Hospital: $jsonResponse');
+        //  print('Device by Hospital: $jsonResponse');
         devicesList = List<Map<String, dynamic>>.from(jsonResponse['data']);
         setState(() {});
       } else {
@@ -64,33 +71,49 @@ void initState() {
     }
   }
 
-void fetchGetdevicesForUsers() async {
-  String? token = await getToken();
-  if (token != null) {
-    var response = await http.get(
-      Uri.parse(getDeviceForUser),
-      headers: {
-        "Authorization": 'Bearer $token',
-      },
-    );
-    var jsonResponse = jsonDecode(response.body);
-    if (jsonResponse['statusValue'] == 'SUCCESS') {
-      print('Device by User: $jsonResponse');
-      List<Map<String, dynamic>> fetchedDevices =
-          List<Map<String, dynamic>>.from(jsonResponse['data']['data']); 
-      setState(() {
-        devicesList = fetchedDevices;
-      });
-    } else {
-      print('Invalid User Credential: ${response.statusCode}');
+  void fetchGetdevicesForUsers() async {
+    String? token = await getToken();
+    if (token != null) {
+      var response = await http.get(
+        Uri.parse(getDeviceForUser),
+        headers: {
+          "Authorization": 'Bearer $token',
+        },
+      );
+      var jsonResponse = jsonDecode(response.body);
+      if (jsonResponse['statusValue'] == 'SUCCESS') {
+        // print('Device by User: $jsonResponse');
+        var data = jsonResponse['data'];
+        var devicesList = data['data'];
+        for (var deviceData in devicesList) {
+          var mydeviceId = deviceData['deviceId'];
+          print(mydeviceId);
+            saveDeviceId(mydeviceId);
+
+        List<Map<String, dynamic>> fetchedDevices =
+            List<Map<String, dynamic>>.from(jsonResponse['data']['data']);
+                   
+        setState(() {
+          devicesList = fetchedDevices;
+        });
+      } 
+              }
+              else {
+        print('Invalid User Credential: ${response.statusCode}');
+      }
     }
   }
-}
 
-List<Widget> buildDeviceList() {
-  return devicesList.map((device) {
-    Map<String, dynamic>? deviceInfo =
-        (device['deviceInfo'] as List<dynamic>?)?.first;
+    Future<void> saveDeviceId(String mydeviceId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('mydeviceId', mydeviceId);
+     print('Saved device id name: $mydeviceId');
+  }
+
+  List<Widget> buildDeviceList() {
+    return devicesList.map((device) {
+      Map<String, dynamic>? deviceInfo =
+          (device['deviceInfo'] as List<dynamic>?)?.first;
       return ListTile(
         title: Container(
           decoration: BoxDecoration(
@@ -135,7 +158,7 @@ List<Widget> buildDeviceList() {
                               height: 8,
                             ),
                             Text(
-                                  savedHospitalName ?? 'Default Hospital Name',
+                              savedHospitalName ?? 'Default Hospital Name',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -147,7 +170,7 @@ List<Widget> buildDeviceList() {
                             ),
                             Text(
                               // 'Ward',
-                            'Ward: ${deviceInfo?['Ward_No'] ?? 'N/A'}',
+                              'Ward: ${deviceInfo?['Ward_No'] ?? 'N/A'}',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -234,8 +257,7 @@ List<Widget> buildDeviceList() {
             Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Text(
-                 savedHospitalName ?? 'Default Hospital Name',
-
+                savedHospitalName ?? 'Default Hospital Name',
                 style: TextStyle(
                   fontFamily: 'Avenir',
                   color: Color.fromARGB(255, 218, 218, 218),

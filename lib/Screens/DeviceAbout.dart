@@ -7,17 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DeviceAbout extends StatefulWidget {
-  final String deviceId;
-
-  DeviceAbout(this.deviceId);
-
   @override
   _DeviceAboutState createState() => _DeviceAboutState();
 }
 
 class _DeviceAboutState extends State<DeviceAbout> {
-  Map<String, dynamic>? data;
-
   @override
   void initState() {
     super.initState();
@@ -29,12 +23,22 @@ class _DeviceAboutState extends State<DeviceAbout> {
     return prefs.getString('mytoken');
   }
 
+  Future<String?> getDeviceid() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? mydeviceId = prefs.getString('mydeviceId');
+  print('deviceId: $mydeviceId');
+    return prefs.getString('mydeviceId');
+  }
+
+var did = '724963b4f3ae2a8f';
+ 
   void getProductionDetails() async {
     String? token = await getToken();
+    // String? mydeviceId = await getDeviceid();
     if (token != null) {
-      // print(token);
+      print(token);
       var response = await http.get(
-        Uri.parse('$getProductionData/${widget.deviceId}'),
+        Uri.parse('$getProductionData/$did'),
         headers: {
           "Authorization": 'Bearer $token',
         },
@@ -42,10 +46,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
-        setState(() {
-          data = jsonResponse['data'];
-        });
-        // print('production data $data');
+        var data = jsonResponse['data'];
       } else {
         print('Invalid User Credential: ${response.statusCode}');
       }
@@ -167,7 +168,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    data?['productType'] ?? 'N/A',
+                                    'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -176,7 +177,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    'AgVa-Pro',
+                                    'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -185,7 +186,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    data?['dispatchDate'] ?? 'N/A',
+                                    'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -194,7 +195,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    data?['manufacturingDate'] ?? 'N/A',
+                                    'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -203,7 +204,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    data?['batchNumber'] ?? 'N/A',
+                                    'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -212,7 +213,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    data?['dateOfWarranty'] ?? 'N/A',
+                                    'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
