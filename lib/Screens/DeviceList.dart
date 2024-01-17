@@ -7,35 +7,46 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Devices extends StatefulWidget {
-  final String hospitalName;
-
-  Devices(this.hospitalName);
-
+class DeviceList extends StatefulWidget {
   @override
-  _DevicesState createState() => _DevicesState();
+  _DeviceListState createState() => _DeviceListState();
 }
 
-class _DevicesState extends State<Devices> {
-  late String hospitalName;
+class _DeviceListState extends State<DeviceList> {
   List<Map<String, dynamic>> devicesList = [];
+  late String hospitalName;
+  String? savedHospitalName;
 
-  @override
-  void initState() {
-    super.initState();
-    getDevicesByHospitalName();
-  }
+@override
+void initState() {
+  super.initState();
+  fetchGetdevicesForUsers();
+  getDevicesByHospitalName();
+  gethospital().then((name) {
+    setState(() {
+      savedHospitalName = name;
+    });
+  });
+}
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('mytoken');
   }
 
+  Future<String?> gethospital() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? hospitalName = prefs.getString('hospitalName');
+    print('Retrieved hospital name: $hospitalName');
+    return hospitalName;
+  }
+
   void getDevicesByHospitalName() async {
     String? token = await getToken();
+    String? hospitalName = await gethospital();
     if (token != null) {
       var response = await http.get(
-        Uri.parse('$getDevicesByHospital/${widget.hospitalName}'),
+        Uri.parse('$getDevicesByHospital/${hospitalName}'),
         headers: {
           "Authorization": 'Bearer $token',
         },
@@ -43,8 +54,7 @@ class _DevicesState extends State<Devices> {
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
         devicesList = List<Map<String, dynamic>>.from(jsonResponse['data']);
-        print('hospital Devices List : $devicesList');
-        setState(() {}); 
+        setState(() {});
       } else {
         print('Invalid User Credential: ${response.statusCode}');
       }
@@ -53,10 +63,36 @@ class _DevicesState extends State<Devices> {
     }
   }
 
-  List<Widget> buildDeviceList() {
-    return devicesList.map((device) {
+void fetchGetdevicesForUsers() async {
+  String? token = await getToken();
+  if (token != null) {
+    var response = await http.get(
+      Uri.parse(getDeviceForUser),
+      headers: {
+        "Authorization": 'Bearer $token',
+      },
+    );
+    var jsonResponse = jsonDecode(response.body);
+    if (jsonResponse['statusValue'] == 'SUCCESS') {
+      List<Map<String, dynamic>> fetchedDevices =
+          List<Map<String, dynamic>>.from(jsonResponse['data']['data']); 
+      setState(() {
+        devicesList = fetchedDevices;
+      });
+    } else {
+      print('Invalid User Credential: ${response.statusCode}');
+    }
+  }
+}
+
+
+
+List<Widget> buildDeviceList() {
+  return devicesList.map((device) {
+    Map<String, dynamic>? deviceInfo =
+        (device['deviceInfo'] as List<dynamic>?)?.first;
       return ListTile(
-       title: Container(
+        title: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Color.fromARGB(255, 69, 174, 34),
@@ -77,8 +113,8 @@ class _DevicesState extends State<Devices> {
                     color: Color.fromARGB(255, 91, 91, 91),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20, right: 20, top: 10),
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, top: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -87,7 +123,7 @@ class _DevicesState extends State<Devices> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                             device['deviceId'],
+                              device['deviceId'],
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -99,7 +135,7 @@ class _DevicesState extends State<Devices> {
                               height: 10,
                             ),
                             Text(
-                              'Hospital',
+                                  savedHospitalName ?? 'Default Hospital Name',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -110,7 +146,8 @@ class _DevicesState extends State<Devices> {
                               height: 10,
                             ),
                             Text(
-                              'Ward',
+                              // 'Ward',
+                            'Ward: ${deviceInfo?['Ward_No'] ?? 'N/A'}',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -163,8 +200,12 @@ class _DevicesState extends State<Devices> {
           ),
         ),
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => DeviceDetails(),),);
-
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DeviceDetails(),
+            ),
+          );
         },
       );
     }).toList();
@@ -193,7 +234,8 @@ class _DevicesState extends State<Devices> {
             Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Text(
-                widget.hospitalName,
+                 savedHospitalName ?? 'Default Hospital Name',
+
                 style: TextStyle(
                   fontFamily: 'Avenir',
                   color: Color.fromARGB(255, 218, 218, 218),
@@ -203,7 +245,7 @@ class _DevicesState extends State<Devices> {
               ),
             ),
             Padding(
-             padding: const EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(left: 20),
               child: Text(
                 'Hospital address',
                 style: TextStyle(

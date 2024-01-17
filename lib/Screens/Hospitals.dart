@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_const, unused_import, library_private_types_in_public_api, prefer_typing_uninitialized_variables, unused_local_variable
 
-import 'package:agva_app/Screens/Devices.dart';
+import 'package:agva_app/Screens/DeviceList.dart';
+import 'package:agva_app/Screens/projects.dart';
 import 'package:flutter/material.dart';
 import '../widgets/ActiveDevices.dart';
 
@@ -58,8 +59,7 @@ class _HospitalsState extends State<Hospitals> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    // builder: (context) => Devices(widget.hospitalName,),
-                    builder: (context) => Devices(hospitalName),
+                    builder: (context) => Projects(),
                   ),
                 );
               },

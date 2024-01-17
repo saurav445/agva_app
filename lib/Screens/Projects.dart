@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_const, unused_import, library_private_types_in_public_api, prefer_typing_uninitialized_variables, unused_local_variable
 
+import 'package:agva_app/Screens/DeviceList.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/ActiveDevices.dart';
 
 class Projects extends StatefulWidget {
@@ -9,6 +11,25 @@ class Projects extends StatefulWidget {
 }
 
 class _ProjectsState extends State<Projects> {
+  String? savedHospitalName;
+
+  @override
+  void initState() {
+    super.initState();
+    gethospital().then((name) {
+      setState(() {
+        savedHospitalName = name;
+      });
+    });
+  }
+
+  Future<String?> gethospital() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? hospitalName = prefs.getString('hospitalName');
+    print('Retrieved hospital name: $hospitalName');
+    return hospitalName;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +51,7 @@ class _ProjectsState extends State<Projects> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'HOSPITAL NAME',
+              savedHospitalName ?? 'Default Hospital Name',
               style: TextStyle(
                 fontFamily: 'Avenir',
                 color: Color.fromARGB(255, 218, 218, 218),
@@ -49,38 +70,48 @@ class _ProjectsState extends State<Projects> {
             SizedBox(
               height: 15,
             ),
-            Container(
-              height: 120,
-              width: 330,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Color.fromARGB(255, 91, 91, 91),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DeviceList(),
+                  ),
+                );
+              },
+              child: Container(
+                height: 120,
+                width: 330,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Color.fromARGB(255, 91, 91, 91),
                 ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Device name',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: 24,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'AGVA PRO',
+                        style: TextStyle(
+                          fontFamily: 'Avenir',
+                          color: Color.fromARGB(255, 218, 218, 218),
+                          fontSize: 24,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 40, top: 15),
-                      child: Container(
-                        width: 120,
-                        child: Image.asset("assets/images/deviceimage.png"),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40, top: 15),
+                        child: Container(
+                          width: 120,
+                          child: Image.asset("assets/images/deviceimage.png"),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
