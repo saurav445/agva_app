@@ -3,7 +3,6 @@
 import 'package:agva_app/Screens/DeviceList.dart';
 import 'package:agva_app/Screens/projects.dart';
 import 'package:flutter/material.dart';
-import '../widgets/ActiveDevices.dart';
 
 class Hospitals extends StatefulWidget {
   final String hospitalName;
@@ -68,7 +67,7 @@ class _HospitalsState extends State<Hospitals> {
                 width: 330,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: Color.fromARGB(255, 91, 91, 91),
+   color: Color.fromARGB(255, 65, 65, 65),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(

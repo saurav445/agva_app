@@ -3,7 +3,6 @@
 import 'package:agva_app/Screens/DeviceList.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../widgets/ActiveDevices.dart';
 
 class Projects extends StatefulWidget {
   @override
@@ -84,7 +83,7 @@ class _ProjectsState extends State<Projects> {
                 width: 330,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: Color.fromARGB(255, 91, 91, 91),
+            color: Color.fromARGB(255, 65, 65, 65),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(

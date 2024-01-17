@@ -53,6 +53,7 @@ void initState() {
       );
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
+             print('Device by Hospital: $jsonResponse');
         devicesList = List<Map<String, dynamic>>.from(jsonResponse['data']);
         setState(() {});
       } else {
@@ -74,6 +75,7 @@ void fetchGetdevicesForUsers() async {
     );
     var jsonResponse = jsonDecode(response.body);
     if (jsonResponse['statusValue'] == 'SUCCESS') {
+      print('Device by User: $jsonResponse');
       List<Map<String, dynamic>> fetchedDevices =
           List<Map<String, dynamic>>.from(jsonResponse['data']['data']); 
       setState(() {
@@ -84,8 +86,6 @@ void fetchGetdevicesForUsers() async {
     }
   }
 }
-
-
 
 List<Widget> buildDeviceList() {
   return devicesList.map((device) {
@@ -107,10 +107,10 @@ List<Widget> buildDeviceList() {
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Container(
-                  height: 120,
+                  height: 110,
                   width: 330,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 91, 91, 91),
+                    color: Color.fromARGB(255, 65, 65, 65),
                   ),
                   child: Padding(
                     padding:
@@ -132,7 +132,7 @@ List<Widget> buildDeviceList() {
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 8,
                             ),
                             Text(
                                   savedHospitalName ?? 'Default Hospital Name',
@@ -143,7 +143,7 @@ List<Widget> buildDeviceList() {
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
                             Text(
                               // 'Ward',
@@ -168,7 +168,7 @@ List<Widget> buildDeviceList() {
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 8,
                             ),
                             Text(
                               'age',
@@ -179,7 +179,7 @@ List<Widget> buildDeviceList() {
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
                             Text(
                               'weight',
@@ -224,8 +224,8 @@ List<Widget> buildDeviceList() {
       ),
       body: Padding(
         padding: const EdgeInsets.only(
-          right: 20,
-          left: 20,
+          right: 15,
+          left: 15,
           top: 5,
         ),
         child: Column(

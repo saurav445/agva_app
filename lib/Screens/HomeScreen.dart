@@ -2,7 +2,6 @@
 
 import 'package:agva_app/Screens/Hospitals.dart';
 import 'package:flutter/material.dart';
-import '../widgets/ActiveDevices.dart';
 
 class HomeScreen extends StatefulWidget {
     final Map<String, dynamic> data;
