@@ -1,6 +1,7 @@
 import 'dart:async';
-// import 'package:agva_app/Screens/Products.dart';
+import 'package:agva_app/Screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './SignIn.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,13 +15,35 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Start a timer to navigate to SignIn screen after 2 seconds
     Timer(Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => SignIn( )),
-      );
+      checkIfLoggedIn();
     });
   }
+
+Future<String?> gethospital() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? hospitalName = prefs.getString('hospitalName');
+  print('Retrieved hospital name: $hospitalName');
+  return hospitalName;
+}
+
+Future<void> checkIfLoggedIn() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String storedToken = prefs.getString('mytoken') ?? "";
+  String storedHospital = await gethospital() ?? "";
+
+  if (storedToken.isNotEmpty) {
+    Navigator.of(context).pushReplacement(
+        //  MaterialPageRoute(builder: (context) => SignIn()),
+      MaterialPageRoute(builder: (context) => HomeScreen({'hospitalName': storedHospital})),
+    );
+  } else {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => SignIn()),
+            // MaterialPageRoute(builder: (context) => HomeScreen({'hospitalName': storedHospital})),
+    );
+  }
+}
 
   @override
   Widget build(BuildContext context) {

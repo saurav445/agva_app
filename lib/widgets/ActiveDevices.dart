@@ -342,12 +342,12 @@ class _ActiveDevicesState extends State<ActiveDevices> {
             ),
             child: TextButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DeviceDetails(deviceData),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => DeviceDetails(deviceData),
+                //   ),
+                // );
               },
               style: TextButton.styleFrom(),
               child: Text(

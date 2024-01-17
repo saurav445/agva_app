@@ -3,13 +3,12 @@
 import 'package:agva_app/Screens/DeviceDetails.dart';
 import 'package:agva_app/Screens/Devices.dart';
 import 'package:agva_app/Screens/Hospitals.dart';
-import 'package:agva_app/Screens/mainscreen.dart';
+import 'package:agva_app/Screens/HomeScreen.dart';
 import 'package:agva_app/Screens/projects.dart';
 import 'package:flutter/material.dart';
 import 'AuthScreens/SignIn.dart';
 import 'AuthScreens/SignUp.dart';
 import 'AuthScreens/SplashScreen.dart';
-import 'Screens/HomeScreen.dart';
 import 'Screens/TermsCondition.dart';
 
 void main() async {
@@ -30,9 +29,9 @@ class MyApp extends StatelessWidget {
         "/signin": (context) => SignIn(),
         "/splash": (context) => SplashScreen(),
         "/home": (context) => HomeScreen({}),
-        "/devicedetails": (context) => DeviceDetails({}),
+        "/devicedetails": (context) => DeviceDetails(),
         "/tandc": (context) => TermsCondition(),
-                "/mainscreen": (context) => Devices(),
+                "/mainscreen": (context) => Devices({} as String),
       },
     );
   }

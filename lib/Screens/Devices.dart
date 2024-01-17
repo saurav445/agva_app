@@ -1,14 +1,175 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_const, unused_import, library_private_types_in_public_api, prefer_typing_uninitialized_variables, unused_local_variable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:convert';
+import 'package:agva_app/Screens/DeviceDetails.dart';
+import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
-import '../widgets/ActiveDevices.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Devices extends StatefulWidget {
+  final String hospitalName;
+
+  Devices(this.hospitalName);
+
   @override
   _DevicesState createState() => _DevicesState();
 }
 
 class _DevicesState extends State<Devices> {
+  late String hospitalName;
+  List<Map<String, dynamic>> devicesList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getDevicesByHospitalName();
+  }
+
+  Future<String?> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('mytoken');
+  }
+
+  void getDevicesByHospitalName() async {
+    String? token = await getToken();
+    if (token != null) {
+      var response = await http.get(
+        Uri.parse('$getDevicesByHospital/${widget.hospitalName}'),
+        headers: {
+          "Authorization": 'Bearer $token',
+        },
+      );
+      var jsonResponse = jsonDecode(response.body);
+      if (jsonResponse['statusValue'] == 'SUCCESS') {
+        devicesList = List<Map<String, dynamic>>.from(jsonResponse['data']);
+        print('hospital Devices List : $devicesList');
+        setState(() {}); 
+      } else {
+        print('Invalid User Credential: ${response.statusCode}');
+      }
+    } else {
+      print('Token not found');
+    }
+  }
+
+  List<Widget> buildDeviceList() {
+    return devicesList.map((device) {
+      return ListTile(
+       title: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Color.fromARGB(255, 69, 174, 34),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color.fromARGB(255, 174, 34, 104),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Container(
+                  height: 120,
+                  width: 330,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 91, 91, 91),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 20, right: 20, top: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                             device['deviceId'],
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Hospital',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Ward',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              'PT',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize: 20,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'age',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'weight',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => DeviceDetails(),),);
+
+        },
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,150 +182,55 @@ class _DevicesState extends State<Devices> {
         ],
       ),
       body: Padding(
-          padding: const EdgeInsets.only(
-            right: 30,
-            left: 30,
-            top: 5,
-          ),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              'HOSPITAL NAME',
-              style: TextStyle(
-                fontFamily: 'Avenir',
-                color: Color.fromARGB(255, 218, 218, 218),
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+        padding: const EdgeInsets.only(
+          right: 20,
+          left: 20,
+          top: 5,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text(
+                widget.hospitalName,
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                  color: Color.fromARGB(255, 218, 218, 218),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            Text(
-              'Hospital address',
-              style: TextStyle(
-                fontFamily: 'Avenir',
-                color: Color.fromARGB(255, 218, 218, 218),
-                fontSize: 16,
+            Padding(
+             padding: const EdgeInsets.only(left: 20),
+              child: Text(
+                'Hospital address',
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                  color: Color.fromARGB(255, 218, 218, 218),
+                  fontSize: 16,
+                ),
               ),
             ),
             SizedBox(
               height: 15,
             ),
 
-            //Devices List
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Color.fromARGB(255, 69, 174, 34),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(255, 174, 34, 104),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Container(
-                      height: 120,
-                      width: 330,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 91, 91, 91),
-                      ),
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 20, right: 20, top: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Device name',
-                                  style: TextStyle(
-                                    fontFamily: 'Avenir',
-                                    color: Color.fromARGB(255, 218, 218, 218),
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  'Hospital',
-                                  style: TextStyle(
-                                    fontFamily: 'Avenir',
-                                    color: Color.fromARGB(255, 218, 218, 218),
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  'Ward',
-                                  style: TextStyle(
-                                    fontFamily: 'Avenir',
-                                    color: Color.fromARGB(255, 218, 218, 218),
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  'patient name',
-                                  style: TextStyle(
-                                    fontFamily: 'Avenir',
-                                    color: Color.fromARGB(255, 218, 218, 218),
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  'patient age',
-                                  style: TextStyle(
-                                    fontFamily: 'Avenir',
-                                    color: Color.fromARGB(255, 218, 218, 218),
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  'weight',
-                                  style: TextStyle(
-                                    fontFamily: 'Avenir',
-                                    color: Color.fromARGB(255, 218, 218, 218),
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            // Devices List
+            Column(
+              children: buildDeviceList(),
             ),
-          ])),
+          ],
+        ),
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           physics: BouncingScrollPhysics(),
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(
-                  // color: Colors.white,
-                  ),
+              decoration: BoxDecoration(),
               child: Align(
                 alignment: Alignment.center,
                 child: Text(

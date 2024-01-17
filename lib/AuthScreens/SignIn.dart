@@ -8,10 +8,10 @@ import '../Screens/HomeScreen.dart';
 import '../config.dart';
 import './SignUp.dart';
 
-class SignIn extends StatefulWidget {   
-  @override       
+class SignIn extends StatefulWidget {
+  @override
   _SignInState createState() => _SignInState();
-}      
+}
 
 class _SignInState extends State<SignIn> {
   TextEditingController emailController = TextEditingController();
@@ -48,21 +48,17 @@ class _SignInState extends State<SignIn> {
         if (jsonResponse['statusValue'] == 'SUCCESS') {
           print(jsonResponse);
           var data = jsonResponse['data'];
-          var name = data['name'];
-          var hospitalName = data['hospitalName'];
           var token = data['token'];
+          var hospitalName = data['hospitalName'];
 
-          // Save token
+          // Save token and hospital name
           saveToken(token);
+          saveHospital(hospitalName);
 
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen({
-                'name': name,
-                'hospitalName': hospitalName,
-                'token': token
-              }),
+              builder: (context) => HomeScreen({'hospitalName': hospitalName}),
             ),
           );
         } else {
@@ -77,6 +73,12 @@ class _SignInState extends State<SignIn> {
   Future<void> saveToken(String mytoken) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('mytoken', mytoken);
+  }
+
+  Future<void> saveHospital(String hospitalName) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('hospitalName', hospitalName);
+    print('Saved hospital name: $hospitalName');
   }
 
   @override

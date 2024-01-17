@@ -7,21 +7,18 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DeviceDetails extends StatelessWidget {
-  final Map<String, dynamic> deviceData;
+
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('mytoken');
   }
 
-  DeviceDetails(this.deviceData);
-
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(),
       child: Scaffold(
-        // backgroundColor: Colors.grey,
         body: Stack(
           children: [
             Container(
@@ -38,7 +35,7 @@ class DeviceDetails extends StatelessWidget {
                       color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
-                  SizedBox(height: 50),
+                  SizedBox(height: 40),
                   Text(
                     "AGVA PRO",
                     style: TextStyle(
@@ -68,7 +65,6 @@ class DeviceDetails extends StatelessWidget {
                                     fontFamily: 'Avenir',
                                     color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize: 16,
-                                    // fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 SizedBox(height: 10),
@@ -147,12 +143,13 @@ class DeviceDetails extends StatelessWidget {
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 40),
+                              padding: const EdgeInsets.only(left: 120),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    '${deviceData['deviceId']}',
+                                    '----------',
+                                    // '${deviceData['deviceId']}',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),
@@ -161,25 +158,16 @@ class DeviceDetails extends StatelessWidget {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    '${deviceData['message']}',
+                                     '----------',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 0, 202, 10),
+                                      color: Color.fromARGB(255, 255, 255, 255),
                                       fontSize: 16,
                                     ),
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    '${deviceData['last_hours']}',
-                                    style: TextStyle(
-                                      fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 218, 218, 218),
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    '${deviceData['total_hours']}',
+                                     '----------',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),
@@ -188,7 +176,7 @@ class DeviceDetails extends StatelessWidget {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    '${deviceData['health']}',
+                                      '----------',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),
@@ -197,7 +185,7 @@ class DeviceDetails extends StatelessWidget {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    '${deviceData['address']}',
+                               '----------',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),
@@ -206,7 +194,7 @@ class DeviceDetails extends StatelessWidget {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    '${deviceData['address']}',
+                            '----------',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),
@@ -215,7 +203,7 @@ class DeviceDetails extends StatelessWidget {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    '${deviceData['address']}',
+                            '----------',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),
@@ -224,7 +212,16 @@ class DeviceDetails extends StatelessWidget {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    '${deviceData['address']}',
+                            '----------',
+                                    style: TextStyle(
+                                      fontFamily: 'Avenir',
+                                      color: Color.fromARGB(255, 218, 218, 218),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                            '----------',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),
@@ -251,13 +248,13 @@ class DeviceDetails extends StatelessWidget {
                                   ),
                                   child: TextButton(
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DeviceAbout(
-                                              deviceData['deviceId']),
-                                        ),
-                                      );
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) => DeviceAbout(
+                                      //         deviceData['deviceId']),
+                                      //   ),
+                                      // );
                                     },
                                     style: TextButton.styleFrom(),
                                     child: Text(
@@ -282,13 +279,13 @@ class DeviceDetails extends StatelessWidget {
                                   ),
                                   child: TextButton(
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              MonitorData(deviceData),
-                                        ),
-                                      );
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) =>
+                                      //         MonitorData(deviceData),
+                                      //   ),
+                                      // );
                                     },
                                     style: TextButton.styleFrom(),
                                     child: Text(
@@ -328,13 +325,13 @@ class DeviceDetails extends StatelessWidget {
                                       ),
                                       TextButton(
                                         onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MonitorData(deviceData),
-                                            ),
-                                          );
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) =>
+                                          //         MonitorData(deviceData),
+                                          //   ),
+                                          // );
                                         },
                                         style: TextButton.styleFrom(),
                                         child: Text(
@@ -361,13 +358,13 @@ class DeviceDetails extends StatelessWidget {
                                   ),
                                   child: TextButton(
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              MonitorData(deviceData),
-                                        ),
-                                      );
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) =>
+                                      //         MonitorData(deviceData),
+                                      //   ),
+                                      // );
                                     },
                                     style: TextButton.styleFrom(),
                                     child: Text(
@@ -401,13 +398,13 @@ class DeviceDetails extends StatelessWidget {
                                   ),
                                   child: TextButton(
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              MonitorData(deviceData),
-                                        ),
-                                      );
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) =>
+                                      //         MonitorData(deviceData),
+                                      //   ),
+                                      // );
                                     },
                                     style: TextButton.styleFrom(),
                                     child: Text(
