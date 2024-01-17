@@ -33,7 +33,7 @@ class DeviceDetails extends StatelessWidget {
                       fontFamily: 'Avenir',
                       fontSize: 24,
                       color: Color.fromARGB(255, 255, 255, 255),
-                    ),
+                    ), 
                   ),
                   SizedBox(height: 40),
                   Text(
