@@ -2,9 +2,7 @@
 
 import 'package:agva_app/Screens/DeviceDetails.dart';
 import 'package:agva_app/Screens/Devices.dart';
-import 'package:agva_app/Screens/Hospitals.dart';
 import 'package:agva_app/Screens/HomeScreen.dart';
-import 'package:agva_app/Screens/projects.dart';
 import 'package:flutter/material.dart';
 import 'AuthScreens/SignIn.dart';
 import 'AuthScreens/SignUp.dart';

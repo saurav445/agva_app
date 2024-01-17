@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import '../Screens/DeviceDetails.dart';
 
 class ActiveDevices extends StatefulWidget {
   final List<Map<String, dynamic>> deviceList;
