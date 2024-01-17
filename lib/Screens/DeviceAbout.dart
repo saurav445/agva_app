@@ -59,7 +59,6 @@ class _DeviceAboutState extends State<DeviceAbout> {
     return Container(
       decoration: BoxDecoration(),
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: Stack(
           children: [
             Container(
@@ -67,19 +66,27 @@ class _DeviceAboutState extends State<DeviceAbout> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: 100),
+                  SizedBox(height: 60),
+                  Text(
+                    "DeviceName",
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      fontSize: 24,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
                   Text(
                     "About",
                     style: TextStyle(
                       fontFamily: 'Avenir',
-                      fontSize: 24,
-                      color: Color.fromARGB(255, 157, 0, 86),
+                      fontSize: 16,
+                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                   SizedBox(height: 40),
                   Padding(
                     padding: const EdgeInsets.only(
-                      left: 30,
+                      left: 40,
                     ),
                     child: Column(
                       children: [
@@ -93,7 +100,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   'Product :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                    color: Color.fromARGB(255, 58, 58, 58),
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -102,7 +109,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   'Model :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                    color: Color.fromARGB(255, 58, 58, 58),
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -111,8 +118,8 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   'Delivery Date :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                    color:
-                                        const Color.fromARGB(255, 65, 65, 65),
+                            
+                                color: Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -122,7 +129,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
                                     color:
-                                        const Color.fromARGB(255, 65, 65, 65),
+                            Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -131,8 +138,8 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   'Batch No :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                    color:
-                                        const Color.fromARGB(255, 65, 65, 65),
+               
+                                color: Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -141,8 +148,8 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   'Date of Warranty :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                    color:
-                                        const Color.fromARGB(255, 65, 65, 65),
+                     
+                                color: Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -151,8 +158,8 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   'Last Service :',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
-                                    color:
-                                        const Color.fromARGB(255, 65, 65, 65),
+                    
+                                color: Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -160,7 +167,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 70),
+                              padding: const EdgeInsets.only(left: 80),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
@@ -168,7 +175,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                     data?['productType'] ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 58, 58, 58),
+                                      color: Color.fromARGB(255, 255, 255, 255),
                                       fontSize: 16,
                                     ),
                                   ),
@@ -177,7 +184,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                        'AgVa-Pro',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                           color: Color.fromARGB(255, 58, 58, 58),
+                           color: Color.fromARGB(255, 255, 255, 255),
                                       fontSize: 16,
                                     ),
                                   ),
@@ -186,7 +193,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                        data?['dispatchDate'] ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 58, 58, 58),
+                                      color: Color.fromARGB(255, 255, 255, 255),
                                       fontSize: 16,
                                     ),
                                   ),
@@ -195,7 +202,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                        data?['manufacturingDate'] ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 58, 58, 58),
+                                      color: Color.fromARGB(255, 255, 255, 255),
                                       fontSize: 16,
                                     ),
                                   ),
@@ -204,7 +211,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                        data?['batchNumber'] ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 58, 58, 58),
+                                      color: Color.fromARGB(255, 255, 255, 255),
                                       fontSize: 16,
                                     ),
                                   ),
@@ -213,7 +220,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                        data?['dateOfWarranty'] ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 58, 58, 58),
+                                      color: Color.fromARGB(255, 255, 255, 255),
                                       fontSize: 16,
                                     ),
                                   ),
@@ -222,7 +229,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                        'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 58, 58, 58),
+                                      color: Color.fromARGB(255, 255, 255, 255),
                                       fontSize: 16,
                                     ),
                                   ),
