@@ -12,6 +12,8 @@ class DeviceDetails extends StatelessWidget {
     return prefs.getString('mytoken');
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Container(

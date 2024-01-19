@@ -12,31 +12,35 @@ class DeviceAbout extends StatefulWidget {
 }
 
 class _DeviceAboutState extends State<DeviceAbout> {
+  late String mydeviceId;
+  late String mytoken;
+  late SharedPreferences prefs;
+
   @override
   void initState() {
     super.initState();
+    initSharedPref();
     getProductionDetails();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
   }
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('mytoken');
+    String? mytoken = prefs.getString('mytoken');
+    print('Saved Token: $mytoken');
+    return mytoken;
   }
 
-  Future<String?> getDeviceid() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? mydeviceId = prefs.getString('mydeviceId');
-  print('deviceId: $mydeviceId');
-    return prefs.getString('mydeviceId'); 
-  }
 
-var did = '724963b4f3ae2a8f';
- 
+  var did = '724963b4f3ae2a8f';
+
   void getProductionDetails() async {
     String? token = await getToken();
-    // String? mydeviceId = await getDeviceid();
     if (token != null) {
-      print(token);
+      // print(token);
       var response = await http.get(
         Uri.parse('$getProductionData/$did'),
         headers: {
@@ -46,7 +50,6 @@ var did = '724963b4f3ae2a8f';
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
-        var data = jsonResponse['data'];
       } else {
         print('Invalid User Credential: ${response.statusCode}');
       }

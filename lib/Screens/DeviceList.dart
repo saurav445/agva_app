@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable
 
 import 'dart:convert';
 import 'package:agva_app/Screens/DeviceDetails.dart';
@@ -16,13 +16,12 @@ class _DeviceListState extends State<DeviceList> {
   List<Map<String, dynamic>> devicesList = [];
   late String hospitalName;
   String? savedHospitalName;
-    String mydeviceId = "mydeviceId";
-      late SharedPreferences prefs;
+  late SharedPreferences prefs;
 
   @override
   void initState() {
     super.initState();
-        initSharedPref();
+    initSharedPref();
     fetchGetdevicesForUsers();
     getDevicesByHospitalName();
     gethospital().then((name) {
@@ -32,7 +31,7 @@ class _DeviceListState extends State<DeviceList> {
     });
   }
 
- void initSharedPref() async {
+  void initSharedPref() async {
     prefs = await SharedPreferences.getInstance();
   }
 
@@ -87,27 +86,20 @@ class _DeviceListState extends State<DeviceList> {
         var devicesList = data['data'];
         for (var deviceData in devicesList) {
           var mydeviceId = deviceData['deviceId'];
-          print(mydeviceId);
-            saveDeviceId(mydeviceId);
+          // print(mydeviceId);
+          // saveDeviceId(mydeviceId);
 
-        List<Map<String, dynamic>> fetchedDevices =
-            List<Map<String, dynamic>>.from(jsonResponse['data']['data']);
-                   
-        setState(() {
-          devicesList = fetchedDevices;
-        });
-      } 
-              }
-              else {
+          List<Map<String, dynamic>> fetchedDevices =
+              List<Map<String, dynamic>>.from(jsonResponse['data']['data']);
+
+          setState(() {
+            devicesList = fetchedDevices;
+          });
+        }
+      } else {
         print('Invalid User Credential: ${response.statusCode}');
       }
     }
-  }
-
-    Future<void> saveDeviceId(String mydeviceId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('mydeviceId', mydeviceId);
-     print('Saved device id name: $mydeviceId');
   }
 
   List<Widget> buildDeviceList() {
