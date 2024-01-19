@@ -12,19 +12,18 @@ class DeviceAbout extends StatefulWidget {
 }
 
 class _DeviceAboutState extends State<DeviceAbout> {
-  late String mydeviceId;
-  late String mytoken;
-  late SharedPreferences prefs;
+  String product = 'N/A';
+  String model = 'N/A';
+  String deliveryDate = 'N/A';
+  String dateOfManufacture = 'N/A';
+  String batchNo = 'N/A';
+  String dateOfWarranty = 'N/A';
+  String lastService = 'N/A';
 
   @override
   void initState() {
     super.initState();
-    initSharedPref();
     getProductionDetails();
-  }
-
-  void initSharedPref() async {
-    prefs = await SharedPreferences.getInstance();
   }
 
   Future<String?> getToken() async {
@@ -34,13 +33,11 @@ class _DeviceAboutState extends State<DeviceAbout> {
     return mytoken;
   }
 
-
   var did = '724963b4f3ae2a8f';
 
   void getProductionDetails() async {
     String? token = await getToken();
     if (token != null) {
-      // print(token);
       var response = await http.get(
         Uri.parse('$getProductionData/$did'),
         headers: {
@@ -50,6 +47,15 @@ class _DeviceAboutState extends State<DeviceAbout> {
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
+        setState(() {
+          product = jsonResponse['data']['productType'];
+          model = jsonResponse['data']['hw_version'];
+          deliveryDate = jsonResponse['data']['dispatchDate'];
+          dateOfManufacture = jsonResponse['data']['manufacturingDate'];
+          batchNo = jsonResponse['data']['batchNumber'];
+          dateOfWarranty = jsonResponse['data']['dateOfWarranty'];
+          lastService = jsonResponse['data']['lastService'];
+        });
       } else {
         print('Invalid User Credential: ${response.statusCode}');
       }
@@ -171,7 +177,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    'N/A',
+                                    product,
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -180,7 +186,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    'N/A',
+                                    model,
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -189,7 +195,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    'N/A',
+                                    deliveryDate,
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -198,7 +204,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    'N/A',
+                                    dateOfManufacture,
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -207,7 +213,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    'N/A',
+                                    batchNo,
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -216,7 +222,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    'N/A',
+                                    dateOfWarranty,
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -225,7 +231,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    'N/A',
+                                    lastService,
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),

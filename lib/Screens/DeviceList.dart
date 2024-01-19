@@ -13,7 +13,8 @@ class DeviceList extends StatefulWidget {
 }
 
 class _DeviceListState extends State<DeviceList> {
-  List<Map<String, dynamic>> devicesList = [];
+  List<Map<String, dynamic>> devicesByHospitalList = [];
+  List<Map<String, dynamic>> devicesForUserList = [];
   late String hospitalName;
   String? savedHospitalName;
   late SharedPreferences prefs;
@@ -22,7 +23,7 @@ class _DeviceListState extends State<DeviceList> {
   void initState() {
     super.initState();
     initSharedPref();
-    fetchGetdevicesForUsers();
+    fetchGetDevicesForUser();
     getDevicesByHospitalName();
     gethospital().then((name) {
       setState(() {
@@ -59,8 +60,9 @@ class _DeviceListState extends State<DeviceList> {
       );
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
-        //  print('Device by Hospital: $jsonResponse');
-        devicesList = List<Map<String, dynamic>>.from(jsonResponse['data']);
+        devicesByHospitalList =
+            List<Map<String, dynamic>>.from(jsonResponse['data']);
+
         setState(() {});
       } else {
         print('Invalid User Credential: ${response.statusCode}');
@@ -70,7 +72,7 @@ class _DeviceListState extends State<DeviceList> {
     }
   }
 
-  void fetchGetdevicesForUsers() async {
+  Future<void> fetchGetDevicesForUser() async {
     String? token = await getToken();
     if (token != null) {
       var response = await http.get(
@@ -81,31 +83,20 @@ class _DeviceListState extends State<DeviceList> {
       );
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
-        // print('Device by User: $jsonResponse');
+        print('Device by User: $jsonResponse');
         var data = jsonResponse['data'];
-        var devicesList = data['data'];
-        for (var deviceData in devicesList) {
-          var mydeviceId = deviceData['deviceId'];
-          // print(mydeviceId);
-          // saveDeviceId(mydeviceId);
-
-          List<Map<String, dynamic>> fetchedDevices =
-              List<Map<String, dynamic>>.from(jsonResponse['data']['data']);
-
-          setState(() {
-            devicesList = fetchedDevices;
-          });
-        }
+        devicesForUserList = List<Map<String, dynamic>>.from(data['data']);
+        setState(() {});
       } else {
         print('Invalid User Credential: ${response.statusCode}');
       }
     }
   }
 
-  List<Widget> buildDeviceList() {
-    return devicesList.map((device) {
-      Map<String, dynamic>? deviceInfo =
-          (device['deviceInfo'] as List<dynamic>?)?.first;
+List<Widget> buildDeviceList() {
+  return devicesByHospitalList.map((device) {
+    Map<String, dynamic>? deviceInfo =
+        (device['deviceInfo'] as List<dynamic>?)?.first;
       return ListTile(
         title: Container(
           decoration: BoxDecoration(
@@ -161,7 +152,7 @@ class _DeviceListState extends State<DeviceList> {
                               height: 5,
                             ),
                             Text(
-                              // 'Ward',
+                  
                               'Ward: ${deviceInfo?['Ward_No'] ?? 'N/A'}',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
@@ -243,41 +234,43 @@ class _DeviceListState extends State<DeviceList> {
           left: 15,
           top: 5,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text(
-                savedHospitalName ?? 'Default Hospital Name',
-                style: TextStyle(
-                  fontFamily: 'Avenir',
-                  color: Color.fromARGB(255, 218, 218, 218),
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  savedHospitalName ?? 'Default Hospital Name',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text(
-                'Hospital address',
-                style: TextStyle(
-                  fontFamily: 'Avenir',
-                  color: Color.fromARGB(255, 218, 218, 218),
-                  fontSize: 16,
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  'Hospital address',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: 16,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
+              SizedBox(
+                height: 15,
+              ),
 
-            // Devices List
-            Column(
-              children: buildDeviceList(),
-            ),
-          ],
+              // Devices List
+              Column(
+                children: buildDeviceList(),
+              ),
+            ],
+          ),
         ),
       ),
       drawer: Drawer(
