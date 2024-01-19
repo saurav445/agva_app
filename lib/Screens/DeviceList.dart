@@ -183,7 +183,7 @@ class _DeviceListState extends State<DeviceList> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              'PT',
+                              'N/A',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -194,7 +194,7 @@ class _DeviceListState extends State<DeviceList> {
                               height: 8,
                             ),
                             Text(
-                              'age',
+                              'N/A',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -205,7 +205,7 @@ class _DeviceListState extends State<DeviceList> {
                               height: 5,
                             ),
                             Text(
-                              'weight',
+                              'N/A',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),

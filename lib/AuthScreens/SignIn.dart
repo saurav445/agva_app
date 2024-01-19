@@ -84,13 +84,13 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.white, Colors.white],
-        ),
-      ),
+      // decoration: const BoxDecoration(
+      //   gradient: LinearGradient(
+      //     begin: Alignment.topCenter,
+      //     end: Alignment.bottomCenter,
+      //     colors: [Colors.white, Colors.white],
+      //   ),
+      // ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
@@ -108,7 +108,7 @@ class _SignInState extends State<SignIn> {
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         fontSize: 60,
-                        color: Color.fromARGB(255, 157, 0, 86),
+                        color: Color.fromARGB(255, 181, 0, 100),
                       ),
                     ),
                     SizedBox(height: 60),
@@ -116,12 +116,12 @@ class _SignInState extends State<SignIn> {
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: TextFormField(
                         controller: emailController,
-                        style: TextStyle(color: Colors.black87),
+                        style: TextStyle(color: Colors.white70),
                         decoration: InputDecoration(
-                          icon: Icon(Icons.email, color: Colors.black87),
+                          icon: Icon(Icons.email, color: Colors.white70),
                           // errorText: _isNotValidate ? "Enter Proper Info" : null,
                           hintText: 'Enter your email',
-                          hintStyle: TextStyle(color: Colors.black45),
+                          hintStyle: TextStyle(color: Colors.white70),
                         ),
                       ),
                     ),
@@ -131,12 +131,12 @@ class _SignInState extends State<SignIn> {
                       child: TextFormField(
                         controller: passwordController,
                         obscureText: passwordVisible,
-                        style: TextStyle(color: Colors.black87),
+                        style: TextStyle(color: Colors.white70),
                         decoration: InputDecoration(
-                          icon: Icon(Icons.lock, color: Colors.black87),
+                          icon: Icon(Icons.lock, color: Colors.white70),
                           hintText: 'Enter your Password',
                           // errorText: _isNotValidate ? "Enter Proper Info" : null,
-                          hintStyle: TextStyle(color: Colors.black45),
+                          hintStyle: TextStyle(color: Colors.white70),
                           suffixIcon: IconButton(
                             icon: Icon(passwordVisible
                                 ? Icons.visibility
@@ -158,7 +158,7 @@ class _SignInState extends State<SignIn> {
                             child: Text(
                               "Forget Password ?",
                               style: TextStyle(
-                                  color: Colors.black87, fontSize: 14),
+                                  color: Colors.white70, fontSize: 14),
                             ),
                           ),
                         ],

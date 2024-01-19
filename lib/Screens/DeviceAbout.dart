@@ -27,7 +27,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
       String? mydeviceId = prefs.getString('mydeviceId');
   print('deviceId: $mydeviceId');
-    return prefs.getString('mydeviceId');
+    return prefs.getString('mydeviceId'); 
   }
 
 var did = '724963b4f3ae2a8f';

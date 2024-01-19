@@ -107,11 +107,11 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.white, Colors.white])),
+      // decoration: const BoxDecoration(
+      //     gradient: LinearGradient(
+      //         begin: Alignment.topCenter,
+      //         end: Alignment.bottomCenter,
+      //         colors: [Colors.white, Colors.white])),
       child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Stack(alignment: Alignment.center, children: [
@@ -146,7 +146,7 @@ class _SignUpState extends State<SignUp> {
                               iconSize: 24,
                               elevation: 16,
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white70,
                                 fontSize: 16.0,
                               ),
                               isDense: true,
@@ -162,7 +162,7 @@ class _SignUpState extends State<SignUp> {
                                 border: InputBorder.none,
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.black87,
+                                    color: Colors.white70,
                                     width: 0.7,
                                   ),
                                 ),
@@ -188,16 +188,16 @@ class _SignUpState extends State<SignUp> {
                           padding: const EdgeInsets.only(right: 30, left: 30),
                           child: TextFormField(
                             controller: firstNameController,
-                            style: TextStyle(color: Colors.black87),
+                            style: TextStyle(color: Colors.white70),
                             decoration: InputDecoration(
                               icon: Icon(
                                 Icons.person,
-                                color: Colors.black87,
+                                color: Colors.white70,
                               ),
                               hintText: 'First Name',
                               errorText:
                                   _isNotValidate ? "Enter Proper Info" : null,
-                              hintStyle: TextStyle(color: Colors.black45),
+                              hintStyle: TextStyle(color: Colors.white70),
                             ),
                           ),
                         ),
@@ -208,16 +208,16 @@ class _SignUpState extends State<SignUp> {
                           padding: const EdgeInsets.only(right: 30, left: 30),
                           child: TextFormField(
                             controller: lastNameController,
-                            style: TextStyle(color: Colors.black87),
+                            style: TextStyle(color: Colors.white70),
                             decoration: InputDecoration(
                               icon: Icon(
                                 Icons.person,
-                                color: Colors.black87,
+                                color: Colors.white70,
                               ),
                               hintText: 'Last Name',
                               errorText:
                                   _isNotValidate ? "Enter Proper Info" : null,
-                              hintStyle: TextStyle(color: Colors.black45),
+                              hintStyle: TextStyle(color: Colors.white70),
                             ),
                           ),
                         ),
@@ -228,7 +228,7 @@ class _SignUpState extends State<SignUp> {
                           padding: const EdgeInsets.only(right: 30, left: 30),
                           child: TextFormField(
                             controller: hospitalNameController,
-                            style: TextStyle(color: Colors.black87),
+                            style: TextStyle(color: Colors.white70),
                             decoration: InputDecoration(
                               icon: FaIcon(
                                 FontAwesomeIcons.squareH,
@@ -237,7 +237,7 @@ class _SignUpState extends State<SignUp> {
                               hintText: 'Enter Hospital Name',
                               errorText:
                                   _isNotValidate ? "Enter Proper Info" : null,
-                              hintStyle: TextStyle(color: Colors.black45),
+                              hintStyle: TextStyle(color: Colors.white70),
                             ),
                           ),
                         ),
@@ -248,7 +248,7 @@ class _SignUpState extends State<SignUp> {
                           padding: const EdgeInsets.only(right: 30, left: 30),
                           child: TextFormField(
                             controller: designationController,
-                            style: TextStyle(color: Colors.black87),
+                            style: TextStyle(color: Colors.white70),
                             decoration: InputDecoration(
                               icon: FaIcon(
                                 FontAwesomeIcons.userDoctor,
@@ -257,7 +257,7 @@ class _SignUpState extends State<SignUp> {
                               hintText: 'Enter your Designation',
                               errorText:
                                   _isNotValidate ? "Enter Proper Info" : null,
-                              hintStyle: TextStyle(color: Colors.black45),
+                              hintStyle: TextStyle(color: Colors.white70),
                             ),
                           ),
                         ),
@@ -268,7 +268,7 @@ class _SignUpState extends State<SignUp> {
                           padding: const EdgeInsets.only(right: 30, left: 30),
                           child: TextFormField(
                             controller: departmentController,
-                            style: TextStyle(color: Colors.black87),
+                            style: TextStyle(color: Colors.white70),
                             decoration: InputDecoration(
                               icon: FaIcon(
                                 FontAwesomeIcons.hospitalUser,
@@ -277,7 +277,7 @@ class _SignUpState extends State<SignUp> {
                               hintText: 'Enter your Department',
                               errorText:
                                   _isNotValidate ? "Enter Proper Info" : null,
-                              hintStyle: TextStyle(color: Colors.black45),
+                              hintStyle: TextStyle(color: Colors.white70),
                             ),
                           ),
                         ),
@@ -295,7 +295,7 @@ class _SignUpState extends State<SignUp> {
                               iconSize: 24,
                               elevation: 16,
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white70,
                                 fontSize: 16.0,
                               ),
                               isDense: true,
@@ -311,7 +311,7 @@ class _SignUpState extends State<SignUp> {
                                 border: InputBorder.none,
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.black87,
+                                    color: Colors.white70,
                                     width: 0.7,
                                   ),
                                 ),
@@ -338,7 +338,7 @@ class _SignUpState extends State<SignUp> {
                           child: IntlPhoneField(
                             controller: contactNumberController,
                             initialCountryCode: 'IN',
-                            style: TextStyle(color: Colors.black87),
+                            style: TextStyle(color: Colors.white70),
                             decoration: InputDecoration(
                               icon: FaIcon(
                                 FontAwesomeIcons.phone,
@@ -347,7 +347,7 @@ class _SignUpState extends State<SignUp> {
                               hintText: 'Contact Number',
                               errorText:
                                   _isNotValidate ? "Enter Proper Info" : null,
-                              hintStyle: TextStyle(color: Colors.black45),
+                              hintStyle: TextStyle(color: Colors.white70),
                             ),
                             onChanged: (phone) {
                               setState(() {
@@ -402,16 +402,16 @@ class _SignUpState extends State<SignUp> {
                           padding: const EdgeInsets.only(right: 30, left: 30),
                           child: TextFormField(
                             controller: emailController,
-                            style: TextStyle(color: Colors.black87),
+                            style: TextStyle(color: Colors.white70),
                             decoration: InputDecoration(
                               icon: Icon(
                                 Icons.email,
-                                color: Colors.black87,
+                                color: Colors.white70,
                               ),
                               hintText: 'Enter your Email',
                               errorText:
                                   _isNotValidate ? "Enter Proper Info" : null,
-                              hintStyle: TextStyle(color: Colors.black45),
+                              hintStyle: TextStyle(color: Colors.white70),
                             ),
                           ),
                         ),
@@ -423,16 +423,16 @@ class _SignUpState extends State<SignUp> {
                           child: TextFormField(
                             controller: passwordController,
                             obscureText: passwordVisible,
-                            style: TextStyle(color: Colors.black87),
+                            style: TextStyle(color: Colors.white70),
                             decoration: InputDecoration(
                               icon: Icon(
                                 Icons.lock,
-                                color: Colors.black87,
+                                color: Colors.white70,
                               ),
                               hintText: 'Enter your Password',
                               errorText:
                                   _isNotValidate ? "Enter Proper Info" : null,
-                              hintStyle: TextStyle(color: Colors.black45),
+                              hintStyle: TextStyle(color: Colors.white70),
                               suffixIcon: IconButton(
                                 icon: Icon(passwordVisible
                                     ? Icons.visibility_off
@@ -456,16 +456,16 @@ class _SignUpState extends State<SignUp> {
                           child: TextFormField(
                             controller: confirmPasswordController,
                             obscureText: passwordVisible,
-                            style: TextStyle(color: Colors.black87),
+                            style: TextStyle(color: Colors.white70),
                             decoration: InputDecoration(
                               icon: Icon(
                                 Icons.lock,
-                                color: Colors.black87,
+                                color: Colors.white70,
                               ),
                               hintText: 'Confirm Password',
                               errorText:
                                   _isNotValidate ? "Enter Proper Info" : null,
-                              hintStyle: TextStyle(color: Colors.black45),
+                              hintStyle: TextStyle(color: Colors.white70),
                               suffixIcon: IconButton(
                                 icon: Icon(passwordVisible
                                     ? Icons.visibility_off
@@ -501,7 +501,7 @@ class _SignUpState extends State<SignUp> {
                             Text(
                               "I agree with ",
                               style: TextStyle(
-                                color: Colors.black87,
+                                color: Colors.white70,
                                 fontSize: 14,
                               ),
                             ),
