@@ -1,12 +1,11 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_const, unused_import, library_private_types_in_public_api, prefer_typing_uninitialized_variables, unused_local_variable
 
+import 'package:agva_app/Screens/DeviceList.dart';
+import 'package:agva_app/Screens/projects.dart';
 import 'package:flutter/material.dart';
-
-import 'DeviceList.dart';
 
 class Hospitals extends StatefulWidget {
   final String hospitalName;
-
   Hospitals({required this.hospitalName});
 
   @override
@@ -15,17 +14,12 @@ class Hospitals extends StatefulWidget {
 
 class _HospitalsState extends State<Hospitals> {
   late String hospitalName;
-  bool isExpanded = false;
 
   @override
   void initState() {
     super.initState();
     hospitalName = widget.hospitalName;
   }
-
-  List<String> projectsForHospital = [
-    'AgVa PRO',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -47,18 +41,33 @@ class _HospitalsState extends State<Hospitals> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              widget.hospitalName,
+              style: TextStyle(
+                fontFamily: 'Avenir',
+                color: Color.fromARGB(255, 218, 218, 218),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
             GestureDetector(
               onTap: () {
-                setState(() {
-                  isExpanded = !isExpanded;
-                });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Projects(),
+                  ),
+                );
               },
               child: Container(
                 height: 120,
                 width: 330,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: Color.fromARGB(255, 65, 65, 65),
+   color: Color.fromARGB(255, 65, 65, 65),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -77,7 +86,6 @@ class _HospitalsState extends State<Hospitals> {
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
                                 fontSize: 24,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(
@@ -95,7 +103,7 @@ class _HospitalsState extends State<Hospitals> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 25, top: 30),
+                        padding: const EdgeInsets.only(left: 35, top: 30),
                         child: Container(
                           width: 100,
                           child: Image.asset("assets/images/hospital.png"),
@@ -106,56 +114,6 @@ class _HospitalsState extends State<Hospitals> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            if (isExpanded)
-              ...projectsForHospital.map(
-                (project) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DeviceList(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      height: 100,
-                      width: 310,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Color.fromARGB(255, 65, 65, 65),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: Row(
-                          children: [
-                            Text(
-                              project,
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize: 24,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 40, top: 15),
-                              child: Container(
-                                width: 120,
-                                child: Image.asset(
-                                    "assets/images/deviceimage.png"),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
           ],
         ),
       ),

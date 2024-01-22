@@ -24,6 +24,7 @@ class _DeviceListState extends State<DeviceList> {
     super.initState();
     initSharedPref();
     fetchGetDevicesForUser();
+    // getDevicesByHospitalName();
     gethospital().then((name) {
       setState(() {
         savedHospitalName = name;
@@ -46,6 +47,33 @@ class _DeviceListState extends State<DeviceList> {
     print('Retrieved hospital name: $hospitalName');
     return hospitalName;
   }
+
+  // void getDevicesByHospitalName() async {
+  //   String? token = await getToken();
+  //   String? hospitalName = await gethospital();
+  //   if (token != null) {
+  //     var response = await http.get(
+  //       Uri.parse('$getDevicesByHospital/${hospitalName}'),
+  //       headers: {
+  //         "Authorization": 'Bearer $token',
+  //       },
+  //     );
+  //     var jsonResponse = jsonDecode(response.body);
+  //     if (jsonResponse['statusValue'] == 'SUCCESS') {
+  //       print('Device by Hospitals: $jsonResponse');
+  //       print('    ');
+  //       print('    ');
+  //       devicesByHospitalList =
+  //           List<Map<String, dynamic>>.from(jsonResponse['data']);
+
+  //       setState(() {});
+  //     } else {
+  //       print('Invalid User Credential: ${response.statusCode}');
+  //     }
+  //   } else {
+  //     print('Token not found');
+  //   }
+  // }
 
   Future<void> fetchGetDevicesForUser() async {
     String? token = await getToken();
