@@ -210,14 +210,6 @@ class _DeviceListState extends State<DeviceList> {
             ),
           ),
         ),
-        // onTap: () {
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => DeviceDetails(),
-        //     ),
-        //   );
-        // },
         onTap: () {
   if (devicesForUserList.isNotEmpty) {
     String deviceId = data['deviceId'];
@@ -230,7 +222,6 @@ class _DeviceListState extends State<DeviceList> {
     );
   }
 },
-
       );
     }).toList();
   }

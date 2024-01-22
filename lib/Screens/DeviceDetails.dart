@@ -10,7 +10,7 @@ class DeviceDetails extends StatelessWidget {
   late String deviceId;
   late String wardNo;
 
-DeviceDetails(this.deviceId, this.wardNo);
+  DeviceDetails(this.deviceId, this.wardNo);
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -32,7 +32,7 @@ DeviceDetails(this.deviceId, this.wardNo);
                   SizedBox(height: 60),
                   Text(
                     // "Details",
-               'Details: ${deviceId ?? "N/A"}',
+                    'Details: ${deviceId ?? "N/A"}',
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       fontSize: 24,
@@ -54,18 +54,15 @@ DeviceDetails(this.deviceId, this.wardNo);
                       left: 30,
                     ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   // 'WARD NO. 24:',
-                         
-                                            'WARD NO. ${wardNo ?? "N/A"}',
+                                  'WARD NO. ${wardNo ?? "N/A"}',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
                                     color: Color.fromARGB(255, 218, 218, 218),
@@ -102,7 +99,7 @@ DeviceDetails(this.deviceId, this.wardNo);
                                     '25 YEARS',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 255, 255, 255),
+                                         color: Color.fromARGB(255, 218, 218, 218),
                                       fontSize: 16,
                                     ),
                                   ),
@@ -111,7 +108,6 @@ DeviceDetails(this.deviceId, this.wardNo);
                             ),
                           ],
                         ),
-//end of patient details
 
 //Live tiles
                         SizedBox(height: 30),
