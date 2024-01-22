@@ -8,10 +8,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class DeviceDetails extends StatelessWidget {
   late String deviceId;
+  late String wardNo;
 
-  DeviceDetails(String deviceId) {
-    this.deviceId = deviceId;
-  }
+DeviceDetails(this.deviceId, this.wardNo);
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -33,7 +32,7 @@ class DeviceDetails extends StatelessWidget {
                   SizedBox(height: 60),
                   Text(
                     // "Details",
-                    'Details: $deviceId',
+               'Details: ${deviceId ?? "N/A"}',
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       fontSize: 24,
@@ -64,8 +63,9 @@ class DeviceDetails extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'WARD NO. 24:',
-                                  // 'deviceId',
+                                  // 'WARD NO. 24:',
+                         
+                                            'WARD NO. ${wardNo ?? "N/A"}',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
                                     color: Color.fromARGB(255, 218, 218, 218),
@@ -614,7 +614,8 @@ class DeviceDetails extends StatelessWidget {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => DeviceAbout(deviceId),
+                                          builder: (context) =>
+                                              DeviceAbout(deviceId),
                                         ),
                                       );
                                     },

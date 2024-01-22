@@ -145,7 +145,8 @@ class _DeviceListState extends State<DeviceList> {
                               height: 8,
                             ),
                             Text(
-                              data['deviceId'],
+                              // data['deviceId'],
+                              '${deviceInfo?['Hospital_Name'] ?? 'N/A'}',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -218,16 +219,18 @@ class _DeviceListState extends State<DeviceList> {
         //   );
         // },
         onTap: () {
-          if (devicesForUserList.isNotEmpty) {
-            String deviceId = data['deviceId']; // Get deviceId from the first device
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DeviceDetails(deviceId),
-              ),
-            );
-          }
-        },
+  if (devicesForUserList.isNotEmpty) {
+    String deviceId = data['deviceId'];
+    String wardNo = deviceInfo?['Ward_No'];
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DeviceDetails(deviceId, wardNo),
+      ),
+    );
+  }
+},
+
       );
     }).toList();
   }
