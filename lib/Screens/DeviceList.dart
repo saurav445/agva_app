@@ -24,7 +24,7 @@ class _DeviceListState extends State<DeviceList> {
     super.initState();
     initSharedPref();
     fetchGetDevicesForUser();
-    getDevicesByHospitalName();
+    // getDevicesByHospitalName();
     gethospital().then((name) {
       setState(() {
         savedHospitalName = name;
@@ -48,29 +48,32 @@ class _DeviceListState extends State<DeviceList> {
     return hospitalName;
   }
 
-  void getDevicesByHospitalName() async {
-    String? token = await getToken();
-    String? hospitalName = await gethospital();
-    if (token != null) {
-      var response = await http.get(
-        Uri.parse('$getDevicesByHospital/${hospitalName}'),
-        headers: {
-          "Authorization": 'Bearer $token',
-        },
-      );
-      var jsonResponse = jsonDecode(response.body);
-      if (jsonResponse['statusValue'] == 'SUCCESS') {
-        devicesByHospitalList =
-            List<Map<String, dynamic>>.from(jsonResponse['data']);
+  // void getDevicesByHospitalName() async {
+  //   String? token = await getToken();
+  //   String? hospitalName = await gethospital();
+  //   if (token != null) {
+  //     var response = await http.get(
+  //       Uri.parse('$getDevicesByHospital/${hospitalName}'),
+  //       headers: {
+  //         "Authorization": 'Bearer $token',
+  //       },
+  //     );
+  //     var jsonResponse = jsonDecode(response.body);
+  //     if (jsonResponse['statusValue'] == 'SUCCESS') {
+  //       print('Device by Hospitals: $jsonResponse');
+  //       print('    ');
+  //       print('    ');
+  //       devicesByHospitalList =
+  //           List<Map<String, dynamic>>.from(jsonResponse['data']);
 
-        setState(() {});
-      } else {
-        print('Invalid User Credential: ${response.statusCode}');
-      }
-    } else {
-      print('Token not found');
-    }
-  }
+  //       setState(() {});
+  //     } else {
+  //       print('Invalid User Credential: ${response.statusCode}');
+  //     }
+  //   } else {
+  //     print('Token not found');
+  //   }
+  // }
 
   Future<void> fetchGetDevicesForUser() async {
     String? token = await getToken();
@@ -83,8 +86,8 @@ class _DeviceListState extends State<DeviceList> {
       );
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
-        print('Device by User: $jsonResponse');
         var data = jsonResponse['data'];
+        print('Device by User: $data');
         devicesForUserList = List<Map<String, dynamic>>.from(data['data']);
         setState(() {});
       } else {
@@ -93,10 +96,10 @@ class _DeviceListState extends State<DeviceList> {
     }
   }
 
-List<Widget> buildDeviceList() {
-  return devicesByHospitalList.map((device) {
-    Map<String, dynamic>? deviceInfo =
-        (device['deviceInfo'] as List<dynamic>?)?.first;
+  List<Widget> buildDeviceList() {
+    return devicesForUserList.map((data) {
+      Map<String, dynamic>? deviceInfo =
+          (data['deviceInfo'] as List<dynamic>?)?.first;
       return ListTile(
         title: Container(
           decoration: BoxDecoration(
@@ -129,7 +132,8 @@ List<Widget> buildDeviceList() {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              device['deviceId'],
+                              // data['deviceId'],
+                              '${deviceInfo?['DeviceType'] ?? 'N/A'}',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -141,7 +145,7 @@ List<Widget> buildDeviceList() {
                               height: 8,
                             ),
                             Text(
-                              savedHospitalName ?? 'Default Hospital Name',
+                              data['deviceId'],
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -152,7 +156,7 @@ List<Widget> buildDeviceList() {
                               height: 5,
                             ),
                             Text(
-                  
+                              // 'na',
                               'Ward: ${deviceInfo?['Ward_No'] ?? 'N/A'}',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
@@ -205,13 +209,24 @@ List<Widget> buildDeviceList() {
             ),
           ),
         ),
+        // onTap: () {
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => DeviceDetails(),
+        //     ),
+        //   );
+        // },
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DeviceDetails(),
-            ),
-          );
+          if (devicesForUserList.isNotEmpty) {
+            String deviceId = data['deviceId']; // Get deviceId from the first device
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DeviceDetails(deviceId),
+              ),
+            );
+          }
         },
       );
     }).toList();

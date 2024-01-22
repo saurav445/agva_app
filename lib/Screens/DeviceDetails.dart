@@ -7,6 +7,12 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DeviceDetails extends StatelessWidget {
+  late String deviceId;
+
+  DeviceDetails(String deviceId) {
+    this.deviceId = deviceId;
+  }
+
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('mytoken');
@@ -26,7 +32,8 @@ class DeviceDetails extends StatelessWidget {
                 children: [
                   SizedBox(height: 60),
                   Text(
-                    "Details",
+                    // "Details",
+                    'Details: $deviceId',
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       fontSize: 24,
@@ -121,12 +128,13 @@ class DeviceDetails extends StatelessWidget {
                                   ),
                                   child: TextButton(
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DeviceAbout(),
-                                        ),
-                                      );
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) =>
+                                      //         DeviceAbout(),
+                                      //   ),
+                                      // );
                                     },
                                     style: TextButton.styleFrom(),
                                     child: Text(
@@ -196,7 +204,6 @@ class DeviceDetails extends StatelessWidget {
                                               color: Color.fromARGB(
                                                   255, 218, 218, 218),
                                               fontSize: 40,
-                                              
                                             ),
                                           ),
                                         ],
@@ -607,7 +614,7 @@ class DeviceDetails extends StatelessWidget {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => DeviceAbout(),
+                                          builder: (context) => DeviceAbout(deviceId),
                                         ),
                                       );
                                     },

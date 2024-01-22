@@ -7,22 +7,22 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DeviceAbout extends StatefulWidget {
+  final String deviceId;
+
+  DeviceAbout(this.deviceId);
+
   @override
   _DeviceAboutState createState() => _DeviceAboutState();
 }
 
 class _DeviceAboutState extends State<DeviceAbout> {
-  String product = 'N/A';
-  String model = 'N/A';
-  String deliveryDate = 'N/A';
-  String dateOfManufacture = 'N/A';
-  String batchNo = 'N/A';
-  String dateOfWarranty = 'N/A';
-  String lastService = 'N/A';
+  Map<String, dynamic> deviceAbout = {};
+  late String deviceId;
 
   @override
   void initState() {
     super.initState();
+    deviceId = widget.deviceId;
     getProductionDetails();
   }
 
@@ -33,13 +33,13 @@ class _DeviceAboutState extends State<DeviceAbout> {
     return mytoken;
   }
 
-  var did = '724963b4f3ae2a8f';
+  // var did = '724963b4f3ae2a8f';
 
   void getProductionDetails() async {
     String? token = await getToken();
     if (token != null) {
       var response = await http.get(
-        Uri.parse('$getProductionData/$did'),
+        Uri.parse('$getProductionData/$deviceId'),
         headers: {
           "Authorization": 'Bearer $token',
         },
@@ -48,13 +48,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
       print(jsonResponse);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
         setState(() {
-          product = jsonResponse['data']['productType'];
-          model = jsonResponse['data']['hw_version'];
-          deliveryDate = jsonResponse['data']['dispatchDate'];
-          dateOfManufacture = jsonResponse['data']['manufacturingDate'];
-          batchNo = jsonResponse['data']['batchNumber'];
-          dateOfWarranty = jsonResponse['data']['dateOfWarranty'];
-          lastService = jsonResponse['data']['lastService'];
+          deviceAbout = jsonResponse['data'];
         });
       } else {
         print('Invalid User Credential: ${response.statusCode}');
@@ -78,7 +72,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                 children: [
                   SizedBox(height: 60),
                   Text(
-                    "DeviceName",
+                    "N/A",
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       fontSize: 24,
@@ -172,12 +166,12 @@ class _DeviceAboutState extends State<DeviceAbout> {
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 80),
+                              padding: const EdgeInsets.only(left: 60),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    product,
+                                    deviceAbout['productType']  ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -186,7 +180,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    model,
+                                    deviceAbout['model'] ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -195,7 +189,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    deliveryDate,
+                                    deviceAbout['dispatchDate']  ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -204,7 +198,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    dateOfManufacture,
+                                    deviceAbout['manufacturingDate']  ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -213,7 +207,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    batchNo,
+                                    deviceAbout['batchNumber']  ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -222,7 +216,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    dateOfWarranty,
+                                    deviceAbout['dateOfWarranty']  ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -231,7 +225,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    lastService,
+                                    deviceAbout['last_service'] ?? 'N/A',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 255, 255, 255),
