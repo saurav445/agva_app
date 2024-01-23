@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-
 import 'DeviceList.dart';
 
 class Hospitals extends StatefulWidget {
@@ -25,6 +24,7 @@ class _HospitalsState extends State<Hospitals> {
 
   List<String> projectsForHospital = [
     'AgVa PRO',
+    'Suction',
   ];
 
   @override
@@ -127,26 +127,31 @@ class _HospitalsState extends State<Hospitals> {
                       width: 310,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: Color.fromARGB(255, 65, 65, 65),
+                        // color: Color.fromARGB(255, 65, 65, 65),
+                        color: Color.fromARGB(255, 142, 142, 142),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 30),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
                               project,
                               style: TextStyle(
                                 fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
+                                color: Color.fromARGB(255, 228, 228, 228),
                                 fontSize: 24,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 40, top: 15),
-                              child: Container(
-                                width: 120,
-                                child: Image.asset(
-                                    "assets/images/deviceimage.png"),
+                            Positioned(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left:40,top: 15),
+                                child: Container(
+                                  width: 120,
+                                  child: Image.asset(
+                                    getImagePath(project),
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -238,5 +243,16 @@ class _HospitalsState extends State<Hospitals> {
         ),
       ),
     );
+  }
+
+  String getImagePath(project) {
+    switch (project) {
+      case 'AgVa PRO':
+        return "assets/images/deviceimage.png";
+      case 'Suction':
+        return "assets/images/suctionimage.png";
+      default:
+        return "assets/images/inactive.png";
+    }
   }
 }
