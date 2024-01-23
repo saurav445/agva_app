@@ -48,16 +48,17 @@ class _HospitalsState extends State<Hospitals> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-            'HOSPITALS',
-            style: TextStyle(
-              fontFamily: 'Avenir',
-              color: Color.fromARGB(255, 218, 218, 218),
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+              'HOSPITALS',
+              style: TextStyle(
+                fontFamily: 'Avenir',
+                color: Color.fromARGB(255, 218, 218, 218),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-            SizedBox(height: 15,),
-          
+            SizedBox(
+              height: 15,
+            ),
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -141,30 +142,28 @@ class _HospitalsState extends State<Hospitals> {
                         // color: Color.fromARGB(255, 65, 65, 65),
                         color: Color.fromARGB(255, 135, 135, 135),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              project,
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 228, 228, 228),
-                                fontSize: 24,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            project,
+                            style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 228, 228, 228),
+                              fontSize: 24,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: Container(
+                              width: 120,
+                              child: Image.asset(
+                                getImagePath(project),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 40, top: 15),
-                              child: Container(
-                                width: 120,
-                                child: Image.asset(
-                                  getImagePath(project),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

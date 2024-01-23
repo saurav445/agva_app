@@ -48,17 +48,20 @@ class _SignInState extends State<SignIn> {
         if (jsonResponse['statusValue'] == 'SUCCESS') {
           print(jsonResponse);
           var data = jsonResponse['data'];
+          var name = data['name'];
           var token = data['token'];
           var hospitalName = data['hospitalName'];
 
           // Save token and hospital name
           saveToken(token);
           saveHospital(hospitalName);
+          saveUsername(name);
 
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen({'hospitalName': hospitalName}),
+              builder: (context) =>
+                  HomeScreen({'hospitalName': hospitalName, 'name': name}),
             ),
           );
         } else {
@@ -81,16 +84,15 @@ class _SignInState extends State<SignIn> {
     print('Saved hospital name: $hospitalName');
   }
 
+  Future<void> saveUsername(String name) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('name', name);
+    print('Saved username: $name');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      // decoration: const BoxDecoration(
-      //   gradient: LinearGradient(
-      //     begin: Alignment.topCenter,
-      //     end: Alignment.bottomCenter,
-      //     colors: [Colors.white, Colors.white],
-      //   ),
-      // ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
