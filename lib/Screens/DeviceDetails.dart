@@ -31,6 +31,14 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(),
