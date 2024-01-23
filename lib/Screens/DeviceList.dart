@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:agva_app/Screens/DeviceDetails.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -182,12 +183,18 @@ class _DeviceListState extends State<DeviceList> {
         onTap: () {
           if (devicesForUserList.isNotEmpty) {
             String deviceId = data['deviceId'];
+            String message = data['message'];
             String wardNo = deviceInfo?['Ward_No'];
-              String deviceType = deviceInfo?['DeviceType'];
+            String deviceType = deviceInfo?['DeviceType'];
+            String hospitalName = deviceInfo?['Hospital_Name'];
+            String departmentName = deviceInfo?['Department_Name'];
+            String bioMed = deviceInfo?['Bio_Med'];
+              String aliasName = deviceInfo?['Alias_Name'];
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => DeviceDetails(deviceId, wardNo, deviceType),
+                builder: (context) =>
+                    DeviceDetails(deviceId, wardNo, deviceType, message, hospitalName, bioMed, departmentName, aliasName),
               ),
             );
           }

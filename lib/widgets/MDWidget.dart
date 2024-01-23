@@ -1,12 +1,20 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
 
 class MDWidget extends StatelessWidget {
+  late String wardNo;
+  late String message;
+  late String hospitalName;
+  late String bioMed;
+  late String departmentName;
+  late String aliasName;
+
+  MDWidget(this.wardNo, this.message, this.hospitalName,
+      this.bioMed, this.departmentName, this.aliasName);
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
       child: Row(
@@ -41,7 +49,7 @@ class MDWidget extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: Text(
-                          'message',
+                          message,
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             fontSize: 8,
@@ -61,7 +69,7 @@ class MDWidget extends StatelessWidget {
             padding: const EdgeInsets.all(5.0),
             child: Container(
               height: 40,
-           width: 100,
+              width: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Color.fromARGB(255, 65, 65, 65),
@@ -85,7 +93,7 @@ class MDWidget extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: Text(
-                          'Alias_Name',
+                          aliasName,
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             fontSize: 8,
@@ -105,7 +113,7 @@ class MDWidget extends StatelessWidget {
             padding: const EdgeInsets.all(5.0),
             child: Container(
               height: 40,
-           width: 100,
+              width: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Color.fromARGB(255, 65, 65, 65),
@@ -129,7 +137,7 @@ class MDWidget extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: Text(
-                          'Department_Name',
+                          departmentName,
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             fontSize: 8,
@@ -149,7 +157,7 @@ class MDWidget extends StatelessWidget {
             padding: const EdgeInsets.all(5.0),
             child: Container(
               height: 40,
-           width: 100,
+              width: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Color.fromARGB(255, 65, 65, 65),
@@ -173,7 +181,7 @@ class MDWidget extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: Text(
-                          'Hospital_Name',
+                        hospitalName,
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             fontSize: 8,
@@ -193,7 +201,7 @@ class MDWidget extends StatelessWidget {
             padding: const EdgeInsets.all(5.0),
             child: Container(
               height: 40,
-           width: 100,
+              width: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Color.fromARGB(255, 65, 65, 65),
@@ -217,7 +225,7 @@ class MDWidget extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: Text(
-                          'ward',
+                wardNo,
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             fontSize: 8,
@@ -237,7 +245,7 @@ class MDWidget extends StatelessWidget {
             padding: const EdgeInsets.all(5.0),
             child: Container(
               height: 40,
-           width: 100,
+              width: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Color.fromARGB(255, 65, 65, 65),
@@ -261,7 +269,7 @@ class MDWidget extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: Text(
-                          'bio',
+                  bioMed,
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             fontSize: 8,

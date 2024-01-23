@@ -20,13 +20,13 @@ class DeviceAbout extends StatefulWidget {
 class _DeviceAboutState extends State<DeviceAbout> {
   Map<String, dynamic> deviceAbout = {};
   late String deviceId;
-    late String deviceType;
+  late String deviceType;
 
   @override
   void initState() {
     super.initState();
     deviceId = widget.deviceId;
-        deviceType = widget.deviceType;
+    deviceType = widget.deviceType;
     getProductionDetails();
   }
 
@@ -73,7 +73,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
               children: [
                 GestureDetector(
                   onTap: () {
-                 Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                   child: Container(
                     width: 40,
@@ -180,73 +180,73 @@ class _DeviceAboutState extends State<DeviceAbout> {
                   ),
                 ],
               ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      deviceAbout['productType'] ?? 'N/A',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 16,
-                      ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    deviceAbout['productType'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      deviceAbout['model'] ?? 'N/A',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 16,
-                      ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    deviceAbout['model'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      deviceAbout['dispatchDate'] ?? 'N/A',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 16,
-                      ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    deviceAbout['dispatchDate'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      deviceAbout['manufacturingDate'] ?? 'N/A',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 16,
-                      ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    deviceAbout['manufacturingDate'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      deviceAbout['batchNumber'] ?? 'N/A',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 16,
-                      ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    deviceAbout['batchNumber'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      deviceAbout['dateOfWarranty'] ?? 'N/A',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 16,
-                      ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    deviceAbout['dateOfWarranty'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      deviceAbout['last_service'] ?? 'N/A',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 16,
-                      ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    deviceAbout['last_service'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
             ],
           ),
         ],

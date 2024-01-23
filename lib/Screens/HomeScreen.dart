@@ -3,6 +3,7 @@
 import 'package:agva_app/Screens/Hospitals.dart';
 import 'package:agva_app/Screens/MyDevices.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late String hospitalName;
-    String? savedUsername;
+  String? savedUsername;
   late SharedPreferences prefs;
 
   @override
@@ -25,8 +26,25 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         savedUsername = name;
       });
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeRight,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
     });
     hospitalName = widget.data['hospitalName'];
+  }
+
+  @override
+  dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
   }
 
   Future<String?> getUsername() async {
@@ -35,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print('Retrieved Username: $name');
     return name;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

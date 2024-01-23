@@ -3,16 +3,28 @@ import 'dart:convert';
 import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DeviceDetails extends StatelessWidget {
+class DeviceDetails extends StatefulWidget {
   late String deviceId;
   late String wardNo;
   late String deviceType;
+  late String message;
+  late String hospitalName;
+  late String bioMed;
+  late String departmentName;
+  late String aliasName;
 
-  DeviceDetails(this.deviceId, this.wardNo, this.deviceType);
+  DeviceDetails(this.deviceId, this.wardNo, this.deviceType, this.message,
+      this.hospitalName, this.bioMed, this.departmentName, this.aliasName);
 
+  @override
+  State<DeviceDetails> createState() => _DeviceDetailsState();
+}
+
+class _DeviceDetailsState extends State<DeviceDetails> {
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('mytoken');
@@ -83,7 +95,7 @@ class DeviceDetails extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'WARD NO. ${wardNo ?? "N/A"}',
+                                'WARD NO. ${widget.wardNo ?? "N/A"}',
                                 style: TextStyle(
                                   fontFamily: 'Avenir',
                                   color: Color.fromARGB(255, 218, 218, 218),
@@ -621,8 +633,9 @@ class DeviceDetails extends StatelessWidget {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              DeviceAbout(deviceId, deviceType),
+                                          builder: (context) => DeviceAbout(
+                                              widget.deviceId,
+                                              widget.deviceType),
                                         ),
                                       );
                                     },
@@ -653,7 +666,7 @@ class DeviceDetails extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              MonitorData(deviceId),
+                                              MonitorData(widget.deviceId, widget.wardNo, widget.message, widget.hospitalName, widget.bioMed, widget.departmentName, widget.aliasName),
                                         ),
                                       );
                                     },
