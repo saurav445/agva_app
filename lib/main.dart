@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         "/signin": (context) => SignIn(),
         "/splash": (context) => SplashScreen(),
         "/home": (context) => HomeScreen({}),
-    "/devicedetails": (context) => DeviceDetails('deviceid', 'Ward_No'),
+    "/devicedetails": (context) => DeviceDetails('deviceid', 'Ward_No', 'devicetype'),
 
         "/tandc": (context) => TermsCondition(),
                         "/devicelist": (context) => DeviceList(),

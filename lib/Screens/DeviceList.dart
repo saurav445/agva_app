@@ -94,17 +94,15 @@ class _DeviceListState extends State<DeviceList> {
                     color: Color.fromARGB(255, 65, 65, 65),
                   ),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, right: 20, top: 10),
+                    padding: const EdgeInsets.only(right: 11, left: 11, top: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              // data['deviceId'],
                               '${deviceInfo?['DeviceType'] ?? 'N/A'}',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
@@ -117,7 +115,6 @@ class _DeviceListState extends State<DeviceList> {
                               height: 8,
                             ),
                             Text(
-                              // data['deviceId'],
                               '${deviceInfo?['Hospital_Name'] ?? 'N/A'}',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
@@ -143,7 +140,7 @@ class _DeviceListState extends State<DeviceList> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              'N/A',
+                              'PT. Salim Raza',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -154,7 +151,7 @@ class _DeviceListState extends State<DeviceList> {
                               height: 8,
                             ),
                             Text(
-                              'N/A',
+                              '24 YEARS',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -165,7 +162,7 @@ class _DeviceListState extends State<DeviceList> {
                               height: 5,
                             ),
                             Text(
-                              'N/A',
+                              '58 KG',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -183,17 +180,18 @@ class _DeviceListState extends State<DeviceList> {
           ),
         ),
         onTap: () {
-  if (devicesForUserList.isNotEmpty) {
-    String deviceId = data['deviceId'];
-    String wardNo = deviceInfo?['Ward_No'];
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => DeviceDetails(deviceId, wardNo),
-      ),
-    );
-  }
-},
+          if (devicesForUserList.isNotEmpty) {
+            String deviceId = data['deviceId'];
+            String wardNo = deviceInfo?['Ward_No'];
+              String deviceType = deviceInfo?['DeviceType'];
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DeviceDetails(deviceId, wardNo, deviceType),
+              ),
+            );
+          }
+        },
       );
     }).toList();
   }
@@ -219,7 +217,6 @@ class _DeviceListState extends State<DeviceList> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(

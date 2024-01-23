@@ -9,8 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DeviceDetails extends StatelessWidget {
   late String deviceId;
   late String wardNo;
+  late String deviceType;
 
-  DeviceDetails(this.deviceId, this.wardNo);
+  DeviceDetails(this.deviceId, this.wardNo, this.deviceType);
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -61,7 +62,7 @@ class DeviceDetails extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 35),
                   Text(
                     "PT. SALIM RAZA",
                     style: TextStyle(
@@ -70,20 +71,43 @@ class DeviceDetails extends StatelessWidget {
                       color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 30),
 
-                   Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'WARD NO. ${wardNo ?? "N/A"}',
+                                style: TextStyle(
+                                  fontFamily: 'Avenir',
+                                  color: Color.fromARGB(255, 218, 218, 218),
+                                  fontSize: 16,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                '65 KG',
+                                style: TextStyle(
+                                  fontFamily: 'Avenir',
+                                  color: Color.fromARGB(255, 218, 218, 218),
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  // 'WARD NO. 24:',
-                                  'WARD NO. ${wardNo ?? "N/A"}',
+                                  'BED NO. 115',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
                                     color: Color.fromARGB(255, 218, 218, 218),
@@ -92,7 +116,7 @@ class DeviceDetails extends StatelessWidget {
                                 ),
                                 SizedBox(height: 10),
                                 Text(
-                                  '65 KG',
+                                  '25 YEARS',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
                                     color: Color.fromARGB(255, 218, 218, 218),
@@ -101,720 +125,679 @@ class DeviceDetails extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'BED NO. 115',
-                                    // '${deviceData['deviceId']}',
-                                    style: TextStyle(
-                                      fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 218, 218, 218),
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    '25 YEARS',
-                                    style: TextStyle(
-                                      fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 218, 218, 218),
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
 
-//Live tiles
-                        SizedBox(height: 30),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 30),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
+                      //Live tiles
+                      SizedBox(height: 30),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  height: 60,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color.fromARGB(255, 38, 128, 158),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) =>
+                                      //         DeviceAbout(),
+                                      //   ),
+                                      // );
+                                    },
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      "PC-SIMV",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
                                     height: 60,
                                     width: 160,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
                                       color: Color.fromARGB(255, 38, 128, 158),
                                     ),
-                                    child: TextButton(
-                                      onPressed: () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) =>
-                                        //         DeviceAbout(),
-                                        //   ),
-                                        // );
-                                      },
-                                      style: TextButton.styleFrom(),
-                                      child: Text(
-                                        "PC-SIMV",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                      height: 60,
-                                      width: 160,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Color.fromARGB(255, 38, 128, 158),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15, right: 15),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 10),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'PIP',
-                                                    // 'deviceId',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 16,
-                                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, right: 15),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'PIP',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 16,
                                                   ),
-                                                  SizedBox(height: 5),
-                                                  Text(
-                                                    'cmH2O',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 10,
-                                                    ),
+                                                ),
+                                                SizedBox(height: 5),
+                                                Text(
+                                                  'cmH2O',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 10,
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                            Text(
-                                              '54',
-                                              // '${deviceData['deviceId']}',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 218, 218, 218),
-                                                fontSize: 40,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                      height: 60,
-                                      width: 160,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Color.fromARGB(255, 38, 128, 158),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15, right: 15),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 10),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'FiO2',
-                                                    // 'deviceId',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Text(
-                                                    '%',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 10,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Text(
-                                              '65',
-                                              // '${deviceData['deviceId']}',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 218, 218, 218),
-                                                fontSize: 40,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                      height: 60,
-                                      width: 160,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Color.fromARGB(255, 38, 128, 158),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15, right: 15),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 10),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'RR',
-                                                    // 'deviceId',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Text(
-                                                    'BPM',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 10,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Text(
-                                              '76',
-                                              // '${deviceData['deviceId']}',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 218, 218, 218),
-                                                fontSize: 40,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                      height: 60,
-                                      width: 160,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Color.fromARGB(255, 38, 128, 158),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15, right: 15),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 10),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'VTi',
-                                                    // 'deviceId',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Text(
-                                                    'ml',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 10,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Text(
-                                              '52',
-                                              // '${deviceData['deviceId']}',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 218, 218, 218),
-                                                fontSize: 40,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                      height: 60,
-                                      width: 160,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Color.fromARGB(255, 38, 128, 158),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15, right: 15),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 10),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'MVi',
-                                                    // 'deviceId',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Text(
-                                                    'Liters',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 10,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Text(
-                                              '71',
-                                              // '${deviceData['deviceId']}',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 218, 218, 218),
-                                                fontSize: 40,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                      height: 60,
-                                      width: 160,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Color.fromARGB(255, 38, 128, 158),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15, right: 15),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 10),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'SpO2',
-                                                    // 'deviceId',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Text(
-                                                    '%',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 10,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Text(
-                                              '85',
-                                              // '${deviceData['deviceId']}',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 218, 218, 218),
-                                                fontSize: 40,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                      height: 60,
-                                      width: 160,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Color.fromARGB(255, 38, 128, 158),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15, right: 15),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 10),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'PULSE',
-                                                    // 'deviceId',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Text(
-                                                    'BPM',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Avenir',
-                                                      color: Color.fromARGB(
-                                                          255, 218, 218, 218),
-                                                      fontSize: 10,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Text(
-                                              '75',
-                                              // '${deviceData['deviceId']}',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 218, 218, 218),
-                                                fontSize: 40,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 60),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 30),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    height: 60,
-                                    width: 160,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Color.fromARGB(255, 82, 82, 82),
-                                    ),
-                                    child: TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                DeviceAbout(deviceId),
-                                          ),
-                                        );
-                                      },
-                                      style: TextButton.styleFrom(),
-                                      child: Text(
-                                        "ABOUT",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                    height: 60,
-                                    width: 160,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Color.fromARGB(255, 82, 82, 82),
-                                    ),
-                                    child: TextButton(
-                                      onPressed: () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) =>
-                                        //         MonitorData(deviceData),
-                                        //   ),
-                                        // );
-                                      },
-                                      style: TextButton.styleFrom(),
-                                      child: Text(
-                                        "MONITOR",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    height: 60,
-                                    width: 160,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Color.fromARGB(255, 82, 82, 82),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 15),
-                                          child: Container(
-                                            width: 15,
-                                            child: Image.asset(
-                                              "assets/images/active.png",
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            // Navigator.push(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //     builder: (context) =>
-                                            //         MonitorData(deviceData),
-                                            //   ),
-                                            // );
-                                          },
-                                          style: TextButton.styleFrom(),
-                                          child: Text(
-                                            "LIVE VIEW",
+                                          Text(
+                                            '54',
                                             style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Avenir',
+                                              color: Color.fromARGB(
+                                                  255, 218, 218, 218),
+                                              fontSize: 40,
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
+                                        ],
+                                      ),
+                                    )),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Container(
                                     height: 60,
                                     width: 160,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
-                                      color: Color.fromARGB(255, 82, 82, 82),
+                                      color: Color.fromARGB(255, 38, 128, 158),
                                     ),
-                                    child: TextButton(
-                                      onPressed: () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) =>
-                                        //         MonitorData(deviceData),
-                                        //   ),
-                                        // );
-                                      },
-                                      style: TextButton.styleFrom(),
-                                      child: Text(
-                                        "SUPPORT",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, right: 15),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'FiO2',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 5),
+                                                Text(
+                                                  '%',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Text(
+                                            '65',
+                                            style: TextStyle(
+                                              fontFamily: 'Avenir',
+                                              color: Color.fromARGB(
+                                                  255, 218, 218, 218),
+                                              fontSize: 40,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Color.fromARGB(255, 174, 34, 104),
+                                    )),
+                                SizedBox(
+                                  width: 10,
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Container(
+                                Container(
                                     height: 60,
-                                    width: 170,
+                                    width: 160,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(5),
-                                          bottomRight: Radius.circular(5)),
-                                      color: Color.fromARGB(255, 82, 82, 82),
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Color.fromARGB(255, 38, 128, 158),
                                     ),
-                                    child: TextButton(
-                                      onPressed: () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) =>
-                                        //         MonitorData(deviceData),
-                                        //   ),
-                                        // );
-                                      },
-                                      style: TextButton.styleFrom(),
-                                      child: Text(
-                                        "ADD TO FOCUS",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, right: 15),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'RR',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 5),
+                                                Text(
+                                                  'BPM',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Text(
+                                            '76',
+                                            style: TextStyle(
+                                              fontFamily: 'Avenir',
+                                              color: Color.fromARGB(
+                                                  255, 218, 218, 218),
+                                              fontSize: 40,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                    height: 60,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Color.fromARGB(255, 38, 128, 158),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, right: 15),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'VTi',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 5),
+                                                Text(
+                                                  'ml',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Text(
+                                            '52',
+                                            style: TextStyle(
+                                              fontFamily: 'Avenir',
+                                              color: Color.fromARGB(
+                                                  255, 218, 218, 218),
+                                              fontSize: 40,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                    height: 60,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Color.fromARGB(255, 38, 128, 158),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, right: 15),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'MVi',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 5),
+                                                Text(
+                                                  'Liters',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Text(
+                                            '71',
+                                            style: TextStyle(
+                                              fontFamily: 'Avenir',
+                                              color: Color.fromARGB(
+                                                  255, 218, 218, 218),
+                                              fontSize: 40,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                    height: 60,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Color.fromARGB(255, 38, 128, 158),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, right: 15),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'SpO2',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 5),
+                                                Text(
+                                                  '%',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Text(
+                                            '85',
+                                            style: TextStyle(
+                                              fontFamily: 'Avenir',
+                                              color: Color.fromARGB(
+                                                  255, 218, 218, 218),
+                                              fontSize: 40,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                    height: 60,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Color.fromARGB(255, 38, 128, 158),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, right: 15),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'PULSE',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 5),
+                                                Text(
+                                                  'BPM',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Text(
+                                            '75',
+                                            style: TextStyle(
+                                              fontFamily: 'Avenir',
+                                              color: Color.fromARGB(
+                                                  255, 218, 218, 218),
+                                              fontSize: 40,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 40),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  height: 60,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color.fromARGB(255, 82, 82, 82),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              DeviceAbout(deviceId, deviceType),
                                         ),
+                                      );
+                                    },
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      "ABOUT",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  height: 60,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color.fromARGB(255, 82, 82, 82),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              MonitorData(),
+                                        ),
+                                      );
+                                    },
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      "MONITOR",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  height: 60,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color.fromARGB(255, 82, 82, 82),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 15),
+                                        child: Container(
+                                          width: 15,
+                                          child: Image.asset(
+                                            "assets/images/active.png",
+                                          ),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) =>
+                                          //         MonitorData(deviceData),
+                                          //   ),
+                                          // );
+                                        },
+                                        style: TextButton.styleFrom(),
+                                        child: Text(
+                                          "LIVE VIEW",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  height: 60,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color.fromARGB(255, 82, 82, 82),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) =>
+                                      //         MonitorData(deviceData),
+                                      //   ),
+                                      // );
+                                    },
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      "SUPPORT",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Color.fromARGB(255, 174, 34, 104),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Container(
+                                  height: 60,
+                                  width: 170,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(5),
+                                        bottomRight: Radius.circular(5)),
+                                    color: Color.fromARGB(255, 82, 82, 82),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) =>
+                                      //         MonitorData(deviceData),
+                                      //   ),
+                                      // );
+                                    },
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      "ADD TO FOCUS",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        
-                      ],
-                      
-                    ),
-                    
+                      ),
+                    ],
+                  ),
+
                   // ),
                 ],
               ),
