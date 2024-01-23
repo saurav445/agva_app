@@ -653,7 +653,7 @@ class DeviceDetails extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              MonitorData(),
+                                              MonitorData(deviceId),
                                         ),
                                       );
                                     },

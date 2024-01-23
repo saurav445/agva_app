@@ -3,42 +3,40 @@
 import 'dart:convert';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/MDWidget.dart';
 import 'package:http/http.dart' as http;
 
 class MonitorData extends StatefulWidget {
+  final String deviceId;
+
+  MonitorData(this.deviceId);
+
   @override
   _MonitorDataState createState() => _MonitorDataState();
 }
 
 class _MonitorDataState extends State<MonitorData> {
+  late String deviceId;
   String activeButton = 'Events';
   String activeButtonColor = 'Events';
 
   @override
   void initState() {
     super.initState();
+    deviceId = widget.deviceId;
     getEventusingId();
   }
 
-  Future<String?> getDeviceId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('deviceId');
-  }
-
   void getEventusingId() async {
-    String? deviceId = await getDeviceId();
-    if (deviceId != null) {
-      var response = await http.get(
-        Uri.parse('$getEventById/$deviceId'),
-      );
-      var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse);
-      if (jsonResponse['statusCode'] == 200) {
-      } else {
-        print('Invalid User Credential: ${response.statusCode}');
-      }
+    var response = await http.get(
+      Uri.parse('$getEventById/$deviceId'),
+    );
+    var jsonResponse = jsonDecode(response.body);
+    print('Current Device ID: $deviceId');
+    print(jsonResponse);
+    if (jsonResponse['statusCode'] == 200) {
+    } else {
+      print('Invalid User Credential: ${response.statusCode}');
     }
   }
 
