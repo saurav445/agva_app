@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import, unused_local_variable, prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable
 
 import 'dart:convert';
+import 'package:agva_app/Screens/DeviceDetails.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -71,20 +72,43 @@ class _DeviceAboutState extends State<DeviceAbout> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: 60),
-                  Text(
-                    "N/A",
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      fontSize: 24,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
-                  Text(
-                    "About",
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      fontSize: 16,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                         Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            width: 40,
+                            child: Image.asset("assets/images/back.png"),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 100),
+                          child: Column(
+                            children: [
+                              Text(
+                                "N/A",
+                                style: TextStyle(
+                                  fontFamily: 'Avenir',
+                                  fontSize: 24,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
+                              ),
+                              Text(
+                                "About",
+                                style: TextStyle(
+                                  fontFamily: 'Avenir',
+                                  fontSize: 16,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 40),

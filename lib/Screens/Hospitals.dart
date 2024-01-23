@@ -47,6 +47,17 @@ class _HospitalsState extends State<Hospitals> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+            'HOSPITALS',
+            style: TextStyle(
+              fontFamily: 'Avenir',
+              color: Color.fromARGB(255, 218, 218, 218),
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+            SizedBox(height: 15,),
+          
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -128,7 +139,7 @@ class _HospitalsState extends State<Hospitals> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         // color: Color.fromARGB(255, 65, 65, 65),
-                        color: Color.fromARGB(255, 142, 142, 142),
+                        color: Color.fromARGB(255, 135, 135, 135),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 30),
@@ -143,14 +154,12 @@ class _HospitalsState extends State<Hospitals> {
                                 fontSize: 24,
                               ),
                             ),
-                            Positioned(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left:40,top: 15),
-                                child: Container(
-                                  width: 120,
-                                  child: Image.asset(
-                                    getImagePath(project),
-                                  ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 40, top: 15),
+                              child: Container(
+                                width: 120,
+                                child: Image.asset(
+                                  getImagePath(project),
                                 ),
                               ),
                             ),

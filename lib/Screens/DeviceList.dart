@@ -219,6 +219,7 @@ class _DeviceListState extends State<DeviceList> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
