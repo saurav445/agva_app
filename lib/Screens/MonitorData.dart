@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable
 
-import 'package:agva_app/widgets/Alarms.dart';
-import 'package:agva_app/widgets/Calibration.dart';
-import 'package:agva_app/widgets/CrashLogs.dart';
+import 'dart:convert';
+import 'package:agva_app/config.dart';
 import 'package:agva_app/widgets/Events.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widgets/MDWidget.dart';
+import 'package:http/http.dart' as http;
 
 class MonitorData extends StatefulWidget {
   final String deviceId;
@@ -47,6 +47,7 @@ class _MonitorDataState extends State<MonitorData> {
     bioMed = widget.bioMed;
     departmentName = widget.departmentName;
     aliasName = widget.aliasName;
+    getEventusingId();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -62,6 +63,22 @@ class _MonitorDataState extends State<MonitorData> {
       DeviceOrientation.landscapeLeft,
     ]);
     super.dispose();
+  }
+
+  Future<void> getEventusingId() async {
+    var response = await http.get(
+      Uri.parse('$getDeviceEventbyID/$deviceId'),
+    );
+    jsonResponse = jsonDecode(response.body);
+    print('Current Device ID: $deviceId');
+    // print(jsonResponse);
+    if (jsonResponse['statusCode'] == 200) {
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      print('Invalid User Credential: ${response.statusCode}');
+    }
   }
 
   @override
@@ -96,9 +113,8 @@ class _MonitorDataState extends State<MonitorData> {
                         children: [
                           buildButton('Events'),
                           buildButton('Alarms'),
-                          buildButton('Crash Logs'),
                           buildButton('Trends'),
-                          buildButton('Calibration'),
+                          buildButton('Logs'),
                         ],
                       ),
                     ),
@@ -162,14 +178,14 @@ class _MonitorDataState extends State<MonitorData> {
     switch (activeButton) {
       case 'Events':
         return isLoading ? buildLoading() : Events(deviceId);
-      // case 'Alarms':
-      //   return isLoading ? buildLoading() : Alarms(deviceId);
-      // case 'Crash Logs':
-      //   return isLoading ? buildLoading() : CrashLogs(deviceId);
-      // case 'Trends':
-      //   return buildTrendsContent();
-      // case 'Calibration':
-      //   return isLoading ? buildLoading() : Calibration(deviceId);
+      case 'Alarms':
+        return isLoading ? buildLoading() : Alarms(deviceId);
+      case 'Crash Logs':
+        return isLoading ? buildLoading() : CrashLogs(deviceId);
+      case 'Trends':
+        return buildTrendsContent();
+      case 'Calibration':
+        return isLoading ? buildLoading() : Calibration(deviceId);
       default:
         return Container();
     }
@@ -181,24 +197,46 @@ class _MonitorDataState extends State<MonitorData> {
     );
   }
 
-  // Widget buildTrendsContent() {
-  //   return Center(
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.center,
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         Text(
-  //           'No Trends Logs',
-  //           style: TextStyle(
-  //             fontSize: 12,
-  //             color: Color.fromARGB(255, 218, 218, 218),
-  //           ),
-  //         ),
-  //         SizedBox(
-  //           height: 10,
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+Widget buildAlarmsContent() {
+  return Center(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'No Alarms Logs',
+          style: TextStyle(
+            fontSize: 12,
+            color: Color.fromARGB(255, 218, 218, 218),
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+      ],
+    ),
+  );
+}
+
+  Widget buildTrendsContent() {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'No Trends Logs',
+            style: TextStyle(
+              fontSize: 12,
+              color: Color.fromARGB(255, 218, 218, 218),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ],
+      ),
+    );
+  }
+}
 }
