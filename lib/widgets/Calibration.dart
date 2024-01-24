@@ -37,7 +37,6 @@ class _CalibrationState extends State<Calibration> {
         print('Invalid User Credential: ${response.statusCode}');
       }
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -81,31 +80,32 @@ class _CalibrationState extends State<Calibration> {
         child: CircularProgressIndicator());
   }
 
-Widget buildCaliDataRow(dynamic calbData) {
-  return Padding(
-    padding: const EdgeInsets.only(top: 10),
-    child: Column(
-      children: [
-        Row(
-          children: [
-            SizedBox(width: 20),
-            buildColumnContent(buildDeviceIdContent(calbData['deviceId'])),
-            buildColumnContent(buildNameContent(calbData['name'])),
-            buildColumnContent(buildMsgContent(calbData['message'])),
-            SizedBox(width: 10),
-            buildColumnContent(buildDateContent(calbData['date'])),
-            buildColumnContent(buildTimeContent(calbData['time'])),
-          ],
-        ),
-        SizedBox(height: 10),
-        Container(
-          height: 0.1,
-          color: Colors.white,
-        ),
-      ],
-    ),
-  );
-}
+  Widget buildCaliDataRow(dynamic calbData) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              SizedBox(width: 20),
+              buildColumnContent(buildDeviceIdContent(calbData['deviceId'])),
+              buildColumnContent(buildNameContent(calbData['name'])),
+              buildColumnContent(buildMsgContent(calbData['message'])),
+              SizedBox(width: 10),
+              buildColumnContent(buildDateContent(calbData['date'])),
+              buildColumnContent(buildTimeContent(calbData['time'])),
+            ],
+          ),
+          SizedBox(height: 10),
+          Container(
+            height: 0.1,
+            color: Colors.white,
+          ),
+        ],
+      ),
+    );
+  }
+
 
   Widget buildEmptyContainer() {
     return Padding(
