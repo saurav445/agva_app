@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, unused_local_variable, prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable
+// ignore_for_file: unused_import, unused_local_variable, prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable, use_key_in_widget_constructors
 
 import 'dart:convert';
 import 'package:agva_app/Screens/DeviceDetails.dart';
@@ -86,7 +86,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                     child: Column(
                       children: [
                         Text(
-                          widget.deviceType ?? 'N/A',
+                          widget.deviceType,
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             fontSize: 24,

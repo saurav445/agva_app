@@ -64,10 +64,10 @@ class _CrashLogsState extends State<CrashLogs> {
               height: 0.1,
               color: Color.fromARGB(255, 255, 255, 255),
             ),
-            if (isLoading) // Show loading indicator
+            if (isLoading) 
               buildEmptyContainer2()
             else if (jsonResponse['data']['findDeviceById']
-                .isEmpty) // Show "No Alarm Logs" message
+                .isEmpty) 
               buildEmptyContainer()
             else
               for (var crashData in jsonResponse['data']['findDeviceById'])

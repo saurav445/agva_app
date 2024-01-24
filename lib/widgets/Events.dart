@@ -3,7 +3,6 @@
 import 'dart:convert';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class Events extends StatefulWidget {
@@ -65,10 +64,10 @@ class _EventsState extends State<Events> {
               height: 0.1,
               color: Color.fromARGB(255, 255, 255, 255),
             ),
-            if (isLoading) // Show loading indicator
+            if (isLoading) 
               buildEmptyContainer2()
             else if (jsonResponse['data']['findDeviceById']
-                .isEmpty) // Show "No Alarm Logs" message
+                .isEmpty) 
               buildEmptyContainer()
             else
               for (var alarmData in jsonResponse['data']['findDeviceById'])
@@ -134,7 +133,7 @@ class _EventsState extends State<Events> {
 
   Widget builDeviceIdContent(String text) {
     return Text(
-      text ?? 'N/A',
+      text,
       style: TextStyle(
         fontSize: 12,
         color: Color.fromARGB(255, 218, 218, 218),
@@ -146,7 +145,7 @@ class _EventsState extends State<Events> {
     return SizedBox(
       width: 150,
       child: Text(
-        text ?? 'N/A',
+        text,
         maxLines: 3,
         softWrap: true,
         style: TextStyle(
@@ -159,7 +158,7 @@ class _EventsState extends State<Events> {
 
   Widget buildTypeContent(String text) {
     return Text(
-      text ?? 'N/A',
+      text,
       style: TextStyle(
         fontSize: 12,
         color: Color.fromARGB(255, 218, 218, 218),
@@ -169,7 +168,7 @@ class _EventsState extends State<Events> {
 
   Widget buildDateContent(String text) {
     return Text(
-      text ?? 'N/A',
+      text,
       style: TextStyle(
         fontSize: 12,
         color: Color.fromARGB(255, 218, 218, 218),
@@ -179,7 +178,7 @@ class _EventsState extends State<Events> {
 
   Widget buildTimeContent(String text) {
     return Text(
-      text ?? 'N/A',
+      text,
       style: TextStyle(
         fontSize: 12,
         color: Color.fromARGB(255, 218, 218, 218),

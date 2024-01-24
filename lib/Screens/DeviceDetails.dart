@@ -117,7 +117,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'WARD NO. ${widget.wardNo ?? "N/A"}',
+                                'WARD NO. ${widget.wardNo}',
                                 style: TextStyle(
                                   fontFamily: 'Avenir',
                                   color: Color.fromARGB(255, 218, 218, 218),

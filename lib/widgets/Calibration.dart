@@ -26,7 +26,6 @@ class _CalibrationState extends State<Calibration> {
   }
 
   Future<void> getCalibrationbyId() async {
-    try {
       var response = await http.get(Uri.parse('$getDeviceCalibyID/$deviceId'));
       jsonResponse = jsonDecode(response.body);
       print('Current Device ID: $deviceId');
@@ -37,9 +36,6 @@ class _CalibrationState extends State<Calibration> {
       } else {
         print('Invalid User Credential: ${response.statusCode}');
       }
-    } catch (e) {
-      print('Error fetching calibration data: $e');
-    }
   }
 
   @override
