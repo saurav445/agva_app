@@ -3,18 +3,17 @@
 import 'dart:convert';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-class Events extends StatefulWidget {
+class Calibration extends StatefulWidget {
   final String deviceId;
-  const Events(this.deviceId);
+  const Calibration(this.deviceId);
 
   @override
-  State<Events> createState() => _EventsState();
+  State<Calibration> createState() => _CalibrationState();
 }
 
-class _EventsState extends State<Events> {
+class _CalibrationState extends State<Calibration> {
   bool isLoading = true;
   late String deviceId;
   late Map<String, dynamic> jsonResponse;
@@ -23,21 +22,23 @@ class _EventsState extends State<Events> {
   void initState() {
     super.initState();
     deviceId = widget.deviceId;
-    getEventusingId();
+    getCalibrationbyId();
   }
 
-  Future<void> getEventusingId() async {
-    var response = await http.get(
-      Uri.parse('$getDeviceEventbyID/$deviceId'),
-    );
-    jsonResponse = jsonDecode(response.body);
-    print('Current Device ID: $deviceId');
-    if (jsonResponse['statusCode'] == 200) {
-      setState(() {
-        isLoading = false;
-      });
-    } else {
-      print('Invalid User Credential: ${response.statusCode}');
+  Future<void> getCalibrationbyId() async {
+    try {
+      var response = await http.get(Uri.parse('$getDeviceCalibyID/$deviceId'));
+      jsonResponse = jsonDecode(response.body);
+      print('Current Device ID: $deviceId');
+      if (jsonResponse['statusCode'] == 200) {
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        print('Invalid User Credential: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching calibration data: $e');
     }
   }
 
@@ -54,8 +55,8 @@ class _EventsState extends State<Events> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   buildColumnHeading('Device ID'),
+                  buildColumnHeading('Name'),
                   buildColumnHeading('Message'),
-                  buildColumnHeading('Type'),
                   buildColumnHeading('Date'),
                   buildColumnHeading('Time'),
                 ],
@@ -65,14 +66,14 @@ class _EventsState extends State<Events> {
               height: 0.1,
               color: Color.fromARGB(255, 255, 255, 255),
             ),
-            if (isLoading) // Show loading indicator
+            if (isLoading)
               buildEmptyContainer2()
-            else if (jsonResponse['data']['findDeviceById']
-                .isEmpty) // Show "No Alarm Logs" message
+            else if (jsonResponse['data'] == null ||
+                jsonResponse['data'].isEmpty)
               buildEmptyContainer()
             else
-              for (var alarmData in jsonResponse['data']['findDeviceById'])
-                buildEventDataRow(alarmData),
+              for (var calbData in jsonResponse['data'] ?? [])
+                buildCaliDataRow(calbData),
           ],
         ),
       ),
@@ -85,7 +86,7 @@ class _EventsState extends State<Events> {
         child: CircularProgressIndicator());
   }
 
-  Widget buildEventDataRow(Map<String, dynamic> eventData) {
+  Widget buildCaliDataRow(dynamic calbData) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(
@@ -93,13 +94,12 @@ class _EventsState extends State<Events> {
           Row(
             children: [
               SizedBox(width: 20),
-              buildColumnContent(builDeviceIdContent(eventData['did'])),
+              buildColumnContent(buildDeviceIdContent(calbData['deviceId'])),
+              buildColumnContent(buildNameContent(calbData['name'])),
+              buildColumnContent(buildMsgContent(calbData['message'])),
               SizedBox(width: 10),
-              buildColumnContent(buildMsgContent(eventData['message'])),
-              SizedBox(width: 20),
-              buildColumnContent(buildTypeContent(eventData['type'])),
-              buildColumnContent(buildDateContent(eventData['date'])),
-              buildColumnContent(buildTimeContent(eventData['time'])),
+              buildColumnContent(buildDateContent(calbData['date'])),
+              buildColumnContent(buildTimeContent(calbData['time'])),
             ],
           ),
           SizedBox(height: 10),
@@ -120,7 +120,7 @@ class _EventsState extends State<Events> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'No Events Found',
+            'No Calibration Data',
             style: TextStyle(
               fontSize: 12,
               color: Color.fromARGB(255, 218, 218, 218),
@@ -132,9 +132,9 @@ class _EventsState extends State<Events> {
     );
   }
 
-  Widget builDeviceIdContent(String text) {
+  Widget buildDeviceIdContent(String text) {
     return Text(
-      text ?? 'N/A',
+      text,
       style: TextStyle(
         fontSize: 12,
         color: Color.fromARGB(255, 218, 218, 218),
@@ -142,13 +142,11 @@ class _EventsState extends State<Events> {
     );
   }
 
-  Widget buildMsgContent(String text) {
+  Widget buildNameContent(String text) {
     return SizedBox(
-      width: 150,
+      width: 100,
       child: Text(
-        text ?? 'N/A',
-        maxLines: 3,
-        softWrap: true,
+        text,
         style: TextStyle(
           fontSize: 12,
           color: Color.fromARGB(255, 218, 218, 218),
@@ -157,9 +155,11 @@ class _EventsState extends State<Events> {
     );
   }
 
-  Widget buildTypeContent(String text) {
+  Widget buildMsgContent(String text) {
     return Text(
-      text ?? 'N/A',
+      text,
+      maxLines: 3,
+      softWrap: true,
       style: TextStyle(
         fontSize: 12,
         color: Color.fromARGB(255, 218, 218, 218),
@@ -169,7 +169,7 @@ class _EventsState extends State<Events> {
 
   Widget buildDateContent(String text) {
     return Text(
-      text ?? 'N/A',
+      text,
       style: TextStyle(
         fontSize: 12,
         color: Color.fromARGB(255, 218, 218, 218),
@@ -179,7 +179,7 @@ class _EventsState extends State<Events> {
 
   Widget buildTimeContent(String text) {
     return Text(
-      text ?? 'N/A',
+      text,
       style: TextStyle(
         fontSize: 12,
         color: Color.fromARGB(255, 218, 218, 218),

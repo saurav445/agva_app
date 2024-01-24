@@ -1,20 +1,19 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, dead_code, use_key_in_widget_constructors
 
 import 'dart:convert';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-class Events extends StatefulWidget {
+class CrashLogs extends StatefulWidget {
   final String deviceId;
-  const Events(this.deviceId);
+  const CrashLogs(this.deviceId);
 
   @override
-  State<Events> createState() => _EventsState();
+  State<CrashLogs> createState() => _CrashLogsState();
 }
 
-class _EventsState extends State<Events> {
+class _CrashLogsState extends State<CrashLogs> {
   bool isLoading = true;
   late String deviceId;
   late Map<String, dynamic> jsonResponse;
@@ -23,12 +22,12 @@ class _EventsState extends State<Events> {
   void initState() {
     super.initState();
     deviceId = widget.deviceId;
-    getEventusingId();
+    getCrashbyId();
   }
 
-  Future<void> getEventusingId() async {
+  Future<void> getCrashbyId() async {
     var response = await http.get(
-      Uri.parse('$getDeviceEventbyID/$deviceId'),
+      Uri.parse('$getDeviceCrashLogsbyID/$deviceId'),
     );
     jsonResponse = jsonDecode(response.body);
     print('Current Device ID: $deviceId');
@@ -55,7 +54,7 @@ class _EventsState extends State<Events> {
                 children: [
                   buildColumnHeading('Device ID'),
                   buildColumnHeading('Message'),
-                  buildColumnHeading('Type'),
+                  buildColumnHeading('Version'),
                   buildColumnHeading('Date'),
                   buildColumnHeading('Time'),
                 ],
@@ -71,8 +70,8 @@ class _EventsState extends State<Events> {
                 .isEmpty) // Show "No Alarm Logs" message
               buildEmptyContainer()
             else
-              for (var alarmData in jsonResponse['data']['findDeviceById'])
-                buildEventDataRow(alarmData),
+              for (var crashData in jsonResponse['data']['findDeviceById'])
+                buildCrashDataRow(crashData),
           ],
         ),
       ),
@@ -85,7 +84,7 @@ class _EventsState extends State<Events> {
         child: CircularProgressIndicator());
   }
 
-  Widget buildEventDataRow(Map<String, dynamic> eventData) {
+  Widget buildCrashDataRow(Map<String, dynamic> crashData) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(
@@ -93,13 +92,13 @@ class _EventsState extends State<Events> {
           Row(
             children: [
               SizedBox(width: 20),
-              buildColumnContent(builDeviceIdContent(eventData['did'])),
-              SizedBox(width: 10),
-              buildColumnContent(buildMsgContent(eventData['message'])),
-              SizedBox(width: 20),
-              buildColumnContent(buildTypeContent(eventData['type'])),
-              buildColumnContent(buildDateContent(eventData['date'])),
-              buildColumnContent(buildTimeContent(eventData['time'])),
+              buildColumnContent(buildDeviceIdContent(crashData['deviceId'])),
+                       SizedBox(width: 20),
+              buildColumnContent(buildMsgContent(crashData['message'])),
+                         SizedBox(width: 10),
+              buildColumnContent(buildVerContent(crashData['version'])),
+              buildColumnContent(buildDateContent(crashData['date'])),
+              buildColumnContent(buildTimeContent(crashData['time'])),
             ],
           ),
           SizedBox(height: 10),
@@ -120,7 +119,7 @@ class _EventsState extends State<Events> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'No Events Found',
+            'No CrashLogs Logs',
             style: TextStyle(
               fontSize: 12,
               color: Color.fromARGB(255, 218, 218, 218),
@@ -132,34 +131,69 @@ class _EventsState extends State<Events> {
     );
   }
 
-  Widget builDeviceIdContent(String text) {
+  Widget buildDeviceIdContent(String text) {
     return Text(
-      text ?? 'N/A',
+      text,
       style: TextStyle(
         fontSize: 12,
         color: Color.fromARGB(255, 218, 218, 218),
       ),
     );
   }
+Widget buildMsgContent(String text) {
+  int maxLines = 1; 
+  bool isExpanded = false;
 
-  Widget buildMsgContent(String text) {
-    return SizedBox(
-      width: 150,
-      child: Text(
-        text ?? 'N/A',
-        maxLines: 3,
-        softWrap: true,
-        style: TextStyle(
-          fontSize: 12,
-          color: Color.fromARGB(255, 218, 218, 218),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      SizedBox(
+        width: 100,
+        child: Text(
+          text,
+          maxLines: isExpanded ? null : maxLines,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontSize: 12,
+            color: Color.fromARGB(255, 218, 218, 218),
+          ),
         ),
       ),
-    );
-  }
+      // if (text.length > 100) 
+      //   TextButton(
+      //     onPressed: () {
+      //       setState(() {
+      //         isExpanded = !isExpanded;
+      //       });
+      //     },
+      //     child: Text(
+      //       isExpanded ? 'Read Less' : 'Read More',
+      //       style: TextStyle(
+      //         color: Colors.blue,
+      //         fontSize: 12,
+      //       ),
+      //     ),
+      //   ),
+      // Visibility(
+      //   visible: isExpanded,
+      //   child: Container(
+      //     padding: EdgeInsets.only(top: 8),
+      //     child: Text(
+      //       text,
+      //       style: TextStyle(
+      //         fontSize: 12,
+      //         color: Color.fromARGB(255, 218, 218, 218),
+      //       ),
+      //     ),
+      //   ),
+      // ),
+    ],
+  );
+}
 
-  Widget buildTypeContent(String text) {
+  Widget buildVerContent(String text) {
     return Text(
-      text ?? 'N/A',
+      text,
       style: TextStyle(
         fontSize: 12,
         color: Color.fromARGB(255, 218, 218, 218),
@@ -169,7 +203,7 @@ class _EventsState extends State<Events> {
 
   Widget buildDateContent(String text) {
     return Text(
-      text ?? 'N/A',
+      text,
       style: TextStyle(
         fontSize: 12,
         color: Color.fromARGB(255, 218, 218, 218),
@@ -179,7 +213,7 @@ class _EventsState extends State<Events> {
 
   Widget buildTimeContent(String text) {
     return Text(
-      text ?? 'N/A',
+      text,
       style: TextStyle(
         fontSize: 12,
         color: Color.fromARGB(255, 218, 218, 218),
