@@ -3,17 +3,18 @@
 // import 'dart:convert';
 // import 'package:agva_app/config.dart';
 // import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 // import 'package:http/http.dart' as http;
 
-// class Alarms extends StatefulWidget {
+// class Trends extends StatefulWidget {
 //   final String deviceId;
-//   const Alarms(this.deviceId);
+//   const Trends(this.deviceId);
 
 //   @override
-//   State<Alarms> createState() => _AlarmsState();
+//   State<Trends> createState() => _TrendsState();
 // }
 
-// class _AlarmsState extends State<Alarms> {
+// class _TrendsState extends State<Trends> {
 //   bool isLoading = true;
 //   late String deviceId;
 //   late Map<String, dynamic> jsonResponse;
@@ -22,12 +23,12 @@
 //   void initState() {
 //     super.initState();
 //     deviceId = widget.deviceId;
-//     getAlarmbyId();
+//     getTrendsbyId();
 //   }
 
-//   Future<void> getAlarmbyId() async {
+//   Future<void> getTrendsbyId() async {
 //     var response = await http.get(
-//       Uri.parse('$getDeviceAlarmsbyID/$deviceId'),
+//       Uri.parse('$getDeviceTrendsbyID/$deviceId'),
 //     );
 //     jsonResponse = jsonDecode(response.body);
 //     print('Current Device ID: $deviceId');
@@ -120,7 +121,7 @@
 //         mainAxisAlignment: MainAxisAlignment.center,
 //         children: [
 //           Text(
-//             'No Alarms Logs',
+//             'No Trends Logs',
 //             style: TextStyle(
 //               fontSize: 12,
 //               color: Color.fromARGB(255, 218, 218, 218),
@@ -134,7 +135,7 @@
 
 //   Widget buildDeviceIdContent(String text) {
 //     return Text(
-//       text,
+//       text ?? 'N/A',
 //       style: TextStyle(
 //         fontSize: 12,
 //         color: Color.fromARGB(255, 218, 218, 218),
@@ -144,7 +145,7 @@
 
 //   Widget buildCodeContent(String text) {
 //     return Text(
-//       text,
+//       text ?? 'N/A',
 //       maxLines: 3,
 //       softWrap: true,
 //       style: TextStyle(
@@ -158,7 +159,7 @@
 //     return SizedBox(
 //       width: 100,
 //       child: Text(
-//         text,
+//         text ?? 'N/A',
 //         style: TextStyle(
 //           fontSize: 12,
 //           color: Color.fromARGB(255, 218, 218, 218),
@@ -192,7 +193,7 @@
 
 //   Widget buildDateContent(String text) {
 //     return Text(
-//       text,
+//       text ?? 'N/A',
 //       style: TextStyle(
 //         fontSize: 12,
 //         color: Color.fromARGB(255, 218, 218, 218),
@@ -202,7 +203,7 @@
 
 //   Widget buildTimeContent(String text) {
 //     return Text(
-//       text,
+//       text ?? 'N/A',
 //       style: TextStyle(
 //         fontSize: 12,
 //         color: Color.fromARGB(255, 218, 218, 218),

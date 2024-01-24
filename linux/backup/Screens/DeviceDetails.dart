@@ -3,18 +3,53 @@ import 'dart:convert';
 import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DeviceDetails extends StatelessWidget {
+class DeviceDetails extends StatefulWidget {
   late String deviceId;
   late String wardNo;
+  late String deviceType;
+  late String message;
+  late String hospitalName;
+  late String bioMed;
+  late String departmentName;
+  late String aliasName;
 
-  DeviceDetails(this.deviceId, this.wardNo);
+  DeviceDetails(this.deviceId, this.wardNo, this.deviceType, this.message,
+      this.hospitalName, this.bioMed, this.departmentName, this.aliasName);
 
+  @override
+  State<DeviceDetails> createState() => _DeviceDetailsState();
+}
+
+class _DeviceDetailsState extends State<DeviceDetails> {
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('mytoken');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+    super.dispose();
   }
 
   @override
@@ -30,16 +65,38 @@ class DeviceDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: 60),
-                  Text(
-                    // "Details",
-                    'Details: ${deviceId ?? "N/A"}',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      fontSize: 24,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 45),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            width: 40,
+                            child: Image.asset("assets/images/back.png"),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 75),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Details",
+                                style: TextStyle(
+                                  fontFamily: 'Avenir',
+                                  fontSize: 24,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 35),
                   Text(
                     "PT. SALIM RAZA",
                     style: TextStyle(
@@ -48,21 +105,43 @@ class DeviceDetails extends StatelessWidget {
                       color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
-                  SizedBox(height: 25),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 30,
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                  SizedBox(height: 30),
+
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'WARD NO. ${widget.wardNo}',
+                                style: TextStyle(
+                                  fontFamily: 'Avenir',
+                                  color: Color.fromARGB(255, 218, 218, 218),
+                                  fontSize: 16,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                '65 KG',
+                                style: TextStyle(
+                                  fontFamily: 'Avenir',
+                                  color: Color.fromARGB(255, 218, 218, 218),
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  // 'WARD NO. 24:',
-                                  'WARD NO. ${wardNo ?? "N/A"}',
+                                  'BED NO. 115',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
                                     color: Color.fromARGB(255, 218, 218, 218),
@@ -71,7 +150,7 @@ class DeviceDetails extends StatelessWidget {
                                 ),
                                 SizedBox(height: 10),
                                 Text(
-                                  '65 KG',
+                                  '25 YEARS',
                                   style: TextStyle(
                                     fontFamily: 'Avenir',
                                     color: Color.fromARGB(255, 218, 218, 218),
@@ -80,38 +159,15 @@ class DeviceDetails extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 120),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'BED NO. 115',
-                                    // '${deviceData['deviceId']}',
-                                    style: TextStyle(
-                                      fontFamily: 'Avenir',
-                                      color: Color.fromARGB(255, 218, 218, 218),
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    '25 YEARS',
-                                    style: TextStyle(
-                                      fontFamily: 'Avenir',
-                                         color: Color.fromARGB(255, 218, 218, 218),
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
 
-//Live tiles
-                        SizedBox(height: 30),
-                        Column(
+                      //Live tiles
+                      SizedBox(height: 30),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30),
+                        child: Column(
                           children: [
                             Row(
                               children: [
@@ -171,7 +227,6 @@ class DeviceDetails extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   'PIP',
-                                                  // 'deviceId',
                                                   style: TextStyle(
                                                     fontFamily: 'Avenir',
                                                     color: Color.fromARGB(
@@ -194,7 +249,6 @@ class DeviceDetails extends StatelessWidget {
                                           ),
                                           Text(
                                             '54',
-                                            // '${deviceData['deviceId']}',
                                             style: TextStyle(
                                               fontFamily: 'Avenir',
                                               color: Color.fromARGB(
@@ -237,7 +291,6 @@ class DeviceDetails extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   'FiO2',
-                                                  // 'deviceId',
                                                   style: TextStyle(
                                                     fontFamily: 'Avenir',
                                                     color: Color.fromARGB(
@@ -260,7 +313,6 @@ class DeviceDetails extends StatelessWidget {
                                           ),
                                           Text(
                                             '65',
-                                            // '${deviceData['deviceId']}',
                                             style: TextStyle(
                                               fontFamily: 'Avenir',
                                               color: Color.fromARGB(
@@ -299,7 +351,6 @@ class DeviceDetails extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   'RR',
-                                                  // 'deviceId',
                                                   style: TextStyle(
                                                     fontFamily: 'Avenir',
                                                     color: Color.fromARGB(
@@ -322,7 +373,6 @@ class DeviceDetails extends StatelessWidget {
                                           ),
                                           Text(
                                             '76',
-                                            // '${deviceData['deviceId']}',
                                             style: TextStyle(
                                               fontFamily: 'Avenir',
                                               color: Color.fromARGB(
@@ -365,7 +415,6 @@ class DeviceDetails extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   'VTi',
-                                                  // 'deviceId',
                                                   style: TextStyle(
                                                     fontFamily: 'Avenir',
                                                     color: Color.fromARGB(
@@ -388,7 +437,6 @@ class DeviceDetails extends StatelessWidget {
                                           ),
                                           Text(
                                             '52',
-                                            // '${deviceData['deviceId']}',
                                             style: TextStyle(
                                               fontFamily: 'Avenir',
                                               color: Color.fromARGB(
@@ -427,7 +475,6 @@ class DeviceDetails extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   'MVi',
-                                                  // 'deviceId',
                                                   style: TextStyle(
                                                     fontFamily: 'Avenir',
                                                     color: Color.fromARGB(
@@ -450,7 +497,6 @@ class DeviceDetails extends StatelessWidget {
                                           ),
                                           Text(
                                             '71',
-                                            // '${deviceData['deviceId']}',
                                             style: TextStyle(
                                               fontFamily: 'Avenir',
                                               color: Color.fromARGB(
@@ -493,7 +539,6 @@ class DeviceDetails extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   'SpO2',
-                                                  // 'deviceId',
                                                   style: TextStyle(
                                                     fontFamily: 'Avenir',
                                                     color: Color.fromARGB(
@@ -516,7 +561,6 @@ class DeviceDetails extends StatelessWidget {
                                           ),
                                           Text(
                                             '85',
-                                            // '${deviceData['deviceId']}',
                                             style: TextStyle(
                                               fontFamily: 'Avenir',
                                               color: Color.fromARGB(
@@ -555,7 +599,6 @@ class DeviceDetails extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   'PULSE',
-                                                  // 'deviceId',
                                                   style: TextStyle(
                                                     fontFamily: 'Avenir',
                                                     color: Color.fromARGB(
@@ -578,7 +621,6 @@ class DeviceDetails extends StatelessWidget {
                                           ),
                                           Text(
                                             '75',
-                                            // '${deviceData['deviceId']}',
                                             style: TextStyle(
                                               fontFamily: 'Avenir',
                                               color: Color.fromARGB(
@@ -593,8 +635,11 @@ class DeviceDetails extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 60),
-                        Column(
+                      ),
+                      SizedBox(height: 40),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30),
+                        child: Column(
                           children: [
                             Row(
                               children: [
@@ -610,8 +655,9 @@ class DeviceDetails extends StatelessWidget {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              DeviceAbout(deviceId),
+                                          builder: (context) => DeviceAbout(
+                                              widget.deviceId,
+                                              widget.deviceType),
                                         ),
                                       );
                                     },
@@ -638,13 +684,19 @@ class DeviceDetails extends StatelessWidget {
                                   ),
                                   child: TextButton(
                                     onPressed: () {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) =>
-                                      //         MonitorData(deviceData),
-                                      //   ),
-                                      // );
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => MonitorData(
+                                              widget.deviceId,
+                                              widget.wardNo,
+                                              widget.message,
+                                              widget.hospitalName,
+                                              widget.bioMed,
+                                              widget.departmentName,
+                                              widget.aliasName),
+                                        ),
+                                      );
                                     },
                                     style: TextButton.styleFrom(),
                                     child: Text(
@@ -783,9 +835,11 @@ class DeviceDetails extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
+
+                  // ),
                 ],
               ),
             ),

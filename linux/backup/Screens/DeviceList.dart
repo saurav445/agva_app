@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:agva_app/Screens/DeviceDetails.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,7 +25,6 @@ class _DeviceListState extends State<DeviceList> {
     super.initState();
     initSharedPref();
     fetchGetDevicesForUser();
-    // getDevicesByHospitalName();
     gethospital().then((name) {
       setState(() {
         savedHospitalName = name;
@@ -47,33 +47,6 @@ class _DeviceListState extends State<DeviceList> {
     print('Retrieved hospital name: $hospitalName');
     return hospitalName;
   }
-
-  // void getDevicesByHospitalName() async {
-  //   String? token = await getToken();
-  //   String? hospitalName = await gethospital();
-  //   if (token != null) {
-  //     var response = await http.get(
-  //       Uri.parse('$getDevicesByHospital/${hospitalName}'),
-  //       headers: {
-  //         "Authorization": 'Bearer $token',
-  //       },
-  //     );
-  //     var jsonResponse = jsonDecode(response.body);
-  //     if (jsonResponse['statusValue'] == 'SUCCESS') {
-  //       print('Device by Hospitals: $jsonResponse');
-  //       print('    ');
-  //       print('    ');
-  //       devicesByHospitalList =
-  //           List<Map<String, dynamic>>.from(jsonResponse['data']);
-
-  //       setState(() {});
-  //     } else {
-  //       print('Invalid User Credential: ${response.statusCode}');
-  //     }
-  //   } else {
-  //     print('Token not found');
-  //   }
-  // }
 
   Future<void> fetchGetDevicesForUser() async {
     String? token = await getToken();
@@ -122,17 +95,15 @@ class _DeviceListState extends State<DeviceList> {
                     color: Color.fromARGB(255, 65, 65, 65),
                   ),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, right: 20, top: 10),
+                    padding: const EdgeInsets.only(right: 11, left: 11, top: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              // data['deviceId'],
                               '${deviceInfo?['DeviceType'] ?? 'N/A'}',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
@@ -145,7 +116,6 @@ class _DeviceListState extends State<DeviceList> {
                               height: 8,
                             ),
                             Text(
-                              // data['deviceId'],
                               '${deviceInfo?['Hospital_Name'] ?? 'N/A'}',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
@@ -171,7 +141,7 @@ class _DeviceListState extends State<DeviceList> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              'N/A',
+                              'PT. Salim Raza',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -182,7 +152,7 @@ class _DeviceListState extends State<DeviceList> {
                               height: 8,
                             ),
                             Text(
-                              'N/A',
+                              '24 YEARS',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -193,7 +163,7 @@ class _DeviceListState extends State<DeviceList> {
                               height: 5,
                             ),
                             Text(
-                              'N/A',
+                              '58 KG',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
@@ -211,17 +181,31 @@ class _DeviceListState extends State<DeviceList> {
           ),
         ),
         onTap: () {
-  if (devicesForUserList.isNotEmpty) {
-    String deviceId = data['deviceId'];
-    String wardNo = deviceInfo?['Ward_No'];
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => DeviceDetails(deviceId, wardNo),
-      ),
-    );
-  }
-},
+          if (devicesForUserList.isNotEmpty) {
+            String deviceId = data['deviceId'];
+            String message = data['message'];
+            String wardNo = deviceInfo?['Ward_No'];
+            String deviceType = deviceInfo?['DeviceType'];
+            String hospitalName = deviceInfo?['Hospital_Name'];
+            String departmentName = deviceInfo?['Department_Name'];
+            String bioMed = deviceInfo?['Bio_Med'];
+            String aliasName = deviceInfo?['Alias_Name'];
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DeviceDetails(
+                    deviceId,
+                    wardNo,
+                    deviceType,
+                    message,
+                    hospitalName,
+                    bioMed,
+                    departmentName,
+                    aliasName),
+              ),
+            );
+          }
+        },
       );
     }).toList();
   }

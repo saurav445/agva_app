@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_const, unused_import, library_private_types_in_public_api, prefer_typing_uninitialized_variables, unused_local_variable
 
 import 'package:agva_app/Screens/Hospitals.dart';
+import 'package:agva_app/Screens/MyDevices.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
-    final Map<String, dynamic> data;
+  final Map<String, dynamic> data;
   HomeScreen(this.data);
 
   @override
@@ -12,12 +15,43 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-late String hospitalName;
+  late String hospitalName;
+  String? savedUsername;
+  late SharedPreferences prefs;
 
-@override
+  @override
   void initState() {
     super.initState();
+    getUsername().then((name) {
+      setState(() {
+        savedUsername = name;
+      });
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeRight,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    });
     hospitalName = widget.data['hospitalName'];
+  }
+
+  @override
+  dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
+
+  Future<String?> getUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? name = prefs.getString('name');
+    print('Retrieved Username: $name');
+    return name;
   }
 
   @override
@@ -40,24 +74,38 @@ late String hospitalName;
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'HOME',
-              style: TextStyle(
-                fontFamily: 'Avenir',
-                color: Color.fromARGB(255, 218, 218, 218),
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Welcome Back!',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 172, 172, 172),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  savedUsername ?? 'Default User Name',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
             SizedBox(
-              height: 15,
+              height: 20,
             ),
             GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                   builder: (context) => Hospitals(hospitalName: hospitalName),
+                    builder: (context) => MyDevices(),
                   ),
                 );
               },
@@ -65,23 +113,25 @@ late String hospitalName;
                 height: 140,
                 width: 330,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
                   gradient: LinearGradient(
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
                     colors: [
-                      Color.fromARGB(255, 225, 92, 156),
-                      Color.fromARGB(255, 238, 44, 76),
+                      Color.fromARGB(255, 173, 25, 25),
+                      Color.fromARGB(255, 254, 134, 134),
                     ],
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 30),
+                  padding: const EdgeInsets.only(left: 20),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        'DEVICES',
+                        'MY DEVICES',
                         style: TextStyle(
                           fontFamily: 'Avenir',
                           color: Color.fromARGB(255, 218, 218, 218),
@@ -90,26 +140,24 @@ late String hospitalName;
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 65, top: 30),
-                        child: Container(
-                          height: 120,
-                          width: 120,
-                          child: Image.asset("assets/images/deviceimage.png"),
-                        ),
-                      ),
+                          padding: const EdgeInsets.only(top: 0),
+                          child: Container(
+                              height: 200,
+                              child:
+                                  Image.asset("assets/images/mydevices.png"))),
                     ],
                   ),
                 ),
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 15,
             ),
             Container(
               height: 140,
               width: 330,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
                 gradient: LinearGradient(
                   begin: Alignment.bottomLeft,
@@ -145,54 +193,68 @@ late String hospitalName;
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 15,
             ),
-            Container(
-              height: 140,
-              width: 330,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                  colors: [
-                    Color.fromARGB(255, 173, 25, 25),
-                    Color.fromARGB(255, 7, 7, 7),
-                  ],
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Hospitals(hospitalName: hospitalName),
+                  ),
+                );
+              },
+              child: Container(
+                height: 140,
+                width: 330,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    colors: [
+                      Color.fromARGB(255, 225, 92, 156),
+                      Color.fromARGB(255, 238, 44, 76),
+                    ],
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 30),
-                child: Row(
-                  children: [
-                    Text(
-                      'FOCUS',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        'ALL DEVICES',
+                        style: TextStyle(
+                          fontFamily: 'Avenir',
+                          color: Color.fromARGB(255, 218, 218, 218),
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.only(left: 87, top: 0),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30),
                         child: Container(
-                            width: 130,
-                            child:
-                                Image.asset("assets/images/focusimage.png"))),
-                  ],
+                          height: 120,
+                          width: 120,
+                          child: Image.asset("assets/images/deviceimage.png"),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 15,
             ),
             Container(
               height: 140,
               width: 330,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
                 gradient: LinearGradient(
                   begin: Alignment.bottomLeft,

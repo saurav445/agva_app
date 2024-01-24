@@ -1,11 +1,11 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_const, unused_import, library_private_types_in_public_api, prefer_typing_uninitialized_variables, unused_local_variable
+// ignore_for_file: prefer_const_constructors
 
-import 'package:agva_app/Screens/DeviceList.dart';
-import 'package:agva_app/Screens/projects.dart';
 import 'package:flutter/material.dart';
+import 'DeviceList.dart';
 
 class Hospitals extends StatefulWidget {
   final String hospitalName;
+
   Hospitals({required this.hospitalName});
 
   @override
@@ -14,12 +14,18 @@ class Hospitals extends StatefulWidget {
 
 class _HospitalsState extends State<Hospitals> {
   late String hospitalName;
+  bool isExpanded = false;
 
   @override
   void initState() {
     super.initState();
     hospitalName = widget.hospitalName;
   }
+
+  List<String> projectsForHospital = [
+    'AgVa PRO',
+    'Suction',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +48,7 @@ class _HospitalsState extends State<Hospitals> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.hospitalName,
+              'HOSPITALS',
               style: TextStyle(
                 fontFamily: 'Avenir',
                 color: Color.fromARGB(255, 218, 218, 218),
@@ -55,19 +61,16 @@ class _HospitalsState extends State<Hospitals> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Projects(),
-                  ),
-                );
+                setState(() {
+                  isExpanded = !isExpanded;
+                });
               },
               child: Container(
                 height: 120,
                 width: 330,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-   color: Color.fromARGB(255, 65, 65, 65),
+                  color: Color.fromARGB(255, 65, 65, 65),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -86,6 +89,7 @@ class _HospitalsState extends State<Hospitals> {
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
                                 fontSize: 24,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(
@@ -103,7 +107,7 @@ class _HospitalsState extends State<Hospitals> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 35, top: 30),
+                        padding: const EdgeInsets.only(left: 25, top: 30),
                         child: Container(
                           width: 100,
                           child: Image.asset("assets/images/hospital.png"),
@@ -114,6 +118,57 @@ class _HospitalsState extends State<Hospitals> {
                 ),
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
+            if (isExpanded)
+              ...projectsForHospital.map(
+                (project) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DeviceList(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      height: 100,
+                      width: 310,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        // color: Color.fromARGB(255, 65, 65, 65),
+                        color: Color.fromARGB(255, 135, 135, 135),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            project,
+                            style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 228, 228, 228),
+                              fontSize: 24,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: Container(
+                              width: 120,
+                              child: Image.asset(
+                                getImagePath(project),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
@@ -196,5 +251,16 @@ class _HospitalsState extends State<Hospitals> {
         ),
       ),
     );
+  }
+
+  String getImagePath(project) {
+    switch (project) {
+      case 'AgVa PRO':
+        return "assets/images/deviceimage.png";
+      case 'Suction':
+        return "assets/images/suctionimage.png";
+      default:
+        return "assets/images/inactive.png";
+    }
   }
 }
