@@ -36,8 +36,22 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
     ]);
   }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -673,8 +687,14 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              MonitorData(widget.deviceId, widget.wardNo, widget.message, widget.hospitalName, widget.bioMed, widget.departmentName, widget.aliasName),
+                                          builder: (context) => MonitorData(
+                                              widget.deviceId,
+                                              widget.wardNo,
+                                              widget.message,
+                                              widget.hospitalName,
+                                              widget.bioMed,
+                                              widget.departmentName,
+                                              widget.aliasName),
                                         ),
                                       );
                                     },

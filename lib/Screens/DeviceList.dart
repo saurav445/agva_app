@@ -189,12 +189,19 @@ class _DeviceListState extends State<DeviceList> {
             String hospitalName = deviceInfo?['Hospital_Name'];
             String departmentName = deviceInfo?['Department_Name'];
             String bioMed = deviceInfo?['Bio_Med'];
-              String aliasName = deviceInfo?['Alias_Name'];
+            String aliasName = deviceInfo?['Alias_Name'];
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    DeviceDetails(deviceId, wardNo, deviceType, message, hospitalName, bioMed, departmentName, aliasName),
+                builder: (context) => DeviceDetails(
+                    deviceId,
+                    wardNo,
+                    deviceType,
+                    message,
+                    hospitalName,
+                    bioMed,
+                    departmentName,
+                    aliasName),
               ),
             );
           }

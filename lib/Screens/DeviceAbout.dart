@@ -86,7 +86,7 @@ class _DeviceAboutState extends State<DeviceAbout> {
                     child: Column(
                       children: [
                         Text(
-                          widget.deviceType,
+                          widget.deviceType ?? 'N/A',
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             fontSize: 24,
