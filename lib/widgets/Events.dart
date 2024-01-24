@@ -70,8 +70,8 @@ class _EventsState extends State<Events> {
                 .isEmpty) // Show "No Alarm Logs" message
               buildEmptyContainer()
             else
-              for (var alarmData in jsonResponse['data']['findDeviceById'])
-                buildEventDataRow(alarmData),
+              for (var eventData in jsonResponse['data']['findDeviceById'])
+                buildEventDataRow(eventData),
           ],
         ),
       ),
@@ -82,6 +82,26 @@ class _EventsState extends State<Events> {
     return Padding(
         padding: const EdgeInsets.only(top: 80),
         child: CircularProgressIndicator());
+  }
+
+
+  Widget buildEmptyContainer() {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'No Events Found',
+            style: TextStyle(
+              fontSize: 12,
+              color: Color.fromARGB(255, 218, 218, 218),
+            ),
+          ),
+          SizedBox(height: 10),
+        ],
+      ),
+    );
   }
 
   Widget buildEventDataRow(Map<String, dynamic> eventData) {
@@ -111,34 +131,11 @@ class _EventsState extends State<Events> {
         ),
       );
     } else {
-      return EmptyContainer();
+      return buildEmptyContainer();
     }
   }
 
-  Widget buildEmptyContainer2() {
-    return Padding(
-        padding: const EdgeInsets.only(top: 80),
-        child: CircularProgressIndicator());
-  }
 
-  Widget EmptyContainer() {
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'No Events Found',
-            style: TextStyle(
-              fontSize: 12,
-              color: Color.fromARGB(255, 218, 218, 218),
-            ),
-          ),
-          SizedBox(height: 10),
-        ],
-      ),
-    );
-  }
 
   Widget builDeviceIdContent(String text) {
     return Text(

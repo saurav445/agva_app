@@ -5,40 +5,40 @@ import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-// class Alarms extends StatefulWidget {
-//   final String deviceId;
-//   const Alarms(this.deviceId);
+class Alarms extends StatefulWidget {
+  final String deviceId;
+  const Alarms(this.deviceId);
 
-//   @override
-//   State<Alarms> createState() => _AlarmsState();
-// }
+  @override
+  State<Alarms> createState() => _AlarmsState();
+}
 
-// class _AlarmsState extends State<Alarms> {
-//   bool isLoading = true;
-//   late String deviceId;
-//   late Map<String, dynamic> jsonResponse;
+class _AlarmsState extends State<Alarms> {
+  bool isLoading = true;
+  late String deviceId;
+  late Map<String, dynamic> jsonResponse;
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     deviceId = widget.deviceId;
-//     getAlarmbyId();
-//   }
+  @override
+  void initState() {
+    super.initState();
+    deviceId = widget.deviceId;
+    getAlarmbyId();
+  }
 
-//   Future<void> getAlarmbyId() async {
-//     var response = await http.get(
-//       Uri.parse('$getDeviceAlarmsbyID/$deviceId'),
-//     );
-//     jsonResponse = jsonDecode(response.body);
-//     print('Current Device ID: $deviceId');
-//     if (jsonResponse['statusCode'] == 200) {
-//       setState(() {
-//         isLoading = false;
-//       });
-//     } else {
-//       print('Invalid User Credential: ${response.statusCode}');
-//     }
-//   }
+  Future<void> getAlarmbyId() async {
+    var response = await http.get(
+      Uri.parse('$getDeviceAlarmsbyID/$deviceId'),
+    );
+    jsonResponse = jsonDecode(response.body);
+    print('Current Device ID: $deviceId');
+    if (jsonResponse['statusCode'] == 200) {
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      print('Invalid User Credential: ${response.statusCode}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -210,24 +210,24 @@ import 'package:http/http.dart' as http;
     );
   }
 
-//   Widget buildColumnContent(Widget child) {
-//     return Expanded(
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceAround,
-//         children: [
-//           child,
-//         ],
-//       ),
-//     );
-//   }
+  Widget buildColumnContent(Widget child) {
+    return Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          child,
+        ],
+      ),
+    );
+  }
 
-//   Widget buildColumnHeading(String heading) {
-//     return Text(
-//       heading,
-//       style: TextStyle(
-//         fontSize: 12,
-//         color: Color.fromARGB(255, 218, 218, 218),
-//       ),
-//     );
-//   }
-// }
+  Widget buildColumnHeading(String heading) {
+    return Text(
+      heading,
+      style: TextStyle(
+        fontSize: 12,
+        color: Color.fromARGB(255, 218, 218, 218),
+      ),
+    );
+  }
+}

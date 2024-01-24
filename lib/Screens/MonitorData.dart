@@ -2,9 +2,12 @@
 
 import 'dart:convert';
 import 'package:agva_app/config.dart';
+import 'package:agva_app/widgets/Alarms.dart';
 import 'package:agva_app/widgets/Events.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../widgets/Calibration.dart';
+import '../widgets/CrashLogs.dart';
 import '../widgets/MDWidget.dart';
 import 'package:http/http.dart' as http;
 
@@ -113,8 +116,8 @@ class _MonitorDataState extends State<MonitorData> {
                         children: [
                           buildButton('Events'),
                           buildButton('Alarms'),
-                          buildButton('Trends'),
-                          buildButton('Logs'),
+                          buildButton('Crash Logs'),
+                          buildButton('Calibration'),
                         ],
                       ),
                     ),
@@ -182,8 +185,8 @@ class _MonitorDataState extends State<MonitorData> {
         return isLoading ? buildLoading() : Alarms(deviceId);
       case 'Crash Logs':
         return isLoading ? buildLoading() : CrashLogs(deviceId);
-      case 'Trends':
-        return buildTrendsContent();
+      // case 'Trends':
+      //   return buildTrendsContent();
       case 'Calibration':
         return isLoading ? buildLoading() : Calibration(deviceId);
       default:
@@ -238,5 +241,4 @@ Widget buildAlarmsContent() {
       ),
     );
   }
-}
 }
