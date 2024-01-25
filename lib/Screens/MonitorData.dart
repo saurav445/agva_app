@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:agva_app/config.dart';
 import 'package:agva_app/widgets/Alarms.dart';
 import 'package:agva_app/widgets/Events.dart';
+import 'package:agva_app/widgets/Trends.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widgets/Calibration.dart';
@@ -117,12 +118,13 @@ class _MonitorDataState extends State<MonitorData> {
                           buildButton('Events'),
                           buildButton('Alarms'),
                           buildButton('Crash Logs'),
+                          buildButton('Trends'),
                           buildButton('Calibration'),
                         ],
                       ),
                     ),
                     Container(
-                      height: 260,
+                      height: 280,
                       width: 800,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
@@ -185,8 +187,8 @@ class _MonitorDataState extends State<MonitorData> {
         return isLoading ? buildLoading() : Alarms(deviceId);
       case 'Crash Logs':
         return isLoading ? buildLoading() : CrashLogs(deviceId);
-      // case 'Trends':
-      //   return buildTrendsContent();
+      case 'Trends':
+        return isLoading ? buildLoading() : Trends(deviceId);
       case 'Calibration':
         return isLoading ? buildLoading() : Calibration(deviceId);
       default:
@@ -197,48 +199,6 @@ class _MonitorDataState extends State<MonitorData> {
   Widget buildLoading() {
     return Center(
       child: CircularProgressIndicator(),
-    );
-  }
-
-Widget buildAlarmsContent() {
-  return Center(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'No Alarms Logs',
-          style: TextStyle(
-            fontSize: 12,
-            color: Color.fromARGB(255, 218, 218, 218),
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-      ],
-    ),
-  );
-}
-
-  Widget buildTrendsContent() {
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'No Trends Logs',
-            style: TextStyle(
-              fontSize: 12,
-              color: Color.fromARGB(255, 218, 218, 218),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-        ],
-      ),
     );
   }
 }
