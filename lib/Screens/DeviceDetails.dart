@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
+import 'package:agva_app/widgets/Tiles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -54,794 +55,420 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(),
+    return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "Details",
+            style: TextStyle(
+              fontFamily: 'Avenir',
+              fontSize: 24,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
+        ),
         body: Stack(
           children: [
-            Container(
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(height: 60),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 45),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Container(
-                            width: 40,
-                            child: Image.asset("assets/images/back.png"),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 75),
-                          child: Column(
-                            children: [
-                              Text(
-                                "Details",
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  fontSize: 24,
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.035,
+                ),
+                Text(
+                  "PT. SALIM RAZA",
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    fontSize: MediaQuery.of(context).size.width * 0.07,
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
-                  SizedBox(height: 35),
-                  Text(
-                    "PT. SALIM RAZA",
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      fontSize: 30,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
-                  SizedBox(height: 30),
-
-                  Column(
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'WARD NO. ${widget.wardNo}',
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  color: Color.fromARGB(255, 218, 218, 218),
-                                  fontSize: 16,
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                '65 KG',
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  color: Color.fromARGB(255, 218, 218, 218),
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            'WARD NO. ${widget.wardNo}',
+                            style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 218, 218, 218),
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04,
+                            ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  'BED NO. 115',
-                                  style: TextStyle(
-                                    fontFamily: 'Avenir',
-                                    color: Color.fromARGB(255, 218, 218, 218),
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  '25 YEARS',
-                                  style: TextStyle(
-                                    fontFamily: 'Avenir',
-                                    color: Color.fromARGB(255, 218, 218, 218),
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          Text(
+                            '65 KG',
+                            style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 218, 218, 218),
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04,
                             ),
                           ),
                         ],
                       ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'BED NO. 115',
+                            style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 218, 218, 218),
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04,
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          Text(
+                            '25 YEARS',
+                            style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 218, 218, 218),
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
 
-                      //Live tiles
-                      SizedBox(height: 30),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: Column(
+                //Live tiles
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                ),
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  height: 60,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Color.fromARGB(255, 38, 128, 158),
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) =>
-                                      //         DeviceAbout(),
-                                      //   ),
-                                      // );
-                                    },
-                                    style: TextButton.styleFrom(),
-                                    child: Text(
-                                      "PC-SIMV",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                            Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.065,
+                              width: MediaQuery.of(context).size.width * 0.42,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Color.fromARGB(255, 38, 128, 158),
+                              ),
+                              child: TextButton(
+                                onPressed: () {},
+                                style: TextButton.styleFrom(),
+                                child: Text(
+                                  "PC-SIMV",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.05,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                    height: 60,
-                                    width: 160,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Color.fromARGB(255, 38, 128, 158),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, right: 15),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'PIP',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Text(
-                                                  'cmH2O',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Text(
-                                            '54',
-                                            style: TextStyle(
-                                              fontFamily: 'Avenir',
-                                              color: Color.fromARGB(
-                                                  255, 218, 218, 218),
-                                              fontSize: 40,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                              ],
+                              ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
                             ),
-                            Row(
-                              children: [
-                                Container(
-                                    height: 60,
-                                    width: 160,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Color.fromARGB(255, 38, 128, 158),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, right: 15),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'FiO2',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Text(
-                                                  '%',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Text(
-                                            '65',
-                                            style: TextStyle(
-                                              fontFamily: 'Avenir',
-                                              color: Color.fromARGB(
-                                                  255, 218, 218, 218),
-                                              fontSize: 40,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                    height: 60,
-                                    width: 160,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Color.fromARGB(255, 38, 128, 158),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, right: 15),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'RR',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Text(
-                                                  'BPM',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Text(
-                                            '76',
-                                            style: TextStyle(
-                                              fontFamily: 'Avenir',
-                                              color: Color.fromARGB(
-                                                  255, 218, 218, 218),
-                                              fontSize: 40,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                              ],
+                            ResponsiveTileWidget(
+                              title: 'FiO2',
+                              value: '95',
+                              unit: '%',
+                              width: constraints.maxWidth * 0.42,
                             ),
                             SizedBox(
-                              height: 10,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
                             ),
-                            Row(
-                              children: [
-                                Container(
-                                    height: 60,
-                                    width: 160,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Color.fromARGB(255, 38, 128, 158),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, right: 15),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'VTi',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Text(
-                                                  'ml',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Text(
-                                            '52',
-                                            style: TextStyle(
-                                              fontFamily: 'Avenir',
-                                              color: Color.fromARGB(
-                                                  255, 218, 218, 218),
-                                              fontSize: 40,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                    height: 60,
-                                    width: 160,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Color.fromARGB(255, 38, 128, 158),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, right: 15),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'MVi',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Text(
-                                                  'Liters',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Text(
-                                            '71',
-                                            style: TextStyle(
-                                              fontFamily: 'Avenir',
-                                              color: Color.fromARGB(
-                                                  255, 218, 218, 218),
-                                              fontSize: 40,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                              ],
+                            ResponsiveTileWidget(
+                              title: 'VTi',
+                              value: '45',
+                              unit: 'ml',
+                              width: constraints.maxWidth * 0.42,
                             ),
                             SizedBox(
-                              height: 10,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
                             ),
-                            Row(
-                              children: [
-                                Container(
-                                    height: 60,
-                                    width: 160,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Color.fromARGB(255, 38, 128, 158),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, right: 15),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'SpO2',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Text(
-                                                  '%',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Text(
-                                            '85',
-                                            style: TextStyle(
-                                              fontFamily: 'Avenir',
-                                              color: Color.fromARGB(
-                                                  255, 218, 218, 218),
-                                              fontSize: 40,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                    height: 60,
-                                    width: 160,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Color.fromARGB(255, 38, 128, 158),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, right: 15),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'PULSE',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Text(
-                                                  'BPM',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 218, 218, 218),
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Text(
-                                            '75',
-                                            style: TextStyle(
-                                              fontFamily: 'Avenir',
-                                              color: Color.fromARGB(
-                                                  255, 218, 218, 218),
-                                              fontSize: 40,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                              ],
+                            ResponsiveTileWidget(
+                              title: 'SpO2',
+                              value: '125',
+                              unit: '%',
+                              width: constraints.maxWidth * 0.42,
                             ),
                           ],
                         ),
-                      ),
-                      SizedBox(height: 40),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: Column(
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.03,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  height: 60,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Color.fromARGB(255, 82, 82, 82),
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DeviceAbout(
-                                              widget.deviceId,
-                                              widget.deviceType),
-                                        ),
-                                      );
-                                    },
-                                    style: TextButton.styleFrom(),
-                                    child: Text(
-                                      "ABOUT",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  height: 60,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Color.fromARGB(255, 82, 82, 82),
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MonitorData(
-                                              widget.deviceId,
-                                              widget.wardNo,
-                                              widget.message,
-                                              widget.hospitalName,
-                                              widget.bioMed,
-                                              widget.departmentName,
-                                              widget.aliasName),
-                                        ),
-                                      );
-                                    },
-                                    style: TextButton.styleFrom(),
-                                    child: Text(
-                                      "MONITOR",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            ResponsiveTileWidget(
+                              title: 'PIP',
+                              value: '54',
+                              unit: 'cmH2O',
+                              width: constraints.maxWidth * 0.42,
                             ),
                             SizedBox(
-                              height: 10,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
                             ),
-                            Row(
-                              children: [
-                                Container(
-                                  height: 60,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Color.fromARGB(255, 82, 82, 82),
+                            ResponsiveTileWidget(
+                              title: 'RR',
+                              value: '58',
+                              unit: 'BPM',
+                              width: constraints.maxWidth * 0.42,
+                            ),
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
+                            ResponsiveTileWidget(
+                              title: 'MVi',
+                              value: '69',
+                              unit: 'Liters',
+                              width: constraints.maxWidth * 0.42,
+                            ),
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
+                            ResponsiveTileWidget(
+                              title: 'PULSE',
+                              value: '47',
+                              unit: 'BPM',
+                              width: constraints.maxWidth * 0.42,
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                ),
+                //buttons
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.065,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Color.fromARGB(255, 82, 82, 82),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DeviceAbout(
+                                          widget.deviceId, widget.deviceType),
+                                    ),
+                                  );
+                                },
+                                style: TextButton.styleFrom(),
+                                child: Text(
+                                  "ABOUT",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.045,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  child: Row(
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.03,
+                          ),
+                          Expanded(
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.065,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Color.fromARGB(255, 82, 82, 82),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MonitorData(
+                                        widget.deviceId,
+                                        widget.wardNo,
+                                        widget.message,
+                                        widget.hospitalName,
+                                        widget.bioMed,
+                                        widget.departmentName,
+                                        widget.aliasName,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                style: TextButton.styleFrom(),
+                                child: Text(
+                                  "MONITOR",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.045,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.065,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Color.fromARGB(255, 82, 82, 82),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
                                     children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15),
-                                        child: Container(
-                                          width: 15,
-                                          child: Image.asset(
-                                            "assets/images/active.png",
-                                          ),
+                                      Container(
+                                        width: 15,
+                                        child: Image.asset(
+                                          "assets/images/active.png",
                                         ),
                                       ),
                                       TextButton(
-                                        onPressed: () {
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //     builder: (context) =>
-                                          //         MonitorData(deviceData),
-                                          //   ),
-                                          // );
-                                        },
+                                        onPressed: () {},
                                         style: TextButton.styleFrom(),
                                         child: Text(
                                           "LIVE VIEW",
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 18,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.045,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  height: 60,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Color.fromARGB(255, 82, 82, 82),
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) =>
-                                      //         MonitorData(deviceData),
-                                      //   ),
-                                      // );
-                                    },
-                                    style: TextButton.styleFrom(),
-                                    child: Text(
-                                      "SUPPORT",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.03,
+                          ),
+                          Expanded(
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.065,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Color.fromARGB(255, 174, 34, 104),
+                                color: Color.fromARGB(255, 82, 82, 82),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Container(
-                                  height: 60,
-                                  width: 170,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(5),
-                                        bottomRight: Radius.circular(5)),
-                                    color: Color.fromARGB(255, 82, 82, 82),
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) =>
-                                      //         MonitorData(deviceData),
-                                      //   ),
-                                      // );
-                                    },
-                                    style: TextButton.styleFrom(),
-                                    child: Text(
-                                      "ADD TO FOCUS",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                              child: TextButton(
+                                onPressed: () {},
+                                style: TextButton.styleFrom(),
+                                child: Text(
+                                  "SUPPORT",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.045,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
                             ),
-                          ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Color.fromARGB(255, 174, 34, 104),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.065,
+                            width: 170,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(5),
+                                bottomRight: Radius.circular(5),
+                              ),
+                              color: Color.fromARGB(255, 82, 82, 82),
+                            ),
+                            child: TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(),
+                              child: Text(
+                                "ADD TO FOCUS",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.045,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
-
-                  // ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

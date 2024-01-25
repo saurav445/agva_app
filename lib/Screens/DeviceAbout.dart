@@ -63,55 +63,38 @@ class _DeviceAboutState extends State<DeviceAbout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(height: 60),
-          Padding(
-            padding: const EdgeInsets.only(left: 40),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    width: 40,
-                    child: Image.asset("assets/images/back.png"),
-                  ),
-                ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 70),
-                    child: Column(
-                      children: [
-                        Text(
-                          widget.deviceType,
-                          style: TextStyle(
-                            fontFamily: 'Avenir',
-                            fontSize: 24,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        ),
-                        Text(
-                          "About",
-                          style: TextStyle(
-                            fontFamily: 'Avenir',
-                            fontSize: 16,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+      appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "About",
+            style: TextStyle(
+              fontFamily: 'Avenir',
+              fontSize: 24,
+              color: Color.fromARGB(255, 255, 255, 255),
             ),
           ),
-          SizedBox(height: 40),
+        ),
+      body: Column(
+        
+        children: [
+            SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.035,
+                ),
+          Text(
+            widget.deviceType,
+            style: TextStyle(
+              fontFamily: 'Avenir',
+                       fontSize:
+                                  MediaQuery.of(context).size.width * 0.08,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
+       SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -37,12 +37,12 @@ class _HospitalsState extends State<Hospitals> {
             onPressed: () {},
           )
         ],
+        toolbarHeight: MediaQuery.of(context).size.height * 0.08,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(
-          right: 30,
-          left: 30,
-          top: 5,
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.08,
+          vertical: MediaQuery.of(context).size.height * 0.01,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,12 +52,12 @@ class _HospitalsState extends State<Hospitals> {
               style: TextStyle(
                 fontFamily: 'Avenir',
                 color: Color.fromARGB(255, 218, 218, 218),
-                fontSize: 24,
+                fontSize: MediaQuery.of(context).size.width * 0.07,
                 fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(
-              height: 15,
+              height: MediaQuery.of(context).size.height * 0.015,
             ),
             GestureDetector(
               onTap: () {
@@ -66,8 +66,8 @@ class _HospitalsState extends State<Hospitals> {
                 });
               },
               child: Container(
-                height: 120,
-                width: 330,
+                height: MediaQuery.of(context).size.height * 0.13,
+                width: MediaQuery.of(context).size.width * 0.9,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   color: Color.fromARGB(255, 65, 65, 65),
@@ -77,6 +77,8 @@ class _HospitalsState extends State<Hospitals> {
                     left: 20,
                   ),
                   child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 10),
@@ -88,28 +90,28 @@ class _HospitalsState extends State<Hospitals> {
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize: 24,
+                                fontSize: MediaQuery.of(context).size.width * 0.06,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(
-                              height: 40,
+                              height: MediaQuery.of(context).size.height * 0.05,
                             ),
                             Text(
                               'ANSARI NAGAR, DELHI',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize: 14,
+                                fontSize: MediaQuery.of(context).size.width * 0.03,
                               ),
                             ),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 25, top: 30),
+                        padding: const EdgeInsets.only( top: 30),
                         child: Container(
-                          width: 100,
+                          width: MediaQuery.of(context).size.width * 0.25,
                           child: Image.asset("assets/images/hospital.png"),
                         ),
                       ),
@@ -119,7 +121,7 @@ class _HospitalsState extends State<Hospitals> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: MediaQuery.of(context).size.height * 0.01,
             ),
             if (isExpanded)
               ...projectsForHospital.map(
@@ -135,29 +137,31 @@ class _HospitalsState extends State<Hospitals> {
                       );
                     },
                     child: Container(
-                      height: 100,
-                      width: 310,
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      width: MediaQuery.of(context).size.width * 0.8,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        // color: Color.fromARGB(255, 65, 65, 65),
                         color: Color.fromARGB(255, 135, 135, 135),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            project,
-                            style: TextStyle(
-                              fontFamily: 'Avenir',
-                              color: Color.fromARGB(255, 228, 228, 228),
-                              fontSize: 24,
+                          Padding(
+                            padding: const EdgeInsets.only(left:30),
+                            child: Text(
+                              project,
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 228, 228, 228),
+                                fontSize: MediaQuery.of(context).size.width * 0.06,
+                              ),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 15),
                             child: Container(
-                              width: 120,
+                              width: MediaQuery.of(context).size.width * 0.3,
                               child: Image.asset(
                                 getImagePath(project),
                               ),
@@ -179,15 +183,15 @@ class _HospitalsState extends State<Hospitals> {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                  // color: Colors.white,
-                  ),
+                // color: Colors.white,
+              ),
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
                   'AgVa',
                   style: TextStyle(
                     color: Color.fromARGB(255, 157, 0, 86),
-                    fontSize: 50,
+                    fontSize: MediaQuery.of(context).size.width * 0.1,
                   ),
                 ),
               ),
@@ -198,7 +202,7 @@ class _HospitalsState extends State<Hospitals> {
                 'HOME',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: MediaQuery.of(context).size.width * 0.035,
                 ),
               ),
               onTap: () {},
@@ -209,7 +213,7 @@ class _HospitalsState extends State<Hospitals> {
                 'PROFILE',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: MediaQuery.of(context).size.width * 0.035,
                 ),
               ),
               onTap: () {},
@@ -220,7 +224,7 @@ class _HospitalsState extends State<Hospitals> {
                 'DEVICES',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: MediaQuery.of(context).size.width * 0.035,
                 ),
               ),
               onTap: () {},
@@ -231,7 +235,7 @@ class _HospitalsState extends State<Hospitals> {
                 'LIVE',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: MediaQuery.of(context).size.width * 0.035,
                 ),
               ),
               onTap: () {},
@@ -242,7 +246,7 @@ class _HospitalsState extends State<Hospitals> {
                 'SETTINGS',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: MediaQuery.of(context).size.width * 0.035,
                 ),
               ),
               onTap: () {},

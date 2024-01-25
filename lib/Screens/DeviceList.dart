@@ -89,13 +89,14 @@ class _DeviceListState extends State<DeviceList> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Container(
-                  height: 110,
-                  width: 330,
+                  height: MediaQuery.of(context).size.height * 0.12,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: Color.fromARGB(255, 65, 65, 65),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 11, left: 11, top: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -108,31 +109,33 @@ class _DeviceListState extends State<DeviceList> {
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize: 18,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(
-                              height: 8,
+                              height: MediaQuery.of(context).size.width * 0.01,
                             ),
                             Text(
                               '${deviceInfo?['Hospital_Name'] ?? 'N/A'}',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize: 16,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.04,
                               ),
                             ),
                             SizedBox(
-                              height: 5,
+                              height: MediaQuery.of(context).size.width * 0.005,
                             ),
                             Text(
-                              // 'na',
                               'Ward: ${deviceInfo?['Ward_No'] ?? 'N/A'}',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize: 16,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.04,
                               ),
                             ),
                           ],
@@ -145,29 +148,32 @@ class _DeviceListState extends State<DeviceList> {
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize: 20,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.04,
                               ),
                             ),
                             SizedBox(
-                              height: 8,
+                              height: MediaQuery.of(context).size.width * 0.02,
                             ),
                             Text(
                               '24 YEARS',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize: 16,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.04,
                               ),
                             ),
                             SizedBox(
-                              height: 5,
+                              height: MediaQuery.of(context).size.width * 0.01,
                             ),
                             Text(
                               '58 KG',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize: 16,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.04,
                               ),
                             ),
                           ],
@@ -220,42 +226,44 @@ class _DeviceListState extends State<DeviceList> {
             onPressed: () {},
           )
         ],
+        toolbarHeight: MediaQuery.of(context).size.height * 0.08,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(
-          right: 15,
-          left: 15,
-          top: 5,
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.05,
+          vertical: MediaQuery.of(context).size.height * 0.01,
         ),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.05),
                 child: Text(
                   savedHospitalName ?? 'Default Hospital Name',
                   style: TextStyle(
                     fontFamily: 'Avenir',
                     color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: 24,
+                    fontSize: MediaQuery.of(context).size.width * 0.08,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.05),
                 child: Text(
                   'Hospital address',
                   style: TextStyle(
                     fontFamily: 'Avenir',
                     color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: 16,
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
                   ),
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: MediaQuery.of(context).size.height * 0.02,
               ),
 
               // Devices List

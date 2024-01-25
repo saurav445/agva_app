@@ -64,12 +64,12 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {},
           )
         ],
+        toolbarHeight: MediaQuery.of(context).size.height * 0.08,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(
-          right: 30,
-          left: 30,
-          top: 5,
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.08,
+          vertical: MediaQuery.of(context).size.height * 0.01,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                     fontFamily: 'Avenir',
                     color: Color.fromARGB(255, 172, 172, 172),
-                    fontSize: 18,
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -91,14 +91,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                     fontFamily: 'Avenir',
                     color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 20,
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
             SizedBox(
-              height: 20,
+              height: MediaQuery.of(context).size.height * 0.03,
             ),
             GestureDetector(
               onTap: () {
@@ -110,8 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
               child: Container(
-                height: 140,
-                width: 330,
+                height: MediaQuery.of(context).size.height * 0.15,
+                width: MediaQuery.of(context).size.width * 0.9,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
@@ -125,37 +125,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(left: 30),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'MY DEVICES',
                         style: TextStyle(
                           fontFamily: 'Avenir',
                           color: Color.fromARGB(255, 218, 218, 218),
-                          fontSize: 24,
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Padding(
-                          padding: const EdgeInsets.only(top: 0),
-                          child: Container(
-                              height: 200,
-                              child:
-                                  Image.asset("assets/images/mydevices.png"))),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.15,
+                        child: Image.asset("assets/images/mydevices.png"),
+                      ),
                     ],
                   ),
                 ),
               ),
             ),
             SizedBox(
-              height: 15,
+              height: MediaQuery.of(context).size.height * 0.015,
             ),
             Container(
-              height: 140,
-              width: 330,
+              height: MediaQuery.of(context).size.height * 0.15,
+              width: MediaQuery.of(context).size.width * 0.9,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
@@ -171,29 +169,28 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 30),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'ALARMS',
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: 24,
+                        fontSize: MediaQuery.of(context).size.width * 0.05,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 40, top: 0),
-                      child: Container(
-                          height: 150,
-                          width: 150,
-                          child: Image.asset("assets/images/alarmimage.png")),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: Image.asset("assets/images/alarmimage.png"),
                     ),
                   ],
                 ),
               ),
             ),
             SizedBox(
-              height: 15,
+              height: MediaQuery.of(context).size.height * 0.015,
             ),
             GestureDetector(
               onTap: () {
@@ -205,8 +202,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
               child: Container(
-                height: 140,
-                width: 330,
+                height: MediaQuery.of(context).size.height * 0.15,
+                width: MediaQuery.of(context).size.width * 0.9,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
@@ -220,25 +217,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 30),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'ALL DEVICES',
                         style: TextStyle(
                           fontFamily: 'Avenir',
                           color: Color.fromARGB(255, 218, 218, 218),
-                          fontSize: 24,
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
                         child: Container(
-                          height: 120,
-                          width: 120,
+                          height: MediaQuery.of(context).size.height * 0.15,
+                          width: MediaQuery.of(context).size.width * 0.3,
                           child: Image.asset("assets/images/deviceimage.png"),
                         ),
                       ),
@@ -248,11 +245,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(
-              height: 15,
+              height: MediaQuery.of(context).size.height * 0.015,
             ),
             Container(
-              height: 140,
-              width: 330,
+              height: MediaQuery.of(context).size.height * 0.15,
+              width: MediaQuery.of(context).size.width * 0.9,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
@@ -268,6 +265,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 30),
                 child: Row(
+                         crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             color: Color.fromARGB(255, 218, 218, 218),
-                            fontSize: 24,
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -287,7 +286,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             color: Color.fromARGB(255, 218, 218, 218),
-                            fontSize: 12,
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
                           ),
                         ),
                       ],
@@ -295,8 +294,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 15, top: 0),
                       child: Container(
-                        height: 180,
-                        width: 180,
+                           width: MediaQuery.of(context).size.width * 0.4,
                         child: Image.asset("assets/images/aiimage.png"),
                       ),
                     ),
@@ -322,7 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   'AgVa',
                   style: TextStyle(
                     color: Color.fromARGB(255, 157, 0, 86),
-                    fontSize: 50,
+                    fontSize: MediaQuery.of(context).size.width * 0.1,
                   ),
                 ),
               ),
@@ -333,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'HOME',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: MediaQuery.of(context).size.width * 0.035,
                 ),
               ),
               onTap: () {},
@@ -344,7 +342,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'PROFILE',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: MediaQuery.of(context).size.width * 0.035,
                 ),
               ),
               onTap: () {},
@@ -355,7 +353,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'DEVICES',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: MediaQuery.of(context).size.width * 0.035,
                 ),
               ),
               onTap: () {},
@@ -366,7 +364,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'LIVE',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: MediaQuery.of(context).size.width * 0.035,
                 ),
               ),
               onTap: () {},
@@ -377,7 +375,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'SETTINGS',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: MediaQuery.of(context).size.width * 0.035,
                 ),
               ),
               onTap: () {},
