@@ -64,9 +64,10 @@ class _EventsState extends State<Events> {
               height: 0.1,
               color: Color.fromARGB(255, 255, 255, 255),
             ),
-            if (isLoading)
+            if (isLoading) // Show loading indicator
               buildEmptyContainer2()
-            else if (jsonResponse['data']['findDeviceById'].isEmpty)
+            else if (jsonResponse['data']['findDeviceById']
+                .isEmpty) // Show "No Alarm Logs" message
               buildEmptyContainer()
             else
               for (var eventData in jsonResponse['data']['findDeviceById'])
@@ -77,42 +78,15 @@ class _EventsState extends State<Events> {
     );
   }
 
-  Widget buildEventDataRow(Map<String, dynamic> eventData) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              SizedBox(width: 20),
-              buildColumnContent(builDeviceIdContent(eventData['did'])),
-              SizedBox(width: 10),
-              buildColumnContent(buildMsgContent(eventData['message'])),
-              SizedBox(width: 20),
-              buildColumnContent(buildTypeContent(eventData['type'])),
-              buildColumnContent(buildDateContent(eventData['date'])),
-              buildColumnContent(buildTimeContent(eventData['time'])),
-            ],
-          ),
-          SizedBox(height: 10),
-          Container(
-            height: 0.1,
-            color: Colors.white,
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget buildEmptyContainer2() {
     return Padding(
         padding: const EdgeInsets.only(top: 80),
         child: CircularProgressIndicator());
   }
 
+
   Widget buildEmptyContainer() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 80),
+    return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -129,6 +103,39 @@ class _EventsState extends State<Events> {
       ),
     );
   }
+
+  Widget buildEventDataRow(Map<String, dynamic> eventData) {
+    if (eventData.isNotEmpty) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(width: 20),
+                buildColumnContent(builDeviceIdContent(eventData['did'])),
+                SizedBox(width: 10),
+                buildColumnContent(buildMsgContent(eventData['message'])),
+                SizedBox(width: 20),
+                buildColumnContent(buildTypeContent(eventData['type'])),
+                buildColumnContent(buildDateContent(eventData['date'])),
+                buildColumnContent(buildTimeContent(eventData['time'])),
+              ],
+            ),
+            SizedBox(height: 10),
+            Container(
+              height: 0.1,
+              color: Colors.white,
+            ),
+          ],
+        ),
+      );
+    } else {
+      return buildEmptyContainer();
+    }
+  }
+
+
 
   Widget builDeviceIdContent(String text) {
     return Text(

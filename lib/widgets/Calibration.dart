@@ -90,9 +90,9 @@ class _CalibrationState extends State<Calibration> {
             children: [
               SizedBox(width: 20),
               buildColumnContent(buildDeviceIdContent(calbData['deviceId'])),
-                            SizedBox(width: 10),
+              SizedBox(width: 10),
               buildColumnContent(buildNameContent(calbData['name'])),
-                            SizedBox(width: 10),
+              SizedBox(width: 10),
               buildColumnContent(buildMsgContent(calbData['message'])),
               SizedBox(width: 10),
               buildColumnContent(buildDateContent(calbData['date'])),
@@ -156,11 +156,11 @@ class _CalibrationState extends State<Calibration> {
     Color backgroundColor;
 
     if (text == "SUCCESS") {
-      backgroundColor = Colors.green;
+      backgroundColor = Color.fromARGB(255, 43, 199, 0);
     } else if (text == "FAILED") {
-      backgroundColor = Colors.red;
+      backgroundColor = const Color.fromARGB(255, 255, 17, 0);
     } else {
-      backgroundColor = Colors.green;
+    backgroundColor = Color.fromARGB(255, 43, 199, 0);
     }
 
     return Container(
@@ -168,8 +168,8 @@ class _CalibrationState extends State<Calibration> {
       height: 20,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-           color: backgroundColor,
-      ),   
+        color: backgroundColor,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,

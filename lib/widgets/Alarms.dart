@@ -1,5 +1,5 @@
 // // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 import 'dart:convert';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +96,7 @@ class _AlarmsState extends State<Alarms> {
               buildColumnContent(buildDeviceIdContent(alarmData['did'])),
               buildColumnContent(buildCodeContent(alarmData['ack']['code'])),
               buildColumnContent(buildMsgContent(alarmData['ack']['msg'])),
-                         SizedBox(width: 10),
+              SizedBox(width: 10),
               buildColumnContent(buildPriContent(alarmData['priority'])),
               buildColumnContent(buildDateContent(alarmData['ack']['date'])),
               buildColumnContent(buildTimeContent(alarmData['ack']['time'])),
@@ -167,27 +167,54 @@ class _AlarmsState extends State<Alarms> {
     );
   }
 
-//priority
   Widget buildPriContent(String text) {
+    return getAlarmContainer(text);
+  }
+
+  Widget getAlarmContainer(String priority) {
+    switch (priority) {
+      case 'ALARM_LOW_LEVEL':
+        return buildLowAlarm();
+      case 'ALARM_MEDIUM_LEVEL':
+        return buildMediumAlarm();
+      case 'ALARM_HIGH_LEVEL':
+        return buildHighAlarm();
+      default:
+        return buildLowAlarm();
+    }
+  }
+
+  Widget buildLowAlarm() {
     return Container(
       height: 7,
-      child: Image.asset(
-        getImagePath(text),
+      width: 60,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: const Color.fromARGB(255, 13, 195, 19),
       ),
     );
   }
 
-  String getImagePath(String priority) {
-    switch (priority) {
-      case 'ALARM_LOW_LEVEL':
-        return "assets/images/LowAlarm.png";
-      case 'ALARM_MEDIUM_LEVEL':
-        return "assets/images/MediumAlarm.png";
-      case 'ALARM_HIGH_LEVEL':
-        return "assets/images/HighAlarm.png";
-      default:
-        return "assets/images/LowAlarm.png";
-    }
+  Widget buildMediumAlarm() {
+    return Container(
+      height: 7,
+      width: 60,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Color.fromARGB(255, 255, 166, 0),
+      ),
+    );
+  }
+
+  Widget buildHighAlarm() {
+    return Container(
+      height: 7,
+      width: 60,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: const Color.fromARGB(255, 255, 17, 0),
+      ),
+    );
   }
 
   Widget buildDateContent(String text) {

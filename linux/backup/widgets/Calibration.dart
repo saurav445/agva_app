@@ -64,11 +64,10 @@ class _CalibrationState extends State<Calibration> {
             ),
             if (isLoading)
               buildEmptyContainer2()
-            else if (jsonResponse['data'] == null ||
-                jsonResponse['data'].isEmpty)
+            else if (jsonResponse['data'].isEmpty)
               buildEmptyContainer()
             else
-              for (var calbData in jsonResponse['data'] ?? [])
+              for (var calbData in jsonResponse['data'])
                 buildCaliDataRow(calbData),
           ],
         ),
@@ -91,7 +90,9 @@ class _CalibrationState extends State<Calibration> {
             children: [
               SizedBox(width: 20),
               buildColumnContent(buildDeviceIdContent(calbData['deviceId'])),
+                            SizedBox(width: 10),
               buildColumnContent(buildNameContent(calbData['name'])),
+                            SizedBox(width: 10),
               buildColumnContent(buildMsgContent(calbData['message'])),
               SizedBox(width: 10),
               buildColumnContent(buildDateContent(calbData['date'])),
@@ -152,13 +153,37 @@ class _CalibrationState extends State<Calibration> {
   }
 
   Widget buildMsgContent(String text) {
-    return Text(
-      text,
-      maxLines: 3,
-      softWrap: true,
-      style: TextStyle(
-        fontSize: 12,
-        color: Color.fromARGB(255, 218, 218, 218),
+    Color backgroundColor;
+
+    if (text == "SUCCESS") {
+      backgroundColor = Colors.green;
+    } else if (text == "FAILED") {
+      backgroundColor = Colors.red;
+    } else {
+      backgroundColor = Colors.green;
+    }
+
+    return Container(
+      width: 80,
+      height: 20,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+           color: backgroundColor,
+      ),   
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            text,
+            maxLines: 3,
+            softWrap: true,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
     );
   }
