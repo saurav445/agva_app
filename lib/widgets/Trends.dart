@@ -32,7 +32,6 @@ class _TrendsState extends State<Trends> {
       Uri.parse('$getDeviceTrendsbyID/$deviceId'),
     );
     var jsonResponse = jsonDecode(response.body);
-    // print('Trends Data List: $trendsDataList');
     if (jsonResponse['statusCode'] == 200) {
       setState(() {
         isLoading = false;
@@ -55,10 +54,8 @@ class _TrendsState extends State<Trends> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [   
-        if (trendsDataList.isEmpty) buildEmptyContainer() 
-        else 
-        TrendsHeader(),
+      children: [
+        if (trendsDataList.isEmpty) buildEmptyContainer() else TrendsHeader(),
         Expanded(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -206,16 +203,17 @@ class _TrendsState extends State<Trends> {
   Widget buildEmptyContainer() {
     return Row(
       children: [
-         TrendsHeaderEmpty(),
+        TrendsHeaderEmpty(),
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
               color: Color.fromARGB(255, 121, 121, 121),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                 child: Text(
-                  '0',
+                  '00:00',
                   style: TextStyle(
                     fontSize: 12,
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -224,7 +222,7 @@ class _TrendsState extends State<Trends> {
               ),
             ),
             Text(
-              '0',
+              'N/A',
               style: TextStyle(
                 fontSize: 12,
                 color: Color.fromARGB(255, 218, 218, 218),
