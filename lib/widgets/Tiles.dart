@@ -17,7 +17,7 @@ class ResponsiveTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+ 
     return Container(
       height: MediaQuery.of(context).size.height * 0.065,
       width: width,
@@ -26,7 +26,7 @@ class ResponsiveTileWidget extends StatelessWidget {
         color: Color.fromARGB(255, 38, 128, 158),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5 ),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,13 +42,15 @@ class ResponsiveTileWidget extends StatelessWidget {
                     fontSize: MediaQuery.of(context).size.width * 0.04,
                   ),
                 ),
-                SizedBox(height: 5),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.001,
+                ),
                 Text(
                   unit,
                   style: TextStyle(
                     fontFamily: 'Avenir',
                     color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.025,
+                    fontSize: MediaQuery.of(context).size.width * 0.02,
                   ),
                 ),
               ],

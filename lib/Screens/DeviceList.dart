@@ -60,7 +60,7 @@ class _DeviceListState extends State<DeviceList> {
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
         var data = jsonResponse['data'];
-        print('Device by User: $data');
+        // print('Device by User: $data');
         devicesForUserList = List<Map<String, dynamic>>.from(data['data']);
         setState(() {});
       } else {
@@ -123,7 +123,7 @@ class _DeviceListState extends State<DeviceList> {
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
                                 fontSize:
-                                    MediaQuery.of(context).size.width * 0.04,
+                                    MediaQuery.of(context).size.width * 0.03,
                               ),
                             ),
                             SizedBox(
@@ -135,7 +135,7 @@ class _DeviceListState extends State<DeviceList> {
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
                                 fontSize:
-                                    MediaQuery.of(context).size.width * 0.04,
+                                    MediaQuery.of(context).size.width * 0.03,
                               ),
                             ),
                           ],
@@ -161,7 +161,7 @@ class _DeviceListState extends State<DeviceList> {
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
                                 fontSize:
-                                    MediaQuery.of(context).size.width * 0.04,
+                                    MediaQuery.of(context).size.width * 0.03,
                               ),
                             ),
                             SizedBox(
@@ -173,7 +173,7 @@ class _DeviceListState extends State<DeviceList> {
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
                                 fontSize:
-                                    MediaQuery.of(context).size.width * 0.04,
+                                    MediaQuery.of(context).size.width * 0.03,
                               ),
                             ),
                           ],

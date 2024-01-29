@@ -7,42 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:socket_io_client/socket_io_client.dart' as io;
-
-class SocketService {
-  static final SocketService _instance = SocketService._internal();
-
-  factory SocketService() {
-    return _instance;
-  }
-
-  SocketService._internal();
-  late String deviceId;
-  late io.Socket socket;
-
-  void initializeSocket(String serverUrl, String deviceId) {
-    this.deviceId = deviceId;
-
-    socket = io.io(serverUrl, <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': true,
-    });
-
-    socket.on('connect', (data) {
-      print('Connected to the server');
-
-      socket.emit('ReactStartUp', this.deviceId);
-
-      socket.on('DataReceivingReact', (data) {
-        print("Received data from server: $data");
-      });
-    });
-
-    socket.on('disconnect', (_) {
-      print('Disconnected from the server');
-    });
-  }
-}
 
 class DeviceDetails extends StatefulWidget {
   late String deviceId;
@@ -62,6 +26,21 @@ class DeviceDetails extends StatefulWidget {
 }
 
 class _DeviceDetailsState extends State<DeviceDetails> {
+  late List<String> focusedDevices = [];
+
+  Future<void> updateFocusList(String deviceId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if (focusedDevices.contains(deviceId)) {
+        focusedDevices.remove(deviceId);
+      } else {
+        focusedDevices.add(deviceId);
+      }
+    });
+
+    await prefs.setStringList('focusedDevices', focusedDevices);
+  }
+
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('mytoken');
@@ -70,14 +49,20 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   @override
   void initState() {
     super.initState();
+    getFocusedDevices();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
-    SocketService()
-        .initializeSocket('http://192.168.2.1:8000', widget.deviceId);
+  }
+
+  Future<void> getFocusedDevices() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      focusedDevices = prefs.getStringList('focusedDevices') ?? [];
+    });
   }
 
   @override
@@ -93,13 +78,13 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   @override
   Widget build(BuildContext context) {
-    //  SocketService().initializeSocket('http://192.168.2.1:8000');
+    bool isInFocus = focusedDevices.contains(widget.deviceId);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            widget.deviceId,
+            "Details",
             style: TextStyle(
               fontFamily: 'Avenir',
               fontSize: 24,
@@ -489,10 +474,14 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                               color: Color.fromARGB(255, 82, 82, 82),
                             ),
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                updateFocusList(widget.deviceId);
+                              },
                               style: TextButton.styleFrom(),
                               child: Text(
-                                "ADD TO FOCUS",
+                                isInFocus
+                                    ? "REMOVE FROM FOCUS"
+                                    : "ADD TO FOCUS",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize:
