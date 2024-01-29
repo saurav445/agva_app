@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 
-class ResponsiveTileWidget extends StatelessWidget {
+class LiveTiles extends StatelessWidget {
   final String title;
   final String value;
   final String unit;
   final double width;
 
-  ResponsiveTileWidget({
+  LiveTiles({
     required this.title,
     this.value = '',
     this.unit = '',
@@ -35,7 +35,7 @@ class ResponsiveTileWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  'title',
                   style: TextStyle(
                     fontFamily: 'Avenir',
                     color: Color.fromARGB(255, 218, 218, 218),
@@ -46,7 +46,7 @@ class ResponsiveTileWidget extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.001,
                 ),
                 Text(
-                  unit,
+                  'unit',
                   style: TextStyle(
                     fontFamily: 'Avenir',
                     color: Color.fromARGB(255, 218, 218, 218),
@@ -56,7 +56,7 @@ class ResponsiveTileWidget extends StatelessWidget {
               ],
             ),
             Text(
-              '$value',
+              '20',
               style: TextStyle(
                 fontFamily: 'Avenir',
                 color: Color.fromARGB(255, 218, 218, 218),

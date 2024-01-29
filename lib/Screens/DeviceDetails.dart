@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
+import 'LiveView.dart';
+
 class SocketService {
   static final SocketService _instance = SocketService._internal();
 
@@ -443,7 +445,14 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                         ),
                                       ),
                                       TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => LiveView(),
+                                            ),
+                                          );
+                                        },
                                         style: TextButton.styleFrom(),
                                         child: Text(
                                           "LIVE VIEW",
