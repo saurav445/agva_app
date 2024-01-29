@@ -207,7 +207,7 @@ class _DeviceListState extends State<DeviceList> {
                     hospitalName,
                     bioMed,
                     departmentName,
-                    aliasName),
+                    aliasName ),
               ),
             );
           }

@@ -450,7 +450,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                               color: Color.fromARGB(255, 82, 82, 82),
                             ),
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                
+                              },
                               style: TextButton.styleFrom(),
                               child: Text(
                                 "ADD TO FOCUS",

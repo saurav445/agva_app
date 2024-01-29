@@ -8,6 +8,7 @@ import 'AuthScreens/SignIn.dart';
 import 'AuthScreens/SignUp.dart';
 import 'AuthScreens/SplashScreen.dart';
 import 'Screens/TermsCondition.dart';
+import 'Service/SocketService.dart';
 
 void main() async {
   runApp(MyApp());
@@ -16,6 +17,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SocketService().initializeSocket('http://192.168.2.1:8000');
     return MaterialApp(
       themeMode: ThemeMode.dark,
       theme: ThemeData(primarySwatch: Colors.blue),
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
         "/signin": (context) => SignIn(),
         "/splash": (context) => SplashScreen(),
         "/home": (context) => HomeScreen({}),
-    "/devicedetails": (context) => DeviceDetails('deviceid', 'Ward_No', 'devicetype','dasd','asw', 'wrrr', 'asdad', 'adsa'),
+    "/devicedetails": (context) => DeviceDetails('', '', '','','', '', '', ''),
 
         "/tandc": (context) => TermsCondition(),
                         "/devicelist": (context) => DeviceList(),
