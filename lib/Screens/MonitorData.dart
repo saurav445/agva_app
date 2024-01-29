@@ -87,57 +87,59 @@ class _MonitorDataState extends State<MonitorData> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                child: MDWidget(
-                    widget.wardNo,
-                    widget.message,
-                    widget.hospitalName,
-                    widget.bioMed,
-                    widget.departmentName,
-                    widget.aliasName),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 35,
-                      width: 800,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Color.fromARGB(255, 157, 0, 86),
-                      ),
-                      child: Row(
-                        children: [
-                          buildButton('Events'),
-                          buildButton('Alarms'),
-                          buildButton('Crash Logs'),
-                          buildButton('Trends'),
-                          buildButton('Calibration'),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 280,
-                      width: 800,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Color.fromARGB(255, 65, 65, 65),
-                      ),
-                      child: buildBigContainerContent(),
-                    )
-                  ],
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  child: MDWidget(
+                      widget.wardNo,
+                      widget.message,
+                      widget.hospitalName,
+                      widget.bioMed,
+                      widget.departmentName,
+                      widget.aliasName),
                 ),
-              ),
-            ],
-          ),
-        ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 35,
+                        width: 800,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Color.fromARGB(255, 157, 0, 86),
+                        ),
+                        child: Row(
+                          children: [
+                            buildButton('Events'),
+                            buildButton('Alarms'),
+                            buildButton('Crash Logs'),
+                            buildButton('Trends'),
+                            buildButton('Calibration'),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 280,
+                        width: 800,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Color.fromARGB(255, 65, 65, 65),
+                        ),
+                        child: buildBigContainerContent(),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

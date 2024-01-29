@@ -62,14 +62,37 @@ class DeviceDetails extends StatefulWidget {
 }
 
 class _DeviceDetailsState extends State<DeviceDetails> {
+  late List<String> focusedDevices = [];
+
+  Future<void> updateFocusList(String deviceId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if (focusedDevices.contains(deviceId)) {
+        focusedDevices.remove(deviceId);
+      } else {
+        focusedDevices.add(deviceId);
+      }
+    });
+
+    await prefs.setStringList('focusedDevices', focusedDevices);
+  }
+
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('mytoken');
   }
 
+  Future<void> getFocusedDevices() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      focusedDevices = prefs.getStringList('focusedDevices') ?? [];
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    getFocusedDevices();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -93,6 +116,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   @override
   Widget build(BuildContext context) {
+    bool isInFocus = focusedDevices.contains(widget.deviceId);
     //  SocketService().initializeSocket('http://192.168.2.1:8000');
     return SafeArea(
       child: Scaffold(
@@ -489,10 +513,14 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                               color: Color.fromARGB(255, 82, 82, 82),
                             ),
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                updateFocusList(widget.deviceId);
+                              },
                               style: TextButton.styleFrom(),
                               child: Text(
-                                "ADD TO FOCUS",
+                                isInFocus
+                                    ? "REMOVE FROM FOCUS"
+                                    : "ADD TO FOCUS",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize:

@@ -24,19 +24,21 @@ class _RegDoneState extends State<RegDone> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/images/RegDone.gif",
-              width: 200,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/images/RegDone.gif",
+                width: 200,
+                height: 200,
+                fit: BoxFit.cover,
+              ),
+            ],
+          ),
         ),
       ),
     );

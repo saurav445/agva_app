@@ -56,60 +56,103 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.notifications),
-            onPressed: () {},
-          )
-        ],
-        toolbarHeight: MediaQuery.of(context).size.height * 0.08,
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.08,
-          vertical: MediaQuery.of(context).size.height * 0.01,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.notifications),
+              onPressed: () {},
+            )
+          ],
+          toolbarHeight: MediaQuery.of(context).size.height * 0.08,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Welcome Back!',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 172, 172, 172),
-                    fontSize: MediaQuery.of(context).size.width * 0.04,
-                    fontWeight: FontWeight.bold,
+        body: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.08,
+            vertical: MediaQuery.of(context).size.height * 0.01,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Welcome Back!',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 172, 172, 172),
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    savedUsername ?? 'Default User Name',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: MediaQuery.of(context).size.width * 0.05,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyDevices(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: [
+                        Color.fromARGB(255, 173, 25, 25),
+                        Color.fromARGB(255, 254, 134, 134),
+                      ],
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'MY DEVICES',
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 218, 218, 218),
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.15,
+                          child: Image.asset("assets/images/mydevices.png"),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Text(
-                  savedUsername ?? 'Default User Name',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: MediaQuery.of(context).size.width * 0.05,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.03,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyDevices(),
-                  ),
-                );
-              },
-              child: Container(
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.015,
+              ),
+              Container(
                 height: MediaQuery.of(context).size.height * 0.15,
                 width: MediaQuery.of(context).size.width * 0.9,
                 decoration: BoxDecoration(
@@ -119,8 +162,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
                     colors: [
-                      Color.fromARGB(255, 173, 25, 25),
-                      Color.fromARGB(255, 254, 134, 134),
+                      Color.fromARGB(255, 50, 50, 50),
+                      Color.fromARGB(255, 255, 255, 255),
                     ],
                   ),
                 ),
@@ -131,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'MY DEVICES',
+                        'ALARMS',
                         style: TextStyle(
                           fontFamily: 'Avenir',
                           color: Color.fromARGB(255, 218, 218, 218),
@@ -140,68 +183,72 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.15,
-                        child: Image.asset("assets/images/mydevices.png"),
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Image.asset("assets/images/alarmimage.png"),
                       ),
                     ],
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.015,
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.15,
-              width: MediaQuery.of(context).size.width * 0.9,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                  colors: [
-                    Color.fromARGB(255, 50, 50, 50),
-                    Color.fromARGB(255, 255, 255, 255),
-                  ],
-                ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.015,
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 30),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'ALARMS',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: MediaQuery.of(context).size.width * 0.05,
-                        fontWeight: FontWeight.bold,
-                      ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Hospitals(hospitalName: hospitalName),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: Image.asset("assets/images/alarmimage.png"),
+                  );
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: [
+                        Color.fromARGB(255, 225, 92, 156),
+                        Color.fromARGB(255, 238, 44, 76),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.015,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Hospitals(hospitalName: hospitalName),
                   ),
-                );
-              },
-              child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'ALL DEVICES',
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 218, 218, 218),
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            child: Image.asset("assets/images/deviceimage.png"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.015,
+              ),
+              Container(
                 height: MediaQuery.of(context).size.height * 0.15,
                 width: MediaQuery.of(context).size.width * 0.9,
                 decoration: BoxDecoration(
@@ -211,176 +258,131 @@ class _HomeScreenState extends State<HomeScreen> {
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
                     colors: [
-                      Color.fromARGB(255, 225, 92, 156),
-                      Color.fromARGB(255, 238, 44, 76),
+                      Color.fromARGB(255, 92, 74, 251),
+                      Color.fromARGB(255, 30, 30, 30),
                     ],
                   ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 30),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'ALL DEVICES',
-                        style: TextStyle(
-                          fontFamily: 'Avenir',
-                          color: Color.fromARGB(255, 218, 218, 218),
-                          fontSize: MediaQuery.of(context).size.width * 0.05,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'AI',
+                            style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 218, 218, 218),
+                              fontSize: MediaQuery.of(context).size.width * 0.05,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'COMING SOON..',
+                            style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 218, 218, 218),
+                              fontSize: MediaQuery.of(context).size.width * 0.025,
+                            ),
+                          ),
+                        ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 30),
+                        padding: const EdgeInsets.only(left: 15, top: 0),
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.15,
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          child: Image.asset("assets/images/deviceimage.png"),
+                             width: MediaQuery.of(context).size.width * 0.4,
+                          child: Image.asset("assets/images/aiimage.png"),
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.015,
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.15,
-              width: MediaQuery.of(context).size.width * 0.9,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                  colors: [
-                    Color.fromARGB(255, 92, 74, 251),
-                    Color.fromARGB(255, 30, 30, 30),
-                  ],
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 30),
-                child: Row(
-                         crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'AI',
-                          style: TextStyle(
-                            fontFamily: 'Avenir',
-                            color: Color.fromARGB(255, 218, 218, 218),
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'COMING SOON..',
-                          style: TextStyle(
-                            fontFamily: 'Avenir',
-                            color: Color.fromARGB(255, 218, 218, 218),
-                            fontSize: MediaQuery.of(context).size.width * 0.025,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15, top: 0),
-                      child: Container(
-                           width: MediaQuery.of(context).size.width * 0.4,
-                        child: Image.asset("assets/images/aiimage.png"),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          physics: BouncingScrollPhysics(),
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                  // color: Colors.white,
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            physics: BouncingScrollPhysics(),
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                    // color: Colors.white,
+                    ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'AgVa',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 157, 0, 86),
+                      fontSize: MediaQuery.of(context).size.width * 0.1,
+                    ),
                   ),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'AgVa',
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.home, color: Colors.white),
+                title: Text(
+                  'HOME',
                   style: TextStyle(
-                    color: Color.fromARGB(255, 157, 0, 86),
-                    fontSize: MediaQuery.of(context).size.width * 0.1,
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.width * 0.035,
                   ),
                 ),
+                onTap: () {},
               ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home, color: Colors.white),
-              title: Text(
-                'HOME',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: MediaQuery.of(context).size.width * 0.035,
+              ListTile(
+                leading: const Icon(Icons.person, color: Colors.white),
+                title: Text(
+                  'PROFILE',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                  ),
                 ),
+                onTap: () {},
               ),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.person, color: Colors.white),
-              title: Text(
-                'PROFILE',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: MediaQuery.of(context).size.width * 0.035,
+              ListTile(
+                leading: const Icon(Icons.devices_other, color: Colors.white),
+                title: Text(
+                  'DEVICES',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                  ),
                 ),
+                onTap: () {},
               ),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.devices_other, color: Colors.white),
-              title: Text(
-                'DEVICES',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: MediaQuery.of(context).size.width * 0.035,
+              ListTile(
+                leading: const Icon(Icons.circle, color: Colors.white),
+                title: Text(
+                  'LIVE',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                  ),
                 ),
+                onTap: () {},
               ),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.circle, color: Colors.white),
-              title: Text(
-                'LIVE',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: MediaQuery.of(context).size.width * 0.035,
+              ListTile(
+                leading: const Icon(Icons.settings, color: Colors.white),
+                title: Text(
+                  'SETTINGS',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                  ),
                 ),
+                onTap: () {},
               ),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings, color: Colors.white),
-              title: Text(
-                'SETTINGS',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: MediaQuery.of(context).size.width * 0.035,
-                ),
-              ),
-              onTap: () {},
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
