@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable
+import 'package:agva_app/widgets/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -114,6 +115,7 @@ class _LiveViewState extends State<LiveView> {
                               decoration: BoxDecoration(
                                 color: Color.fromARGB(255, 35, 35, 35),
                               ),
+                                  child: LineChartSample2(),
                             ),
                             Container(
                               height: MediaQuery.of(context).size.height * 0.2,
@@ -121,6 +123,7 @@ class _LiveViewState extends State<LiveView> {
                               decoration: BoxDecoration(
                                 color: Color.fromARGB(255, 35, 35, 35),
                               ),
+                                  child: LineChartSample2(),
                             ),
                             Container(
                               height: MediaQuery.of(context).size.height * 0.2,
@@ -128,6 +131,7 @@ class _LiveViewState extends State<LiveView> {
                               decoration: BoxDecoration(
                                 color: Color.fromARGB(255, 35, 35, 35),
                               ),
+                              child: LineChartSample2(),
                             ),
                           ],
                         ),
