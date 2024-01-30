@@ -8,43 +8,42 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
-
 import 'LiveView.dart';
 
-class SocketService {
-  static final SocketService _instance = SocketService._internal();
+// class SocketService {
+//   static final SocketService _instance = SocketService._internal();
 
-  factory SocketService() {
-    return _instance;
-  }
+//   factory SocketService() {
+//     return _instance;
+//   }
 
-  SocketService._internal();
-  late String deviceId;
-  late io.Socket socket;
+//   SocketService._internal();
+//   late String deviceId;
+//   late io.Socket socket;
 
-  void initializeSocket(String serverUrl, String deviceId) {
-    this.deviceId = deviceId;
+//   void initializeSocket(String serverUrl, String deviceId) {
+//     this.deviceId = deviceId;
 
-    socket = io.io(serverUrl, <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': true,
-    });
+//     socket = io.io(serverUrl, <String, dynamic>{
+//       'transports': ['websocket'],
+//       'autoConnect': true,
+//     });
 
-    socket.on('connect', (data) {
-      print('Connected to the server');
+//     socket.on('connect', (data) {
+//       print('Connected to the server');
 
-      socket.emit('ReactStartUp', this.deviceId);
+//       socket.emit('ReactStartUp', this.deviceId);
 
-      socket.on('DataReceivingReact', (data) {
-        print("Received data from server: $data");
-      });
-    });
+//       socket.on('DataReceivingReact', (data) {
+//         print("Received data from server: $data");
+//       });
+//     });
 
-    socket.on('disconnect', (_) {
-      print('Disconnected from the server');
-    });
-  }
-}
+//     socket.on('disconnect', (_) {
+//       print('Disconnected from the server');
+//     });
+//   }
+// }
 
 class DeviceDetails extends StatefulWidget {
   late String deviceId;
@@ -101,8 +100,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
-    SocketService()
-        .initializeSocket('http://192.168.2.1:8000', widget.deviceId);
+    // SocketService()
+    //     .initializeSocket('http://192.168.2.1:8000', widget.deviceId);
   }
 
   @override
@@ -449,7 +448,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => LiveView(),
+                                              builder: (context) => LiveView(widget.deviceId),
                                             ),
                                           );
                                         },

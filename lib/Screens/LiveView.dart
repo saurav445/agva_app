@@ -1,20 +1,63 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
+
+class SocketService {
+  static final SocketService _instance = SocketService._internal();
+
+  factory SocketService() {
+    return _instance;
+  }
+
+  SocketService._internal();
+  late String deviceId;
+  late io.Socket socket;
+
+  void initializeSocket(String serverUrl, String deviceId) {
+    this.deviceId = deviceId;
+
+    socket = io.io(serverUrl, <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': true,
+    });
+
+    socket.on('connect', (data) {
+      print('Connected to the server');
+
+      socket.emit('ReactStartUp', this.deviceId);
+
+      socket.on('DataReceivingReact', (data) {
+        print("Received data from server: $data");
+      });
+    });
+
+    socket.on('disconnect', (_) {
+      print('Disconnected from the server');
+    });
+  }
+}
 
 class LiveView extends StatefulWidget {
+    final String deviceId;
+  LiveView(this.deviceId);
+
   @override
   _LiveViewState createState() => _LiveViewState();
 }
 
 class _LiveViewState extends State<LiveView> {
+  late String deviceId;
   @override
   void initState() {
     super.initState();
+    deviceId = widget.deviceId;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
+    // SocketService()
+    //     .initializeSocket('http://192.168.2.1:8000', widget.deviceId);
   }
 
   @override
@@ -30,7 +73,7 @@ class _LiveViewState extends State<LiveView> {
 
   @override
   Widget build(BuildContext context) {
-    
+     SocketService().initializeSocket('http://192.168.2.1:8000', widget.deviceId);
     return SafeArea(
       child: Scaffold(
         body: Stack(

@@ -11,7 +11,7 @@ class SocketService {
 
   late io.Socket socket;
 
-  void initializeSocket(String serverUrl) {
+  void initializeSocket(String serverUrl, deviceId) {
     socket = io.io(serverUrl, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': true,
