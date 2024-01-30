@@ -22,7 +22,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
     streamController = StreamController<List<FlSpot>>();
     streamController.add(graphdata);
 
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer.periodic(Duration(milliseconds: 500), (timer) {
       graphdata = generateRandomData();
       streamController.add(graphdata);
     });

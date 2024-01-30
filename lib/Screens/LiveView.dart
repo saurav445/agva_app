@@ -44,40 +44,32 @@ class SocketServices {
 
       socket.emit('ReactStartUp', this.deviceId);
 
- socket.on('DataReceivingReact', (data) {
-    modeData = data.split("^")[1];
-    onDataReceived(modeData); // Call the callback to notify the UI
-  });
-
-      // socket.on('DataReceivingReact', (data) {
-      //   // print("Received data from server: $data");
-
-      //   // var modeData = data.split("^")[1];
-      //   // var observedData = data.split("^")[2].split(",");
-      //   // var setParameter = data.split("^")[3].split(",");
-      //   // var secondaryObserved = data.split("^")[4].split(",");
-      //   // var spo2List = data.split("^")[5].split(",");
-      //   // var alertData = data.split("^")[6];
-      //   // var batteryAlarmData = data.split("^")[7];
-      //   // print(modeData);
-      //   // print(observedData);
-      //   // print(setParameter);
-      //   // print(secondaryObserved);
-      //   // print(spo2List);
-      //   // print(alertData);
-      //   // print(batteryAlarmData);
-        
-      // });
-      
+      socket.on('DataReceivingReact', (data) {
+        modeData = data.split("^")[1];
+        // alertData = data.split("^")[6];
+        //old method
+        // var observedData = data.split("^")[2].split(",");
+        // var setParameter = data.split("^")[3].split(",");
+        // var secondaryObserved = data.split("^")[4].split(",");
+        // var spo2List = data.split("^")[5].split(",");
+        // var alertData = data.split("^")[6];
+        // var batteryAlarmData = data.split("^")[7];
+        // print(modeData);
+        // print(observedData);
+        // print(setParameter);
+        // print(secondaryObserved);
+        // print(spo2List);
+        // print(alertData);
+        // print(batteryAlarmData);
+        onDataReceived(modeData);
+        //  onDataReceived(observedData as String);
+      });
     });
 
     socket.on('disconnect', (_) {
       print('Disconnected from the server');
-      
     });
-    
   }
-  
 }
 
 class LiveView extends StatefulWidget {
@@ -103,9 +95,11 @@ class _LiveViewState extends State<LiveView> {
     ]);
     SocketServices socketService = SocketServices();
     socketService.initializeSocket('http://192.168.2.1:8000', widget.deviceId);
-    socketService.setOnDataReceivedCallback((data) {
+    socketService.setOnDataReceivedCallback((
+      data,
+    ) {
       setState(() {
-        modeData = data; 
+        modeData = data;
         print(modeData);
       });
     });
@@ -124,8 +118,6 @@ class _LiveViewState extends State<LiveView> {
 
   @override
   Widget build(BuildContext context) {
-    // SocketServices()
-    //     .initializeSocket('http://192.168.2.1:8000', widget.deviceId);
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -135,7 +127,7 @@ class _LiveViewState extends State<LiveView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 //header
-                Header(),
+                Header(modeData),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.003,
                 ),
@@ -192,8 +184,9 @@ class _LiveViewState extends State<LiveView> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.002,
                     ),
-                    //tiles
-                  Tiles(modeData),
+
+                    //observerdata tiles
+                    Tiles(),
                   ],
                 ),
 
@@ -208,10 +201,6 @@ class _LiveViewState extends State<LiveView> {
 }
 
 class Tiles extends StatelessWidget {
-late String modeData;
-  Tiles(String modeData);
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -252,8 +241,8 @@ late String modeData;
                   ],
                 ),
                 Text(
-                  // '20',
-                  modeData ?? '20',
+                  '20',
+                  // observedData[0] ?? '20',
                   style: TextStyle(
                     fontFamily: 'Avenir',
                     color: Color.fromARGB(255, 218, 218, 218),
@@ -937,9 +926,11 @@ class MenuButtons extends StatelessWidget {
 }
 
 class Header extends StatelessWidget {
-  const Header({
-    super.key,
-  });
+  late String modeData;
+
+  Header(String modeData) {
+    this.modeData = modeData;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -964,7 +955,7 @@ class Header extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'PC-SIMV',
+                  modeData ?? 'no mode',
                   style: TextStyle(
                     fontFamily: 'Avenir',
                     color: Color.fromARGB(255, 218, 218, 218),
