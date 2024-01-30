@@ -29,7 +29,7 @@ class _TrendsState extends State<Trends> {
 
   Future<void> getTrendsbyId() async {
     var response = await http.get(
-      Uri.parse('$getDeviceTrendsbyID/$deviceId'),
+      Uri.parse('$getDeviceTrendsbyID/$deviceId?page=2&limit=5'),
     );
     var jsonResponse = jsonDecode(response.body);
     if (jsonResponse['statusCode'] == 200) {
@@ -164,20 +164,20 @@ class _TrendsState extends State<Trends> {
                         color: Color.fromARGB(255, 218, 218, 218),
                       ),
                     ),
-                    Text(
-                      '${trendsData['texp']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 218, 218, 218),
-                      ),
-                    ),
-                    Text(
-                      '${trendsData['averageLeak']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 218, 218, 218),
-                      ),
-                    ),
+                    // Text(
+                    //   '${trendsData['texp']}',
+                    //   style: TextStyle(
+                    //     fontSize: 12,
+                    //     color: Color.fromARGB(255, 218, 218, 218),
+                    //   ),
+                    // ),
+                    // Text(
+                    //   '${trendsData['averageLeak']}',
+                    //   style: TextStyle(
+                    //     fontSize: 12,
+                    //     color: Color.fromARGB(255, 218, 218, 218),
+                    //   ),
+                    // ),
                   ],
                 );
               }).toList(),
@@ -305,20 +305,20 @@ class _TrendsState extends State<Trends> {
                 color: Color.fromARGB(255, 218, 218, 218),
               ),
             ),
-            Text(
-              '0',
-              style: TextStyle(
-                fontSize: 12,
-                color: Color.fromARGB(255, 218, 218, 218),
-              ),
-            ),
-            Text(
-              '0',
-              style: TextStyle(
-                fontSize: 12,
-                color: Color.fromARGB(255, 218, 218, 218),
-              ),
-            ),
+            // Text(
+            //   '0',
+            //   style: TextStyle(
+            //     fontSize: 12,
+            //     color: Color.fromARGB(255, 218, 218, 218),
+            //   ),
+            // ),
+            // Text(
+            //   '0',
+            //   style: TextStyle(
+            //     fontSize: 12,
+            //     color: Color.fromARGB(255, 218, 218, 218),
+            //   ),
+            // ),
           ],
         ),
       ],

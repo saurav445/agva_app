@@ -112,20 +112,20 @@ class TrendsHeader extends StatelessWidget {
                   color: Color.fromARGB(255, 218, 218, 218),
                 ),
               ),
-              Text(
-                'Texp',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 218, 218, 218),
-                ),
-              ),
-              Text(
-                'Average Leak',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 218, 218, 218),
-                ),
-              ),
+              // Text(
+              //   'Texp',
+              //   style: TextStyle(
+              //     fontSize: 12,
+              //     color: Color.fromARGB(255, 218, 218, 218),
+              //   ),
+              // ),
+              // Text(
+              //   'Average Leak',
+              //   style: TextStyle(
+              //     fontSize: 12,
+              //     color: Color.fromARGB(255, 218, 218, 218),
+              //   ),
+              // ),
             ],
           ),
           Column(
@@ -229,20 +229,20 @@ class TrendsHeader extends StatelessWidget {
                   color: Color.fromARGB(255, 218, 218, 218),
                 ),
               ),
-              Text(
-                'sec',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 218, 218, 218),
-                ),
-              ),
-              Text(
-                '%',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 218, 218, 218),
-                ),
-              ),
+              // Text(
+              //   'sec',
+              //   style: TextStyle(
+              //     fontSize: 12,
+              //     color: Color.fromARGB(255, 218, 218, 218),
+              //   ),
+              // ),
+              // Text(
+              //   '%',
+              //   style: TextStyle(
+              //     fontSize: 12,
+              //     color: Color.fromARGB(255, 218, 218, 218),
+              //   ),
+              // ),
             ],
           ),
         ],

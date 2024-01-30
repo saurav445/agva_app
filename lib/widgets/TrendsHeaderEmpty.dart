@@ -111,20 +111,20 @@ class TrendsHeaderEmpty extends StatelessWidget {
                   color: Color.fromARGB(255, 218, 218, 218),
                 ),
               ),
-              Text(
-                'N/A',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 218, 218, 218),
-                ),
-              ),
-              Text(
-                'N/A',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 218, 218, 218),
-                ),
-              ),
+              // Text(
+              //   'N/A',
+              //   style: TextStyle(
+              //     fontSize: 12,
+              //     color: Color.fromARGB(255, 218, 218, 218),
+              //   ),
+              // ),
+              // Text(
+              //   'N/A',
+              //   style: TextStyle(
+              //     fontSize: 12,
+              //     color: Color.fromARGB(255, 218, 218, 218),
+              //   ),
+              // ),
             ],
           ),
           Column(
@@ -228,20 +228,20 @@ class TrendsHeaderEmpty extends StatelessWidget {
                   color: Color.fromARGB(255, 218, 218, 218),
                 ),
               ),
-              Text(
-                'N/A',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 218, 218, 218),
-                ),
-              ),
-              Text(
-                'N/A',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 218, 218, 218),
-                ),
-              ),
+              // Text(
+              //   'N/A',
+              //   style: TextStyle(
+              //     fontSize: 12,
+              //     color: Color.fromARGB(255, 218, 218, 218),
+              //   ),
+              // ),
+              // Text(
+              //   'N/A',
+              //   style: TextStyle(
+              //     fontSize: 12,
+              //     color: Color.fromARGB(255, 218, 218, 218),
+              //   ),
+              // ),
             ],
           ),
         ],

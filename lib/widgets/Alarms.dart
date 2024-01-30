@@ -27,7 +27,7 @@ class _AlarmsState extends State<Alarms> {
 
   Future<void> getAlarmbyId() async {
     var response = await http.get(
-      Uri.parse('$getDeviceAlarmsbyID/$deviceId'),
+      Uri.parse('$getDeviceAlarmsbyID/$deviceId?page=4&limit=5'),
     );
     jsonResponse = jsonDecode(response.body);
     print('Current Device ID: $deviceId');

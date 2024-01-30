@@ -27,7 +27,7 @@ class _EventsState extends State<Events> {
 
   Future<void> getEventusingId() async {
     var response = await http.get(
-      Uri.parse('$getDeviceEventbyID/$deviceId'),
+      Uri.parse('$getDeviceEventbyID/$deviceId?page=4&limit=5'),
     );
     jsonResponse = jsonDecode(response.body);
     print('Current Device ID: $deviceId');
@@ -149,7 +149,7 @@ class _EventsState extends State<Events> {
 
   Widget buildMsgContent(String text) {
     return SizedBox(
-      width: 150,
+       width: MediaQuery.of(context).size.width * 0.17,
       child: Text(
         text,
         maxLines: 3,

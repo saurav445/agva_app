@@ -110,6 +110,8 @@ class _MonitorDataState extends State<MonitorData> {
                       Container(
                         height: 35,
                         width: 800,
+              //                         height: MediaQuery.of(context).size.height * 0.11,
+              // width: MediaQuery.of(context).size.width * 0.15,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Color.fromARGB(255, 157, 0, 86),
@@ -125,8 +127,10 @@ class _MonitorDataState extends State<MonitorData> {
                         ),
                       ),
                       Container(
-                        height: 280,
-                        width: 800,
+                        // height: 280,
+                        // width: 800,
+                                      height: MediaQuery.of(context).size.height * 0.6,
+              width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Color.fromARGB(255, 65, 65, 65),
