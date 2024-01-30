@@ -43,7 +43,7 @@ class ResponsiveTileWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.001,
+                  height: MediaQuery.of(context).size.height * 0.005,
                 ),
                 Text(
                   unit,
