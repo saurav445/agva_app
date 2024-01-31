@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable, unused_import
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable, unused_import, unnecessary_string_interpolations, use_key_in_widget_constructors
 import 'package:agva_app/widgets/chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +16,8 @@ class SocketServices {
 
   late io.Socket socket;
   late String deviceId;
-  late String modeData;
 
+//for values
   late void Function(String, List<String>, List<String>, List<String>,
       List<String>, String, String) onDataReceived;
 
@@ -26,6 +26,14 @@ class SocketServices {
               List<String>, String, String)
           callback) {
     onDataReceived = callback;
+  }
+
+// for graph
+  late void Function(int, double, double, double) onGraphReceived;
+
+  void setOnGraphReceivedCallback(
+      void Function(int, double, double, double) callback) {
+    onGraphReceived = callback;
   }
 
   void initializeSocket(String serverUrl, String deviceId) {
@@ -41,8 +49,24 @@ class SocketServices {
 
       socket.emit('ReactStartUp', this.deviceId);
 
+      socket.on('DataGraphReceivingReact', (data) {
+        var graphDataString = data.split("^")[1];
+        List<String> graphDataList = graphDataString.split(",");
+        int xvalue = int.parse(graphDataList[0]);
+        double pressure = double.parse(graphDataList[1]);
+        double volume = double.parse(graphDataList[2]);
+        double flow = double.parse(graphDataList[3]);
+
+        print("X: $xvalue");
+        print("Pressure: $pressure");
+        print("Volume: $volume");
+        print("Flow: $flow");
+
+        onGraphReceived(xvalue, pressure, volume, flow);
+      });
+
       socket.on('DataReceivingReact', (data) {
-        modeData = data.split("^")[1];
+        var modeData = data.split("^")[1];
         var observedData = data.split("^")[2].split(",");
         var setParameter = data.split("^")[3].split(",");
         var secondaryObserved = data.split("^")[4].split(",");
@@ -76,6 +100,10 @@ class _LiveViewState extends State<LiveView> {
   late List<String> secondaryObserved;
   late List<String> setParameter;
   late String alertData;
+  late String xvalue;
+  late String pressure;
+  late String volume;
+  late String flow;
 
   @override
   void initState() {
@@ -101,7 +129,21 @@ class _LiveViewState extends State<LiveView> {
         secondaryObserved = receivedSecondaryObserved;
         setParameter = receivedSetParameter;
         alertData = receivedAlertData;
-        print(' receivedAlertData $alertData');
+        // print(' receivedAlertData $alertData');
+      });
+    });
+
+    socketService.setOnGraphReceivedCallback((
+      receivedXvalue,
+      receivedPressure,
+      receivedVolume,
+      receivedFlow,
+    ) {
+      setState(() {
+        xvalue = receivedXvalue.toString();
+        pressure = receivedPressure.toString();
+        volume = receivedVolume.toString();
+        flow = receivedFlow.toString();
       });
     });
   }
@@ -159,31 +201,79 @@ class _LiveViewState extends State<LiveView> {
                             children: [
                               Container(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.2,
+                                    MediaQuery.of(context).size.height * 0.6,
                                 width: MediaQuery.of(context).size.width * 0.73,
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 35, 35, 35),
+                                  color: Color.fromARGB(255, 0, 0, 0),
                                 ),
-                                child: LineChartWidget(socketData),
+                                child: LineChartWidget(
+                                    xvalue, pressure, volume, flow),
                               ),
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.2,
-                                width: MediaQuery.of(context).size.width * 0.73,
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 35, 35, 35),
-                                ),
-                                child: LineChartWidget(socketData),
-                              ),
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.2,
-                                width: MediaQuery.of(context).size.width * 0.73,
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 35, 35, 35),
-                                ),
-                                child: LineChartWidget(socketData),
-                              ),
+// Data screen
+
+                              // Expanded(
+                              //   child: GridView.builder(
+                              //     gridDelegate:
+                              //         SliverGridDelegateWithFixedCrossAxisCount(
+                              //       crossAxisCount: 2,
+                              //       crossAxisSpacing: 2.0,
+                              //       mainAxisSpacing: 2.0,
+                              //     ),
+                              //     itemCount: 1,
+                              //     itemBuilder:
+                              //         (BuildContext context, int index) {
+                              //       return Container(
+                              //         decoration: BoxDecoration(
+                              //           color: Color.fromARGB(255, 0, 0, 0),
+                              //         ),
+                              //         child: Column(
+                              //           mainAxisAlignment:
+                              //               MainAxisAlignment.spaceEvenly,
+                              //           children: [
+                              //             Text(
+                              //               'Pmean',
+                              //               style: TextStyle(
+                              //                 fontFamily: 'Avenir',
+                              //                 color: Color.fromARGB(
+                              //                     255, 136, 136, 136),
+                              //                 fontSize: MediaQuery.of(context)
+                              //                         .size
+                              //                         .width *
+                              //                     0.01,
+                              //               ),
+                              //             ),
+                              //             Text(
+                              //               'value',
+                              //               style: TextStyle(
+                              //                 fontFamily: 'Avenir',
+                              //                 color: Color.fromARGB(
+                              //                     255, 218, 218, 218),
+                              //                 fontSize: MediaQuery.of(context)
+                              //                         .size
+                              //                         .width *
+                              //                     0.02,
+                              //               ),
+                              //             ),
+                              //             Text(
+                              //               'cmH2O',
+                              //               style: TextStyle(
+                              //                 fontFamily: 'Avenir',
+                              //                 color: Color.fromARGB(
+                              //                     255, 136, 136, 136),
+                              //                 fontSize: MediaQuery.of(context)
+                              //                         .size
+                              //                         .width *
+                              //                     0.01,
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       );
+                              //     },
+                              //   ),
+                              // ),
+
+                              //datascreen
                             ],
                           ),
                         ),
@@ -192,7 +282,7 @@ class _LiveViewState extends State<LiveView> {
                         width: MediaQuery.of(context).size.width * 0.002,
                       ),
 
-                      //observerdata tiles
+                      //secondaryobserverdata tiles
                       Tiles(secondaryObserved),
                     ],
                   ),
@@ -778,4 +868,3 @@ class MenuButtons extends StatelessWidget {
     );
   }
 }
-

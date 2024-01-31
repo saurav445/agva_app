@@ -34,10 +34,8 @@ dependencies:
   provider:
   jwt_decoder:
   shared_preferences:
-  flutter_slidable:
   intl_phone_field: ^3.1.0
   font_awesome_flutter:
-  flutter_neumorphic: ^3.0.3
   
 
   # The following adds the Cupertino Icons font to your application.
