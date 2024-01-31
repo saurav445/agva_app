@@ -16,18 +16,15 @@ class SocketServices {
 
   late io.Socket socket;
   late String deviceId;
-
   late String modeData;
-  // late List<String> observedData;
-  // late List<String> setParameter;
-  // late List<String> secondaryObserved;
-  // late List<String> spo2List;
-  // late String alertData;
-  // late String batteryAlarmData;
 
-  late void Function(String) onDataReceived;
+  late void Function(String, List<String>, List<String>, List<String>,
+      List<String>, String, String) onDataReceived;
 
-  void setOnDataReceivedCallback(void Function(String) callback) {
+  void setOnDataReceivedCallback(
+      void Function(String, List<String>, List<String>, List<String>,
+              List<String>, String, String)
+          callback) {
     onDataReceived = callback;
   }
 
@@ -46,23 +43,15 @@ class SocketServices {
 
       socket.on('DataReceivingReact', (data) {
         modeData = data.split("^")[1];
-        // alertData = data.split("^")[6];
-        //old method
-        // var observedData = data.split("^")[2].split(",");
-        // var setParameter = data.split("^")[3].split(",");
-        // var secondaryObserved = data.split("^")[4].split(",");
-        // var spo2List = data.split("^")[5].split(",");
-        // var alertData = data.split("^")[6];
-        // var batteryAlarmData = data.split("^")[7];
-        // print(modeData);
-        // print(observedData);
-        // print(setParameter);
-        // print(secondaryObserved);
-        // print(spo2List);
-        // print(alertData);
-        // print(batteryAlarmData);
-        onDataReceived(modeData);
-        //  onDataReceived(observedData as String);
+        var observedData = data.split("^")[2].split(",");
+        var setParameter = data.split("^")[3].split(",");
+        var secondaryObserved = data.split("^")[4].split(",");
+        var spo2List = data.split("^")[5].split(",");
+        var alertData = data.split("^")[6];
+        var batteryAlarmData = data.split("^")[7];
+
+        onDataReceived(modeData, observedData, setParameter, secondaryObserved,
+            spo2List, alertData, batteryAlarmData);
       });
     });
 
@@ -84,6 +73,9 @@ class _LiveViewState extends State<LiveView> {
   List<FlSpot> socketData = [];
   late String deviceId;
   late String modeData;
+  late List<String> secondaryObserved;
+  late List<String> setParameter;
+  late String alertData;
 
   @override
   void initState() {
@@ -96,11 +88,20 @@ class _LiveViewState extends State<LiveView> {
     SocketServices socketService = SocketServices();
     socketService.initializeSocket('http://192.168.2.1:8000', widget.deviceId);
     socketService.setOnDataReceivedCallback((
-      data,
+      receivedModeData,
+      receivedObservedData,
+      receivedSetParameter,
+      receivedSecondaryObserved,
+      receivedSpo2List,
+      receivedAlertData,
+      receivedBatteryAlarmData,
     ) {
       setState(() {
-        modeData = data;
-        print(modeData);
+        modeData = receivedModeData;
+        secondaryObserved = receivedSecondaryObserved;
+        setParameter = receivedSetParameter;
+        alertData = receivedAlertData;
+        print(' receivedAlertData $alertData');
       });
     });
   }
@@ -122,815 +123,95 @@ class _LiveViewState extends State<LiveView> {
       child: Scaffold(
         body: Stack(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                //header
-                Header(modeData),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.003,
-                ),
-                //buttons & graphs & tiles
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    //Side menu buttons
-                    MenuButtons(),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.002,
-                    ),
-                    //graph screen
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.7,
-                      width: MediaQuery.of(context).size.width * 0.73,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 0, 0, 0),
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  //header
+                  Header(modeData),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.002,
+                  ),
+                  //buttons & graphs & tiles
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      //Side menu buttons
+                      MenuButtons(),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.002,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.2,
-                              width: MediaQuery.of(context).size.width * 0.73,
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 35, 35, 35),
+                      //graph screen
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        width: MediaQuery.of(context).size.width * 0.73,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.2,
+                                width: MediaQuery.of(context).size.width * 0.73,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 35, 35, 35),
+                                ),
+                                child: LineChartWidget(socketData),
                               ),
-                              child: LineChartWidget(socketData),
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.2,
-                              width: MediaQuery.of(context).size.width * 0.73,
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 35, 35, 35),
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.2,
+                                width: MediaQuery.of(context).size.width * 0.73,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 35, 35, 35),
+                                ),
+                                child: LineChartWidget(socketData),
                               ),
-                              child: LineChartWidget(socketData),
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.2,
-                              width: MediaQuery.of(context).size.width * 0.73,
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 35, 35, 35),
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.2,
+                                width: MediaQuery.of(context).size.width * 0.73,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 35, 35, 35),
+                                ),
+                                child: LineChartWidget(socketData),
                               ),
-                              child: LineChartWidget(socketData),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.002,
-                    ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.002,
+                      ),
 
-                    //observerdata tiles
-                    Tiles(),
-                  ],
-                ),
+                      //observerdata tiles
+                      Tiles(secondaryObserved),
+                    ],
+                  ),
 
-                BottomTiles(),
-              ],
+                  BottomTiles(setParameter),
+                ],
+              ),
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class Tiles extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height * 0.14,
-          width: MediaQuery.of(context).size.width * 0.16,
-          decoration: BoxDecoration(
-            border: Border.all(color: const Color.fromARGB(255, 90, 90, 90)),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      'PIP',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                    Text(
-                      'cmH2O',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  '20',
-                  // observedData[0] ?? '20',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.02,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.14,
-          width: MediaQuery.of(context).size.width * 0.16,
-          decoration: BoxDecoration(
-            border: Border.all(color: const Color.fromARGB(255, 90, 90, 90)),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      'PEEP',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                    Text(
-                      'cmH2O',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  '5',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.02,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.14,
-          width: MediaQuery.of(context).size.width * 0.16,
-          decoration: BoxDecoration(
-            border: Border.all(color: const Color.fromARGB(255, 90, 90, 90)),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      'VTi',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                    Text(
-                      'ml',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  '150',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.02,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.14,
-          width: MediaQuery.of(context).size.width * 0.16,
-          decoration: BoxDecoration(
-            border: Border.all(color: const Color.fromARGB(255, 90, 90, 90)),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      'RR',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                    Text(
-                      'bpm',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  '16',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.02,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.14,
-          width: MediaQuery.of(context).size.width * 0.16,
-          decoration: BoxDecoration(
-            border: Border.all(color: const Color.fromARGB(255, 90, 90, 90)),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      'FiO2',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                    Text(
-                      '%',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  '21',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.02,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class BottomTiles extends StatelessWidget {
-  const BottomTiles({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 8, 8, 8),
-        ),
-        child: Row(
-          //  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.11,
-              width: MediaQuery.of(context).size.width * 0.15,
-              decoration: BoxDecoration(
-                border: Border.symmetric(
-                    vertical: BorderSide(
-                        color: const Color.fromARGB(255, 90, 90, 90))),
-                color: Color.fromARGB(255, 8, 8, 8),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'FiO2',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                    Text(
-                      '20',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                    ),
-                    Text(
-                      '%',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.11,
-              width: MediaQuery.of(context).size.width * 0.15,
-              decoration: BoxDecoration(
-                border: Border.symmetric(
-                    vertical: BorderSide(
-                        color: const Color.fromARGB(255, 90, 90, 90))),
-                color: Color.fromARGB(255, 8, 8, 8),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'RR',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                    Text(
-                      '16',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                    ),
-                    Text(
-                      'bpm',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.11,
-              width: MediaQuery.of(context).size.width * 0.15,
-              decoration: BoxDecoration(
-                border: Border.symmetric(
-                    vertical:
-                        BorderSide(color: Color.fromARGB(255, 71, 64, 64))),
-                color: Color.fromARGB(255, 8, 8, 8),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Trigger',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                    Text(
-                      '5.0',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                    ),
-                    Text(
-                      'l/min',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.11,
-              width: MediaQuery.of(context).size.width * 0.15,
-              decoration: BoxDecoration(
-                border: Border.symmetric(
-                    vertical: BorderSide(
-                        color: const Color.fromARGB(255, 90, 90, 90))),
-                color: Color.fromARGB(255, 8, 8, 8),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'PEEP',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                    Text(
-                      '5',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                    ),
-                    Text(
-                      'cmH2O',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.11,
-              width: MediaQuery.of(context).size.width * 0.15,
-              decoration: BoxDecoration(
-                border: Border.symmetric(
-                    vertical: BorderSide(
-                        color: const Color.fromARGB(255, 90, 90, 90))),
-                color: Color.fromARGB(255, 8, 8, 8),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Psupp',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                    Text(
-                      '10',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                    ),
-                    Text(
-                      'cmH2O',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.11,
-              width: MediaQuery.of(context).size.width * 0.15,
-              decoration: BoxDecoration(
-                border: Border.symmetric(
-                    vertical: BorderSide(
-                        color: const Color.fromARGB(255, 90, 90, 90))),
-                color: Color.fromARGB(255, 8, 8, 8),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Pinsp',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                    Text(
-                      '14',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                    ),
-                    Text(
-                      'cmH2O',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.04,
-            ),
-            Image.asset(
-              "assets/images/add.png",
-              height: 20,
-              fit: BoxFit.cover,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MenuButtons extends StatelessWidget {
-  const MenuButtons({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'DATA',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'ALARMS',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'LOOPS',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'GRAPHS',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'MODES',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'CONTROLS',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'SYSTEM',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
 
 class Header extends StatelessWidget {
-  late String modeData;
+  final String modeData;
 
-  Header(String modeData) {
-    this.modeData = modeData;
-  }
+  Header(this.modeData);
 
   @override
   Widget build(BuildContext context) {
@@ -955,7 +236,7 @@ class Header extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  modeData ?? 'no mode',
+                  modeData,
                   style: TextStyle(
                     fontFamily: 'Avenir',
                     color: Color.fromARGB(255, 218, 218, 218),
@@ -1187,3 +468,314 @@ class Header extends StatelessWidget {
     );
   }
 }
+
+class BottomTiles extends StatelessWidget {
+  final List<String> setParameter;
+
+  const BottomTiles(this.setParameter, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 8, 8, 8),
+      ),
+      child: Row(
+        children: setParameter.map((parameter) {
+          var splitParameter = parameter.split('~');
+          var parameterName = splitParameter[0];
+          var parameterValue = splitParameter[1];
+
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.11,
+            width: MediaQuery.of(context).size.width * 0.12,
+            decoration: BoxDecoration(
+              border: Border.symmetric(
+                vertical: BorderSide(
+                  color: const Color.fromARGB(255, 90, 90, 90),
+                ),
+              ),
+              color: Color.fromARGB(255, 8, 8, 8),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    parameterName,
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 136, 136, 136),
+                      fontSize: MediaQuery.of(context).size.width * 0.01,
+                    ),
+                  ),
+                  Text(
+                    parameterValue,
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 218, 218, 218),
+                      fontSize: MediaQuery.of(context).size.width * 0.02,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+class Tiles extends StatelessWidget {
+  final List<String> secondaryObserved;
+
+  Tiles(this.secondaryObserved);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: secondaryObserved.map((data) {
+        var keyValuePairs = data.split(', ');
+        Map<String, String> valuesMap = {};
+        keyValuePairs.forEach((pair) {
+          var splitPair = pair.split('~');
+          valuesMap[splitPair[0]] = splitPair[1];
+        });
+
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.14,
+          width: MediaQuery.of(context).size.width * 0.16,
+          decoration: BoxDecoration(
+            border: Border.all(color: const Color.fromARGB(255, 90, 90, 90)),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: valuesMap.entries.map((entry) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      entry.key,
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 136, 136, 136),
+                        fontSize: MediaQuery.of(context).size.width * 0.01,
+                      ),
+                    ),
+                    Text(
+                      entry.value,
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 218, 218, 218),
+                        fontSize: MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                  ],
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+}
+
+class MenuButtons extends StatelessWidget {
+  const MenuButtons({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'DATA',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.015,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'ALARMS',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.015,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'LOOPS',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.015,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'GRAPHS',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.015,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'MODES',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.015,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'CONTROLS',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.015,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'SYSTEM',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.015,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
