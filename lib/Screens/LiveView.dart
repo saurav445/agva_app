@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable, unused_import, unnecessary_string_interpolations, use_key_in_widget_constructors
-import 'package:agva_app/widgets/chart.dart';
+import 'package:agva_app/widgets/LineChartWidget.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,10 +29,10 @@ class SocketServices {
   }
 
 // for graph
-  late void Function(int, double, double, double) onGraphReceived;
+  late void Function(int, double, double, double, List<String>) onGraphReceived;
 
   void setOnGraphReceivedCallback(
-      void Function(int, double, double, double) callback) {
+      void Function(int, double, double, double, List<String>) callback) {
     onGraphReceived = callback;
   }
 
@@ -52,17 +52,17 @@ class SocketServices {
       socket.on('DataGraphReceivingReact', (data) {
         var graphDataString = data.split("^")[1];
         List<String> graphDataList = graphDataString.split(",");
-        int xvalue = int.parse(graphDataList[0]);
+        double xvalue = double.parse(graphDataList[0]);
         double pressure = double.parse(graphDataList[1]);
         double volume = double.parse(graphDataList[2]);
         double flow = double.parse(graphDataList[3]);
 
-        print("X: $xvalue");
-        print("Pressure: $pressure");
-        print("Volume: $volume");
-        print("Flow: $flow");
+        // print("X: $xvalue");
+        // print("Pressure: $pressure");
+        // print("Volume: $volume");
+        // print("Flow: $flow");
 
-        onGraphReceived(xvalue, pressure, volume, flow);
+        onGraphReceived(xvalue.toInt(), pressure, volume, flow, graphDataList);
       });
 
       socket.on('DataReceivingReact', (data) {
@@ -94,16 +94,21 @@ class LiveView extends StatefulWidget {
 }
 
 class _LiveViewState extends State<LiveView> {
+  String selectedMenu = 'DATA';
+
   List<FlSpot> socketData = [];
+
   late String deviceId;
   late String modeData;
   late List<String> secondaryObserved;
+  late List<String> observedData;
   late List<String> setParameter;
   late String alertData;
   late String xvalue;
   late String pressure;
   late String volume;
   late String flow;
+  late List<String> graphData;
 
   @override
   void initState() {
@@ -129,21 +134,20 @@ class _LiveViewState extends State<LiveView> {
         secondaryObserved = receivedSecondaryObserved;
         setParameter = receivedSetParameter;
         alertData = receivedAlertData;
+        observedData = receivedObservedData;
+        print(' receivedObservedData : $observedData');
         // print(' receivedAlertData $alertData');
       });
     });
 
-    socketService.setOnGraphReceivedCallback((
-      receivedXvalue,
-      receivedPressure,
-      receivedVolume,
-      receivedFlow,
-    ) {
+    socketService.setOnGraphReceivedCallback((receivedXvalue, receivedPressure,
+        receivedVolume, receivedFlow, receivedGraphData) {
       setState(() {
         xvalue = receivedXvalue.toString();
         pressure = receivedPressure.toString();
         volume = receivedVolume.toString();
         flow = receivedFlow.toString();
+        graphData = receivedGraphData;
       });
     });
   }
@@ -183,7 +187,9 @@ class _LiveViewState extends State<LiveView> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       //Side menu buttons
-                      MenuButtons(),
+                      MenuButtons(
+                       selectedMenu),
+
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.002,
                       ),
@@ -199,6 +205,11 @@ class _LiveViewState extends State<LiveView> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              // Data screen
+                              if (selectedMenu == 'DATA')
+                                DataScreen(observedData: observedData),
+
+//graphContainer
                               Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.6,
@@ -207,73 +218,13 @@ class _LiveViewState extends State<LiveView> {
                                   color: Color.fromARGB(255, 0, 0, 0),
                                 ),
                                 child: LineChartWidget(
-                                    xvalue, pressure, volume, flow),
+                                  xvalue,
+                                  pressure,
+                                  volume,
+                                  flow,
+                                ),
                               ),
-// Data screen
-
-                              // Expanded(
-                              //   child: GridView.builder(
-                              //     gridDelegate:
-                              //         SliverGridDelegateWithFixedCrossAxisCount(
-                              //       crossAxisCount: 2,
-                              //       crossAxisSpacing: 2.0,
-                              //       mainAxisSpacing: 2.0,
-                              //     ),
-                              //     itemCount: 1,
-                              //     itemBuilder:
-                              //         (BuildContext context, int index) {
-                              //       return Container(
-                              //         decoration: BoxDecoration(
-                              //           color: Color.fromARGB(255, 0, 0, 0),
-                              //         ),
-                              //         child: Column(
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.spaceEvenly,
-                              //           children: [
-                              //             Text(
-                              //               'Pmean',
-                              //               style: TextStyle(
-                              //                 fontFamily: 'Avenir',
-                              //                 color: Color.fromARGB(
-                              //                     255, 136, 136, 136),
-                              //                 fontSize: MediaQuery.of(context)
-                              //                         .size
-                              //                         .width *
-                              //                     0.01,
-                              //               ),
-                              //             ),
-                              //             Text(
-                              //               'value',
-                              //               style: TextStyle(
-                              //                 fontFamily: 'Avenir',
-                              //                 color: Color.fromARGB(
-                              //                     255, 218, 218, 218),
-                              //                 fontSize: MediaQuery.of(context)
-                              //                         .size
-                              //                         .width *
-                              //                     0.02,
-                              //               ),
-                              //             ),
-                              //             Text(
-                              //               'cmH2O',
-                              //               style: TextStyle(
-                              //                 fontFamily: 'Avenir',
-                              //                 color: Color.fromARGB(
-                              //                     255, 136, 136, 136),
-                              //                 fontSize: MediaQuery.of(context)
-                              //                         .size
-                              //                         .width *
-                              //                     0.01,
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //       );
-                              //     },
-                              //   ),
-                              // ),
-
-                              //datascreen
+                             
                             ],
                           ),
                         ),
@@ -292,6 +243,269 @@ class _LiveViewState extends State<LiveView> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class MenuButtons extends StatelessWidget {
+  // final Function(String) onMenuSelected;
+  late String selectedMenu;
+
+  MenuButtons(this.selectedMenu,);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        GestureDetector(
+          onTap: () {
+            selectedMenu;
+          },
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.1,
+            width: MediaQuery.of(context).size.width * 0.1,
+            decoration: BoxDecoration(
+              // borderRadius: BorderRadius.circular(5),
+              color: Color.fromARGB(255, 8, 8, 8),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(9.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'DATA',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 218, 218, 218),
+                      fontSize: MediaQuery.of(context).size.width * 0.015,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'ALARMS',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.015,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'LOOPS',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.015,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'GRAPHS',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.015,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'MODES',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.015,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'CONTROLS',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.015,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 8, 8, 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'SYSTEM',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.015,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class DataScreen extends StatelessWidget {
+  const DataScreen({
+    Key? key,
+    required this.observedData,
+  }) : super(key: key);
+
+  final List<String> observedData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 7,
+            crossAxisSpacing: 0.0,
+            mainAxisSpacing: 0.0,
+          ),
+          itemCount: observedData.length,
+          itemBuilder: (BuildContext context, int index) {
+            String data = observedData[index];
+            List<String> dataParts = data.split('~');
+            String label = dataParts[0];
+            String value = dataParts[1];
+
+            bool isMachineRelated = value.contains('Machine');
+
+            return Container(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 0, 0, 0),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    child: Column(
+                      children: [
+                        Text(
+                          label,
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 136, 136, 136),
+                            fontSize: MediaQuery.of(context).size.width * 0.01,
+                          ),
+                        ),
+                        Text(
+                          isMachineRelated ? 'M' : '$value',
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 218, 218, 218),
+                            fontSize: MediaQuery.of(context).size.width * 0.02,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
@@ -480,10 +694,13 @@ class Header extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.015,
               ),
-              Image.asset(
-                "assets/images/exit.png",
-                height: 20,
-                fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () => {Navigator.pop(context)},
+                child: Image.asset(
+                  "assets/images/exit.png",
+                  height: 20,
+                  fit: BoxFit.cover,
+                ),
               ),
             ],
           ),
@@ -675,196 +892,6 @@ class Tiles extends StatelessWidget {
           ),
         );
       }).toList(),
-    );
-  }
-}
-
-class MenuButtons extends StatelessWidget {
-  const MenuButtons({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'DATA',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'ALARMS',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'LOOPS',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'GRAPHS',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'MODES',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'CONTROLS',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.1,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 8, 8, 8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'SYSTEM',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.015,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

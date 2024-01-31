@@ -116,7 +116,7 @@ class _EventsState extends State<Events> {
                 buildColumnContent(builDeviceIdContent(eventData['did'])),
                 SizedBox(width: 10),
                 buildColumnContent(buildMsgContent(eventData['message'])),
-                SizedBox(width: 20),
+                SizedBox(         width: MediaQuery.of(context).size.width * 0.01,),
                 buildColumnContent(buildTypeContent(eventData['type'])),
                 buildColumnContent(buildDateContent(eventData['date'])),
                 buildColumnContent(buildTimeContent(eventData['time'])),

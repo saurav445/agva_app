@@ -93,25 +93,24 @@ class _MonitorDataState extends State<MonitorData> {
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  child: MDWidget(
-                      widget.wardNo,
-                      widget.message,
-                      widget.hospitalName,
-                      widget.bioMed,
-                      widget.departmentName,
-                      widget.aliasName),
-                ),
+                // Container(
+                //   child: MDWidget(
+                //       widget.wardNo,
+                //       widget.message,
+                //       widget.hospitalName,
+                //       widget.bioMed,
+                //       widget.departmentName,
+                //       widget.aliasName),
+                // ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Column(
                     children: [
                       Container(
-                        height: 35,
-                        width: 800,
-              //                         height: MediaQuery.of(context).size.height * 0.11,
-              // width: MediaQuery.of(context).size.width * 0.15,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: MediaQuery.of(context).size.width * 1,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Color.fromARGB(255, 157, 0, 86),
@@ -129,8 +128,8 @@ class _MonitorDataState extends State<MonitorData> {
                       Container(
                         // height: 280,
                         // width: 800,
-                                      height: MediaQuery.of(context).size.height * 0.6,
-              width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        width: MediaQuery.of(context).size.width * 1,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Color.fromARGB(255, 65, 65, 65),
@@ -159,8 +158,8 @@ class _MonitorDataState extends State<MonitorData> {
       padding: const EdgeInsets.all(1.0),
       child: Container(
         alignment: Alignment.center,
-        height: 32,
-        width: 98,
+        height: MediaQuery.of(context).size.height * 0.1,
+        width: MediaQuery.of(context).size.width * 0.09,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: buttonColor,
