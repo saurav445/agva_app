@@ -46,8 +46,6 @@ class _LiveViewState extends State<LiveView> {
         secondaryObserved = receivedSecondaryObserved;
         setParameter = receivedSetParameter;
         // alertData = receivedAlertData;
-
-        print(observedData);
       });
     });
 
