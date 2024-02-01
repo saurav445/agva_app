@@ -14,6 +14,7 @@ class DeviceList extends StatefulWidget {
 }
 
 class _DeviceListState extends State<DeviceList> {
+  bool isLoading = true;
   List<Map<String, dynamic>> devicesByHospitalList = [];
   List<Map<String, dynamic>> devicesForUserList = [];
   late String hospitalName;
@@ -49,6 +50,10 @@ class _DeviceListState extends State<DeviceList> {
   }
 
   Future<void> fetchGetDevicesForUser() async {
+    setState(() {
+      isLoading = true; // Set loading to true before fetching
+    });
+
     String? token = await getToken();
     if (token != null) {
       var response = await http.get(
@@ -60,11 +65,15 @@ class _DeviceListState extends State<DeviceList> {
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
         var data = jsonResponse['data'];
-        // print('Device by User: $data');
         devicesForUserList = List<Map<String, dynamic>>.from(data['data']);
-        setState(() {});
+        setState(() {
+          isLoading = false;
+        });
       } else {
         print('Invalid User Credential: ${response.statusCode}');
+        setState(() {
+          isLoading = false;
+        });
       }
     }
   }
@@ -95,8 +104,8 @@ class _DeviceListState extends State<DeviceList> {
                     color: Color.fromARGB(255, 65, 65, 65),
                   ),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 11, vertical: 10 ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 11, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -206,7 +215,7 @@ class _DeviceListState extends State<DeviceList> {
                     hospitalName,
                     bioMed,
                     departmentName,
-                    aliasName ),
+                    aliasName),
               ),
             );
           }
@@ -265,7 +274,7 @@ class _DeviceListState extends State<DeviceList> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.02,
                 ),
-      
+
                 // Devices List
                 Column(
                   children: buildDeviceList(),

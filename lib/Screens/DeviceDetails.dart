@@ -1,53 +1,14 @@
-// import 'dart:convert';
-// ignore_for_file: must_be_immutable
-
+// ignore_for_file: must_be_immutable, prefer_const_constructors
 import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
 import 'package:agva_app/widgets/Tiles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:socket_io_client/socket_io_client.dart' as io;
+import '../Service/SocketService.dart';
 import 'LiveView.dart';
 
-// class SocketService {
-//   static final SocketService _instance = SocketService._internal();
-
-//   factory SocketService() {
-//     return _instance;
-//   }
-
-//   SocketService._internal();
-//   late String deviceId;
-//   late io.Socket socket;
-
-//   void initializeSocket(String serverUrl, String deviceId) {
-//     this.deviceId = deviceId;
-
-//     socket = io.io(serverUrl, <String, dynamic>{
-//       'transports': ['websocket'],
-//       'autoConnect': true,
-//     });
-
-//     socket.on('connect', (data) {
-//       print('Connected to the server');
-
-//       socket.emit('ReactStartUp', this.deviceId);
-
-//       socket.on('DataReceivingReact', (data) {
-//         print("Received data from server: $data");
-//       });
-//     });
-
-//     socket.on('disconnect', (_) {
-//       print('Disconnected from the server');
-//     });
-//   }
-// }
-
 class DeviceDetails extends StatefulWidget {
-  late String deviceId;
+  final String deviceId;
   late String wardNo;
   late String deviceType;
   late String message;
@@ -64,49 +25,93 @@ class DeviceDetails extends StatefulWidget {
 }
 
 class _DeviceDetailsState extends State<DeviceDetails> {
-  late List<String> focusedDevices = [];
-
-  Future<void> updateFocusList(String deviceId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      if (focusedDevices.contains(deviceId)) {
-        focusedDevices.remove(deviceId);
-      } else {
-        focusedDevices.add(deviceId);
-      }
-    });
-
-    await prefs.setStringList('focusedDevices', focusedDevices);
-  }
-
-  Future<String?> getToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('mytoken');
-  }
-
-  Future<void> getFocusedDevices() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      focusedDevices = prefs.getStringList('focusedDevices') ?? [];
-    });
-  }
+  // late List<String> focusedDevices = [];
+  late String pip = '--';
+  late String mVi = '--';
+  late String vti = '--';
+  late String rr = '--';
+  late String pipValue = '--';
+  late String mViValue = '--';
+  late String vtiValue = '--';
+  late String rrValue = '--';
+  late String spo2value = '--';
+  late String pulseValue = '--';
+  late String fiO2 = '--';
+  late String fiO2Value = '--';
+  late String modeData = '--';
 
   @override
   void initState() {
     super.initState();
-    getFocusedDevices();
+    SocketServices()
+        .initializeSocket('http://192.168.92.71:8000', widget.deviceId);
+    SocketServices socketService = SocketServices();
+    socketService.tilesDataCallBack((
+      receivedPipData,
+      receivedPipValue,
+      receivedMviData,
+      receivedMviValue,
+      receivedVtiData,
+      receivedVtiValue,
+      receivedRRData,
+      receivedRRValue,
+      receivedSpo2Value,
+      receivedPulseValue,
+      receivedFio2Data,
+      receivedFio2Value,
+      receivedModeData
+    ) {
+      setState(() {
+        pip = receivedPipData;
+        mVi = receivedMviData;
+        vti = receivedVtiData;
+        rr = receivedRRData.substring(0, 5);
+        fiO2 = receivedFio2Data;
+        if (receivedPipValue.length > maxLength) {
+          pipValue = receivedPipValue.substring(0, maxLength);
+        } else {
+          pipValue = receivedPipValue;
+        }
+        if (receivedMviValue.length > maxLength) {
+          mViValue = receivedMviValue.substring(0, maxLength);
+        } else {
+          mViValue = receivedMviValue;
+        }
+        if (receivedVtiValue.length > maxLength) {
+          vtiValue = receivedVtiValue.substring(0, maxLength);
+        } else {
+          vtiValue = receivedVtiValue;
+        }
+        if (receivedRRValue.length > maxLength) {
+          rrValue = receivedRRValue.substring(0, maxLength);
+        } else {
+          rrValue = receivedRRValue;
+        }
+        if (receivedFio2Value.length > maxLength) {
+          fiO2Value = receivedFio2Value.substring(0, maxLength);
+        } else {
+          fiO2Value = receivedFio2Value;
+        }
+        spo2value = receivedSpo2Value;
+        pulseValue = receivedPulseValue;
+        modeData = receivedModeData;
+      });
+    });
+    // getFocusedDevices();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
-    // SocketService()
-    //     .initializeSocket('http://192.168.2.1:8000', widget.deviceId);
   }
+
+  final int maxLength = 4;
 
   @override
   void dispose() {
+    SocketServices()
+        .initializeSocket('http://192.168.92.71:8000', widget.deviceId);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -118,14 +123,14 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   @override
   Widget build(BuildContext context) {
-    bool isInFocus = focusedDevices.contains(widget.deviceId);
-    //  SocketService().initializeSocket('http://192.168.2.1:8000');
+    // bool isInFocus = focusedDevices.contains(widget.deviceId);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            widget.deviceId,
+            // widget.deviceId,
+            'Details',
             style: TextStyle(
               fontFamily: 'Avenir',
               fontSize: 24,
@@ -240,7 +245,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                 onPressed: () {},
                                 style: TextButton.styleFrom(),
                                 child: Text(
-                                  "PC-SIMV",
+                                  modeData,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize:
@@ -256,9 +261,10 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                   MediaQuery.of(context).size.height * 0.015,
                             ),
                             ResponsiveTileWidget(
-                              title: 'FiO2',
-                              value: '95',
-                              unit: '%',
+                              // == 'Machine' ? 'M' : 'Resp',
+//  == 'Machine' ? pipValue : respiratoryValue,
+                              title: fiO2,
+                              value: fiO2Value,
                               width: constraints.maxWidth * 0.42,
                             ),
                             SizedBox(
@@ -266,9 +272,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                   MediaQuery.of(context).size.height * 0.015,
                             ),
                             ResponsiveTileWidget(
-                              title: 'VTi',
-                              value: '45',
-                              unit: 'ml',
+                              title: vti,
+                              value: vtiValue,
                               width: constraints.maxWidth * 0.42,
                             ),
                             SizedBox(
@@ -277,8 +282,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                             ),
                             ResponsiveTileWidget(
                               title: 'SpO2',
-                              value: '125',
-                              unit: '%',
+                              value: spo2value,
                               width: constraints.maxWidth * 0.42,
                             ),
                           ],
@@ -291,9 +295,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             ResponsiveTileWidget(
-                              title: 'PIP',
-                              value: '54',
-                              unit: 'cmH2O',
+                              title: pip,
+                              value: pipValue,
                               width: constraints.maxWidth * 0.42,
                             ),
                             SizedBox(
@@ -301,9 +304,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                   MediaQuery.of(context).size.height * 0.015,
                             ),
                             ResponsiveTileWidget(
-                              title: 'RR',
-                              value: '58',
-                              unit: 'BPM',
+                              title: rr,
+                              value: rrValue,
                               width: constraints.maxWidth * 0.42,
                             ),
                             SizedBox(
@@ -311,9 +313,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                   MediaQuery.of(context).size.height * 0.015,
                             ),
                             ResponsiveTileWidget(
-                              title: 'MVi',
-                              value: '69',
-                              unit: 'Liters',
+                              title: mVi,
+                              value: mViValue,
                               width: constraints.maxWidth * 0.42,
                             ),
                             SizedBox(
@@ -322,8 +323,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                             ),
                             ResponsiveTileWidget(
                               title: 'PULSE',
-                              value: '47',
-                              unit: 'BPM',
+                              value: pulseValue,
                               width: constraints.maxWidth * 0.42,
                             ),
                           ],
@@ -449,7 +449,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => LiveView(widget.deviceId),
+                                              builder: (context) =>
+                                                  LiveView(widget.deviceId),
                                             ),
                                           );
                                         },
@@ -523,13 +524,14 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                             ),
                             child: TextButton(
                               onPressed: () {
-                                updateFocusList(widget.deviceId);
+                                // updateFocusList(widget.deviceId);
                               },
                               style: TextButton.styleFrom(),
                               child: Text(
-                                isInFocus
-                                    ? "REMOVE FROM FOCUS"
-                                    : "ADD TO FOCUS",
+                                // isInFocus
+                                //     ? "REMOVE FROM FOCUS"
+                                //     :
+                                "ADD TO FOCUS",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize:

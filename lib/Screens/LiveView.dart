@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable, unused_import, unnecessary_string_interpolations, use_key_in_widget_constructors
+import 'dart:async';
+import 'package:socket_io_client/socket_io_client.dart' as io;
+import 'package:agva_app/Screens/DeviceDetails.dart';
 import 'package:agva_app/widgets/LineChartWidget.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:socket_io_client/socket_io_client.dart' as io;
-
 import '../Service/SocketService.dart';
 
 class LiveView extends StatefulWidget {
@@ -17,61 +18,43 @@ class LiveView extends StatefulWidget {
 
 class _LiveViewState extends State<LiveView> {
   String selectedMenu = 'DATA';
-
-  List<FlSpot> socketData = [];
-
   late String deviceId;
-  late String modeData;
-  late List<String> secondaryObserved;
+  late String modeData = '-';
   late List<String> observedData;
   late List<String> setParameter;
-  late String alertData;
-  late String xvalue;
-  late String pressure;
-  late String volume;
-  late String flow;
-  late List<String> graphData;
+  late List<String> secondaryObserved;
+  // late String alertData;
 
   @override
   void initState() {
     super.initState();
-    deviceId = widget.deviceId;
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-    ]);
     SocketServices socketService = SocketServices();
-    socketService.initializeSocket('http://192.168.2.1:8000', widget.deviceId);
+    socketService.initializeSocket(
+        'http://192.168.92.71:8000', widget.deviceId);
     socketService.setOnDataReceivedCallback((
       receivedModeData,
       receivedObservedData,
       receivedSetParameter,
       receivedSecondaryObserved,
-      receivedSpo2List,
-      receivedAlertData,
-      receivedBatteryAlarmData,
+      // receivedSpo2List,
+      // receivedAlertData,
+      // receivedBatteryAlarmData,
     ) {
       setState(() {
         modeData = receivedModeData;
+        observedData = receivedObservedData;
         secondaryObserved = receivedSecondaryObserved;
         setParameter = receivedSetParameter;
-        alertData = receivedAlertData;
-        observedData = receivedObservedData;
-        print(' receivedObservedData : $observedData');
-        // print(' receivedAlertData $alertData');
+        // alertData = receivedAlertData;
+
+        print(observedData);
       });
     });
 
-    socketService.setOnGraphReceivedCallback((receivedXvalue, receivedPressure,
-        receivedVolume, receivedFlow, receivedGraphData) {
-      setState(() {
-        xvalue = receivedXvalue.toString();
-        pressure = receivedPressure.toString();
-        volume = receivedVolume.toString();
-        flow = receivedFlow.toString();
-        graphData = receivedGraphData;
-      });
-    });
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
   }
 
   @override
@@ -94,82 +77,96 @@ class _LiveViewState extends State<LiveView> {
             Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //header
-                  Header(modeData),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.002,
-                  ),
-                  //buttons & graphs & tiles
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      //Side menu buttons
-                      MenuButtons(
-                        selectedMenu,
-                        (menu) {
-                          setState(() {
-                            selectedMenu = menu;
-                          });
-                        },
+              child: modeData.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(),
+                          SizedBox(height: 10),
+                          Text('Fetching mode data...'),
+                        ],
                       ),
-
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.002,
-                      ),
-                      //graph screen
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.7,
-                        width: MediaQuery.of(context).size.width * 0.73,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 0, 0, 0),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        //header
+                        Header(modeData),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.002,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              // Data screen
-                              if (selectedMenu == 'DATA')
-                                DataScreen(observedData: observedData),
+                        //buttons & graphs & tiles
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            //Side menu buttons
+                            MenuButtons(
+                              selectedMenu,
+                              (menu) {
+                                setState(() {
+                                  selectedMenu = menu;
+                                });
+                              },
+                            ),
+
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.002,
+                            ),
+                            //graph screen
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.7,
+                              width: MediaQuery.of(context).size.width * 0.73,
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // Data screen
+                                    if (selectedMenu == 'DATA')
+                                      DataScreen(observedData: observedData),
 
 //graphContainer
-                              if (selectedMenu == 'GRAPHS')
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.6,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.73,
-                                  decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  child: LineChartWidget(
-                                    xvalue,
-                                    pressure,
-                                    volume,
-                                    flow,
-                                  ),
+                                    if (selectedMenu == 'GRAPHS')
+                                      Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.6,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.73,
+                                        decoration: BoxDecoration(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                        // child: LineChartWidget(
+                                        //   xvalue,
+                                        //   pressure,
+                                        //   volume,
+                                        //   flow,
+                                        // ),
+                                      ),
+                                  ],
                                 ),
-                            ],
-                          ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.002,
+                            ),
+
+                            //secondaryobserverdata tiles
+                            Tiles(secondaryObserved),
+                          ],
                         ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.002,
-                      ),
 
-                      //secondaryobserverdata tiles
-                      Tiles(secondaryObserved),
-                    ],
-                  ),
-
-                  BottomTiles(setParameter),
-                ],
-              ),
+                        BottomTiles(setParameter),
+                      ],
+                    ),
             ),
           ],
         ),
@@ -177,7 +174,6 @@ class _LiveViewState extends State<LiveView> {
     );
   }
 }
-
 
 class MenuButtons extends StatelessWidget {
   final String selectedMenu;
@@ -223,7 +219,9 @@ class MenuButtons extends StatelessWidget {
                 menu,
                 style: TextStyle(
                   fontFamily: 'Avenir',
-                  color: isSelected ? Colors.black : Color.fromARGB(255, 218, 218, 218),
+                  color: isSelected
+                      ? Colors.black
+                      : Color.fromARGB(255, 218, 218, 218),
                   fontSize: MediaQuery.of(context).size.width * 0.015,
                 ),
               ),
@@ -234,7 +232,6 @@ class MenuButtons extends StatelessWidget {
     );
   }
 }
-
 
 class DataScreen extends StatelessWidget {
   const DataScreen({
@@ -261,9 +258,8 @@ class DataScreen extends StatelessWidget {
             List<String> dataParts = data.split('~');
             String label = dataParts[0];
             String value = dataParts[1];
-
-            bool isMachineRelated = value.contains('Machine');
-
+            
+            bool isMachine = value.contains('Machine');
             return Container(
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 0, 0, 0),
@@ -275,7 +271,7 @@ class DataScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          label,
+                          label.isEmpty ? '-' : label,
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             color: Color.fromARGB(255, 136, 136, 136),
@@ -283,7 +279,7 @@ class DataScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          isMachineRelated ? 'M' : '$value',
+                          isMachine ? 'M' : '$value',
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             color: Color.fromARGB(255, 218, 218, 218),
@@ -304,8 +300,7 @@ class DataScreen extends StatelessWidget {
 }
 
 class Header extends StatelessWidget {
-  final String modeData;
-
+  late String modeData;
   Header(this.modeData);
 
   @override
@@ -331,7 +326,7 @@ class Header extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  modeData,
+                  modeData.isEmpty ? '-' : modeData,
                   style: TextStyle(
                     fontFamily: 'Avenir',
                     color: Color.fromARGB(255, 218, 218, 218),
@@ -606,7 +601,7 @@ class BottomTiles extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       color: Color.fromARGB(255, 136, 136, 136),
-                      fontSize: MediaQuery.of(context).size.width * 0.01,
+                      fontSize: MediaQuery.of(context).size.width * 0.012,
                     ),
                   ),
                   Text(
@@ -614,7 +609,7 @@ class BottomTiles extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize: MediaQuery.of(context).size.width * 0.02,
+                      fontSize: MediaQuery.of(context).size.width * 0.022,
                     ),
                   ),
                 ],
@@ -665,7 +660,7 @@ class Tiles extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: MediaQuery.of(context).size.width * 0.01,
+                        fontSize: MediaQuery.of(context).size.width * 0.012,
                       ),
                     ),
                     Text(
@@ -673,7 +668,7 @@ class Tiles extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: MediaQuery.of(context).size.width * 0.02,
+                        fontSize: MediaQuery.of(context).size.width * 0.022,
                       ),
                     ),
                   ],
