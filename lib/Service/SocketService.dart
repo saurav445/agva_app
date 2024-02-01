@@ -1,70 +1,81 @@
-// import 'package:socket_io_client/socket_io_client.dart' as io;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
-// class SocketServices {
-//   static final SocketServices _instance = SocketServices._internal();
-//    late Function(List<String> observedData) observerdataReceiver;
+class SocketServices {
+  static final SocketServices _instance = SocketServices._internal();
 
-//   factory SocketServices() {
-//     return _instance;
-//   }
+  factory SocketServices() {
+    return _instance;
+  }
 
-//   SocketServices._internal();
+  SocketServices._internal();
 
-//   late io.Socket socket;
-//   late String deviceId;
+  late io.Socket socket;
+  late String deviceId;
 
-//    void setobserveDataReceived(Function(List<String>) callback) {
-//     observerdataReceiver = callback;
-//   }
+//for values
+  late void Function(String, List<String>, List<String>, List<String>,
+      List<String>, String, String) onDataReceived;
 
-//   void initializeSocket(String serverUrl, String deviceId) {
-//     this.deviceId = deviceId;
+  void setOnDataReceivedCallback(
+      void Function(String, List<String>, List<String>, List<String>,
+              List<String>, String, String)
+          callback) {
+    onDataReceived = callback;
+  }
 
-//     socket = io.io(serverUrl, <String, dynamic>{
-//       'transports': ['websocket'],
-//       'autoConnect': true,
-//     });
+// for graph
+  late void Function(int, double, double, double, List<String>) onGraphReceived;
 
-//     socket.on('connect', (data) {
-//       print('Connected to the server');
+  void setOnGraphReceivedCallback(
+      void Function(int, double, double, double, List<String>) callback) {
+    onGraphReceived = callback;
+  }
 
-//       socket.emit('ReactStartUp', this.deviceId);
+  void initializeSocket(String serverUrl, String deviceId) {
+    this.deviceId = deviceId;
 
-//       socket.on('DataReceivingReact', (data) {
-//         print("Received data from server: $data");
+    socket = io.io(serverUrl, <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': true,
+    });
 
-//         var modeData = data.split("^")[1];
-//         var observedData = data.split("^")[2].split(",");
-//         var setParameter = data.split("^")[3].split(",");
-//         var secondaryObserved = data.split("^")[4].split(",");
-//         var spo2List = data.split("^")[5].split(",");
-//         var alertData = data.split("^")[6];
-//         var batteryAlarmData = data.split("^")[7];
-//         print(modeData);
-//         print(observedData);
-//         print(setParameter);
-//         print(secondaryObserved);
-//         print(spo2List);
-//         print(alertData);
-//         print(batteryAlarmData);
+    socket.on('connect', (data) {
+      print('Connected to the server');
 
-//          setobserveDataReceived(observedData);
-//       });
+      socket.emit('ReactStartUp', this.deviceId);
 
-//       // socket.on('DataGraphReceivingReact', (data) {
-//       //   print("Received graphData from server: $data");
+      socket.on('DataGraphReceivingReact', (data) {
+        var graphDataString = data.split("^")[1];
+        List<String> graphDataList = graphDataString.split(",");
+        double xvalue = double.parse(graphDataList[0]);
+        double pressure = double.parse(graphDataList[1]);
+        double volume = double.parse(graphDataList[2]);
+        double flow = double.parse(graphDataList[3]);
 
-//       //   // var value = data.split("^")[0];
-//       //   // if (value == deviceId) {
-//       //   var graphdata = data.split("^")[1];
-//       //   print(graphdata);
-//       //   // List<FlSpot> socketData = (graphdata);
-//       //   // LineChartWidget(socketData);
-//       // });
-//     });
+        // print("X: $xvalue");
+        // print("Pressure: $pressure");
+        // print("Volume: $volume");
+        // print("Flow: $flow");
 
-//     socket.on('disconnect', (_) {
-//       print('Disconnected from the server');
-//     });
-//   }
-// }
+        onGraphReceived(xvalue.toInt(), pressure, volume, flow, graphDataList);
+      });
+
+      socket.on('DataReceivingReact', (data) {
+        var modeData = data.split("^")[1];
+        var observedData = data.split("^")[2].split(",");
+        var setParameter = data.split("^")[3].split(",");
+        var secondaryObserved = data.split("^")[4].split(",");
+        var spo2List = data.split("^")[5].split(",");
+        var alertData = data.split("^")[6];
+        var batteryAlarmData = data.split("^")[7];
+
+        onDataReceived(modeData, observedData, setParameter, secondaryObserved,
+            spo2List, alertData, batteryAlarmData);
+      });
+    });
+
+    socket.on('disconnect', (_) {
+      print('Disconnected from the server');
+    });
+  }
+}
