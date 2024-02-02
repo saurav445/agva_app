@@ -93,9 +93,22 @@ class _MonitorDataState extends State<MonitorData> {
         body: Stack(
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                GestureDetector(
+                  onTap: () => {Navigator.pop(context)},
+                  child: Container(
+                    // height: MediaQuery.of(context).size.height * 0.1,
+                    // width: MediaQuery.of(context).size.width * 1,
+                    child: Image.asset(
+                      "assets/images/back.png",
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
                 // Container(
                 //   child: MDWidget(
                 //       widget.wardNo,
@@ -106,7 +119,8 @@ class _MonitorDataState extends State<MonitorData> {
                 //       widget.aliasName),
                 // ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Column(
                     children: [
                       Container(

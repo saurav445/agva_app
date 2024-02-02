@@ -1,11 +1,15 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
+import 'package:agva_app/config.dart';
 import 'package:agva_app/widgets/Tiles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Service/SocketService.dart';
 import 'LiveView.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class DeviceDetails extends StatefulWidget {
   final String deviceId;
@@ -25,7 +29,8 @@ class DeviceDetails extends StatefulWidget {
 }
 
 class _DeviceDetailsState extends State<DeviceDetails> {
-  // late List<String> focusedDevices = [];
+  bool isAddedToFocus = false;
+  late String deviceId;
   late String pip = '--';
   late String mVi = '--';
   late String vti = '--';
@@ -40,14 +45,41 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   late String fiO2Value = '--';
   late String modeData = '--';
 
-  bool _isLoading = true;
+  Future<String?> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? mytoken = prefs.getString('mytoken');
+    print('Saved Token: $mytoken');
+    return mytoken;
+  }
 
-  callme() async {
-    await Future.delayed(Duration(seconds: 1), () {
+  void toggleFocus() async {
+    String? token = await getToken();
+    if (token != null) {
+      // if (isAddedToFocus) {
+      var response = await http.put(
+        Uri.parse('$addtofocus/$deviceId'),
+        headers: {
+          "Authorization": 'Bearer $token',
+        },
+      );
+      var jsonResponse = jsonDecode(response.body);
+      if (jsonResponse['addTofocus'] == false) {
+        setState(() {
+          isAddedToFocus = !isAddedToFocus;
+        });
+        print(addtofocus);
+      }
+    } else {
+      await http.put(
+        Uri.parse('$addtofocus/$deviceId'),
+        headers: {
+          "Authorization": 'Bearer $token',
+        },
+      );
       setState(() {
-        _isLoading = false;
+        isAddedToFocus = !isAddedToFocus;
       });
-    });
+    }
   }
 
   @override
@@ -105,15 +137,10 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         modeData = receivedModeData;
       });
     });
-    // getFocusedDevices();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
-      // DeviceOrientation.landscapeRight,
-      // DeviceOrientation.landscapeLeft,
     ]);
-
-    callme();
   }
 
   final int maxLength = 4;
@@ -129,20 +156,17 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       DeviceOrientation.landscapeLeft,
     ]);
     super.dispose();
-        callme();
   }
 
   @override
   Widget build(BuildContext context) {
-    // bool isInFocus = focusedDevices.contains(widget.deviceId);
     return SafeArea(
-     child: Scaffold(
-                backgroundColor: Colors.black,
+      child: Scaffold(
+        backgroundColor: Colors.black,
         appBar: AppBar(
-                  backgroundColor: Colors.black,
+          backgroundColor: Colors.black,
           centerTitle: true,
           title: Text(
-            // widget.deviceId,
             'Details',
             style: TextStyle(
               fontFamily: 'Avenir',
@@ -153,18 +177,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         ),
         body: Stack(
           children: [
-            if(_isLoading)
-            Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                    SizedBox(height: 10),
-                    // Text('....'),
-                  ],
-                ),
-              )
-            else
             SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -244,7 +256,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       ],
                     ),
                   ),
-              
+
                   //Live tiles
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.04,
@@ -531,10 +543,47 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.01,
                         ),
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(5),
+                        //     color: Color.fromARGB(255, 174, 34, 104),
+                        //   ),
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.only(left: 8),
+                        //     child: Container(
+                        //       height:
+                        //           MediaQuery.of(context).size.height * 0.065,
+                        //       width: 170,
+                        //       decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.only(
+                        //           topRight: Radius.circular(5),
+                        //           bottomRight: Radius.circular(5),
+                        //         ),
+                        //         color: Color.fromARGB(255, 82, 82, 82),
+                        //       ),
+                        //       child: TextButton(
+                        //         onPressed: () {},
+                        //         style: TextButton.styleFrom(),
+                        //         child: Text(
+                        //           "ADD TO FOCUS",
+                        //           style: TextStyle(
+                        //             color: Colors.white,
+                        //             fontSize:
+                        //                 MediaQuery.of(context).size.width *
+                        //                     0.045,
+                        //             fontWeight: FontWeight.bold,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            color: Color.fromARGB(255, 174, 34, 104),
+                            color: isAddedToFocus
+                                ? Color.fromARGB(255, 82, 82, 82)
+                                : Color.fromARGB(255, 174, 34, 104),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8),
@@ -550,15 +599,12 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                 color: Color.fromARGB(255, 82, 82, 82),
                               ),
                               child: TextButton(
-                                onPressed: () {
-                                  // updateFocusList(widget.deviceId);
-                                },
+                                onPressed: toggleFocus,
                                 style: TextButton.styleFrom(),
                                 child: Text(
-                                  // isInFocus
-                                  //     ? "REMOVE FROM FOCUS"
-                                  //     :
-                                  "ADD TO FOCUS",
+                                  isAddedToFocus
+                                      ? "REMOVE FROM FOCUS"
+                                      : "ADD TO FOCUS",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize:
