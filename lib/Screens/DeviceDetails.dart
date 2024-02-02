@@ -453,6 +453,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                                   LiveView(widget.deviceId),
                                             ),
                                           );
+
                                         },
                                         style: TextButton.styleFrom(),
                                         child: Text(
