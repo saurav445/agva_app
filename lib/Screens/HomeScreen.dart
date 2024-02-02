@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_const, unused_import, library_private_types_in_public_api, prefer_typing_uninitialized_variables, unused_local_variable
 
+import 'package:agva_app/AuthScreens/SignIn.dart';
+import 'package:agva_app/Screens/DeviceList.dart';
 import 'package:agva_app/Screens/Hospitals.dart';
+import 'package:agva_app/Screens/LiveView.dart';
 import 'package:agva_app/Screens/MyDevices.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -359,18 +362,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: MediaQuery.of(context).size.width * 0.035,
                   ),
                 ),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: const Icon(Icons.circle, color: Colors.white),
-                title: Text(
-                  'LIVE',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                  ),
-                ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DeviceList(),
+                              ),
+                            );
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.settings, color: Colors.white),
@@ -381,7 +380,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: MediaQuery.of(context).size.width * 0.035,
                   ),
                 ),
-                onTap: () {},
+                // onTap: () {
+                //    Navigator.push(
+                //               context,
+                //               MaterialPageRoute(
+                //                 builder: (context) => SignIn(),
+                //               ),
+                //             );
+                // },
+              ),
+              ListTile(
+                leading: const Icon(Icons.logout, color: Colors.white),
+                title: Text(
+                  'Logout',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                  ),
+                ),
+                onTap: () {
+                   Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignIn(),
+                              ),
+                            );
+                },
               ),
             ],
           ),
