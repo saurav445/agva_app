@@ -51,7 +51,7 @@ class _DeviceListState extends State<DeviceList> {
 
   Future<void> fetchGetDevicesForUser() async {
     setState(() {
-      isLoading = true; // Set loading to true before fetching
+      isLoading = true;
     });
 
     String? token = await getToken();
@@ -228,14 +228,17 @@ class _DeviceListState extends State<DeviceList> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.notifications),
-              onPressed: () {},
-            )
-          ],
-          toolbarHeight: MediaQuery.of(context).size.height * 0.08,
+       appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            // widget.deviceId,
+            ' ',
+            style: TextStyle(
+              fontFamily: 'Avenir',
+              fontSize: 24,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(
@@ -281,82 +284,6 @@ class _DeviceListState extends State<DeviceList> {
                 ),
               ],
             ),
-          ),
-        ),
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            physics: BouncingScrollPhysics(),
-            children: [
-              DrawerHeader(
-                decoration: BoxDecoration(),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'AgVa',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 157, 0, 86),
-                      fontSize: 50,
-                    ),
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: const Icon(Icons.home, color: Colors.white),
-                title: Text(
-                  'HOME',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: const Icon(Icons.person, color: Colors.white),
-                title: Text(
-                  'PROFILE',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: const Icon(Icons.devices_other, color: Colors.white),
-                title: Text(
-                  'DEVICES',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: const Icon(Icons.circle, color: Colors.white),
-                title: Text(
-                  'LIVE',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings, color: Colors.white),
-                title: Text(
-                  'SETTINGS',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-                onTap: () {},
-              ),
-            ],
           ),
         ),
       ),

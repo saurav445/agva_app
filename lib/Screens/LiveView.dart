@@ -59,11 +59,6 @@ class _LiveViewState extends State<LiveView> {
       DeviceOrientation.landscapeLeft,
     ]);
     callme();
-    // Future.delayed(Duration(seconds: 2), () {
-    //   setState(() {
-    //     _isLoading = false;
-    //   });
-    // });
   }
 
   @override
@@ -71,8 +66,8 @@ class _LiveViewState extends State<LiveView> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
+      // DeviceOrientation.landscapeRight,
+      // DeviceOrientation.landscapeLeft,
     ]);
     super.dispose();
   }
@@ -90,7 +85,7 @@ class _LiveViewState extends State<LiveView> {
                   children: [
                     CircularProgressIndicator(),
                     SizedBox(height: 10),
-                    Text('Fetching mode data...'),
+                    Text('Going Live...'),
                   ],
                 ),
               )
