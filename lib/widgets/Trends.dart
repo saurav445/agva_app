@@ -29,7 +29,7 @@ class _TrendsState extends State<Trends> {
 
   Future<void> getTrendsbyId() async {
     var response = await http.get(
-      Uri.parse('$getDeviceTrendsbyID/$deviceId?page=2&limit=5'),
+      Uri.parse('$getDeviceTrendsbyID/$deviceId?page=1&limit=5'),
     );
     var jsonResponse = jsonDecode(response.body);
     if (jsonResponse['statusCode'] == 200) {

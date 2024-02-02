@@ -40,27 +40,35 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   late String fiO2Value = '--';
   late String modeData = '--';
 
+  bool _isLoading = true;
+
+  callme() async {
+    await Future.delayed(Duration(seconds: 1), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     SocketServices()
         .initializeSocket('http://192.168.92.71:8000', widget.deviceId);
     SocketServices socketService = SocketServices();
-    socketService.tilesDataCallBack((
-      receivedPipData,
-      receivedPipValue,
-      receivedMviData,
-      receivedMviValue,
-      receivedVtiData,
-      receivedVtiValue,
-      receivedRRData,
-      receivedRRValue,
-      receivedSpo2Value,
-      receivedPulseValue,
-      receivedFio2Data,
-      receivedFio2Value,
-      receivedModeData
-    ) {
+    socketService.tilesDataCallBack((receivedPipData,
+        receivedPipValue,
+        receivedMviData,
+        receivedMviValue,
+        receivedVtiData,
+        receivedVtiValue,
+        receivedRRData,
+        receivedRRValue,
+        receivedSpo2Value,
+        receivedPulseValue,
+        receivedFio2Data,
+        receivedFio2Value,
+        receivedModeData) {
       setState(() {
         pip = receivedPipData;
         mVi = receivedMviData;
@@ -104,6 +112,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       // DeviceOrientation.landscapeRight,
       // DeviceOrientation.landscapeLeft,
     ]);
+
+    callme();
   }
 
   final int maxLength = 4;
@@ -119,14 +129,17 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       DeviceOrientation.landscapeLeft,
     ]);
     super.dispose();
+        callme();
   }
 
   @override
   Widget build(BuildContext context) {
     // bool isInFocus = focusedDevices.contains(widget.deviceId);
     return SafeArea(
-      child: Scaffold(
+     child: Scaffold(
+                backgroundColor: Colors.black,
         appBar: AppBar(
+                  backgroundColor: Colors.black,
           centerTitle: true,
           title: Text(
             // widget.deviceId,
@@ -140,6 +153,18 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         ),
         body: Stack(
           children: [
+            if(_isLoading)
+            Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 10),
+                    // Text('....'),
+                  ],
+                ),
+              )
+            else
             SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -263,7 +288,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                               ),
                               ResponsiveTileWidget(
                                 // == 'Machine' ? 'M' : 'Resp',
-              //  == 'Machine' ? pipValue : respiratoryValue,
+                                //  == 'Machine' ? pipValue : respiratoryValue,
                                 title: fiO2,
                                 value: fiO2Value,
                                 width: constraints.maxWidth * 0.42,
@@ -454,7 +479,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                                     LiveView(widget.deviceId),
                                               ),
                                             );
-              
                                           },
                                           style: TextButton.styleFrom(),
                                           child: Text(
@@ -515,7 +539,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8),
                             child: Container(
-                              height: MediaQuery.of(context).size.height * 0.065,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.065,
                               width: 170,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
@@ -537,7 +562,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize:
-                                        MediaQuery.of(context).size.width * 0.045,
+                                        MediaQuery.of(context).size.width *
+                                            0.045,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

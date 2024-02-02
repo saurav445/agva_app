@@ -58,7 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+                backgroundColor: Colors.black,
         appBar: AppBar(
+                  backgroundColor: Colors.black,
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.notifications),

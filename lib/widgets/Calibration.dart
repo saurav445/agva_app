@@ -26,7 +26,7 @@ class _CalibrationState extends State<Calibration> {
   }
 
   Future<void> getCalibrationbyId() async {
-    var response = await http.get(Uri.parse('$getDeviceCalibyID/$deviceId'));
+    var response = await http.get(Uri.parse('$getDeviceCalibyID/$deviceId?page=1&limit=10'));
     jsonResponse = jsonDecode(response.body);
     print('Current Device ID: $deviceId');
     if (jsonResponse['statusCode'] == 200) {

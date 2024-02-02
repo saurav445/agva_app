@@ -93,7 +93,7 @@ class _DeviceListState extends State<DeviceList> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color.fromARGB(255, 174, 34, 104),
+                color: Color.fromARGB(255, 65, 65, 65),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
@@ -227,8 +227,10 @@ class _DeviceListState extends State<DeviceList> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-       appBar: AppBar(
+     child: Scaffold(
+                backgroundColor: Colors.black,
+        appBar: AppBar(
+                  backgroundColor: Colors.black,
           centerTitle: true,
           title: Text(
             // widget.deviceId,

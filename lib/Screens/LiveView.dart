@@ -69,6 +69,7 @@ class _LiveViewState extends State<LiveView> {
       // DeviceOrientation.landscapeRight,
       // DeviceOrientation.landscapeLeft,
     ]);
+    callme();
     super.dispose();
   }
 
@@ -76,6 +77,7 @@ class _LiveViewState extends State<LiveView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+
         body: Stack(
           children: [
             if (_isLoading)

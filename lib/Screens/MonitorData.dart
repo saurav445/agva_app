@@ -51,6 +51,7 @@ class _MonitorDataState extends State<MonitorData> {
     departmentName = widget.departmentName;
     aliasName = widget.aliasName;
     getEventusingId();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -88,6 +89,7 @@ class _MonitorDataState extends State<MonitorData> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.black,
         body: Stack(
           children: [
             Column(

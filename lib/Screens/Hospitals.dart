@@ -30,7 +30,9 @@ class _HospitalsState extends State<Hospitals> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: AppBar(
+                backgroundColor: Colors.black,
+        appBar: AppBar(
+                  backgroundColor: Colors.black,
           centerTitle: true,
           title: Text(
             // widget.deviceId,
@@ -144,7 +146,7 @@ class _HospitalsState extends State<Hospitals> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: Color.fromARGB(255, 135, 135, 135),
+                        color: Color.fromARGB(255, 90, 90, 90),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
