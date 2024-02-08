@@ -70,7 +70,7 @@ class _DeviceListState extends State<DeviceList> {
         setState(() {
           isLoading = false;
         });
-      } else {
+       }else {
         print('Invalid User Credential: ${response.statusCode}');
         setState(() {
           isLoading = false;

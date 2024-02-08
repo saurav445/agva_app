@@ -57,6 +57,33 @@ class _DeviceAboutState extends State<DeviceAbout> {
     }
   }
 
+    void toggleFocus() async {
+    String? token = await getToken();
+    if (token != null) {
+      var response = await http.put(
+        Uri.parse('$addtofocus/$deviceId'),
+        headers: {
+          "Authorization": 'Bearer $token',
+        },
+      );
+      // print('Response body: ${response.body}');
+      var jsonResponse = jsonDecode(response.body);
+           print(jsonResponse);
+      if (jsonResponse['statusCode'] == 200) {
+        var data = jsonResponse['data'];
+        print(data['addTofocus']);
+        if (data['addTofocus'] == false) {
+          // setState(() {
+          //   isAddedToFocus = !isAddedToFocus;
+          // });
+        }
+      }
+    } else {
+      print("Token is null");
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

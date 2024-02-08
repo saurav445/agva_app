@@ -40,8 +40,7 @@ class DeviceDetails extends StatefulWidget {
 
 class _DeviceDetailsState extends State<DeviceDetails> {
   late SocketServices socketService;
-  bool isAddedToFocus = false;
-  // bool isDataSaved = false;
+  bool addTofocus = false;
 
   double progress = 0.0;
   int loadingCount = 0;
@@ -74,7 +73,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   void toggleFocus() async {
     String? token = await getToken();
     if (token != null) {
-      // if (isAddedToFocus) {
       var response = await http.put(
         Uri.parse('$addtofocus/${widget.deviceId}'),
         headers: {
@@ -82,13 +80,15 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         },
       );
       var jsonResponse = jsonDecode(response.body);
-      if (jsonResponse['addTofocus'] == false) {
-        setState(() {
-          isAddedToFocus = !isAddedToFocus;
-        });
+      if (jsonResponse['statusCode'] == 200) {
+           print(jsonResponse['statusCode'] == 200);
+        var data = jsonResponse['data'];
+        if (data['addTofocus'] == false) {
+          setState(() {
+            addTofocus = true;
+          });
+        }
       }
-      print(jsonResponse['addTofocus']);
-      // }
     } else {
       print("Token is null");
     }
@@ -105,7 +105,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         loadingCount = 1;
       });
     });
-    // widget.socketService.dispose();
     widget.socketService
         .initializeSocket('http://52.64.235.38:8000', widget.deviceId);
     widget.socketService.tilesDataCallBack((
@@ -179,7 +178,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   @override
   void dispose() {
     loadingCount = 0;
-
+    // widget.socketService.dispose();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -543,7 +542,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: isAddedToFocus
+                              color: addTofocus
                                   ? Color.fromARGB(255, 82, 82, 82)
                                   : Color.fromARGB(255, 174, 34, 104),
                             ),
@@ -564,7 +563,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                   onPressed: toggleFocus,
                                   style: TextButton.styleFrom(),
                                   child: Text(
-                                    isAddedToFocus
+                                    addTofocus
                                         ? "REMOVE FOCUS"
                                         : "ADD TO FOCUS",
                                     style: TextStyle(

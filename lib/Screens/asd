@@ -5,7 +5,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   bool isAddedToFocus = false;
 
-
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? mytoken = prefs.getString('mytoken');
@@ -13,18 +12,12 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return mytoken;
   }
 
-  void getProductionDetails() async {
-
-  }
-
-
   void toggleFocus() async {
     String? token = await getToken();
     if (token != null) {
       if (isAddedToFocus) {
-        // Remove from focus
         await http.delete(
-          Uri.parse('$removeFromFocus/$deviceId'),
+                Uri.parse('$addtofocus/${widget.deviceId}'),
           headers: {
             "Authorization": 'Bearer $token',
           },
@@ -32,7 +25,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       } else {
    
         await http.put(
-          Uri.parse('$addToFocus/$deviceId'),
+                Uri.parse('$addtofocus/${widget.deviceId}'),
           headers: {
             "Authorization": 'Bearer $token',
           },
@@ -44,13 +37,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       });
     }
   }
-
-  @override
-  void initState() {
-
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
