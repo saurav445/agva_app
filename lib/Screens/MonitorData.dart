@@ -96,19 +96,6 @@ class _MonitorDataState extends State<MonitorData> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GestureDetector(
-                  onTap: () => {Navigator.pop(context)},
-                  child: Container(
-                    // height: MediaQuery.of(context).size.height * 0.1,
-                    // width: MediaQuery.of(context).size.width * 1,
-                    child: Image.asset(
-                      "assets/images/back.png",
-                      width: 40,
-                      height: 40,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
                 // Container(
                 //   child: MDWidget(
                 //       widget.wardNo,
@@ -141,8 +128,6 @@ class _MonitorDataState extends State<MonitorData> {
                         ),
                       ),
                       Container(
-                        // height: 280,
-                        // width: 800,
                         height: MediaQuery.of(context).size.height * 0.7,
                         width: MediaQuery.of(context).size.width * 1,
                         decoration: BoxDecoration(
@@ -157,6 +142,19 @@ class _MonitorDataState extends State<MonitorData> {
               ],
             ),
           ],
+        ),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(left: 5.0),
+          child: Container(
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color.fromRGBO(255, 255, 255, 0.5)),
+            child: FloatingActionButton(
+              backgroundColor: Colors.transparent,
+              onPressed: () => {Navigator.pop(context)},
+              child: Icon(Icons.arrow_back),
+            ),
+          ),
         ),
       ),
     );
