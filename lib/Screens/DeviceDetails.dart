@@ -543,8 +543,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               color: addTofocus
-                                  ? Color.fromARGB(255, 82, 82, 82)
-                                  : Color.fromARGB(255, 174, 34, 104),
+                                  ? Color.fromARGB(255, 174, 34, 104)
+                                  : Color.fromARGB(255, 82, 82, 82),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8),

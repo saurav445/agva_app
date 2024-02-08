@@ -15,14 +15,6 @@ class _MyDevicesState extends State<MyDevices> {
   @override
   void initState() {
     super.initState();
-    getFocusedDevices();
-  }
-
-  Future<void> getFocusedDevices() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      focusedDevices = prefs.getStringList('focusedDevices') ?? [];
-    });
   }
 
   Future<void> updateFocusList(String deviceId) async {
