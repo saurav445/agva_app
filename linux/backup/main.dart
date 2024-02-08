@@ -3,6 +3,7 @@
 import 'package:agva_app/Screens/DeviceDetails.dart';
 import 'package:agva_app/Screens/HomeScreen.dart';
 import 'package:agva_app/Screens/DeviceList.dart';
+import 'package:agva_app/Service/SocketService.dart';
 import 'package:flutter/material.dart';
 import 'AuthScreens/SignIn.dart';
 import 'AuthScreens/SignUp.dart';
@@ -25,9 +26,9 @@ class MyApp extends StatelessWidget {
       routes: {
         "/signup": (context) => SignUp(),
         "/signin": (context) => SignIn(),
-        "/splash": (context) => SplashScreen(),
+        "/splash": (context) => const SplashScreen(),
         "/home": (context) => HomeScreen({}),
-    "/devicedetails": (context) => DeviceDetails('deviceid', 'Ward_No', 'devicetype','dasd','asw', 'wrrr', 'asdad', 'adsa'),
+    "/devicedetails": (context) => DeviceDetails('deviceid', SocketServices(),'Ward_No', 'devicetype','dasd','asw', 'wrrr', 'asdad', 'adsa'),
 
         "/tandc": (context) => TermsCondition(),
                         "/devicelist": (context) => DeviceList(),

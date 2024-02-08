@@ -1,11 +1,10 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
 import 'dart:async';
 import 'package:agva_app/Screens/DeviceDetails.dart';
+import 'package:agva_app/Service/SocketService.dart';
 import 'package:flutter/material.dart';
 
 class LoadingScreen extends StatefulWidget {
-  const LoadingScreen();
+  const LoadingScreen({Key? key}) : super(key: key);
 
   @override
   State<LoadingScreen> createState() => _LoadingScreenState();
@@ -15,28 +14,28 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(milliseconds: 500), () {
+    Timer(const Duration(milliseconds: 500), () {
       backToScreen();
     });
   }
 
   Future<void> backToScreen() async {
-    {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => DeviceDetails(
-                  '',
-                  '',
-                  '',
-                  '',
-                  '',
-                  '',
-                  '',
-                  '',
-       )),
-      );
-    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DeviceDetails(
+          '',
+          SocketServices(), // Initialize SocketServices here
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+        ),
+      ),
+    );
   }
 
   @override

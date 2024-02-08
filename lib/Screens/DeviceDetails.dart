@@ -13,24 +13,41 @@ import 'dart:convert';
 
 class DeviceDetails extends StatefulWidget {
   final String deviceId;
-  late String wardNo;
-  late String deviceType;
-  late String message;
-  late String hospitalName;
-  late String bioMed;
-  late String departmentName;
-  late String aliasName;
+  final SocketServices socketService;
+  final String wardNo;
+  final String deviceType;
+  final String message;
+  final String hospitalName;
+  final String bioMed;
+  final String departmentName;
+  final String aliasName;
 
-  DeviceDetails(this.deviceId, this.wardNo, this.deviceType, this.message,
-      this.hospitalName, this.bioMed, this.departmentName, this.aliasName);
+  const DeviceDetails(
+    this.deviceId,
+    this.socketService,
+    this.wardNo,
+    this.deviceType,
+    this.message,
+    this.hospitalName,
+    this.bioMed,
+    this.departmentName,
+    this.aliasName,
+  );
 
   @override
   State<DeviceDetails> createState() => _DeviceDetailsState();
 }
 
 class _DeviceDetailsState extends State<DeviceDetails> {
+  late SocketServices socketService;
   bool isAddedToFocus = false;
-  late String deviceId;
+  // bool isDataSaved = false;
+
+  double progress = 0.0;
+  int loadingCount = 0;
+
+  bool showLoader = false;
+
   late String pip = '--';
   late String mVi = '--';
   late String vti = '--';
@@ -44,11 +61,13 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   late String fiO2 = '--';
   late String fiO2Value = '--';
   late String modeData = '--';
+  late String alarmName;
+  late String alarmColor;
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? mytoken = prefs.getString('mytoken');
-    print('Saved Token: $mytoken');
+    // print('Saved Token: $mytoken');
     return mytoken;
   }
 
@@ -57,7 +76,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     if (token != null) {
       // if (isAddedToFocus) {
       var response = await http.put(
-        Uri.parse('$addtofocus/$deviceId'),
+        Uri.parse('$addtofocus/${widget.deviceId}'),
         headers: {
           "Authorization": 'Bearer $token',
         },
@@ -67,45 +86,50 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         setState(() {
           isAddedToFocus = !isAddedToFocus;
         });
-        print(addtofocus);
       }
+      print(jsonResponse['addTofocus']);
+      // }
     } else {
-      await http.put(
-        Uri.parse('$addtofocus/$deviceId'),
-        headers: {
-          "Authorization": 'Bearer $token',
-        },
-      );
-      setState(() {
-        isAddedToFocus = !isAddedToFocus;
-      });
+      print("Token is null");
     }
   }
 
   @override
   void initState() {
     super.initState();
-    SocketServices()
-        .initializeSocket('http://192.168.92.71:8000', widget.deviceId);
-    SocketServices socketService = SocketServices();
-    socketService.tilesDataCallBack((receivedPipData,
-        receivedPipValue,
-        receivedMviData,
-        receivedMviValue,
-        receivedVtiData,
-        receivedVtiValue,
-        receivedRRData,
-        receivedRRValue,
-        receivedSpo2Value,
-        receivedPulseValue,
-        receivedFio2Data,
-        receivedFio2Value,
-        receivedModeData) {
+    toggleFocus();
+    // _checkIfDataIsSaved();
+    Future.delayed(Duration(seconds: 2), () {
+      // Increment counter to 1 after delay
+      setState(() {
+        loadingCount = 1;
+      });
+    });
+    // widget.socketService.dispose();
+    widget.socketService
+        .initializeSocket('http://52.64.235.38:8000', widget.deviceId);
+    widget.socketService.tilesDataCallBack((
+      receivedPipData,
+      receivedPipValue,
+      receivedMviData,
+      receivedMviValue,
+      receivedVtiData,
+      receivedVtiValue,
+      receivedRRData,
+      receivedRRValue,
+      receivedSpo2Value,
+      receivedPulseValue,
+      receivedFio2Data,
+      receivedFio2Value,
+      receivedModeData,
+    ) {
       setState(() {
         pip = receivedPipData;
         mVi = receivedMviData;
         vti = receivedVtiData;
-        rr = receivedRRData.substring(0, 5);
+        rr = receivedRRData.length >= 5
+            ? receivedRRData.substring(0, 5)
+            : receivedRRData;
         fiO2 = receivedFio2Data;
         if (receivedPipValue.length > maxLength) {
           pipValue = receivedPipValue.substring(0, maxLength);
@@ -136,6 +160,13 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         pulseValue = receivedPulseValue;
         modeData = receivedModeData;
       });
+      // Delayed loading mechanism
+      Future.delayed(Duration(seconds: 1), () {
+        // After 1 second, hide the loader and show other widgets
+        setState(() {
+          showLoader = false;
+        });
+      });
     });
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -147,13 +178,11 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   @override
   void dispose() {
-    SocketServices()
-        .initializeSocket('http://192.168.92.71:8000', widget.deviceId);
+    loadingCount = 0;
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
     ]);
     super.dispose();
   }
@@ -167,7 +196,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
           backgroundColor: Colors.black,
           centerTitle: true,
           title: Text(
-            'Details',
+            'Patient Details',
             style: TextStyle(
               fontFamily: 'Avenir',
               fontSize: 24,
@@ -177,356 +206,367 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         ),
         body: Stack(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.035,
-                  ),
-                  Text(
-                    "PT. SALIM RAZA",
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      fontSize: MediaQuery.of(context).size.width * 0.07,
-                      color: Color.fromARGB(255, 255, 255, 255),
+            if (loadingCount == 0)
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    LinearProgressIndicator(),
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'WARD NO. ${widget.wardNo}',
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.04,
-                              ),
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.01,
-                            ),
-                            Text(
-                              '65 KG',
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.04,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              'BED NO. 115',
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.04,
-                              ),
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.01,
-                            ),
-                            Text(
-                              '25 YEARS',
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.04,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                    Text("Connecting server..",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0))
+                  ],
+                ),
+              ),
+            if (loadingCount != 0)
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.035,
                     ),
-                  ),
+                    Text(
+                      "SALIM RAZA",
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        fontSize: MediaQuery.of(context).size.width * 0.07,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                    ),
+                    SizedBox(height: 16),
 
-                  //Live tiles
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
-                  ),
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.065,
-                                width: MediaQuery.of(context).size.width * 0.42,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Color.fromARGB(255, 38, 128, 158),
-                                ),
-                                child: TextButton(
-                                  onPressed: () {},
-                                  style: TextButton.styleFrom(),
-                                  child: Text(
-                                    modeData,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.05,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.015,
-                              ),
-                              ResponsiveTileWidget(
-                                // == 'Machine' ? 'M' : 'Resp',
-                                //  == 'Machine' ? pipValue : respiratoryValue,
-                                title: fiO2,
-                                value: fiO2Value,
-                                width: constraints.maxWidth * 0.42,
-                              ),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.015,
-                              ),
-                              ResponsiveTileWidget(
-                                title: vti,
-                                value: vtiValue,
-                                width: constraints.maxWidth * 0.42,
-                              ),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.015,
-                              ),
-                              ResponsiveTileWidget(
-                                title: 'SpO2',
-                                value: spo2value,
-                                width: constraints.maxWidth * 0.42,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.03,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ResponsiveTileWidget(
-                                title: pip,
-                                value: pipValue,
-                                width: constraints.maxWidth * 0.42,
-                              ),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.015,
-                              ),
-                              ResponsiveTileWidget(
-                                title: rr,
-                                value: rrValue,
-                                width: constraints.maxWidth * 0.42,
-                              ),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.015,
-                              ),
-                              ResponsiveTileWidget(
-                                title: mVi,
-                                value: mViValue,
-                                width: constraints.maxWidth * 0.42,
-                              ),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.015,
-                              ),
-                              ResponsiveTileWidget(
-                                title: 'PULSE',
-                                value: pulseValue,
-                                width: constraints.maxWidth * 0.42,
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
-                  ),
-                  //buttons
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Column(
-                      children: [
-                        Row(
+                    //Live tiles
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.04,
+                    ),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Expanded(
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.065,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Color.fromARGB(255, 82, 82, 82),
-                                ),
-                                child: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => DeviceAbout(
-                                            widget.deviceId, widget.deviceType),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.065,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.42,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color.fromARGB(255, 89, 89, 89),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      modeData,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.05,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                    );
-                                  },
-                                  style: TextButton.styleFrom(),
-                                  child: Text(
-                                    "ABOUT",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.045,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
-                              ),
+                                SizedBox(height: 16),
+                                ResponsiveTileWidget(
+                                  // == 'Machine' ? 'M' : 'Resp',
+                                  //  == 'Machine' ? pipValue : respiratoryValue,
+                                  title: fiO2,
+                                  value: fiO2Value,
+                                  width: constraints.maxWidth * 0.42,
+                                ),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.015,
+                                ),
+                                ResponsiveTileWidget(
+                                  title: vti,
+                                  value: vtiValue,
+                                  width: constraints.maxWidth * 0.42,
+                                ),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.015,
+                                ),
+                                ResponsiveTileWidget(
+                                  title: 'SpO2',
+                                  value: spo2value,
+                                  width: constraints.maxWidth * 0.42,
+                                ),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.015,
+                                ),
+                                ResponsiveTileWidget(
+                                  title: 'EtCo2',
+                                  value: spo2value,
+                                  width: constraints.maxWidth * 0.42,
+                                ),
+                              ],
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.03,
                             ),
-                            Expanded(
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.065,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Color.fromARGB(255, 82, 82, 82),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ResponsiveTileWidget(
+                                  title: pip,
+                                  value: pipValue,
+                                  width: constraints.maxWidth * 0.42,
                                 ),
-                                child: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => MonitorData(
-                                          widget.deviceId,
-                                          widget.wardNo,
-                                          widget.message,
-                                          widget.hospitalName,
-                                          widget.bioMed,
-                                          widget.departmentName,
-                                          widget.aliasName,
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.015,
+                                ),
+                                ResponsiveTileWidget(
+                                  title: rr,
+                                  value: rrValue,
+                                  width: constraints.maxWidth * 0.42,
+                                ),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.015,
+                                ),
+                                ResponsiveTileWidget(
+                                  title: mVi,
+                                  value: mViValue,
+                                  width: constraints.maxWidth * 0.42,
+                                ),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.015,
+                                ),
+                                ResponsiveTileWidget(
+                                  title: 'PULSE',
+                                  value: pulseValue,
+                                  width: constraints.maxWidth * 0.42,
+                                ),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.015,
+                                ),
+                                ResponsiveTileWidget(
+                                  title: 'ET-CUFF',
+                                  value: pulseValue,
+                                  width: constraints.maxWidth * 0.42,
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    //buttons
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.065,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color.fromARGB(255, 82, 82, 82),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DeviceAbout(
+                                              widget.deviceId,
+                                              widget.deviceType),
                                         ),
+                                      );
+                                    },
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      "ABOUT",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.045,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                    );
-                                  },
-                                  style: TextButton.styleFrom(),
-                                  child: Text(
-                                    "MONITOR",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.045,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.065,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Color.fromARGB(255, 82, 82, 82),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          width: 15,
-                                          child: Image.asset(
-                                            "assets/images/active.png",
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.03,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.065,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color.fromARGB(255, 82, 82, 82),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => MonitorData(
+                                            widget.deviceId,
+                                            widget.wardNo,
+                                            widget.message,
+                                            widget.hospitalName,
+                                            widget.bioMed,
+                                            widget.departmentName,
+                                            widget.aliasName,
                                           ),
                                         ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LiveView(widget.deviceId),
-                                              ),
-                                            );
-                                          },
-                                          style: TextButton.styleFrom(),
-                                          child: Text(
-                                            "LIVE VIEW",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.045,
-                                              fontWeight: FontWeight.bold,
+                                      );
+                                    },
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      "MONITOR",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.045,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.065,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color.fromARGB(255, 82, 82, 82),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: 15,
+                                            child: Image.asset(
+                                              "assets/images/active.png",
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      LiveView(widget.deviceId),
+                                                  // LineGraphApp(),
+                                                ),
+                                              );
+                                            },
+                                            // style: TextButton.styleFrom(),
+                                            child: Text(
+                                              "LIVE VIEW",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.045,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.03,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.065,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color.fromARGB(255, 82, 82, 82),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      "SUPPORT",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.045,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: isAddedToFocus
+                                  ? Color.fromARGB(255, 82, 82, 82)
+                                  : Color.fromARGB(255, 174, 34, 104),
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03,
-                            ),
-                            Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8),
                               child: Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.065,
+                                width: 170,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(5),
+                                    bottomRight: Radius.circular(5),
+                                  ),
                                   color: Color.fromARGB(255, 82, 82, 82),
                                 ),
                                 child: TextButton(
-                                  onPressed: () {},
+                                  onPressed: toggleFocus,
                                   style: TextButton.styleFrom(),
                                   child: Text(
-                                    "SUPPORT",
+                                    isAddedToFocus
+                                        ? "REMOVE FOCUS"
+                                        : "ADD TO FOCUS",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize:
@@ -538,91 +578,13 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        // Container(
-                        //   decoration: BoxDecoration(
-                        //     borderRadius: BorderRadius.circular(5),
-                        //     color: Color.fromARGB(255, 174, 34, 104),
-                        //   ),
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.only(left: 8),
-                        //     child: Container(
-                        //       height:
-                        //           MediaQuery.of(context).size.height * 0.065,
-                        //       width: 170,
-                        //       decoration: BoxDecoration(
-                        //         borderRadius: BorderRadius.only(
-                        //           topRight: Radius.circular(5),
-                        //           bottomRight: Radius.circular(5),
-                        //         ),
-                        //         color: Color.fromARGB(255, 82, 82, 82),
-                        //       ),
-                        //       child: TextButton(
-                        //         onPressed: () {},
-                        //         style: TextButton.styleFrom(),
-                        //         child: Text(
-                        //           "ADD TO FOCUS",
-                        //           style: TextStyle(
-                        //             color: Colors.white,
-                        //             fontSize:
-                        //                 MediaQuery.of(context).size.width *
-                        //                     0.045,
-                        //             fontWeight: FontWeight.bold,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: isAddedToFocus
-                                ? Color.fromARGB(255, 82, 82, 82)
-                                : Color.fromARGB(255, 174, 34, 104),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.065,
-                              width: 170,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(5),
-                                  bottomRight: Radius.circular(5),
-                                ),
-                                color: Color.fromARGB(255, 82, 82, 82),
-                              ),
-                              child: TextButton(
-                                onPressed: toggleFocus,
-                                style: TextButton.styleFrom(),
-                                child: Text(
-                                  isAddedToFocus
-                                      ? "REMOVE FROM FOCUS"
-                                      : "ADD TO FOCUS",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
-                                            0.045,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),

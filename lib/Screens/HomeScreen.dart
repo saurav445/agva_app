@@ -61,9 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-                backgroundColor: Colors.black,
+        backgroundColor: Colors.black,
         appBar: AppBar(
-                  backgroundColor: Colors.black,
+          backgroundColor: Colors.black,
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.notifications),
@@ -203,7 +203,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Hospitals(hospitalName: hospitalName),
+                      builder: (context) =>
+                          Hospitals(hospitalName: hospitalName),
                     ),
                   );
                 },
@@ -271,8 +272,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 30),
                   child: Row(
-                           crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -283,7 +284,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 218, 218, 218),
-                              fontSize: MediaQuery.of(context).size.width * 0.05,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.05,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -292,7 +294,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 218, 218, 218),
-                              fontSize: MediaQuery.of(context).size.width * 0.025,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
                             ),
                           ),
                         ],
@@ -300,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 15, top: 0),
                         child: Container(
-                             width: MediaQuery.of(context).size.width * 0.4,
+                          width: MediaQuery.of(context).size.width * 0.4,
                           child: Image.asset("assets/images/aiimage.png"),
                         ),
                       ),
@@ -362,14 +365,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: MediaQuery.of(context).size.width * 0.035,
                   ),
                 ),
-                onTap: () {
-                  Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DeviceList(),
-                              ),
-                            );
-                },
+                // onTap: () {
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => DeviceList(),
+                //     ),
+                //   );
+                // },
               ),
               ListTile(
                 leading: const Icon(Icons.settings, color: Colors.white),
@@ -399,12 +402,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 onTap: () {
-                   Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignIn(),
-                              ),
-                            );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SignIn(),
+                    ),
+                  );
                 },
               ),
             ],

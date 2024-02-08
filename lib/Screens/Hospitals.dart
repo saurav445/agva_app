@@ -30,20 +30,20 @@ class _HospitalsState extends State<Hospitals> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-                backgroundColor: Colors.black,
-        appBar: AppBar(
-                  backgroundColor: Colors.black,
-          centerTitle: true,
-          title: Text(
-            // widget.deviceId,
-            ' ',
-            style: TextStyle(
-              fontFamily: 'Avenir',
-              fontSize: 24,
-              color: Color.fromARGB(255, 255, 255, 255),
-            ),
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        centerTitle: true,
+        title: Text(
+          // widget.deviceId,
+          ' ',
+          style: TextStyle(
+            fontFamily: 'Avenir',
+            fontSize: 24,
+            color: Color.fromARGB(255, 255, 255, 255),
           ),
         ),
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width * 0.08,
@@ -78,15 +78,13 @@ class _HospitalsState extends State<Hospitals> {
                   color: Color.fromARGB(255, 65, 65, 65),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20,
-                  ),
+                  padding: const EdgeInsets.only(left: 20),
                   child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(top: 7),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -95,7 +93,8 @@ class _HospitalsState extends State<Hospitals> {
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize: MediaQuery.of(context).size.width * 0.06,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.06,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -107,14 +106,15 @@ class _HospitalsState extends State<Hospitals> {
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize: MediaQuery.of(context).size.width * 0.03,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
                               ),
                             ),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only( top: 30),
+                        padding: const EdgeInsets.only(top: 30),
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.25,
                           child: Image.asset("assets/images/hospital.png"),
@@ -153,13 +153,14 @@ class _HospitalsState extends State<Hospitals> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left:30),
+                            padding: const EdgeInsets.only(left: 30),
                             child: Text(
                               project,
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 228, 228, 228),
-                                fontSize: MediaQuery.of(context).size.width * 0.06,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.06,
                               ),
                             ),
                           ),

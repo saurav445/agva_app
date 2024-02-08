@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:agva_app/Screens/DeviceDetails.dart';
+import 'package:agva_app/Service/SocketService.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -209,6 +210,7 @@ class _DeviceListState extends State<DeviceList> {
               MaterialPageRoute(
                 builder: (context) => DeviceDetails(
                     deviceId,
+                    SocketServices(),
                     wardNo,
                     deviceType,
                     message,
@@ -227,10 +229,10 @@ class _DeviceListState extends State<DeviceList> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-     child: Scaffold(
-                backgroundColor: Colors.black,
+      child: Scaffold(
+        backgroundColor: Colors.black,
         appBar: AppBar(
-                  backgroundColor: Colors.black,
+          backgroundColor: Colors.black,
           centerTitle: true,
           title: Text(
             // widget.deviceId,

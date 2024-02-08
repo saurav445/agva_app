@@ -1,3 +1,5 @@
+// import 'dart:async';
+
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class SocketServices {
@@ -12,36 +14,44 @@ class SocketServices {
   late io.Socket socket;
   late String deviceId;
 
-//for values
-  late void Function(
-    String,
-    List<String>,
-    List<String>,
-    List<String>,
-    // List<String>,
-    // String,
-    // String,
-  ) onDataReceived;
+  //for values
+  void Function(String, List<String>, List<String>, List<String>, String,
+      String, String)? onDataReceived;
+
+  void Function()? onSocketConnected;
 
   void setOnDataReceivedCallback(
-      void Function(
-        String,
-        List<String>,
-        List<String>,
-        List<String>,
-        // List<String>,
-        // String,
-        // String,
-      ) callback) {
+      void Function(String, List<String>, List<String>, List<String>, String,
+              String, String)
+          callback) {
     onDataReceived = callback;
   }
 
-  late void Function(String, String, String, String, String, String, String, String, String, String, 
-      String, String, String) tilesData;
+  void setOnSocketConnectedCallback(void Function() callback) {
+    onSocketConnected = callback;
+  }
+
+  // late void Function(int, double, double, double, List<String>)?
+  //     onGraphDataReceived;
+
+  // void setOnGraphDataReceivedCallback(
+  //     void Function(int, double, double, double, List<String>) callback) {
+  //   onGraphDataReceived = callback;
+  // }
+
+  // late void Function(String, String, List<String>)? onSpecificDataReceived;
+
+  // void setOnSpecificDataReceived(
+  //     void Function(String, String, List<String>) callback) {
+  //   onSpecificDataReceived = callback;
+  // }
+
+  late void Function(String, String, String, String, String, String, String,
+      String, String, String, String, String, String)? tilesData;
 
   void tilesDataCallBack(
-      void Function(String, String, String, String, String, String, String,String, String, String, 
-              String, String, String)
+      void Function(String, String, String, String, String, String, String,
+              String, String, String, String, String, String)
           callback) {
     tilesData = callback;
   }
@@ -58,6 +68,33 @@ class SocketServices {
       print('Connected to the server');
 
       socket.emit('ReactStartUp', this.deviceId);
+
+      // socket.on('SpecificDataReceivingReact', (data) {
+
+      //   var tilesDataCheck = data.split("^")[2];
+      //   List<String> tilesDataList = tilesDataCheck.split(",");
+      //   // double pip = double.parse(tilesDataList[1]);
+      //   // double peep = double.parse(tilesDataList[1]);
+      //   // double vti = double.parse(tilesDataList[1]);
+      //   // double rr = double.parse(tilesDataList[1]);
+      //   // double fio2 = double.parse(tilesData[1]);
+
+      // });
+
+      // socket.on('DataGraphReceivingReact', (data) {
+
+      //   var graphDataString = data.split("^")[1];
+
+      //   List<String> graphDataList = graphDataString.split(",");
+
+      //   double xvalue = double.parse(graphDataList[0]);
+      //   double pressure = double.parse(graphDataList[1]);
+      //   double volume = double.parse(graphDataList[2]);
+      //   double flow = double.parse(graphDataList[3]);
+
+      //   onGraphDataReceived!(
+      //       xvalue.toInt(), pressure, volume, flow, graphDataList);
+      // });
 
       socket.on('DataReceivingReact', (data) {
         var modeData = data.split("^")[1];
@@ -77,21 +114,34 @@ class SocketServices {
         var rrValue = observedData[10].split("~")[1];
         var fiO2 = observedData[3].split("~")[0];
         var fiO2Value = observedData[3].split("~")[1];
-        // var alertData = data.split("^")[6];
-        // var batteryAlarmData = data.split("^")[7];
-        tilesData(pip, pipValue, vti, vtiValue, mVi, mViValue, rr, rrValue,
+        var alertData = data.split("^")[6];
+        var alarmName = alertData.split("~")[0];
+        var alarmColor = alertData.split("~")[1];
+        var alarmColor2 = alertData.split("~")[2];
+
+        tilesData!(pip, pipValue, vti, vtiValue, mVi, mViValue, rr, rrValue,
             spo2value, pulseValue, fiO2, fiO2Value, modeData);
-        onDataReceived(
-          modeData,
-          observedData,
-          setParameter,
-          secondaryObserved,
-        );
+            
+        onDataReceived!(modeData, observedData, setParameter, secondaryObserved,
+            alarmName, alarmColor, alarmColor2);
       });
     });
+
+    connect();
 
     socket.on('disconnect', (_) {
       print('Disconnected from the server');
     });
+  }
+
+  void connect() {
+    if (!socket.disconnected) {
+      socket.connect();
+    }
+  }
+
+  void dispose() {
+    socket.disconnect(); // Disconnect from the server
+    socket.dispose(); // Dispose of the socket
   }
 }
