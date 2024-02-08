@@ -106,7 +106,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       });
     });
     widget.socketService
-        .initializeSocket('http://52.64.235.38:8000', widget.deviceId);
+        .initializeSocket(url, widget.deviceId);
     widget.socketService.tilesDataCallBack((
       receivedPipData,
       receivedPipValue,
