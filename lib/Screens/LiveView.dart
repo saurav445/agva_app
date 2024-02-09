@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable, unused_import, unnecessary_string_interpolations, use_key_in_widget_constructors
 import 'dart:math';
-
 import 'package:agva_app/Screens/LoadingScreen.dart';
 import 'package:agva_app/widgets/LineChartWidget.dart';
 import 'package:chart_sparkline/chart_sparkline.dart';
@@ -776,7 +775,7 @@ class Header extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.015,
               ),
               Image.asset(
-                "assets/images/charge.png",
+                "assets/images/plug.png",
                 height: 20,
                 fit: BoxFit.cover,
               ),

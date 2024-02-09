@@ -13,15 +13,14 @@ import 'package:http/http.dart' as http;
 
 class MonitorData extends StatefulWidget {
   final String deviceId;
-  final String wardNo;
-  final String message;
-  final String hospitalName;
-  final String bioMed;
-  final String departmentName;
-  final String aliasName;
+  // final String wardNo;
+  // final String message;
+  // final String hospitalName;
+  // final String bioMed;
+  // final String departmentName;
+  // final String aliasName;
 
-  MonitorData(this.deviceId, this.wardNo, this.message, this.hospitalName,
-      this.bioMed, this.departmentName, this.aliasName);
+  MonitorData(this.deviceId);
 
   @override
   _MonitorDataState createState() => _MonitorDataState();
@@ -30,12 +29,6 @@ class MonitorData extends StatefulWidget {
 class _MonitorDataState extends State<MonitorData> {
   bool isLoading = true;
   late String deviceId;
-  late String wardNo;
-  late String message;
-  late String hospitalName;
-  late String bioMed;
-  late String departmentName;
-  late String aliasName;
   String activeButton = 'Events';
   String activeButtonColor = 'Events';
   late Map<String, dynamic> jsonResponse;
@@ -44,12 +37,6 @@ class _MonitorDataState extends State<MonitorData> {
   void initState() {
     super.initState();
     deviceId = widget.deviceId;
-    wardNo = widget.wardNo;
-    message = widget.message;
-    hospitalName = widget.hospitalName;
-    bioMed = widget.bioMed;
-    departmentName = widget.departmentName;
-    aliasName = widget.aliasName;
     getEventusingId();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     SystemChrome.setPreferredOrientations([
@@ -96,15 +83,6 @@ class _MonitorDataState extends State<MonitorData> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Container(
-                //   child: MDWidget(
-                //       widget.wardNo,
-                //       widget.message,
-                //       widget.hospitalName,
-                //       widget.bioMed,
-                //       widget.departmentName,
-                //       widget.aliasName),
-                // ),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

@@ -16,22 +16,22 @@ class DeviceDetails extends StatefulWidget {
   final SocketServices socketService;
   final String wardNo;
   final String deviceType;
-  final String message;
-  final String hospitalName;
-  final String bioMed;
-  final String departmentName;
-  final String aliasName;
+  // final String message;
+  // final String hospitalName;
+  // final String bioMed;
+  // final String departmentName;
+  // final String aliasName;
 
   const DeviceDetails(
     this.deviceId,
     this.socketService,
     this.wardNo,
     this.deviceType,
-    this.message,
-    this.hospitalName,
-    this.bioMed,
-    this.departmentName,
-    this.aliasName,
+    // this.message,
+    // this.hospitalName,
+    // this.bioMed,
+    // this.departmentName,
+    // this.aliasName,
   );
 
   @override
@@ -70,56 +70,50 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return mytoken;
   }
 
-void toggleFocus() async {
-  String? token = await getToken();
-  if (token != null) {
-    try {
-      var response = await http.put(
-        Uri.parse('$addtofocus/${widget.deviceId}'),
-        headers: {
-          "Authorization": 'Bearer $token',
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode({
-          "addTofocus": !addTofocus, 
-        }),
-      );
+  void toggleFocus() async {
+    String? token = await getToken();
+    if (token != null) {
+      try {
+        var response = await http.put(
+          Uri.parse('$addtofocus/${widget.deviceId}'),
+          headers: {
+            "Authorization": 'Bearer $token',
+            "Content-Type": "application/json",
+          },
+          body: jsonEncode({
+            "addTofocus": !addTofocus,
+          }),
+        );
 
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
-        var data = jsonResponse['data'];
-        if (data['addTofocus'] != null) {
-          setState(() {
-            addTofocus = data['addTofocus'];
-          });
+        if (response.statusCode == 200) {
+          var jsonResponse = jsonDecode(response.body);
+          var data = jsonResponse['data'];
+          if (data['addTofocus'] != null) {
+            setState(() {
+              addTofocus = data['addTofocus'];
+            });
+          }
+        } else {
+          print('Failed to update focus status: ${response.statusCode}');
         }
-      } else {
-
-        print('Failed to update focus status: ${response.statusCode}');
+      } catch (error) {
+        print('Error updating focus status: $error');
       }
-    } catch (error) {
-
-      print('Error updating focus status: $error');
+    } else {
+      print("Token is null");
     }
-  } else {
-    print("Token is null");
   }
-}
-
 
   @override
   void initState() {
     super.initState();
     toggleFocus();
-    // _checkIfDataIsSaved();
     Future.delayed(Duration(seconds: 2), () {
-      // Increment counter to 1 after delay
       setState(() {
         loadingCount = 1;
       });
     });
-    widget.socketService
-        .initializeSocket(url, widget.deviceId);
+    widget.socketService.initializeSocket(url, widget.deviceId);
     widget.socketService.tilesDataCallBack((
       receivedPipData,
       receivedPipValue,
@@ -191,7 +185,6 @@ void toggleFocus() async {
   @override
   void dispose() {
     loadingCount = 0;
-    // widget.socketService.dispose();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -441,12 +434,12 @@ void toggleFocus() async {
                                         MaterialPageRoute(
                                           builder: (context) => MonitorData(
                                             widget.deviceId,
-                                            widget.wardNo,
-                                            widget.message,
-                                            widget.hospitalName,
-                                            widget.bioMed,
-                                            widget.departmentName,
-                                            widget.aliasName,
+                                            // widget.wardNo,
+                                            // widget.message,
+                                            // widget.hospitalName,
+                                            // widget.bioMed,
+                                            // widget.departmentName,
+                                            // widget.aliasName,
                                           ),
                                         ),
                                       );

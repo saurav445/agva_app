@@ -14,4 +14,5 @@ final getDeviceAlarmsbyID = '$url/api/logger/logs/deviceAlerts';
 final getDeviceCalibyID = '$url/api/logger/logs/calibration';
 final getDeviceCrashLogsbyID = '$url/api/logger/logs/deviceLogs';
 final addtofocus = '$url/devices/update-addtofocus';
+final getFocusDevices = '$url/api/logger/logs/Allevents/get-focused-devices';
 
