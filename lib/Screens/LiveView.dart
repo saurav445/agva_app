@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable, unused_import, unnecessary_string_interpolations, use_key_in_widget_constructors
 import 'dart:math';
+import 'package:agva_app/Screens/EmptyLiveView.dart';
 import 'package:agva_app/Screens/LoadingScreen.dart';
 import 'package:agva_app/widgets/LineChartWidget.dart';
 import 'package:chart_sparkline/chart_sparkline.dart';
@@ -214,13 +215,7 @@ class _LiveViewState extends State<LiveView> {
 
   @override
   dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-    ]);
-    callme();
+    // callme();
     super.dispose();
   }
 
@@ -241,6 +236,8 @@ class _LiveViewState extends State<LiveView> {
                   ],
                 ),
               )
+            else if (observedData.isEmpty)
+              EmptyLiveView()
             else
               SizedBox(
                 height: MediaQuery.of(context).size.height,
@@ -902,7 +899,7 @@ class BottomTiles extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    parameterName,
+                    parameterName.isEmpty ? '-' : parameterName,
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       color: Color.fromARGB(255, 136, 136, 136),
@@ -910,7 +907,7 @@ class BottomTiles extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    parameterValue,
+                    parameterValue.isEmpty ? '-' : parameterValue,
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       color: Color.fromARGB(255, 218, 218, 218),

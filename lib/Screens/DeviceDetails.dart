@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, prefer_const_constructors
+// ignore_for_file: must_be_immutable, prefer_const_constructors, use_key_in_widget_constructors
 import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
 import 'package:agva_app/config.dart';
@@ -19,16 +19,12 @@ class DeviceDetails extends StatefulWidget {
   final String deviceType;
   final String message;
 
-  const DeviceDetails(
-    this.deviceId,
-    this.socketService,
-    this.wardNo,
-    this.deviceType,
-    this.message,
-  );
+  const DeviceDetails(this.deviceId, this.socketService, this.wardNo,
+      this.deviceType, this.message);
 
   @override
   State<DeviceDetails> createState() => _DeviceDetailsState();
+
 }
 
 class _DeviceDetailsState extends State<DeviceDetails> {
@@ -180,12 +176,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   @override
   void dispose() {
     loadingCount = 0;
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight
-    ]);
     super.dispose();
   }
 

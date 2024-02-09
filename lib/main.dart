@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
               SocketServices(),
               '',
               '',
-              '',
+              ''
             ),
         "/tandc": (context) => TermsCondition(),
         "/devicelist": (context) => DeviceList(),

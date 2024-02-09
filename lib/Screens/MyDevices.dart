@@ -6,7 +6,6 @@ import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-
 import '../Service/SocketService.dart';
 
 class MyDevices extends StatefulWidget {
@@ -38,6 +37,7 @@ class _MyDevicesState extends State<MyDevices> {
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
         var data = jsonResponse['data']['data'];
+        print(data);
         setState(() {
           focusedDevices = List<Map<String, dynamic>>.from(data)
               .where((device) => device['addTofocus'] == true)
@@ -98,7 +98,7 @@ class _MyDevicesState extends State<MyDevices> {
                                 SocketServices(),
                                 device['deviceInfo']?[0]?['Ward_No'],
                                 device['deviceInfo']?[0]?['DeviceType'],
-                                device['deviceInfo']?[0]?['message']),
+                                device['message']),
                           ),
                         );
                       },
