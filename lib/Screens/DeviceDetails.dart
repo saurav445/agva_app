@@ -1,4 +1,5 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
+import 'package:agva_app/AuthScreens/SplashScreen.dart';
 import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
 import 'package:agva_app/config.dart';
@@ -487,15 +488,18 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                           ),
                                           TextButton(
                                             onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      LiveView(widget.deviceId),
-                                                  // LineGraphApp(),
-                                                ),
-                                              );
+                                              conditionalNavigation(
+                                                  widget.message);
+                                              // Navigator.push(
+                                              //   context,
+                                              //   MaterialPageRoute(
+                                              //     builder: (context) =>
+                                              //         LiveView(widget.deviceId),
+                                              //     // LineGraphApp(),
+                                              //   ),
+                                              // );
                                             },
+
                                             // style: TextButton.styleFrom(),
                                             child: Text(
                                               "LIVE VIEW",
@@ -604,6 +608,35 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         return "assets/images/inactive.png";
       default:
         return "assets/images/inactive.png";
+    }
+  }
+
+  Object conditionalNavigation(message) {
+    switch (message) {
+      case 'ACTIVE':
+        return Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LiveView(widget.deviceId),
+            // LineGraphApp(),
+          ),
+        );
+      case 'INATIVE':
+        return Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SplashScreen(),
+            // LineGraphApp(),
+          ),
+        );
+      default:
+        return Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SplashScreen(),
+            // LineGraphApp(),
+          ),
+        );
     }
   }
 }
