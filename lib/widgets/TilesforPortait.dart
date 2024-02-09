@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 
-class ResponsiveTileWidget extends StatelessWidget {
+class TilesforPortait extends StatelessWidget {
   final String title;
   final String value;
   final String unit;
   final double width;
 
-  ResponsiveTileWidget({
+  TilesforPortait({
     required this.title,
     this.value = '',
     this.unit = '',

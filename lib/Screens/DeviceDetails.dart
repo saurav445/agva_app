@@ -1,13 +1,13 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
-import 'package:agva_app/AuthScreens/SplashScreen.dart';
 import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
 import 'package:agva_app/config.dart';
-import 'package:agva_app/widgets/Tiles.dart';
+import 'package:agva_app/widgets/TilesforPortait.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Service/SocketService.dart';
+import '../widgets/TilesforLandscape.dart';
 import 'LiveView.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -18,10 +18,6 @@ class DeviceDetails extends StatefulWidget {
   final String wardNo;
   final String deviceType;
   final String message;
-  // final String hospitalName;
-  // final String bioMed;
-  // final String departmentName;
-  // final String aliasName;
 
   const DeviceDetails(
     this.deviceId,
@@ -29,10 +25,6 @@ class DeviceDetails extends StatefulWidget {
     this.wardNo,
     this.deviceType,
     this.message,
-    // this.hospitalName,
-    // this.bioMed,
-    // this.departmentName,
-    // this.aliasName,
   );
 
   @override
@@ -178,6 +170,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
     ]);
   }
 
@@ -189,6 +183,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
     ]);
     super.dispose();
   }
@@ -197,358 +193,330 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
           backgroundColor: Colors.black,
-          centerTitle: true,
-          title: Text(
-            'Patient Details',
-            style: TextStyle(
-              fontFamily: 'Avenir',
-              fontSize: 24,
-              color: Color.fromARGB(255, 255, 255, 255),
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            centerTitle: true,
+            title: Text(
+              'Patient Details',
+              style: TextStyle(
+                fontFamily: 'Avenir',
+                fontSize: 24,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
             ),
           ),
-        ),
-        body: Stack(
-          children: [
-            if (loadingCount == 0)
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    LinearProgressIndicator(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text("Connecting server..",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0))
-                  ],
+          body: OrientationBuilder(builder: (context, orientation) {
+            if (orientation == Orientation.portrait) {
+              return _buildPortraitLayout(context);
+            } else {
+              return _buildLandscapeLayout(context);
+            }
+          })),
+    );
+  }
+
+  String getImagePath(message) {
+    switch (message) {
+      case 'ACTIVE':
+        return "assets/images/active.png";
+      case 'INATIVE':
+        return "assets/images/inactive.png";
+      default:
+        return "assets/images/inactive.png";
+    }
+  }
+
+  Widget _buildLandscapeLayout(BuildContext context) {
+    return Stack(
+      children: [
+        if (loadingCount == 0)
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                LinearProgressIndicator(),
+                SizedBox(
+                  height: 20,
+                ),
+                Text("Connecting server..",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0))
+              ],
+            ),
+          ),
+        if (loadingCount != 0)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.035,
+              ),
+              Text(
+                "SALIM RAZA",
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                  fontSize: MediaQuery.of(context).size.width * 0.02,
+                  color: Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
-            if (loadingCount != 0)
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.035,
-                    ),
-                    Text(
-                      "SALIM RAZA",
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        fontSize: MediaQuery.of(context).size.width * 0.07,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-
-                    //Live tiles
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.04,
-                    ),
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.065,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.42,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Color.fromARGB(255, 89, 89, 89),
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    style: TextButton.styleFrom(),
-                                    child: Text(
-                                      modeData,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.05,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 16),
-                                ResponsiveTileWidget(
-                                  // == 'Machine' ? 'M' : 'Resp',
-                                  //  == 'Machine' ? pipValue : respiratoryValue,
-                                  title: fiO2,
-                                  value: fiO2Value,
-                                  width: constraints.maxWidth * 0.42,
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.015,
-                                ),
-                                ResponsiveTileWidget(
-                                  title: vti,
-                                  value: vtiValue,
-                                  width: constraints.maxWidth * 0.42,
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.015,
-                                ),
-                                ResponsiveTileWidget(
-                                  title: 'SpO2',
-                                  value: spo2value,
-                                  width: constraints.maxWidth * 0.42,
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.015,
-                                ),
-                                ResponsiveTileWidget(
-                                  title: 'EtCo2',
-                                  value: spo2value,
-                                  width: constraints.maxWidth * 0.42,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                ResponsiveTileWidget(
-                                  title: pip,
-                                  value: pipValue,
-                                  width: constraints.maxWidth * 0.42,
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.015,
-                                ),
-                                ResponsiveTileWidget(
-                                  title: rr,
-                                  value: rrValue,
-                                  width: constraints.maxWidth * 0.42,
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.015,
-                                ),
-                                ResponsiveTileWidget(
-                                  title: mVi,
-                                  value: mViValue,
-                                  width: constraints.maxWidth * 0.42,
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.015,
-                                ),
-                                ResponsiveTileWidget(
-                                  title: 'PULSE',
-                                  value: pulseValue,
-                                  width: constraints.maxWidth * 0.42,
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.015,
-                                ),
-                                ResponsiveTileWidget(
-                                  title: 'ET-CUFF',
-                                  value: pulseValue,
-                                  width: constraints.maxWidth * 0.42,
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    SizedBox(height: 16),
-                    //buttons
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Column(
+              //Live tiles
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.12,
+              ),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.065,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Color.fromARGB(255, 82, 82, 82),
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DeviceAbout(
-                                              widget.deviceId,
-                                              widget.deviceType),
-                                        ),
-                                      );
-                                    },
-                                    style: TextButton.styleFrom(),
-                                    child: Text(
-                                      "ABOUT",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.045,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color.fromARGB(255, 89, 89, 89),
+                            ),
+                            child: TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(),
+                              child: Text(
+                                modeData,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.03,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.065,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Color.fromARGB(255, 82, 82, 82),
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MonitorData(
-                                            widget.deviceId,
-                                            // widget.wardNo,
-                                            // widget.message,
-                                            // widget.hospitalName,
-                                            // widget.bioMed,
-                                            // widget.departmentName,
-                                            // widget.aliasName,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    style: TextButton.styleFrom(),
-                                    child: Text(
-                                      "MONITOR",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.045,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                          SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.065,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Color.fromARGB(255, 82, 82, 82),
+                          TilesforLandscape(
+                            title: fiO2,
+                            value: fiO2Value,
+                          ),
+                          TilesforLandscape(
+                            title: vti,
+                            value: vtiValue,
+                          ),
+                          TilesforLandscape(
+                            title: fiO2,
+                            value: fiO2Value,
+                          ),
+                          TilesforLandscape(
+                            title: pip,
+                            value: pipValue,
+                          ),
+                        ],
+                      ), // ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color.fromARGB(255, 89, 89, 89),
+                            ),
+                            child: TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(),
+                              child: Text(
+                                modeData,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          TilesforLandscape(
+                            title: fiO2,
+                            value: fiO2Value,
+                          ),
+                          TilesforLandscape(
+                            title: vti,
+                            value: vtiValue,
+                          ),
+                          TilesforLandscape(
+                            title: fiO2,
+                            value: fiO2Value,
+                          ),
+                          TilesforLandscape(
+                            title: pip,
+                            value: pipValue,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color.fromARGB(255, 82, 82, 82),
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DeviceAbout(
+                                        widget.deviceId, widget.deviceType),
                                   ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Container(
-                                            width: 15,
-                                            child: Image.asset(
-                                              getImagePath(widget.message),
+                                );
+                              },
+                              style: TextButton.styleFrom(),
+                              child: Text(
+                                "ABOUT",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.01,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color.fromARGB(255, 82, 82, 82),
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MonitorData(
+                                      widget.deviceId,
+                                    ),
+                                  ),
+                                );
+                              },
+                              style: TextButton.styleFrom(),
+                              child: Text(
+                                "MONITOR",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.01,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color.fromARGB(255, 82, 82, 82),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 10,
+                                      child: Image.asset(
+                                        getImagePath(widget.message),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        if (widget.message == 'ACTIVE') {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LiveView(widget.deviceId),
+                                              // LineGraphApp(),
                                             ),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              conditionalNavigation(
-                                                  widget.message);
-                                              // Navigator.push(
-                                              //   context,
-                                              //   MaterialPageRoute(
-                                              //     builder: (context) =>
-                                              //         LiveView(widget.deviceId),
-                                              //     // LineGraphApp(),
-                                              //   ),
-                                              // );
-                                            },
-
-                                            // style: TextButton.styleFrom(),
-                                            child: Text(
-                                              "LIVE VIEW",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.045,
-                                                fontWeight: FontWeight.bold,
+                                          );
+                                        } else {
+                                          final snackBar = SnackBar(
+                                            content: Center(
+                                              child: const Text(
+                                                "Device in StandBy",
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.03,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.065,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Color.fromARGB(255, 82, 82, 82),
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    style: TextButton.styleFrom(),
-                                    child: Text(
-                                      "SUPPORT",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.045,
-                                        fontWeight: FontWeight.bold,
+                                            action: SnackBarAction(
+                                              label: '',
+                                              onPressed: () {},
+                                            ),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                        }
+                                      },
+
+                                      // style: TextButton.styleFrom(),
+                                      child: Text(
+                                        "LIVE VIEW",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.01,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color.fromARGB(255, 82, 82, 82),
+                            ),
+                            child: TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(),
+                              child: Text(
+                                "SUPPORT",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.01,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                          SizedBox(height: 16),
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
@@ -560,8 +528,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                               padding: const EdgeInsets.only(left: 8),
                               child: Container(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.065,
-                                width: 170,
+                                    MediaQuery.of(context).size.height * 0.12,
+                                width: MediaQuery.of(context).size.width * 0.14,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(5),
@@ -580,7 +548,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                       color: Colors.white,
                                       fontSize:
                                           MediaQuery.of(context).size.width *
-                                              0.045,
+                                              0.01,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -590,53 +558,407 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  );
+                },
               ),
-          ],
-        ),
-      ),
+            ],
+          ),
+      ],
     );
   }
 
-  String getImagePath(message) {
-    switch (message) {
-      case 'ACTIVE':
-        return "assets/images/active.png";
-      case 'INATIVE':
-        return "assets/images/inactive.png";
-      default:
-        return "assets/images/inactive.png";
-    }
-  }
+  Widget _buildPortraitLayout(BuildContext context) {
+    return Stack(
+      children: [
+        if (loadingCount == 0)
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                LinearProgressIndicator(),
+                SizedBox(
+                  height: 20,
+                ),
+                Text("Connecting server..",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0))
+              ],
+            ),
+          ),
+        if (loadingCount != 0)
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.035,
+                ),
+                Text(
+                  "SALIM RAZA",
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    fontSize: MediaQuery.of(context).size.width * 0.07,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                ),
+                SizedBox(height: 16),
 
-  Object conditionalNavigation(message) {
-    switch (message) {
-      case 'ACTIVE':
-        return Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LiveView(widget.deviceId),
-            // LineGraphApp(),
+                //Live tiles
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                ),
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.065,
+                              width: MediaQuery.of(context).size.width * 0.42,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Color.fromARGB(255, 89, 89, 89),
+                              ),
+                              child: TextButton(
+                                onPressed: () {},
+                                style: TextButton.styleFrom(),
+                                child: Text(
+                                  modeData,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.05,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            TilesforPortait(
+                              // == 'Machine' ? 'M' : 'Resp',
+                              //  == 'Machine' ? pipValue : respiratoryValue,
+                              title: fiO2,
+                              value: fiO2Value,
+                              width: constraints.maxWidth * 0.42,
+                            ),
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
+                            TilesforPortait(
+                              title: vti,
+                              value: vtiValue,
+                              width: constraints.maxWidth * 0.42,
+                            ),
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
+                            TilesforPortait(
+                              title: 'SpO2',
+                              value: spo2value,
+                              width: constraints.maxWidth * 0.42,
+                            ),
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
+                            TilesforPortait(
+                              title: 'EtCo2',
+                              value: spo2value,
+                              width: constraints.maxWidth * 0.42,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.03,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            TilesforPortait(
+                              title: pip,
+                              value: pipValue,
+                              width: constraints.maxWidth * 0.42,
+                            ),
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
+                            TilesforPortait(
+                              title: rr,
+                              value: rrValue,
+                              width: constraints.maxWidth * 0.42,
+                            ),
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
+                            TilesforPortait(
+                              title: mVi,
+                              value: mViValue,
+                              width: constraints.maxWidth * 0.42,
+                            ),
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
+                            TilesforPortait(
+                              title: 'PULSE',
+                              value: pulseValue,
+                              width: constraints.maxWidth * 0.42,
+                            ),
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
+                            TilesforPortait(
+                              title: 'ET-CUFF',
+                              value: pulseValue,
+                              width: constraints.maxWidth * 0.42,
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(height: 16),
+                //buttons
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.065,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Color.fromARGB(255, 82, 82, 82),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DeviceAbout(
+                                          widget.deviceId, widget.deviceType),
+                                    ),
+                                  );
+                                },
+                                style: TextButton.styleFrom(),
+                                child: Text(
+                                  "ABOUT",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.045,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.03,
+                          ),
+                          Expanded(
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.065,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Color.fromARGB(255, 82, 82, 82),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MonitorData(
+                                        widget.deviceId,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                style: TextButton.styleFrom(),
+                                child: Text(
+                                  "MONITOR",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.045,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.065,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Color.fromARGB(255, 82, 82, 82),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 15,
+                                        child: Image.asset(
+                                          getImagePath(widget.message),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          if (widget.message == 'ACTIVE') {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LiveView(widget.deviceId),
+                                                // LineGraphApp(),
+                                              ),
+                                            );
+                                          } else {
+                                            final snackBar = SnackBar(
+                                              content: Center(
+                                                child: const Text(
+                                                  "Device in StandBy",
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                              action: SnackBarAction(
+                                                label: '',
+                                                onPressed: () {},
+                                              ),
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                          }
+                                        },
+
+                                        // style: TextButton.styleFrom(),
+                                        child: Text(
+                                          "LIVE VIEW",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.045,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.03,
+                          ),
+                          Expanded(
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.065,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Color.fromARGB(255, 82, 82, 82),
+                              ),
+                              child: TextButton(
+                                onPressed: () {},
+                                style: TextButton.styleFrom(),
+                                child: Text(
+                                  "SUPPORT",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.045,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: addTofocus
+                              ? Color.fromARGB(255, 174, 34, 104)
+                              : Color.fromARGB(255, 82, 82, 82),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.065,
+                            width: 170,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(5),
+                                bottomRight: Radius.circular(5),
+                              ),
+                              color: Color.fromARGB(255, 82, 82, 82),
+                            ),
+                            child: TextButton(
+                              onPressed: toggleFocus,
+                              style: TextButton.styleFrom(),
+                              child: Text(
+                                addTofocus ? "REMOVE FOCUS" : "ADD TO FOCUS",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.045,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        );
-      case 'INATIVE':
-        return Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SplashScreen(),
-            // LineGraphApp(),
-          ),
-        );
-      default:
-        return Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SplashScreen(),
-            // LineGraphApp(),
-          ),
-        );
-    }
+      ],
+    );
   }
 }
