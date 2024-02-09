@@ -28,6 +28,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           SocketServices(), // Initialize SocketServices here
           '',
           '',
+              '',
         ),
       ),
     );

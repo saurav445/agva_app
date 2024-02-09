@@ -212,7 +212,8 @@ class _DeviceListState extends State<DeviceList> {
                     deviceId,
                     SocketServices(),
                     wardNo,
-                    deviceType,),
+                    deviceType,
+                    message),
               ),
             );
           }

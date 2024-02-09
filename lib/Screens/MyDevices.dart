@@ -97,7 +97,8 @@ class _MyDevicesState extends State<MyDevices> {
                                 device['deviceInfo']?[0]?['DeviceId'],
                                 SocketServices(),
                                 device['deviceInfo']?[0]?['Ward_No'],
-                                device['deviceInfo']?[0]?['DeviceType']),
+                                device['deviceInfo']?[0]?['DeviceType'],
+                                device['deviceInfo']?[0]?['message']),
                           ),
                         );
                       },

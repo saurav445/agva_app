@@ -16,7 +16,7 @@ class DeviceDetails extends StatefulWidget {
   final SocketServices socketService;
   final String wardNo;
   final String deviceType;
-  // final String message;
+  final String message;
   // final String hospitalName;
   // final String bioMed;
   // final String departmentName;
@@ -27,7 +27,7 @@ class DeviceDetails extends StatefulWidget {
     this.socketService,
     this.wardNo,
     this.deviceType,
-    // this.message,
+    this.message,
     // this.hospitalName,
     // this.bioMed,
     // this.departmentName,
@@ -482,7 +482,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                           Container(
                                             width: 15,
                                             child: Image.asset(
-                                              "assets/images/active.png",
+                                              getImagePath(widget.message),
                                             ),
                                           ),
                                           TextButton(
@@ -594,5 +594,16 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         ),
       ),
     );
+  }
+
+  String getImagePath(message) {
+    switch (message) {
+      case 'ACTIVE':
+        return "assets/images/active.png";
+      case 'INATIVE':
+        return "assets/images/inactive.png";
+      default:
+        return "assets/images/inactive.png";
+    }
   }
 }
