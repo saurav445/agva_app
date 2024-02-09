@@ -70,29 +70,42 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return mytoken;
   }
 
-  void toggleFocus() async {
-    String? token = await getToken();
-    if (token != null) {
+void toggleFocus() async {
+  String? token = await getToken();
+  if (token != null) {
+    try {
       var response = await http.put(
         Uri.parse('$addtofocus/${widget.deviceId}'),
         headers: {
           "Authorization": 'Bearer $token',
+          "Content-Type": "application/json",
         },
+        body: jsonEncode({
+          "addTofocus": !addTofocus, 
+        }),
       );
-      var jsonResponse = jsonDecode(response.body);
-      if (jsonResponse['statusCode'] == 200) {
-           print(jsonResponse['statusCode'] == 200);
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
         var data = jsonResponse['data'];
-        if (data['addTofocus'] == false) {
+        if (data['addTofocus'] != null) {
           setState(() {
-            addTofocus = true;
+            addTofocus = data['addTofocus'];
           });
         }
+      } else {
+
+        print('Failed to update focus status: ${response.statusCode}');
       }
-    } else {
-      print("Token is null");
+    } catch (error) {
+
+      print('Error updating focus status: $error');
     }
+  } else {
+    print("Token is null");
   }
+}
+
 
   @override
   void initState() {

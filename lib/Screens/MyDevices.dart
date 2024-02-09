@@ -1,8 +1,10 @@
-// ignore_for_file: prefer_const_constructors, unused_import
+
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'DeviceDetails.dart';
+import 'package:http/http.dart' as http;
 
 class MyDevices extends StatefulWidget {
   @override
@@ -10,35 +12,50 @@ class MyDevices extends StatefulWidget {
 }
 
 class _MyDevicesState extends State<MyDevices> {
-  List<String> focusedDevices = [];
+  List<Map<String, dynamic>> focusedDevices = [];
 
   @override
   void initState() {
     super.initState();
+    fetchFocusedDevices();
   }
 
-  Future<void> updateFocusList(String deviceId) async {
+  Future<void> fetchFocusedDevices() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      if (focusedDevices.contains(deviceId)) {
-        focusedDevices.remove(deviceId);
-      } else {
-        focusedDevices.add(deviceId);
-      }
-    });
+    String? mytoken = prefs.getString('mytoken');
+    if (mytoken != null) {
+      var response = await http.get(
+        Uri.parse('http://52.64.235.38:8000/api/logger/logs/Allevents/get-focused-devices'),
+        headers: {
+          "Authorization": 'Bearer $mytoken',
+        },
+      );
 
-    await prefs.setStringList('focusedDevices', focusedDevices);
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        var data = jsonResponse['data']['data'];
+        setState(() {
+          focusedDevices = List<Map<String, dynamic>>.from(data)
+              .where((device) => device['addTofocus'] == true)
+              .toList();
+        });
+      } else {
+        // Handle other status codes
+        print('Failed to fetch focused devices: ${response.statusCode}');
+      }
+    } else {
+      print("Token is null");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-       appBar: AppBar(
+        appBar: AppBar(
           centerTitle: true,
           title: Text(
-            // widget.deviceId,
-            ' ',
+            'My Devices',
             style: TextStyle(
               fontFamily: 'Avenir',
               fontSize: 24,
@@ -63,7 +80,7 @@ class _MyDevicesState extends State<MyDevices> {
                 SizedBox(
                   height: 20,
                 ),
-                for (String deviceId in focusedDevices)
+                for (var device in focusedDevices)
                   GestureDetector(
                     onTap: () {
                       // Navigator.push(
@@ -94,12 +111,12 @@ class _MyDevicesState extends State<MyDevices> {
                                 color: Color.fromARGB(255, 65, 65, 65),
                               ),
                               child: Text(
-                                deviceId,
+                                device['deviceId'],
                                 style: TextStyle(
                                   fontFamily: 'Avenir',
                                   color: Color.fromARGB(255, 218, 218, 218),
                                   fontSize:
-                                      MediaQuery.of(context).size.width * 0.05,
+                                  MediaQuery.of(context).size.width * 0.05,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
