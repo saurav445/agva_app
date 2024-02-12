@@ -2,6 +2,7 @@
 
 import 'package:agva_app/AuthScreens/SignIn.dart';
 import 'package:agva_app/Screens/DeviceList.dart';
+import 'package:agva_app/Screens/FocusAlarms.dart';
 import 'package:agva_app/Screens/Hospitals.dart';
 import 'package:agva_app/Screens/LiveView.dart';
 import 'package:agva_app/Screens/MyDevices.dart';
@@ -516,41 +517,51 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.015,
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.15,
-                width: MediaQuery.of(context).size.width * 0.9,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.topRight,
-                    colors: [
-                      Color.fromARGB(255, 50, 50, 50),
-                      Color.fromARGB(255, 255, 255, 255),
-                    ],
+              GestureDetector(
+                 onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FocusAlarms(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: [
+                        Color.fromARGB(255, 50, 50, 50),
+                        Color.fromARGB(255, 255, 255, 255),
+                      ],
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 30),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'ALARMS',
-                        style: TextStyle(
-                          fontFamily: 'Avenir',
-                          color: Color.fromARGB(255, 218, 218, 218),
-                          fontSize: MediaQuery.of(context).size.width * 0.05,
-                          fontWeight: FontWeight.bold,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'ALARMS',
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 218, 218, 218),
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Image.asset("assets/images/alarmimage.png"),
-                      ),
-                    ],
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Image.asset("assets/images/alarmimage.png"),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -1,19 +1,18 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
-import 'package:agva_app/Screens/DeviceDetails.dart';
+import 'package:agva_app/Screens/AlarmList.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import '../Service/SocketService.dart';
 
-class MyDevices extends StatefulWidget {
+class FocusAlarms extends StatefulWidget {
   @override
-  _MyDevicesState createState() => _MyDevicesState();
+  FocusAlarmsState createState() => FocusAlarmsState();
 }
 
-class _MyDevicesState extends State<MyDevices> {
+class FocusAlarmsState extends State<FocusAlarms> {
   List<Map<String, dynamic>> focusedDevices = [];
   List<Map<String, dynamic>> devicesForUserList = [];
 
@@ -37,7 +36,6 @@ class _MyDevicesState extends State<MyDevices> {
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
         var data = jsonResponse['data']['data'];
-        print(data);
         setState(() {
           focusedDevices = List<Map<String, dynamic>>.from(data)
               .where((device) => device['addTofocus'] == true)
@@ -73,15 +71,7 @@ class _MyDevicesState extends State<MyDevices> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  'My Devices',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.08,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+
                 SizedBox(
                   height: 20,
                 ),
@@ -93,19 +83,15 @@ class _MyDevicesState extends State<MyDevices> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DeviceDetails(
-                                device['deviceInfo']?[0]?['DeviceId'],
-                                SocketServices(),
-                                device['deviceInfo']?[0]?['Ward_No'],
-                                device['deviceInfo']?[0]?['DeviceType'],
-                                device['message']),
+                            builder: (context) => AlarmList(),
                           ),
                         );
                       },
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Color.fromARGB(255, 69, 174, 34),
+                          // color: Color.fromARGB(255, 69, 174, 34),
+                                  color: Color.fromARGB(255, 65, 65, 65),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(right: 10),
@@ -247,7 +233,7 @@ class _MyDevicesState extends State<MyDevices> {
                       ),
                     ),
                   ),
-
+               
               ],
             ),
           ),

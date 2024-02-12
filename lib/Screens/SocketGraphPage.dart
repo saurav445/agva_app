@@ -14,7 +14,7 @@ class SocketGraphPage extends StatefulWidget {
 class _SocketGraphPageState extends State<SocketGraphPage> {
   late IO.Socket socket;
   List<int> fifoLimit = [350];
-  List<Color> lineColors = [Colors.black, Colors.white];
+  List<Color> lineColors = List.filled(350, Colors.white);
 
   bool isFirstTime = false;
   int xVal = 0;
@@ -34,18 +34,9 @@ class _SocketGraphPageState extends State<SocketGraphPage> {
   late String alarmName = "";
   late String alarmColor;
   late String alarmColor2;
-  late String xvalue = "";
-  late String pressure = "";
-  late String volume = "";
-  late String flow = "";
-  
-  late List<String> graphData = [];
-
-  late List<String> graphPressure = [];
-
-  late List<String> graphVolume = [];
-
-  late List<String> graphFlow = [];
+  late double pressure = 0.0;
+  late double volume = 0.0;
+  late double flow = 0.0;
 
   @override
   void initState() {
@@ -84,56 +75,50 @@ class _SocketGraphPageState extends State<SocketGraphPage> {
       });
     });
 
-  socketService.setOnGraphDataReceivedCallback((receivedXvalue,
-    receivedPressure, receivedVolume, receivedFlow, receivedGraphData) {
-  setState(() {
-    xvalue = receivedXvalue.toString();
-    pressure = receivedPressure.toString();
-    volume = receivedVolume.toString();
-    flow = receivedFlow.toString();
-    graphData = receivedGraphData;
-    graphPressure.add(xvalue);
-    graphPressure.add(pressure);
+    socketService.setOnGraphDataReceivedCallback((receivedXvalue,
+        receivedPressure, receivedVolume, receivedFlow, receivedGraphData) {
+      setState(() {
+        pressure = receivedPressure;
 
-    graphVolume.add(xvalue);
-    graphVolume.add(volume);
+        if (!isFirstTime) {
+          chartData.add(FlSpot(xVal.toDouble(), pressure));
+        } else {
+          chartData[xVal] = FlSpot(xVal.toDouble(), pressure);
 
-    double x = double.parse(xvalue);
-    double y = double.parse(pressure);
+          for (int index = 0; index < 350; index++) {
+            if (fifoLimit.contains(index)) {
+              lineColors[index] = Colors.black;
+              print('condition one');
+            } else {
+              lineColors[index] = Colors.white;
+              print("condition two");
+            }
+          }
+        }
 
-    // double yvolume = double.parse(volume);
+        xVal++;
+        if (xVal == 350) {
+          isFirstTime = true;
+          xVal = 0;
+        }
 
-    // double yFlow = double.parse(flow);
+        if (isFirstTime) {
+          for (int i = 0; i < 12; i++) {
+            if (i < 6) {
+              if ((xVal - (6 - i)) < 0) {
+                fifoLimit[i] = 350 + (xVal - (6 - i));
+              } else {
+                fifoLimit[i] = (xVal - (6 - i));
+              }
+            } else {
+              fifoLimit[i] = (xVal + (i - 6));
+            }
+          }
+        }
 
-    // Update chartData and lineColors
-    if (!isFirstTime) {
-      if (chartData.length >= 350) {
-        // Remove the oldest data point
-        chartData.removeAt(0);
-        // Adjust lineColors accordingly
-        lineColors.removeAt(0);
-      }
-      chartData.add(FlSpot(x, y));
-      lineColors.add(Colors.white); // or any other default color
-    } else {
-      // Update the existing data point
-      chartData[xVal] = FlSpot(x, y);
-      // Update lineColors if needed
-    }
-
-    xVal = (xVal + 1) % 350;
-    isFirstTime = xVal == 0; // Set isFirstTime to true when xVal reaches 350
-
-    // Update lineColors based on fifoLimit
-    for (int i = 0; i < chartData.length; i++) {
-      if (fifoLimit.contains(i)) {
-        lineColors[i] = Colors.black;
-      } else {
-        lineColors[i] = Colors.white;
-      }
-    }
-  });
-});
+        
+      });
+    });
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
@@ -159,7 +144,6 @@ class _SocketGraphPageState extends State<SocketGraphPage> {
           LineChartData(
             lineBarsData: [
               LineChartBarData(
-                
                 spots: chartData,
                 isCurved: false,
                 // color: Colors.white,
@@ -173,13 +157,13 @@ class _SocketGraphPageState extends State<SocketGraphPage> {
               ),
             ],
             minY: 0,
-            gridData: const FlGridData(show: true),
+            gridData: const FlGridData(show: false),
             titlesData: const FlTitlesData(
                 // leftTitles:  SideTitles(showTitles: true),
                 // bottomTitles: SideTitles(showTitles: true),
                 ),
             borderData: FlBorderData(
-              show: true,
+              show: false,
               border: Border.all(color: Colors.black),
             ),
           ),
