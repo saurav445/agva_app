@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
     getUsername().then((name) {
       setState(() {
         savedUsername = name;
@@ -58,6 +57,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return name;
   }
 
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('mytoken'); // Remove saved token
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => SignIn()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -86,9 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
             physics: BouncingScrollPhysics(),
             children: [
               DrawerHeader(
-                decoration: BoxDecoration(
-                    // color: Colors.white,
-                    ),
+                decoration: BoxDecoration(),
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
@@ -151,14 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: MediaQuery.of(context).size.width * 0.035,
                   ),
                 ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SignIn(),
-                    ),
-                  );
-                },
+                onTap: logout, // Call logout function
               ),
             ],
           ),

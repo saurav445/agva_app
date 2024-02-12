@@ -217,6 +217,148 @@ class _DeviceListState extends State<DeviceList> {
     }).toList();
   }
 
+ List<Widget> buildDeviceListHorizonatal() {
+    return devicesForUserList.map((data) {
+      Map<String, dynamic>? deviceInfo =
+          (data['deviceInfo'] as List<dynamic>?)?.first;
+      return ListTile(
+        title: Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+                   
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Color.fromARGB(255, 69, 174, 34),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color.fromARGB(255, 65, 65, 65),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.12,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 65, 65, 65),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 11, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${deviceInfo?['DeviceType'] ?? 'N/A'}',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.width * 0.02,
+                            ),
+                            Text(
+                              '${deviceInfo?['Hospital_Name'] ?? 'N/A'}',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                          fontSize:
+                                    MediaQuery.of(context).size.width * 0.015,
+                              ),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.width * 0.005,
+                            ),
+                            Text(
+                              'Ward: ${deviceInfo?['Ward_No'] ?? 'N/A'}',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.015,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              'PT. Salim Raza',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                              ),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.width * 0.02,
+                            ),
+                            Text(
+                              '24 YEARS',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.015,
+                              ),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.width * 0.01,
+                            ),
+                            Text(
+                              '58 KG',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.015,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        onTap: () {
+          if (devicesForUserList.isNotEmpty) {
+            String deviceId = data['deviceId'];
+            String message = data['message'];
+            String wardNo = deviceInfo?['Ward_No'];
+            String deviceType = deviceInfo?['DeviceType'];
+            String hospitalName = deviceInfo?['Hospital_Name'];
+            String departmentName = deviceInfo?['Department_Name'];
+            String bioMed = deviceInfo?['Bio_Med'];
+            String aliasName = deviceInfo?['Alias_Name'];
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DeviceDetails(
+                    deviceId, SocketServices(), wardNo, deviceType, message),
+              ),
+            );
+          }
+        },
+      );
+    }).toList();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -235,7 +377,17 @@ class _DeviceListState extends State<DeviceList> {
             ),
           ),
         ),
-        body: Padding(
+        body: OrientationBuilder(builder: (context, orientation) {
+            if (orientation == Orientation.portrait) {
+              return _buildPortraitLayout(context);
+            } else {
+              return _buildLandscapeLayout(context);
+            }
+          })),
+    );
+  }
+   Widget _buildPortraitLayout(BuildContext context) {
+    return Padding(
           padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * 0.05,
             vertical: MediaQuery.of(context).size.height * 0.01,
@@ -280,8 +432,58 @@ class _DeviceListState extends State<DeviceList> {
               ],
             ),
           ),
-        ),
-      ),
-    );
+        ); 
+
+        
+  }
+   Widget _buildLandscapeLayout(BuildContext context) {
+    return Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.2,
+            vertical: MediaQuery.of(context).size.height * 0.01,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.05),
+                  child: Text(
+                    savedHospitalName ?? 'Default Hospital Name',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 218, 218, 218),
+                      fontSize: MediaQuery.of(context).size.width * 0.02,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.05),
+                  child: Text(
+                    'Hospital address',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 218, 218, 218),
+                      fontSize: MediaQuery.of(context).size.width * 0.02,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+
+                // Devices List
+                Column(
+                  children: buildDeviceListHorizonatal(),
+                ),
+              ],
+            ),
+          ),
+        ); 
+
+        
   }
 }

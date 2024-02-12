@@ -31,13 +31,13 @@ class SocketServices {
     onSocketConnected = callback;
   }
 
-  // late void Function(int, double, double, double, List<String>)?
-  //     onGraphDataReceived;
+  late void Function(int, double, double, double, List<String>)?
+      onGraphDataReceived;
 
-  // void setOnGraphDataReceivedCallback(
-  //     void Function(int, double, double, double, List<String>) callback) {
-  //   onGraphDataReceived = callback;
-  // }
+  void setOnGraphDataReceivedCallback(
+      void Function(int, double, double, double, List<String>) callback) {
+    onGraphDataReceived = callback;
+  }
 
   // late void Function(String, String, List<String>)? onSpecificDataReceived;
 
@@ -81,20 +81,20 @@ class SocketServices {
 
       // });
 
-      // socket.on('DataGraphReceivingReact', (data) {
+      socket.on('DataGraphReceivingReact', (data) {
 
-      //   var graphDataString = data.split("^")[1];
+        var graphDataString = data.split("^")[1];
 
-      //   List<String> graphDataList = graphDataString.split(",");
+        List<String> graphDataList = graphDataString.split(",");
 
-      //   double xvalue = double.parse(graphDataList[0]);
-      //   double pressure = double.parse(graphDataList[1]);
-      //   double volume = double.parse(graphDataList[2]);
-      //   double flow = double.parse(graphDataList[3]);
+        double xvalue = double.parse(graphDataList[0]);
+        double pressure = double.parse(graphDataList[1]);
+        double volume = double.parse(graphDataList[2]);
+        double flow = double.parse(graphDataList[3]);
 
-      //   onGraphDataReceived!(
-      //       xvalue.toInt(), pressure, volume, flow, graphDataList);
-      // });
+        onGraphDataReceived!(
+            xvalue.toInt(), pressure, volume, flow, graphDataList);
+      });
 
       socket.on('DataReceivingReact', (data) {
         var modeData = data.split("^")[1];

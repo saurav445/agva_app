@@ -101,7 +101,18 @@ backgroundColor: Colors.black,
               ),
             ),
           ),
-        body: Column(
+        body: OrientationBuilder(builder: (context, orientation){
+          if (orientation == Orientation.portrait) {
+            return _buildPortraitLayout(context);
+          }else {
+            return _buildLandscapeLayout(context);
+          }
+        })
+      ),
+    );
+  }
+  Widget _buildPortraitLayout(BuildContext context) {
+    return  Column(
           
           children: [
               SizedBox(
@@ -260,8 +271,174 @@ backgroundColor: Colors.black,
               ],
             ),
           ],
-        ),
-      ),
-    );
+        );
+  }
+    Widget _buildLandscapeLayout(BuildContext context) {
+    return  Column(
+          
+          children: [
+              SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.035,
+                  ),
+            
+         SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                  ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Product :',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                       fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Model :',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Delivery Date :',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Date of Manufacture :',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Batch No :',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Date of Warranty :',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Last Service :',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      deviceAbout['productType'] ?? 'N/A',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      deviceAbout['model'] ?? 'N/A',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      deviceAbout['dispatchDate'] ?? 'N/A',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      deviceAbout['manufacturingDate'] ?? 'N/A',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      deviceAbout['batchNumber'] ?? 'N/A',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      deviceAbout['dateOfWarranty'] ?? 'N/A',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      deviceAbout['last_service'] ?? 'N/A',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        );
   }
 }

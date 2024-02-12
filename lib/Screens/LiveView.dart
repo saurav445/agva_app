@@ -215,6 +215,12 @@ class _LiveViewState extends State<LiveView> {
 
   @override
   dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown
+    ]);
     // callme();
     super.dispose();
   }
@@ -298,6 +304,7 @@ class _LiveViewState extends State<LiveView> {
                                         decoration: BoxDecoration(
                                           color: Color.fromARGB(255, 0, 0, 0),
                                         ),
+
                                         // child: LineChart(LineChartData(
                                         //     titlesData: FlTitlesData(
                                         //         leftTitles: AxisTitles(

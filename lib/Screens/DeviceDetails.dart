@@ -1,7 +1,9 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors, use_key_in_widget_constructors
 import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
+import 'package:agva_app/Screens/SocketGraphPage.dart';
 import 'package:agva_app/config.dart';
+import 'package:agva_app/main.dart';
 import 'package:agva_app/widgets/TilesforPortait.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +26,6 @@ class DeviceDetails extends StatefulWidget {
 
   @override
   State<DeviceDetails> createState() => _DeviceDetailsState();
-
 }
 
 class _DeviceDetailsState extends State<DeviceDetails> {
@@ -51,6 +52,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   late String modeData = '--';
   late String alarmName;
   late String alarmColor;
+  
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -97,6 +99,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   void initState() {
     super.initState();
     toggleFocus();
+    
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         loadingCount = 1;
@@ -161,6 +164,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         setState(() {
           showLoader = false;
         });
+        print(receivedPipValue);
       });
     });
     SystemChrome.setPreferredOrientations([
@@ -170,6 +174,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       DeviceOrientation.landscapeRight
     ]);
   }
+
 
   final int maxLength = 4;
 
@@ -288,20 +293,20 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                             ),
                           ),
                           TilesforLandscape(
-                            title: fiO2,
-                            value: fiO2Value,
+                            title: rr,
+                            value: rrValue,
                           ),
                           TilesforLandscape(
-                            title: vti,
-                            value: vtiValue,
+                            title: mVi,
+                            value: mViValue,
                           ),
                           TilesforLandscape(
-                            title: fiO2,
-                            value: fiO2Value,
+                            title: 'PULSE',
+                            value: pulseValue,
                           ),
                           TilesforLandscape(
-                            title: pip,
-                            value: pipValue,
+                            title: 'ET-CUFF',
+                            value: pulseValue,
                           ),
                         ],
                       ), // ),
@@ -312,35 +317,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.12,
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Color.fromARGB(255, 89, 89, 89),
-                            ),
-                            child: TextButton(
-                              onPressed: () {},
-                              style: TextButton.styleFrom(),
-                              child: Text(
-                                modeData,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.02,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          TilesforLandscape(
-                            title: fiO2,
-                            value: fiO2Value,
-                          ),
-                          TilesforLandscape(
-                            title: vti,
-                            value: vtiValue,
-                          ),
                           TilesforLandscape(
                             title: fiO2,
                             value: fiO2Value,
@@ -348,6 +324,18 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           TilesforLandscape(
                             title: pip,
                             value: pipValue,
+                          ),
+                          TilesforLandscape(
+                            title: vti,
+                            value: vtiValue,
+                          ),
+                          TilesforLandscape(
+                            title: 'SpO2',
+                            value: spo2value,
+                          ),
+                          TilesforLandscape(
+                            title: 'EtCo2',
+                            value: spo2value,
                           ),
                         ],
                       ),
@@ -833,7 +821,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    LiveView(widget.deviceId),
+                                      SocketGraphPage(widget.deviceId),
+                                                    // LiveView(widget.deviceId),
                                                 // LineGraphApp(),
                                               ),
                                             );
