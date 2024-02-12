@@ -426,7 +426,7 @@ class _DeviceListState extends State<DeviceList> {
 
               // Devices List
               if(isLoading) 
-              SizedBox(height: 1, child: Center(child: LinearProgressIndicator()))
+              SizedBox(height: 1, child: Center(child: LinearProgressIndicator(color: Colors.pink)))
               else Column(
                 children: buildDeviceList(),
               ),
@@ -478,7 +478,7 @@ class _DeviceListState extends State<DeviceList> {
 
             // Devices List
             if(isLoading) 
-              SizedBox(height: 1, child: Center(child: LinearProgressIndicator()))
+              SizedBox(height: 1, child: Center(child: LinearProgressIndicator(color: Colors.pink)))
               else Column(
                 children: buildDeviceListHorizonatal(),
               ),

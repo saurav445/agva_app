@@ -161,7 +161,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         setState(() {
           showLoader = false;
         });
-        print(receivedPipValue);
       });
     });
     SystemChrome.setPreferredOrientations([
@@ -225,7 +224,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         if (loadingCount == 0)
           Column(
             children: const [
-              LinearProgressIndicator(),
+              LinearProgressIndicator(color: Colors.pink),
               SizedBox(
                 height: 20,
               ),
@@ -546,7 +545,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         if (loadingCount == 0)
           Column(
             children: [
-              SizedBox(height: 1, child: LinearProgressIndicator()),
+              SizedBox(height: 1, child: LinearProgressIndicator(color: Colors.pink)),
               Center(
                 child: Text("Please wait.. Connecting to server",
                     style: TextStyle(

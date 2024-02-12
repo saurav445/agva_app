@@ -59,6 +59,7 @@ class SocketServices {
 
     socket.on('connect', (data) {
       print('Connected to the server');
+      print(data);
 
       socket.emit('ReactStartUp', this.deviceId);
 
@@ -124,6 +125,7 @@ class SocketServices {
 
     socket.on('disconnect', (data) {
       socket.emit('ReactNodeStop', this.deviceId);
+            print(data);
       print('Disconnected from the server');
     });
   }

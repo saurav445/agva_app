@@ -62,7 +62,7 @@ class AlarmListState extends State<AlarmList> {
         body: Column(
           children: [
             if (isLoading)
-              buildEmptyContainer2()
+              SizedBox( height: 1, child: LinearProgressIndicator(color: Colors.pink))
             else if (jsonResponse['data']['findDeviceById'].isEmpty)
               buildEmptyContainer()
             else
@@ -211,7 +211,7 @@ class AlarmListState extends State<AlarmList> {
   }
 
   Widget buildEmptyContainer2() {
-    return SizedBox(height: 1, child: Center(child: LinearProgressIndicator()));
+    return SizedBox(height: 1, child: Center(child: LinearProgressIndicator(color: Colors.pink)));
   }
 
   Widget buildEmptyContainer() {
