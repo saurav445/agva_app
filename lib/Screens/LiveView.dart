@@ -32,7 +32,7 @@ class _LiveViewState extends State<LiveView> {
   late List<FlSpot> chartDataVolume;
   late List<FlSpot> chartDataFlow;
 
-  String selectedMenu = 'GRAPHS';
+  String selectedMenu = 'DATA';
   late String deviceId;
   late String modeData = '-';
   late List<String> observedData = [];
@@ -112,7 +112,6 @@ class _LiveViewState extends State<LiveView> {
         } else if (alarmColor2 == '#000000') {
           newColor = Colors.black;
         }
-        print("CHECK ALARM $alarmColor+ $alarmName");
       });
     });
 
@@ -279,7 +278,7 @@ class _LiveViewState extends State<LiveView> {
                         //graph screen
                         Container(
                           height: MediaQuery.of(context).size.height * 0.7,
-                          width: MediaQuery.of(context).size.width * 0.73,
+                            width: MediaQuery.of(context).size.width * 0.74,
                           decoration: BoxDecoration(
                             color: Color.fromARGB(255, 0, 0, 0),
                           ),

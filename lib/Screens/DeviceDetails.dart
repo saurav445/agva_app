@@ -1,7 +1,6 @@
-// ignore_for_file: must_be_immutable, prefer_const_constructors, use_key_in_widget_constructors
+// ignore_for_file: must_be_immutable, prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
-import 'package:agva_app/Screens/SocketGraphPage.dart';
 import 'package:agva_app/config.dart';
 import 'package:agva_app/widgets/TilesforPortait.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +50,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   late String modeData = '--';
   late String alarmName;
   late String alarmColor;
-  
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -98,7 +96,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   void initState() {
     super.initState();
     toggleFocus();
-    
+
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         loadingCount = 1;
@@ -174,12 +172,12 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     ]);
   }
 
-
   final int maxLength = 4;
 
   @override
   void dispose() {
     loadingCount = 0;
+    widget.socketService.dispose();
     super.dispose();
   }
 
@@ -225,21 +223,18 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return Stack(
       children: [
         if (loadingCount == 0)
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                LinearProgressIndicator(),
-                SizedBox(
-                  height: 20,
-                ),
-                Text("Connecting server..",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0))
-              ],
-            ),
+          Column(
+            children: const [
+              LinearProgressIndicator(),
+              SizedBox(
+                height: 20,
+              ),
+              Text("Connecting server..",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0))
+            ],
           ),
         if (loadingCount != 0)
           Column(
@@ -549,21 +544,17 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return Stack(
       children: [
         if (loadingCount == 0)
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                LinearProgressIndicator(),
-                SizedBox(
-                  height: 20,
-                ),
-                Text("Connecting server..",
+          Column(
+            children: [
+              SizedBox(height: 1, child: LinearProgressIndicator()),
+              Center(
+                child: Text("Please wait.. Connecting to server",
                     style: TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0))
-              ],
-            ),
+                        fontWeight: FontWeight.w100,
+                        fontSize: 15.0)),
+              ),
+            ],
           ),
         if (loadingCount != 0)
           SingleChildScrollView(
@@ -820,8 +811,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                      SocketGraphPage(widget.deviceId),
-                                                    // LiveView(widget.deviceId),
+                                                    // SocketGraphPage(
+                                                    //     widget.deviceId),
+                                                    LiveView(widget.deviceId),
                                                 // LineGraphApp(),
                                               ),
                                             );

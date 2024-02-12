@@ -39,13 +39,6 @@ class SocketServices {
     onGraphDataReceived = callback;
   }
 
-  // late void Function(String, String, List<String>)? onSpecificDataReceived;
-
-  // void setOnSpecificDataReceived(
-  //     void Function(String, String, List<String>) callback) {
-  //   onSpecificDataReceived = callback;
-  // }
-
   late void Function(String, String, String, String, String, String, String,
       String, String, String, String, String, String)? tilesData;
 
@@ -81,20 +74,20 @@ class SocketServices {
 
       // });
 
-      socket.on('DataGraphReceivingReact', (data) {
+      // socket.on('DataGraphReceivingReact', (data) {
 
-        var graphDataString = data.split("^")[1];
+      //   var graphDataString = data.split("^")[1];
 
-        List<String> graphDataList = graphDataString.split(",");
+      //   List<String> graphDataList = graphDataString.split(",");
 
-        double xvalue = double.parse(graphDataList[0]);
-        double pressure = double.parse(graphDataList[1]);
-        double volume = double.parse(graphDataList[2]);
-        double flow = double.parse(graphDataList[3]);
+      //   double xvalue = double.parse(graphDataList[0]);
+      //   double pressure = double.parse(graphDataList[1]);
+      //   double volume = double.parse(graphDataList[2]);
+      //   double flow = double.parse(graphDataList[3]);
 
-        onGraphDataReceived!(
-            xvalue.toInt(), pressure, volume, flow, graphDataList);
-      });
+      //   onGraphDataReceived!(
+      //       xvalue.toInt(), pressure, volume, flow, graphDataList);
+      // });
 
       socket.on('DataReceivingReact', (data) {
         var modeData = data.split("^")[1];
@@ -121,7 +114,7 @@ class SocketServices {
 
         tilesData!(pip, pipValue, vti, vtiValue, mVi, mViValue, rr, rrValue,
             spo2value, pulseValue, fiO2, fiO2Value, modeData);
-            
+
         onDataReceived!(modeData, observedData, setParameter, secondaryObserved,
             alarmName, alarmColor, alarmColor2);
       });
@@ -129,7 +122,8 @@ class SocketServices {
 
     connect();
 
-    socket.on('disconnect', (_) {
+    socket.on('disconnect', (data) {
+      socket.emit('ReactNodeStop', this.deviceId);
       print('Disconnected from the server');
     });
   }

@@ -211,9 +211,7 @@ class AlarmListState extends State<AlarmList> {
   }
 
   Widget buildEmptyContainer2() {
-    return SizedBox(
-        height: MediaQuery.of(context).size.height / 1.3,
-        child: Center(child: CircularProgressIndicator()));
+    return SizedBox(height: 1, child: Center(child: LinearProgressIndicator()));
   }
 
   Widget buildEmptyContainer() {

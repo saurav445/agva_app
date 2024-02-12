@@ -14,7 +14,7 @@ class EmptyLiveView extends StatefulWidget {
 }
 
 class _EmptyLiveViewState extends State<EmptyLiveView> {
-  String selectedMenu = 'GRAPHS';
+  String selectedMenu = 'DATA';
   @override
   Widget build(BuildContext context) {
     return SafeArea(

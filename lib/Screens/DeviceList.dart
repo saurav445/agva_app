@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DeviceList extends StatefulWidget {
-
   @override
   _DeviceListState createState() => _DeviceListState();
 }
@@ -217,14 +216,13 @@ class _DeviceListState extends State<DeviceList> {
     }).toList();
   }
 
- List<Widget> buildDeviceListHorizonatal() {
+  List<Widget> buildDeviceListHorizonatal() {
     return devicesForUserList.map((data) {
       Map<String, dynamic>? deviceInfo =
           (data['deviceInfo'] as List<dynamic>?)?.first;
       return ListTile(
         title: Container(
-              height: MediaQuery.of(context).size.height * 0.3,
-                   
+          height: MediaQuery.of(context).size.height * 0.3,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Color.fromARGB(255, 69, 174, 34),
@@ -271,7 +269,7 @@ class _DeviceListState extends State<DeviceList> {
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
-                          fontSize:
+                                fontSize:
                                     MediaQuery.of(context).size.width * 0.015,
                               ),
                             ),
@@ -358,26 +356,25 @@ class _DeviceListState extends State<DeviceList> {
     }).toList();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
           backgroundColor: Colors.black,
-          centerTitle: true,
-          title: Text(
-            // widget.deviceId,
-            ' ',
-            style: TextStyle(
-              fontFamily: 'Avenir',
-              fontSize: 24,
-              color: Color.fromARGB(255, 255, 255, 255),
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            centerTitle: true,
+            title: Text(
+              // widget.deviceId,
+              ' ',
+              style: TextStyle(
+                fontFamily: 'Avenir',
+                fontSize: 24,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
             ),
           ),
-        ),
-        body: OrientationBuilder(builder: (context, orientation) {
+          body: OrientationBuilder(builder: (context, orientation) {
             if (orientation == Orientation.portrait) {
               return _buildPortraitLayout(context);
             } else {
@@ -386,104 +383,108 @@ class _DeviceListState extends State<DeviceList> {
           })),
     );
   }
-   Widget _buildPortraitLayout(BuildContext context) {
-    return Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.05,
-            vertical: MediaQuery.of(context).size.height * 0.01,
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.05),
-                  child: Text(
-                    savedHospitalName ?? 'Default Hospital Name',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize: MediaQuery.of(context).size.width * 0.08,
-                      fontWeight: FontWeight.bold,
-                    ),
+
+  Widget _buildPortraitLayout(BuildContext context) {
+      return 
+      Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.05,
+          vertical: MediaQuery.of(context).size.height * 0.01,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.05),
+                child: Text(
+                  savedHospitalName ?? 'Default Hospital Name',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.08,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.05),
-                  child: Text(
-                    'Hospital address',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize: MediaQuery.of(context).size.width * 0.04,
-                    ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.05),
+                child: Text(
+                  'Hospital address',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
                   ),
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
 
-                // Devices List
-                Column(
-                  children: buildDeviceList(),
-                ),
-              ],
-            ),
+              // Devices List
+              if(isLoading) 
+              SizedBox(height: 1, child: Center(child: LinearProgressIndicator()))
+              else Column(
+                children: buildDeviceList(),
+              ),
+            ],
           ),
-        ); 
-
-        
+        ),
+      );
+    
   }
-   Widget _buildLandscapeLayout(BuildContext context) {
+
+  Widget _buildLandscapeLayout(BuildContext context) {
     return Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.2,
-            vertical: MediaQuery.of(context).size.height * 0.01,
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.05),
-                  child: Text(
-                    savedHospitalName ?? 'Default Hospital Name',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize: MediaQuery.of(context).size.width * 0.02,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+      padding: EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.width * 0.2,
+        vertical: MediaQuery.of(context).size.height * 0.01,
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.05),
+              child: Text(
+                savedHospitalName ?? 'Default Hospital Name',
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                  color: Color.fromARGB(255, 218, 218, 218),
+                  fontSize: MediaQuery.of(context).size.width * 0.02,
+                  fontWeight: FontWeight.bold,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.05),
-                  child: Text(
-                    'Hospital address',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize: MediaQuery.of(context).size.width * 0.02,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-
-                // Devices List
-                Column(
-                  children: buildDeviceListHorizonatal(),
-                ),
-              ],
+              ),
             ),
-          ),
-        ); 
+            Padding(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.05),
+              child: Text(
+                'Hospital address',
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                  color: Color.fromARGB(255, 218, 218, 218),
+                  fontSize: MediaQuery.of(context).size.width * 0.02,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
 
-        
+            // Devices List
+            if(isLoading) 
+              SizedBox(height: 1, child: Center(child: LinearProgressIndicator()))
+              else Column(
+                children: buildDeviceListHorizonatal(),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 }
