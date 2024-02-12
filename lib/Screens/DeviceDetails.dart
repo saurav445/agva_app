@@ -3,7 +3,6 @@ import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
 import 'package:agva_app/Screens/SocketGraphPage.dart';
 import 'package:agva_app/config.dart';
-import 'package:agva_app/main.dart';
 import 'package:agva_app/widgets/TilesforPortait.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

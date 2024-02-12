@@ -36,6 +36,7 @@ class FocusAlarmsState extends State<FocusAlarms> {
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
         var data = jsonResponse['data']['data'];
+        print(data);
         setState(() {
           focusedDevices = List<Map<String, dynamic>>.from(data)
               .where((device) => device['addTofocus'] == true)
@@ -71,7 +72,6 @@ class FocusAlarmsState extends State<FocusAlarms> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-
                 SizedBox(
                   height: 20,
                 ),
@@ -83,7 +83,8 @@ class FocusAlarmsState extends State<FocusAlarms> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AlarmList(),
+                            builder: (context) => AlarmList(device['deviceInfo']?[0]?['DeviceId'],
+                            device['deviceInfo']?[0]?['Hospital_Name']),
                           ),
                         );
                       },
@@ -91,7 +92,7 @@ class FocusAlarmsState extends State<FocusAlarms> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           // color: Color.fromARGB(255, 69, 174, 34),
-                                  color: Color.fromARGB(255, 65, 65, 65),
+                          color: Color.fromARGB(255, 65, 65, 65),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(right: 10),
@@ -102,7 +103,8 @@ class FocusAlarmsState extends State<FocusAlarms> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),
                               child: Container(
-                                height: MediaQuery.of(context).size.height * 0.12,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.12,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   color: Color.fromARGB(255, 65, 65, 65),
@@ -233,7 +235,6 @@ class FocusAlarmsState extends State<FocusAlarms> {
                       ),
                     ),
                   ),
-               
               ],
             ),
           ),

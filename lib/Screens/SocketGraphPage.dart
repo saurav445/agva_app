@@ -3,6 +3,7 @@ import 'package:agva_app/Service/SocketService.dart';
 import 'package:flutter/services.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:fl_chart/fl_chart.dart';
+import 'dart:async';
 
 class SocketGraphPage extends StatefulWidget {
   final String deviceId;
@@ -38,10 +39,19 @@ class _SocketGraphPageState extends State<SocketGraphPage> {
   late double volume = 0.0;
   late double flow = 0.0;
 
+  Timer? _timer;
+
+
+  void startTimer() {
+    _timer = Timer.periodic(Duration(milliseconds: 30), (timer) {
+      customlinechart(chartData, lineColors);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-
+ startTimer();
     chartData = [];
     chartDataVolume = [];
     chartDataFlow = [];
@@ -115,8 +125,6 @@ class _SocketGraphPageState extends State<SocketGraphPage> {
             }
           }
         }
-
-        
       });
     });
 
@@ -140,35 +148,40 @@ class _SocketGraphPageState extends State<SocketGraphPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: LineChart(
-          LineChartData(
-            lineBarsData: [
-              LineChartBarData(
-                spots: chartData,
-                isCurved: false,
-                // color: Colors.white,
-                gradient: LinearGradient(
-                  colors: lineColors,
-                ),
-                barWidth: 2,
-                isStrokeCapRound: true,
-                belowBarData: BarAreaData(show: false),
-                dotData: const FlDotData(show: false),
-              ),
-            ],
-            minY: 0,
-            gridData: const FlGridData(show: false),
-            titlesData: const FlTitlesData(
-                // leftTitles:  SideTitles(showTitles: true),
-                // bottomTitles: SideTitles(showTitles: true),
-                ),
-            borderData: FlBorderData(
-              show: false,
-              border: Border.all(color: Colors.black),
-            ),
-          ),
-        ),
+        child: customlinechart(chartData, lineColors),
       ),
     );
   }
 }
+
+Widget customlinechart(chartData, lineColors) {
+  return LineChart(
+    LineChartData(
+      lineBarsData: [
+        LineChartBarData(
+          spots: chartData,
+          isCurved: false,
+          // color: Colors.white,
+          gradient: LinearGradient(
+            colors: lineColors,
+          ),
+          barWidth: 2,
+          isStrokeCapRound: true,
+          belowBarData: BarAreaData(show: false),
+          dotData: const FlDotData(show: false),
+        ),
+      ],
+      minY: 0,
+      gridData: const FlGridData(show: false),
+      titlesData: const FlTitlesData(
+          // leftTitles:  SideTitles(showTitles: true),
+          // bottomTitles: SideTitles(showTitles: true),
+          ),
+      borderData: FlBorderData(
+        show: false,
+        border: Border.all(color: Colors.black),
+      ),
+    ),
+  );
+}
+
