@@ -19,6 +19,7 @@ class _DeviceListState extends State<DeviceList> {
   late String hospitalName;
   String? savedHospitalName;
   late SharedPreferences prefs;
+  Color? newColor;
 
   @override
   void initState() {
@@ -81,11 +82,23 @@ class _DeviceListState extends State<DeviceList> {
     return devicesForUserList.map((data) {
       Map<String, dynamic>? deviceInfo =
           (data['deviceInfo'] as List<dynamic>?)?.first;
+
+      Color? newColor;
+      // if (data['alarmData']?[0]?['priority'] == 'ALARM_LOW_LEVEL') {
+      //   newColor = Colors.amber;
+      // } else if (data['alarmData']?[0]?['priority'] == 'ALARM_MEDIUM_LEVEL') {
+      //   newColor = Colors.amber;
+      // } else if (data['alarmData']?[0]?['priority'] == 'ALARM_HIGH_LEVEL') {
+      // } else if (data['alarmData']?[0]?['priority'] == 'ALARM_CRITICAL_LEVEL') {
+      //   newColor = Colors.red;
+      // } else {
+      //   newColor = Colors.green;
+      // }
       return ListTile(
         title: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: Color.fromARGB(255, 69, 174, 34),
+            color: Color.fromARGB(255, 65, 65, 65),
           ),
           child: Padding(
             padding: const EdgeInsets.only(right: 10),
@@ -385,56 +398,58 @@ class _DeviceListState extends State<DeviceList> {
   }
 
   Widget _buildPortraitLayout(BuildContext context) {
-      return 
-      Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.05,
-          vertical: MediaQuery.of(context).size.height * 0.01,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.05),
-                child: Text(
-                  savedHospitalName ?? 'Default Hospital Name',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.08,
-                    fontWeight: FontWeight.bold,
-                  ),
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.width * 0.05,
+        vertical: MediaQuery.of(context).size.height * 0.01,
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.05),
+              child: Text(
+                savedHospitalName ?? 'Default Hospital Name',
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                  color: Color.fromARGB(255, 218, 218, 218),
+                  fontSize: MediaQuery.of(context).size.width * 0.08,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.05),
-                child: Text(
-                  'Hospital address',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 218, 218, 218),
-                    fontSize: MediaQuery.of(context).size.width * 0.04,
-                  ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.05),
+              child: Text(
+                'Hospital address',
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                  color: Color.fromARGB(255, 218, 218, 218),
+                  fontSize: MediaQuery.of(context).size.width * 0.04,
                 ),
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
 
-              // Devices List
-              if(isLoading) 
-              SizedBox(height: 1, child: Center(child: LinearProgressIndicator(color: Colors.pink)))
-              else Column(
+            // Devices List
+            if (isLoading)
+              SizedBox(
+                  height: 1,
+                  child: Center(
+                      child: LinearProgressIndicator(color: Colors.pink)))
+            else
+              Column(
                 children: buildDeviceList(),
               ),
-            ],
-          ),
+          ],
         ),
-      );
-    
+      ),
+    );
   }
 
   Widget _buildLandscapeLayout(BuildContext context) {
@@ -477,9 +492,13 @@ class _DeviceListState extends State<DeviceList> {
             ),
 
             // Devices List
-            if(isLoading) 
-              SizedBox(height: 1, child: Center(child: LinearProgressIndicator(color: Colors.pink)))
-              else Column(
+            if (isLoading)
+              SizedBox(
+                  height: 1,
+                  child: Center(
+                      child: LinearProgressIndicator(color: Colors.pink)))
+            else
+              Column(
                 children: buildDeviceListHorizonatal(),
               ),
           ],
