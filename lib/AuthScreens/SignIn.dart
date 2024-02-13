@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../Screens/HomeScreen.dart';
 import '../config.dart';
-import './SignUp.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -152,20 +151,20 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(230, 20, 0, 0),
-                      child: Row(
-                        children: [
-                          InkWell(
-                            child: Text(
-                              "Forget Password ?",
-                              style: TextStyle(
-                                  color: Colors.white70, fontSize: 14),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.fromLTRB(230, 20, 0, 0),
+                    //   child: Row(
+                    //     children: [
+                    //       InkWell(
+                    //         child: Text(
+                    //           "Forget Password ?",
+                    //           style: TextStyle(
+                    //               color: Colors.white70, fontSize: 14),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     SizedBox(height: 60),
                     Padding(
                       padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
@@ -203,51 +202,51 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     SizedBox(height: 30),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
-                      child: Container(
-                        height: 45,
-                        width: 300,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 3,
-                              blurRadius: 20,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                          color: Colors.white,
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromARGB(255, 255, 255, 255),
-                              Color.fromARGB(255, 255, 255, 255),
-                            ],
-                          ),
-                        ),
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignUp(),
-                              ),
-                            );
-                          },
-                          style: TextButton.styleFrom(),
-                          child: Text(
-                            "SIGN UP",
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 157, 0, 86),
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                    //   child: Container(
+                    //     height: 45,
+                    //     width: 300,
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(10),
+                    //       boxShadow: [
+                    //         BoxShadow(
+                    //           color: Colors.grey.withOpacity(0.3),
+                    //           spreadRadius: 3,
+                    //           blurRadius: 20,
+                    //           offset: Offset(0, 3),
+                    //         ),
+                    //       ],
+                    //       color: Colors.white,
+                    //       gradient: LinearGradient(
+                    //         begin: Alignment.topCenter,
+                    //         end: Alignment.bottomCenter,
+                    //         colors: [
+                    //           Color.fromARGB(255, 255, 255, 255),
+                    //           Color.fromARGB(255, 255, 255, 255),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //     child: TextButton(
+                    //       onPressed: () {
+                    //         Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //             builder: (context) => SignUp(),
+                    //           ),
+                    //         );
+                    //       },
+                    //       style: TextButton.styleFrom(),
+                    //       child: Text(
+                    //         "SIGN UP",
+                    //         style: TextStyle(
+                    //           color: Color.fromARGB(255, 157, 0, 86),
+                    //           fontSize: 15,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(height: 120),
                   ],
                 ),

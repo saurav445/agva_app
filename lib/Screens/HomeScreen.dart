@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('mytoken'); // Remove saved token
+    await prefs.remove('mytoken');
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => SignIn()),
