@@ -56,12 +56,12 @@ class _HospitalsState extends State<Hospitals> {
   Widget _buildLandscapeLayout(BuildContext context) {
     return Stack(
       children: [
-        SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.05,
-              vertical: MediaQuery.of(context).size.height * 0.01,
-            ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.05,
+            vertical: MediaQuery.of(context).size.height * 0.01,
+          ),
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -86,7 +86,7 @@ class _HospitalsState extends State<Hospitals> {
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.2,
-                      width: MediaQuery.of(context).size.width * 0.4,
+                      width: MediaQuery.of(context).size.width * 0.6,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         color: Color.fromARGB(255, 65, 65, 65),
@@ -158,7 +158,7 @@ class _HospitalsState extends State<Hospitals> {
                           },
                           child: Container(
                             height: MediaQuery.of(context).size.height * 0.2,
-                            width: MediaQuery.of(context).size.width * 0.4,
+                             width: MediaQuery.of(context).size.width * 0.55,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
                               color: Color.fromARGB(255, 90, 90, 90),

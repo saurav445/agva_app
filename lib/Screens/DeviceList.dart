@@ -440,7 +440,7 @@ class _DeviceListState extends State<DeviceList> {
   Widget _buildLandscapeLayout(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width * 0.2,
+        horizontal: MediaQuery.of(context).size.width * 0.15,
         vertical: MediaQuery.of(context).size.height * 0.01,
       ),
       child: SingleChildScrollView(

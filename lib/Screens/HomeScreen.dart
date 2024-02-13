@@ -260,42 +260,53 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomLeft,
-                        end: Alignment.topRight,
-                        colors: [
-                          Color.fromARGB(255, 50, 50, 50),
-                          Color.fromARGB(255, 255, 255, 255),
-                        ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FocusAlarms(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomLeft,
+                          end: Alignment.topRight,
+                          colors: [
+                            Color.fromARGB(255, 50, 50, 50),
+                            Color.fromARGB(255, 255, 255, 255),
+                          ],
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'ALARMS',
-                            style: TextStyle(
-                              fontFamily: 'Avenir',
-                              color: Color.fromARGB(255, 218, 218, 218),
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.02,
-                              fontWeight: FontWeight.bold,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'ALARMS',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            child: Image.asset("assets/images/alarmimage.png"),
-                          ),
-                        ],
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.15,
+                              child:
+                                  Image.asset("assets/images/alarmimage.png"),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -518,7 +529,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: MediaQuery.of(context).size.height * 0.015,
               ),
               GestureDetector(
-                 onTap: () {
+                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -541,7 +552,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  
                   child: Padding(
                     padding: const EdgeInsets.only(left: 30),
                     child: Row(
