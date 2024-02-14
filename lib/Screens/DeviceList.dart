@@ -14,21 +14,24 @@ class DeviceList extends StatefulWidget {
 
 class _DeviceListState extends State<DeviceList> {
   bool isLoading = true;
-  List<Map<String, dynamic>> devicesByHospitalList = [];
   List<Map<String, dynamic>> devicesForUserList = [];
-  late String hospitalName;
   String? savedHospitalName;
+  String? storedHospitalAddress;
   late SharedPreferences prefs;
-  Color? newColor;
 
   @override
   void initState() {
     super.initState();
     initSharedPref();
     fetchGetDevicesForUser();
-    gethospital().then((name) {
+    gethospital().then((hospitalName) {
       setState(() {
-        savedHospitalName = name;
+        savedHospitalName = hospitalName;
+      });
+    });
+    gethospitalAddress().then((hospitalAddress) {
+      setState(() {
+        storedHospitalAddress = hospitalAddress;
       });
     });
   }
@@ -49,6 +52,13 @@ class _DeviceListState extends State<DeviceList> {
     return hospitalName;
   }
 
+  Future<String?> gethospitalAddress() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? hospitalAddress = prefs.getString('hospitalAddress');
+    print('Retrieved hospital address: $hospitalAddress');
+    return hospitalAddress;
+  }
+
   Future<void> fetchGetDevicesForUser() async {
     setState(() {
       isLoading = true;
@@ -66,6 +76,7 @@ class _DeviceListState extends State<DeviceList> {
       if (jsonResponse['statusValue'] == 'SUCCESS') {
         var data = jsonResponse['data'];
         devicesForUserList = List<Map<String, dynamic>>.from(data['data']);
+
         setState(() {
           isLoading = false;
         });
@@ -80,32 +91,55 @@ class _DeviceListState extends State<DeviceList> {
 
   List<Widget> buildDeviceList() {
     return devicesForUserList.map((data) {
-      Map<String, dynamic>? deviceInfo =
-          (data['deviceInfo'] as List<dynamic>?)?.first;
-
-      Color? newColor;
-      // if (data['alarmData']?[0]?['priority'] == 'ALARM_LOW_LEVEL') {
+      Map? deviceInfo = (data['deviceInfo'] as List?)?.first;
+      Color? alarmColor;
+      if (data['alarmData']?.isNotEmpty ?? false) {
+        String priority = data['alarmData'][0]['priority'];
+        
+        if (priority == 'ALARM_LOW_LEVEL') {
+          alarmColor = Colors.amber;
+        } else if (priority == 'ALARM_MEDIUM_LEVEL') {
+          alarmColor = Colors.amber;
+        } else if (priority == 'ALARM_HIGH_LEVEL') {
+          alarmColor = Colors.red;
+        } else if (priority == 'ALARM_CRITICAL_LEVEL') {
+          alarmColor = Colors.red;
+        }
+      } else {
+        alarmColor = Colors.green;
+      }
+      bool isAddedToFocus = true; 
+      // if (devicesForUserList.asMap()['alarmData']?[0]?['priority'] == 'ALARM_LOW_LEVEL') {
       //   newColor = Colors.amber;
       // } else if (data['alarmData']?[0]?['priority'] == 'ALARM_MEDIUM_LEVEL') {
       //   newColor = Colors.amber;
       // } else if (data['alarmData']?[0]?['priority'] == 'ALARM_HIGH_LEVEL') {
+      //   newColor = Colors.red;
       // } else if (data['alarmData']?[0]?['priority'] == 'ALARM_CRITICAL_LEVEL') {
       //   newColor = Colors.red;
-      // } else {
+      // }
+      //  else {
       //   newColor = Colors.green;
       // }
+
+      // return devicesForUserList.map((data) {
+      //   Map<String, dynamic>? deviceInfo =
+      //       (data['deviceInfo'] as List<dynamic>?)?.first;
+
       return ListTile(
         title: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: Color.fromARGB(255, 65, 65, 65),
+            color: alarmColor,
+            // color: newColor,
           ),
           child: Padding(
             padding: const EdgeInsets.only(right: 10),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color.fromARGB(255, 65, 65, 65),
+                color: Colors.pink,
+                // color: newColor,
               ),
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
@@ -424,7 +458,7 @@ class _DeviceListState extends State<DeviceList> {
               padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.05),
               child: Text(
-                'Hospital address',
+                storedHospitalAddress ?? 'Default Hospital Address',
                 style: TextStyle(
                   fontFamily: 'Avenir',
                   color: Color.fromARGB(255, 218, 218, 218),
@@ -479,7 +513,7 @@ class _DeviceListState extends State<DeviceList> {
               padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.05),
               child: Text(
-                'Hospital address',
+                storedHospitalAddress ?? 'Default Hospital Address',
                 style: TextStyle(
                   fontFamily: 'Avenir',
                   color: Color.fromARGB(255, 218, 218, 218),

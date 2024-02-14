@@ -22,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late String hospitalName;
   String? savedUsername;
+  late String hospitalAddress;
   late SharedPreferences prefs;
 
   @override
@@ -39,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ]);
     });
     hospitalName = widget.data['hospitalName'];
+    hospitalAddress = widget.data['hospitalAddress'];
   }
 
   @override
@@ -118,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 onTap: () {
-                 Navigator.pop(context);
+                  Navigator.pop(context);
                 },
               ),
               ListTile(
@@ -131,7 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => BlankScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => BlankScreen()));
                 },
               ),
               ListTile(
@@ -338,8 +341,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              Hospitals(hospitalName: hospitalName),
+                          builder: (context) => Hospitals(
+                              hospitalName: hospitalName,
+                              hospitalAddress: hospitalAddress),
                         ),
                       );
                     },
@@ -600,7 +604,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          Hospitals(hospitalName: hospitalName),
+                          Hospitals(hospitalName: hospitalName,
+                              hospitalAddress: hospitalAddress),
                     ),
                   );
                 },

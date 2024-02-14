@@ -50,11 +50,13 @@ class _SignInState extends State<SignIn> {
           var name = data['name'];
           var token = data['token'];
           var hospitalName = data['hospitalName'];
+          var hospitalAddress = data['hospitalAddress'];
 
           // Save token and hospital name
           saveToken(token);
           saveHospital(hospitalName);
           saveUsername(name);
+            saveHospitalAddress(hospitalAddress);
 
           Navigator.push(
             context,
@@ -87,6 +89,12 @@ class _SignInState extends State<SignIn> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('name', name);
     print('Saved username: $name');
+  }
+
+ Future<void> saveHospitalAddress(String hospitalAddress) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('hospitalAddress', hospitalAddress);
+    print('Saved hospital address: $hospitalAddress');
   }
 
   @override

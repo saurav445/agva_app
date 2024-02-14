@@ -5,8 +5,9 @@ import 'DeviceList.dart';
 
 class Hospitals extends StatefulWidget {
   final String hospitalName;
+  final String hospitalAddress;
 
-  Hospitals({required this.hospitalName});
+  Hospitals({required this.hospitalName, required this.hospitalAddress});
 
   @override
   _HospitalsState createState() => _HospitalsState();
@@ -14,12 +15,15 @@ class Hospitals extends StatefulWidget {
 
 class _HospitalsState extends State<Hospitals> {
   late String hospitalName;
+  late String hospitalAddress;
   bool isExpanded = false;
 
   @override
   void initState() {
     super.initState();
     hospitalName = widget.hospitalName;
+    hospitalAddress = widget.hospitalAddress.toString();
+    // hospitalAddress = widget.hospitalAddress.replaceAll(RegExp('[^A-Za-z]'), '');
   }
 
   List<String> projectsForHospital = [
@@ -117,7 +121,7 @@ class _HospitalsState extends State<Hospitals> {
                                         0.05,
                                   ),
                                   Text(
-                                    'ANSARI NAGAR, DELHI',
+                                    widget.hospitalAddress,
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),
@@ -267,7 +271,7 @@ class _HospitalsState extends State<Hospitals> {
                                     MediaQuery.of(context).size.height * 0.05,
                               ),
                               Text(
-                                'ANSARI NAGAR, DELHI',
+                                      widget.hospitalAddress,
                                 style: TextStyle(
                                   fontFamily: 'Avenir',
                                   color: Color.fromARGB(255, 218, 218, 218),
