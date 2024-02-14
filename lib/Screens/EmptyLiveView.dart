@@ -15,6 +15,7 @@ class EmptyLiveView extends StatefulWidget {
 
 class _EmptyLiveViewState extends State<EmptyLiveView> {
   String selectedMenu = 'DATA';
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -28,7 +29,7 @@ class _EmptyLiveViewState extends State<EmptyLiveView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-//                     //header
+                  //header
                   Header(),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.002,
@@ -558,7 +559,6 @@ class BottomTiles extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                
                 Text(
                   'Ti',
                   style: TextStyle(
@@ -726,7 +726,8 @@ class BottomTiles extends StatelessWidget {
               ],
             ),
           ),
-        ),Container(
+        ),
+        Container(
           height: MediaQuery.of(context).size.height * 0.11,
           width: MediaQuery.of(context).size.width * 0.12,
           decoration: BoxDecoration(

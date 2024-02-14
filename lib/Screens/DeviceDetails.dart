@@ -28,12 +28,12 @@ class DeviceDetails extends StatefulWidget {
 
 class _DeviceDetailsState extends State<DeviceDetails> {
   late SocketServices socketService;
-  bool addTofocus = false;
-
+  // bool addTofocus = false;
+  bool setFocus = false;
   double progress = 0.0;
   int loadingCount = 0;
-
   bool showLoader = false;
+  late String deviceId;
 
   late String pip = '--';
   late String mVi = '--';
@@ -54,38 +54,36 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? mytoken = prefs.getString('mytoken');
-    // print('Saved Token: $mytoken');
     return mytoken;
   }
 
   void toggleFocus() async {
     String? token = await getToken();
+    print(widget.deviceId);
     if (token != null) {
-      try {
-        var response = await http.put(
-          Uri.parse('$addtofocus/${widget.deviceId}'),
-          headers: {
-            "Authorization": 'Bearer $token',
-            "Content-Type": "application/json",
-          },
-          body: jsonEncode({
-            "addTofocus": !addTofocus,
-          }),
-        );
+      var response = await http.put(
+        Uri.parse('$addtofocus/${widget.deviceId}'),
+        headers: {
+          "Authorization": 'Bearer $token',
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "addTofocus": !setFocus,
+        }),
+      );
 
-        if (response.statusCode == 200) {
-          var jsonResponse = jsonDecode(response.body);
-          var data = jsonResponse['data'];
-          if (data['addTofocus'] != null) {
-            setState(() {
-              addTofocus = data['addTofocus'];
-            });
-          }
-        } else {
-          print('Failed to update focus status: ${response.statusCode}');
-        }
-      } catch (error) {
-        print('Error updating focus status: $error');
+            print('data: $setFocus');
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        var data = jsonResponse['data'];
+        var updatedFocus = data['addTofocus'];
+              print('before set $data');
+        setState(() {
+          setFocus = updatedFocus;
+        });
+        print('after set $setFocus');
+      } else {
+        print('Failed to update focus status: ${response.statusCode}');
       }
     } else {
       print("Token is null");
@@ -96,7 +94,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   void initState() {
     super.initState();
     toggleFocus();
-
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         loadingCount = 1;
@@ -238,7 +235,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         if (loadingCount != 0)
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.035,
@@ -299,7 +295,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           ),
                           TilesforLandscape(
                             title: 'ET-CUFF',
-                            value: pulseValue,
+                            value: '-',
                           ),
                         ],
                       ), // ),
@@ -328,7 +324,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           ),
                           TilesforLandscape(
                             title: 'EtCo2',
-                            value: spo2value,
+                            value: '-',
                           ),
                         ],
                       ),
@@ -491,7 +487,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: addTofocus
+                              color: setFocus
                                   ? Color.fromARGB(255, 174, 34, 104)
                                   : Color.fromARGB(255, 82, 82, 82),
                             ),
@@ -512,7 +508,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                   onPressed: toggleFocus,
                                   style: TextButton.styleFrom(),
                                   child: Text(
-                                    addTofocus
+                                    setFocus
                                         ? "REMOVE FOCUS"
                                         : "ADD TO FOCUS",
                                     style: TextStyle(
@@ -545,7 +541,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         if (loadingCount == 0)
           Column(
             children: [
-              SizedBox(height: 1, child: LinearProgressIndicator(color: Colors.pink)),
+              SizedBox(
+                  height: 1,
+                  child: LinearProgressIndicator(color: Colors.pink)),
               Center(
                 child: Text("Please wait.. Connecting to server",
                     style: TextStyle(
@@ -612,8 +610,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                             ),
                             SizedBox(height: 16),
                             TilesforPortait(
-                              // == 'Machine' ? 'M' : 'Resp',
-                              //  == 'Machine' ? pipValue : respiratoryValue,
                               title: fiO2,
                               value: fiO2Value,
                               width: constraints.maxWidth * 0.42,
@@ -642,7 +638,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                             ),
                             TilesforPortait(
                               title: 'EtCo2',
-                              value: spo2value,
+                              value: '-',
                               width: constraints.maxWidth * 0.42,
                             ),
                           ],
@@ -692,7 +688,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                             ),
                             TilesforPortait(
                               title: 'ET-CUFF',
-                              value: pulseValue,
+                              value: '-',
                               width: constraints.maxWidth * 0.42,
                             ),
                           ],
@@ -889,7 +885,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: addTofocus
+                          color: setFocus
                               ? Color.fromARGB(255, 174, 34, 104)
                               : Color.fromARGB(255, 82, 82, 82),
                         ),
@@ -909,7 +905,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                               onPressed: toggleFocus,
                               style: TextButton.styleFrom(),
                               child: Text(
-                                addTofocus ? "REMOVE FOCUS" : "ADD TO FOCUS",
+                                setFocus ? "REMOVE FOCUS" : "ADD TO FOCUS",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize:

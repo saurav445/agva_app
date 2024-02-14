@@ -13,12 +13,6 @@ import 'package:http/http.dart' as http;
 
 class MonitorData extends StatefulWidget {
   final String deviceId;
-  // final String wardNo;
-  // final String message;
-  // final String hospitalName;
-  // final String bioMed;
-  // final String departmentName;
-  // final String aliasName;
 
   MonitorData(this.deviceId);
 
@@ -62,7 +56,6 @@ class _MonitorDataState extends State<MonitorData> {
     );
     jsonResponse = jsonDecode(response.body);
     print('Current Device ID: $deviceId');
-    // print(jsonResponse);
     if (jsonResponse['statusCode'] == 200) {
       setState(() {
         isLoading = false;

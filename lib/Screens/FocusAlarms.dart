@@ -295,20 +295,17 @@ class DevicelistsPortrait extends StatelessWidget {
               height: 1, child: LinearProgressIndicator(color: Colors.pink))
         // else if (focusedDevices.isEmpty)
         //   Center(child: Text('No Device Found'))
-        else
-          Padding(
+        else Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  for (var device in focusedDevices) NewWidget(device: device),
-                ],
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                for (var device in focusedDevices) NewWidget(device: device),
+              ],
             ),
           ),
       ],

@@ -1,0 +1,20 @@
+void toggleFocus() async {
+   String? token = await getToken(); 
+   print(widget.deviceId); 
+   if (token != null) { 
+    var response = await http.put(
+       Uri.parse('$addtofocus/${widget.deviceId}'), 
+       headers: { "Authorization": 'Bearer $token',
+        "Content-Type": "application/json", },
+         body: jsonEncode(
+          { "addTofocus": !setFocus, }),
+           ); print('before set $addTofocus');
+            if (response.statusCode == 200) 
+            { var jsonResponse = jsonDecode(response.body);
+             var data = jsonResponse['data']; 
+             var updatedFocus = data['addTofocus']; 
+             setState(() { setFocus = updatedFocus; }); 
+             print('after set $setFocus'); 
+             } else { 
+              print('Failed to update focus status: ${response.statusCode}'); }
+               } else { print("Token is null"); } }

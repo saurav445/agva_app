@@ -69,16 +69,12 @@ class _DeviceAboutState extends State<DeviceAbout> {
           "Authorization": 'Bearer $token',
         },
       );
-      // print('Response body: ${response.body}');
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse);
       if (jsonResponse['statusCode'] == 200) {
         var data = jsonResponse['data'];
         print(data['addTofocus']);
         if (data['addTofocus'] == false) {
-          // setState(() {
-          //   isAddedToFocus = !isAddedToFocus;
-          // });
         }
       }
     } else {
