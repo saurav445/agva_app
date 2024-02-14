@@ -1,29 +1,50 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'DeviceList.dart';
 
 class Hospitals extends StatefulWidget {
-  final String hospitalName;
-  final String hospitalAddress;
 
-  Hospitals({required this.hospitalName, required this.hospitalAddress});
+  Hospitals();
 
   @override
   _HospitalsState createState() => _HospitalsState();
 }
 
 class _HospitalsState extends State<Hospitals> {
-  late String hospitalName;
-  late String hospitalAddress;
+   String? savedhospitalName;
+   String? savedhospitalAddress;
+     late SharedPreferences prefs;
   bool isExpanded = false;
 
   @override
   void initState() {
     super.initState();
-    hospitalName = widget.hospitalName;
-    hospitalAddress = widget.hospitalAddress.toString();
-    // hospitalAddress = widget.hospitalAddress.replaceAll(RegExp('[^A-Za-z]'), '');
+  getHospital().then((hospitalName) {
+      setState(() {
+        savedhospitalName = hospitalName;
+      });
+    });
+     getHospitalAddress().then((hospitalAddress) {
+      setState(() {
+        savedhospitalAddress = hospitalAddress;
+      });
+    });
+  }
+
+  Future<String?> getHospital() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? hospitalName = prefs.getString('hospitalName');
+    print('Retrieved Username: $hospitalName');
+    return hospitalName;
+  }
+
+    Future<String?> getHospitalAddress() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? hospitalAddress = prefs.getString('hospitalAddress');
+    print('Retrieved Username: $hospitalAddress');
+    return hospitalAddress;
   }
 
   List<String> projectsForHospital = [
@@ -106,7 +127,7 @@ class _HospitalsState extends State<Hospitals> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    widget.hospitalName,
+                                      savedhospitalName ?? 'Hospital Name',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),
@@ -121,7 +142,7 @@ class _HospitalsState extends State<Hospitals> {
                                         0.05,
                                   ),
                                   Text(
-                                    widget.hospitalAddress,
+                                          savedhospitalName ?? 'Hospital Address',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),
@@ -257,7 +278,7 @@ class _HospitalsState extends State<Hospitals> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.hospitalName,
+                                savedhospitalName ?? 'Hospital Name',
                                 style: TextStyle(
                                   fontFamily: 'Avenir',
                                   color: Color.fromARGB(255, 218, 218, 218),
@@ -271,7 +292,7 @@ class _HospitalsState extends State<Hospitals> {
                                     MediaQuery.of(context).size.height * 0.05,
                               ),
                               Text(
-                                      widget.hospitalAddress,
+                                  savedhospitalAddress ?? 'Hospital Address',
                                 style: TextStyle(
                                   fontFamily: 'Avenir',
                                   color: Color.fromARGB(255, 218, 218, 218),

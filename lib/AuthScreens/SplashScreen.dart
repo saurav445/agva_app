@@ -20,28 +20,14 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
-Future<String?> gethospital() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? hospitalName = prefs.getString('hospitalName');
-  print('Retrieved hospital name: $hospitalName');
-  return hospitalName;
-}
-Future<String?> gethospitalAddress() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? hospitalAddress = prefs.getString('hospitalAddress');
-  print('Retrieved hospital address: $hospitalAddress');
-  return hospitalAddress;
-}
 
 Future<void> checkIfLoggedIn() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String storedToken = prefs.getString('mytoken') ?? "";
-  String storedHospital = await gethospital() ?? "";
-  String storedHospitalAddress = await gethospitalAddress() ?? "";
 
   if (storedToken.isNotEmpty) {
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => HomeScreen({'hospitalName': storedHospital, 'hospitalAddress': storedHospitalAddress, })),
+      MaterialPageRoute(builder: (context) => HomeScreen({})),
     );
   } else {
     Navigator.of(context).pushReplacement(

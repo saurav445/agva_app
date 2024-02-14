@@ -95,7 +95,7 @@ class _DeviceListState extends State<DeviceList> {
       Color? alarmColor;
       if (data['alarmData']?.isNotEmpty ?? false) {
         String priority = data['alarmData'][0]['priority'];
-        
+
         if (priority == 'ALARM_LOW_LEVEL') {
           alarmColor = Colors.amber;
         } else if (priority == 'ALARM_MEDIUM_LEVEL') {
@@ -108,38 +108,26 @@ class _DeviceListState extends State<DeviceList> {
       } else {
         alarmColor = Colors.green;
       }
-      bool isAddedToFocus = true; 
-      // if (devicesForUserList.asMap()['alarmData']?[0]?['priority'] == 'ALARM_LOW_LEVEL') {
-      //   newColor = Colors.amber;
-      // } else if (data['alarmData']?[0]?['priority'] == 'ALARM_MEDIUM_LEVEL') {
-      //   newColor = Colors.amber;
-      // } else if (data['alarmData']?[0]?['priority'] == 'ALARM_HIGH_LEVEL') {
-      //   newColor = Colors.red;
-      // } else if (data['alarmData']?[0]?['priority'] == 'ALARM_CRITICAL_LEVEL') {
-      //   newColor = Colors.red;
-      // }
-      //  else {
-      //   newColor = Colors.green;
-      // }
 
-      // return devicesForUserList.map((data) {
-      //   Map<String, dynamic>? deviceInfo =
-      //       (data['deviceInfo'] as List<dynamic>?)?.first;
+      Color? focusColor;
+      if (data['addTofocus'] == true) {
+        focusColor = Colors.pink;
+      } else {
+        focusColor = Color.fromARGB(255, 65, 65, 65);
+      }
 
       return ListTile(
         title: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: alarmColor,
-            // color: newColor,
           ),
           child: Padding(
             padding: const EdgeInsets.only(right: 10),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.pink,
-                // color: newColor,
+                color: focusColor,
               ),
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
@@ -265,21 +253,44 @@ class _DeviceListState extends State<DeviceList> {
 
   List<Widget> buildDeviceListHorizonatal() {
     return devicesForUserList.map((data) {
-      Map<String, dynamic>? deviceInfo =
-          (data['deviceInfo'] as List<dynamic>?)?.first;
+      Map? deviceInfo = (data['deviceInfo'] as List?)?.first;
+      Color? alarmColor;
+      if (data['alarmData']?.isNotEmpty ?? false) {
+        String priority = data['alarmData'][0]['priority'];
+
+        if (priority == 'ALARM_LOW_LEVEL') {
+          alarmColor = Colors.amber;
+        } else if (priority == 'ALARM_MEDIUM_LEVEL') {
+          alarmColor = Colors.amber;
+        } else if (priority == 'ALARM_HIGH_LEVEL') {
+          alarmColor = Colors.red;
+        } else if (priority == 'ALARM_CRITICAL_LEVEL') {
+          alarmColor = Colors.red;
+        }
+      } else {
+        alarmColor = Colors.green;
+      }
+
+      Color? focusColor;
+      if (data['addTofocus'] == true) {
+        focusColor = Colors.pink;
+      } else {
+        focusColor = Color.fromARGB(255, 65, 65, 65);
+      }
+
       return ListTile(
         title: Container(
           height: MediaQuery.of(context).size.height * 0.3,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: Color.fromARGB(255, 69, 174, 34),
+            color: alarmColor,
           ),
           child: Padding(
             padding: const EdgeInsets.only(right: 10),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color.fromARGB(255, 65, 65, 65),
+                color: focusColor,
               ),
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),

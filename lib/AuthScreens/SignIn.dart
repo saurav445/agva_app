@@ -56,13 +56,16 @@ class _SignInState extends State<SignIn> {
           saveToken(token);
           saveHospital(hospitalName);
           saveUsername(name);
-            saveHospitalAddress(hospitalAddress);
+          saveHospitalAddress(hospitalAddress);
 
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  HomeScreen({'hospitalName': hospitalName, 'name': name}),
+              builder: (context) => HomeScreen({
+                'hospitalName': hospitalName,
+                'name': name,
+                'hospitalAddress': hospitalAddress
+              }),
             ),
           );
         } else {
@@ -91,7 +94,7 @@ class _SignInState extends State<SignIn> {
     print('Saved username: $name');
   }
 
- Future<void> saveHospitalAddress(String hospitalAddress) async {
+  Future<void> saveHospitalAddress(String hospitalAddress) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('hospitalAddress', hospitalAddress);
     print('Saved hospital address: $hospitalAddress');

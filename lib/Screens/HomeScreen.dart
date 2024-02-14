@@ -20,9 +20,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late String hospitalName;
   String? savedUsername;
-  late String hospitalAddress;
   late SharedPreferences prefs;
 
   @override
@@ -32,15 +30,15 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         savedUsername = name;
       });
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeRight,
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
     });
-    hospitalName = widget.data['hospitalName'];
-    hospitalAddress = widget.data['hospitalAddress'];
+    // hospitalName = widget.data['hospitalName'];
+    // hospitalAddress = widget.data['hospitalAddress'];
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
   @override
@@ -60,6 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
     print('Retrieved Username: $name');
     return name;
   }
+
+  
 
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -341,9 +341,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Hospitals(
-                              hospitalName: hospitalName,
-                              hospitalAddress: hospitalAddress),
+                          builder: (context) => Hospitals(),
                         ),
                       );
                     },
@@ -603,9 +601,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          Hospitals(hospitalName: hospitalName,
-                              hospitalAddress: hospitalAddress),
+                      builder: (context) => Hospitals(),
                     ),
                   );
                 },
