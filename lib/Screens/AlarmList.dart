@@ -113,7 +113,6 @@ class AlarmListState extends State<AlarmList> {
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10),
                         ),
-                        // color: Color.fromARGB(255, 196, 128, 0),
                         color: newColor),
                     height: MediaQuery.of(context).size.height * 0.04,
                     width: double.infinity,

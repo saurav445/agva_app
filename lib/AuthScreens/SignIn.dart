@@ -48,14 +48,15 @@ class _SignInState extends State<SignIn> {
           print(jsonResponse);
           var data = jsonResponse['data'];
           var name = data['name'];
+          var email = data['email'];
           var token = data['token'];
           var hospitalName = data['hospitalName'];
           var hospitalAddress = data['hospitalAddress'];
 
-          // Save token and hospital name
+          saveUsername(name);
+          saveUseremail(email);
           saveToken(token);
           saveHospital(hospitalName);
-          saveUsername(name);
           saveHospitalAddress(hospitalAddress);
 
           Navigator.push(
@@ -77,6 +78,18 @@ class _SignInState extends State<SignIn> {
     }
   }
 
+  Future<void> saveUsername(String name) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('name', name);
+    print('Saved username: $name');
+  }
+
+  Future<void> saveUseremail(String email) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', email);
+    print('Saved useremail: $email');
+  }
+
   Future<void> saveToken(String mytoken) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('mytoken', mytoken);
@@ -86,12 +99,6 @@ class _SignInState extends State<SignIn> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('hospitalName', hospitalName);
     print('Saved hospital name: $hospitalName');
-  }
-
-  Future<void> saveUsername(String name) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('name', name);
-    print('Saved username: $name');
   }
 
   Future<void> saveHospitalAddress(String hospitalAddress) async {

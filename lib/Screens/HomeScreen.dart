@@ -6,6 +6,8 @@ import 'package:agva_app/Screens/FocusAlarms.dart';
 import 'package:agva_app/Screens/Hospitals.dart';
 import 'package:agva_app/Screens/LiveView.dart';
 import 'package:agva_app/Screens/MyDevices.dart';
+import 'package:agva_app/Screens/Profile.dart';
+import 'package:agva_app/Screens/Settings.dart';
 import 'package:agva_app/Screens/blank.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -58,8 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
     print('Retrieved Username: $name');
     return name;
   }
-
-  
 
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -134,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => BlankScreen()));
+                      MaterialPageRoute(builder: (context) => Profile()));
                 },
               ),
               ListTile(
@@ -147,14 +147,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) =>
-                  //         // Hospitals(hospitalName: hospitalName),
-                  //         DeviceList(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          // Hospitals(hospitalName: hospitalName),
+                          DeviceList(),
+                    ),
+                  );
                 },
               ),
               ListTile(
@@ -166,6 +166,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: MediaQuery.of(context).size.width * 0.035,
                   ),
                 ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Settings(),
+                    ),
+                  );
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.logout, color: Colors.white),
