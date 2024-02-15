@@ -1,5 +1,4 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable, prefer_const_literals_to_create_immutables
-
 import 'package:agva_app/Screens/DeviceDetails.dart';
 import 'package:agva_app/Screens/HomeScreen.dart';
 import 'package:agva_app/Screens/DeviceList.dart';
@@ -9,8 +8,18 @@ import 'AuthScreens/SignIn.dart';
 import 'AuthScreens/SignUp.dart';
 import 'AuthScreens/SplashScreen.dart';
 import 'Screens/TermsCondition.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'Service/firebase_service.dart';
 
-void main() async {
+void main() async { WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: 'AIzaSyAGeXq1HUM6_idigSAbWHolMNCdbjXTFJ8',
+          appId: '1:679007550491:android:3a7d4bfafbaaa9f1e78cbe',
+          messagingSenderId: '679007550491',
+          projectId: 'agvaapp'));
+
+  await FirebaseService().initNotifications();
   runApp(MyApp());
 }
 
@@ -28,13 +37,8 @@ class MyApp extends StatelessWidget {
         "/signin": (context) => SignIn(),
         "/splash": (context) => const SplashScreen(),
         "/home": (context) => HomeScreen({}),
-        "/devicedetails": (context) => DeviceDetails(
-              '',
-              SocketServices(),
-              '',
-              '',
-              ''
-            ),
+        "/devicedetails": (context) =>
+            DeviceDetails('', SocketServices(), '', '', ''),
         "/tandc": (context) => TermsCondition(),
         "/devicelist": (context) => DeviceList(),
       },

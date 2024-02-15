@@ -48,6 +48,8 @@ dependencies:
   syncfusion_flutter_charts: ^24.2.3+1
   loading_progress: ^1.0.2
   accordion: ^2.6.0
+  firebase_core: ^2.25.4
+  firebase_messaging: ^14.7.15
 
 dev_dependencies:
   flutter_test:
