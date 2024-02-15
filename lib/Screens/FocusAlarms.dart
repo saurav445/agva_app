@@ -556,9 +556,8 @@ class DevicelistsPortrait extends StatelessWidget {
   Widget build(BuildContext context) {
     Color? newColor;
 
-      return Column(
+    return Column(
       children: [
-        
         if (isLoading)
           SizedBox(
               height: 1, child: LinearProgressIndicator(color: Colors.pink))
