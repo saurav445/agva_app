@@ -47,6 +47,7 @@ dependencies:
   d_chart: ^2.6.7
   syncfusion_flutter_charts: ^24.2.3+1
   loading_progress: ^1.0.2
+  accordion: ^2.6.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:agva_app/Screens/TermsCondition.dart';
+import 'package:agva_app/Service/FAQ.dart';
 import 'package:flutter/material.dart';
 
 class Settings extends StatefulWidget {
@@ -169,11 +171,11 @@ class SettingsPortrait extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) =>  ()),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>  TermsCondition()),
+              );
             },
             child: Container(
               decoration: BoxDecoration(
@@ -187,7 +189,7 @@ class SettingsPortrait extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Setting 1',
+                      'Terms & Conditions',
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         color: Color.fromARGB(255, 218, 218, 218),
@@ -204,11 +206,11 @@ class SettingsPortrait extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) =>  ()),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>  Faq()),
+              );
             },
             child: Container(
               decoration: BoxDecoration(
