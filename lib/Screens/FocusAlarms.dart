@@ -257,7 +257,7 @@
 //   }
 // }
 
-// ignore_for_file: prefer_const_constructors, must_be_immutable, library_private_types_in_public_api
+// ignore_for_file: prefer_const_constructors, must_be_immutable, library_private_types_in_public_api, curly_braces_in_flow_control_structures
 
 import 'dart:convert';
 import 'package:agva_app/Screens/AlarmList.dart';
@@ -550,15 +550,15 @@ class DevicelistsPortrait extends StatelessWidget {
     required this.focusedDevices,
     required this.isLoading,
   });
-
   final List<Map<String, dynamic>> focusedDevices;
 
   @override
   Widget build(BuildContext context) {
     Color? newColor;
 
-    return Column(
+      return Column(
       children: [
+        
         if (isLoading)
           SizedBox(
               height: 1, child: LinearProgressIndicator(color: Colors.pink))

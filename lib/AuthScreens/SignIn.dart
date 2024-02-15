@@ -134,7 +134,14 @@ class _SignInState extends State<SignIn> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: TextFormField(
+                    
                         controller: emailController,
+                        //     validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter email';
+                        //   }
+                        //   return null;
+                        // },
                         style: TextStyle(color: Colors.white70),
                         decoration: InputDecoration(
                           icon: Icon(Icons.email, color: Colors.white70),

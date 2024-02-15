@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'package:agva_app/Screens/profile2.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -308,10 +307,10 @@ class ProfilePortrait extends StatelessWidget {
             height: 30,
           ),
           GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Profile2()));
-            },
+            // onTap: () {
+            //   Navigator.push(
+            //       context, MaterialPageRoute(builder: (context) => ()));
+            // },
             child: Container(
               height: MediaQuery.of(context).size.height * 0.1,
               width: MediaQuery.of(context).size.width * 0.9,
