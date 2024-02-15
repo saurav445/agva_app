@@ -11,14 +11,14 @@ import 'Screens/TermsCondition.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Service/firebase_service.dart';
 
-void main() async { WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
           apiKey: 'AIzaSyAGeXq1HUM6_idigSAbWHolMNCdbjXTFJ8',
           appId: '1:679007550491:android:3a7d4bfafbaaa9f1e78cbe',
           messagingSenderId: '679007550491',
           projectId: 'agvaapp'));
-
   await FirebaseService().initNotifications();
   runApp(MyApp());
 }
