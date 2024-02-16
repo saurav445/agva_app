@@ -28,7 +28,6 @@ class DeviceDetails extends StatefulWidget {
 
 class _DeviceDetailsState extends State<DeviceDetails> {
   late SocketServices socketService;
-  // bool addTofocus = false;
   bool setFocus = false;
   double progress = 0.0;
   int loadingCount = 0;
@@ -72,14 +71,14 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         }),
       );
 
-            print('data: $setFocus');
+      // print('data: $setFocus');
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
         var data = jsonResponse['data'];
         var updatedFocus = data['addTofocus'];
-              print('before set $data');
+        print('before set $updatedFocus');
         setState(() {
-          setFocus = updatedFocus;
+          setFocus = data['addTofocus'] == true;
         });
         print('after set $setFocus');
       } else {
@@ -92,13 +91,12 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   @override
   void initState() {
-    super.initState();
-    toggleFocus();
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         loadingCount = 1;
       });
     });
+    toggleFocus();
     widget.socketService.initializeSocket(url, widget.deviceId);
     widget.socketService.tilesDataCallBack((
       receivedPipData,
@@ -166,6 +164,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
     ]);
+    super.initState();
   }
 
   final int maxLength = 4;
@@ -508,9 +507,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                   onPressed: toggleFocus,
                                   style: TextButton.styleFrom(),
                                   child: Text(
-                                    setFocus
-                                        ? "REMOVE FOCUS"
-                                        : "ADD TO FOCUS",
+                                    setFocus ? "REMOVE FOCUS" : "ADD TO FOCUS",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize:

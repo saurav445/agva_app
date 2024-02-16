@@ -59,7 +59,7 @@ class _MyDevicesState extends State<MyDevices> {
           appBar: AppBar(
             centerTitle: true,
             title: Text(
-              'Focus Devices',
+              'My Devices',
               style: TextStyle(
                 fontFamily: 'Avenir',
                 fontSize: 24,

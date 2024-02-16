@@ -19,7 +19,8 @@ void main() async {
           apiKey: 'AIzaSyAGeXq1HUM6_idigSAbWHolMNCdbjXTFJ8',
           appId: '1:679007550491:android:3a7d4bfafbaaa9f1e78cbe',
           messagingSenderId: '679007550491',
-          projectId: 'agvaapp'));
+          projectId: 'agvaapp',
+          storageBucket: 'agvaapp.appspot.com'));
   await FirebaseService().initNotifications();
   runApp(MyApp());
 }
