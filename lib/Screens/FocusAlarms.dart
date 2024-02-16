@@ -302,18 +302,6 @@ class _FocusAlarmsState extends State<FocusAlarms> {
           focusedDevices = List<Map<String, dynamic>>.from(data)
               .where((device) => device['addTofocus'] == true)
               .toList();
-              
-    //             if (device['alarmData']?[0]?['priority'] == 'ALARM_LOW_LEVEL') {
-    //   newColor = Colors.amber;
-    // } else if (device['alarmData']?[0]?['priority'] == 'ALARM_MEDIUM_LEVEL') {
-    //   newColor = Colors.amber;
-    // } else if (device['alarmData']?[0]?['priority'] == 'ALARM_HIGH_LEVEL') {
-    //   newColor = Colors.red;
-    // } else if (device['alarmData']?[0]?['priority'] == 'ALARM_CRITICAL_LEVEL') {
-    //   newColor = Colors.red;
-    // } else {
-    //   newColor = Colors.green;
-    // }
         });
       } else {
         print('Failed to fetch focused devices: ${response.statusCode}');
