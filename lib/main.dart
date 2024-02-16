@@ -3,6 +3,7 @@ import 'package:agva_app/Screens/DeviceDetails.dart';
 import 'package:agva_app/Screens/HomeScreen.dart';
 import 'package:agva_app/Screens/DeviceList.dart';
 import 'package:agva_app/Service/SocketService.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'AuthScreens/SignIn.dart';
 import 'AuthScreens/SignUp.dart';
@@ -10,6 +11,7 @@ import 'AuthScreens/SplashScreen.dart';
 import 'Screens/TermsCondition.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Service/firebase_service.dart';
+import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +26,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseInAppMessaging fiam = FirebaseInAppMessaging.instance;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,6 +46,7 @@ class MyApp extends StatelessWidget {
         "/tandc": (context) => TermsCondition(),
         "/devicelist": (context) => DeviceList(),
       },
+      
     );
   }
 }
