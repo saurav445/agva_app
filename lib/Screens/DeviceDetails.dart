@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
 import 'package:agva_app/config.dart';
@@ -27,7 +29,6 @@ class DeviceDetails extends StatefulWidget {
 
 class _DeviceDetailsState extends State<DeviceDetails> {
   late SocketServices socketService;
-  bool addTofocus = false;
   bool setFocus = false;
   double progress = 0.0;
   int loadingCount = 0;
@@ -68,10 +69,10 @@ class _DeviceDetailsState extends State<DeviceDetails> {
           "Content-Type": "application/json",
         },
         body: jsonEncode({
-          "addTofocus": !addTofocus,
+          "addTofocus": !setFocus,
         }),
       );
-      print('before set $addTofocus');
+      print('before set $setFocus');
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
         var data = jsonResponse['data'];

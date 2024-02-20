@@ -2,6 +2,7 @@
 import 'package:agva_app/Screens/DeviceDetails.dart';
 import 'package:agva_app/Screens/HomeScreen.dart';
 import 'package:agva_app/Screens/DeviceList.dart';
+import 'package:agva_app/Screens/NotificationScreen.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:flutter/material.dart';
 import 'AuthScreens/SignIn.dart';
@@ -11,6 +12,8 @@ import 'Screens/TermsCondition.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Service/firebase_service.dart';
 import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +48,8 @@ class MyApp extends StatelessWidget {
             DeviceDetails('', SocketServices(), '', '', ''),
         "/tandc": (context) => TermsCondition(),
         "/devicelist": (context) => DeviceList(),
+         "/notification": (context) => NotificationScreen(),
+
       },
     );
   }
