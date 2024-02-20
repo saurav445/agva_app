@@ -1,4 +1,3 @@
-// ignore_for_file: must_be_immutable, prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
 import 'package:agva_app/config.dart';
@@ -28,6 +27,7 @@ class DeviceDetails extends StatefulWidget {
 
 class _DeviceDetailsState extends State<DeviceDetails> {
   late SocketServices socketService;
+  bool addTofocus = false;
   bool setFocus = false;
   double progress = 0.0;
   int loadingCount = 0;
@@ -59,6 +59,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   void toggleFocus() async {
     String? token = await getToken();
     print(widget.deviceId);
+
     if (token != null) {
       var response = await http.put(
         Uri.parse('$addtofocus/${widget.deviceId}'),
@@ -67,19 +68,19 @@ class _DeviceDetailsState extends State<DeviceDetails> {
           "Content-Type": "application/json",
         },
         body: jsonEncode({
-          "addTofocus": !setFocus,
+          "addTofocus": !addTofocus,
         }),
       );
-
-      // print('data: $setFocus');
+      print('before set $addTofocus');
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
         var data = jsonResponse['data'];
-        var updatedFocus = data['addTofocus'];
-        print('before set $updatedFocus');
+        var setFocus = data['addTofocus'];
+
         setState(() {
-          setFocus = data['addTofocus'] == true;
+          setFocus = true;
         });
+
         print('after set $setFocus');
       } else {
         print('Failed to update focus status: ${response.statusCode}');
@@ -91,12 +92,12 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   @override
   void initState() {
+    super.initState();
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         loadingCount = 1;
       });
     });
-    toggleFocus();
     widget.socketService.initializeSocket(url, widget.deviceId);
     widget.socketService.tilesDataCallBack((
       receivedPipData,
@@ -150,9 +151,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         pulseValue = receivedPulseValue;
         modeData = receivedModeData;
       });
-      // Delayed loading mechanism
+// Delayed loading mechanism
       Future.delayed(Duration(seconds: 1), () {
-        // After 1 second, hide the loader and show other widgets
+// After 1 second, hide the loader and show other widgets
         setState(() {
           showLoader = false;
         });
@@ -164,7 +165,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
     ]);
-    super.initState();
   }
 
   final int maxLength = 4;
@@ -246,7 +246,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
-              //Live tiles
+//Live tiles
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.12,
               ),
@@ -420,7 +420,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   LiveView(widget.deviceId),
-                                              // LineGraphApp(),
+// LineGraphApp(),
                                             ),
                                           );
                                         } else {
@@ -444,7 +444,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                         }
                                       },
 
-                                      // style: TextButton.styleFrom(),
+// style: TextButton.styleFrom(),
                                       child: Text(
                                         "LIVE VIEW",
                                         style: TextStyle(
@@ -568,7 +568,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                 ),
                 SizedBox(height: 16),
 
-                //Live tiles
+//Live tiles
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.04,
                 ),
@@ -695,7 +695,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                   },
                 ),
                 SizedBox(height: 16),
-                //buttons
+//buttons
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
@@ -803,10 +803,10 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    // SocketGraphPage(
-                                                    //     widget.deviceId),
+// SocketGraphPage(
+// widget.deviceId),
                                                     LiveView(widget.deviceId),
-                                                // LineGraphApp(),
+// LineGraphApp(),
                                               ),
                                             );
                                           } else {
@@ -830,7 +830,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                           }
                                         },
 
-                                        // style: TextButton.styleFrom(),
+// style: TextButton.styleFrom(),
                                         child: Text(
                                           "LIVE VIEW",
                                           style: TextStyle(
