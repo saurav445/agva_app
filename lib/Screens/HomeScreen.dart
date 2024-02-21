@@ -6,6 +6,7 @@ import 'package:agva_app/Screens/FocusAlarms.dart';
 import 'package:agva_app/Screens/Hospitals.dart';
 import 'package:agva_app/Screens/LiveView.dart';
 import 'package:agva_app/Screens/MyDevices.dart';
+import 'package:agva_app/Screens/NotificationScreen.dart';
 import 'package:agva_app/Screens/Profile.dart';
 import 'package:agva_app/Screens/Settings.dart';
 import 'package:agva_app/Screens/blank.dart';
@@ -80,7 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.notifications),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
+              },
             )
           ],
           toolbarHeight: MediaQuery.of(context).size.height * 0.08,

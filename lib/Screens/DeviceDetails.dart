@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:agva_app/Screens/DeviceAbout.dart';
 import 'package:agva_app/Screens/MonitorData.dart';
@@ -57,39 +57,43 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return mytoken;
   }
 
-  void toggleFocus() async {
-    String? token = await getToken();
-    print(widget.deviceId);
+ void toggleFocus() async {
+  String? token = await getToken();
+  print(widget.deviceId);
 
-    if (token != null) {
-      var response = await http.put(
-        Uri.parse('$addtofocus/${widget.deviceId}'),
-        headers: {
-          "Authorization": 'Bearer $token',
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode({
-          "addTofocus": !setFocus,
-        }),
-      );
-      print('before set $setFocus');
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
-        var data = jsonResponse['data'];
-        var setFocus = data['addTofocus'];
-
+  if (token != null) {
+    var response = await http.put(
+      Uri.parse('$addtofocus/${widget.deviceId}'),
+      headers: {
+        "Authorization": 'Bearer $token',
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode({
+        "addTofocus": !setFocus,
+        
+      }),
+    );
+    print('before set $setFocus');
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      var data = jsonResponse['data'];
+      var focusStatus = data['addTofocus'];
+      
+      if (focusStatus == true ) {
         setState(() {
-          setFocus = true;
+          setFocus = focusStatus;
         });
-
         print('after set $setFocus');
       } else {
-        print('Failed to update focus status: ${response.statusCode}');
+        print('Focus status is not of type bool');
       }
     } else {
-      print("Token is null");
+      print('Failed to update focus status: ${response.statusCode}');
     }
+  } else {
+    print("Token is null");
   }
+}
 
   @override
   void initState() {
@@ -172,6 +176,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   @override
   void dispose() {
+    
     loadingCount = 0;
     widget.socketService.dispose();
     super.dispose();
@@ -215,325 +220,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     }
   }
 
-  Widget _buildLandscapeLayout(BuildContext context) {
-    return Stack(
-      children: [
-        if (loadingCount == 0)
-          Column(
-            children: const [
-              LinearProgressIndicator(color: Colors.pink),
-              SizedBox(
-                height: 20,
-              ),
-              Text("Connecting server..",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0))
-            ],
-          ),
-        if (loadingCount != 0)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.035,
-              ),
-              Text(
-                "SALIM RAZA",
-                style: TextStyle(
-                  fontFamily: 'Avenir',
-                  fontSize: MediaQuery.of(context).size.width * 0.02,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-              ),
-//Live tiles
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.12,
-              ),
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.12,
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Color.fromARGB(255, 89, 89, 89),
-                            ),
-                            child: TextButton(
-                              onPressed: () {},
-                              style: TextButton.styleFrom(),
-                              child: Text(
-                                modeData,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.02,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          TilesforLandscape(
-                            title: rr,
-                            value: rrValue,
-                          ),
-                          TilesforLandscape(
-                            title: mVi,
-                            value: mViValue,
-                          ),
-                          TilesforLandscape(
-                            title: 'PULSE',
-                            value: pulseValue,
-                          ),
-                          TilesforLandscape(
-                            title: 'ET-CUFF',
-                            value: '-',
-                          ),
-                        ],
-                      ), // ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.04,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          TilesforLandscape(
-                            title: fiO2,
-                            value: fiO2Value,
-                          ),
-                          TilesforLandscape(
-                            title: pip,
-                            value: pipValue,
-                          ),
-                          TilesforLandscape(
-                            title: vti,
-                            value: vtiValue,
-                          ),
-                          TilesforLandscape(
-                            title: 'SpO2',
-                            value: spo2value,
-                          ),
-                          TilesforLandscape(
-                            title: 'EtCo2',
-                            value: '-',
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.04,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.12,
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Color.fromARGB(255, 82, 82, 82),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DeviceAbout(
-                                        widget.deviceId, widget.deviceType),
-                                  ),
-                                );
-                              },
-                              style: TextButton.styleFrom(),
-                              child: Text(
-                                "ABOUT",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.01,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.12,
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Color.fromARGB(255, 82, 82, 82),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MonitorData(
-                                      widget.deviceId,
-                                    ),
-                                  ),
-                                );
-                              },
-                              style: TextButton.styleFrom(),
-                              child: Text(
-                                "MONITOR",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.01,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.12,
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Color.fromARGB(255, 82, 82, 82),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 10,
-                                      child: Image.asset(
-                                        getImagePath(widget.message),
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        if (widget.message == 'ACTIVE') {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LiveView(widget.deviceId),
-// LineGraphApp(),
-                                            ),
-                                          );
-                                        } else {
-                                          final snackBar = SnackBar(
-                                            content: Center(
-                                              child: const Text(
-                                                "Device in StandBy",
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ),
-                                            action: SnackBarAction(
-                                              label: '',
-                                              onPressed: () {},
-                                            ),
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
-                                        }
-                                      },
-
-// style: TextButton.styleFrom(),
-                                      child: Text(
-                                        "LIVE VIEW",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.01,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.12,
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Color.fromARGB(255, 82, 82, 82),
-                            ),
-                            child: TextButton(
-                              onPressed: () {},
-                              style: TextButton.styleFrom(),
-                              child: Text(
-                                "SUPPORT",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.01,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: setFocus
-                                  ? Color.fromARGB(255, 174, 34, 104)
-                                  : Color.fromARGB(255, 82, 82, 82),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.12,
-                                width: MediaQuery.of(context).size.width * 0.14,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(5),
-                                    bottomRight: Radius.circular(5),
-                                  ),
-                                  color: Color.fromARGB(255, 82, 82, 82),
-                                ),
-                                child: TextButton(
-                                  onPressed: toggleFocus,
-                                  style: TextButton.styleFrom(),
-                                  child: Text(
-                                    setFocus ? "REMOVE FOCUS" : "ADD TO FOCUS",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.01,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ],
-          ),
-      ],
-    );
-  }
-
-  Widget _buildPortraitLayout(BuildContext context) {
+ Widget _buildPortraitLayout(BuildContext context) {
     return Stack(
       children: [
         if (loadingCount == 0)
@@ -924,4 +611,325 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       ],
     );
   }
+
+
+
+  Widget _buildLandscapeLayout(BuildContext context) {
+    return Stack(
+      children: [
+        if (loadingCount == 0)
+          Column(
+            children: const [
+              LinearProgressIndicator(color: Colors.pink),
+              SizedBox(
+                height: 20,
+              ),
+              Text("Connecting server..",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0))
+            ],
+          ),
+        if (loadingCount != 0)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.035,
+              ),
+              Text(
+                "SALIM RAZA",
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                  fontSize: MediaQuery.of(context).size.width * 0.02,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+              ),
+//Live tiles
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.12,
+              ),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color.fromARGB(255, 89, 89, 89),
+                            ),
+                            child: TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(),
+                              child: Text(
+                                modeData,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          TilesforLandscape(
+                            title: rr,
+                            value: rrValue,
+                          ),
+                          TilesforLandscape(
+                            title: mVi,
+                            value: mViValue,
+                          ),
+                          TilesforLandscape(
+                            title: 'PULSE',
+                            value: pulseValue,
+                          ),
+                          TilesforLandscape(
+                            title: 'ET-CUFF',
+                            value: '-',
+                          ),
+                        ],
+                      ), // ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          TilesforLandscape(
+                            title: fiO2,
+                            value: fiO2Value,
+                          ),
+                          TilesforLandscape(
+                            title: pip,
+                            value: pipValue,
+                          ),
+                          TilesforLandscape(
+                            title: vti,
+                            value: vtiValue,
+                          ),
+                          TilesforLandscape(
+                            title: 'SpO2',
+                            value: spo2value,
+                          ),
+                          TilesforLandscape(
+                            title: 'EtCo2',
+                            value: '-',
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color.fromARGB(255, 82, 82, 82),
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DeviceAbout(
+                                        widget.deviceId, widget.deviceType),
+                                  ),
+                                );
+                              },
+                              style: TextButton.styleFrom(),
+                              child: Text(
+                                "ABOUT",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.01,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color.fromARGB(255, 82, 82, 82),
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MonitorData(
+                                      widget.deviceId,
+                                    ),
+                                  ),
+                                );
+                              },
+                              style: TextButton.styleFrom(),
+                              child: Text(
+                                "MONITOR",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.01,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color.fromARGB(255, 82, 82, 82),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 10,
+                                      child: Image.asset(
+                                        getImagePath(widget.message),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        if (widget.message == 'ACTIVE') {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LiveView(widget.deviceId),
+// LineGraphApp(),
+                                            ),
+                                          );
+                                        } else {
+                                          final snackBar = SnackBar(
+                                            content: Center(
+                                              child: const Text(
+                                                "Device in StandBy",
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                            action: SnackBarAction(
+                                              label: '',
+                                              onPressed: () {},
+                                            ),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                        }
+                                      },
+
+// style: TextButton.styleFrom(),
+                                      child: Text(
+                                        "LIVE VIEW",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.01,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color.fromARGB(255, 82, 82, 82),
+                            ),
+                            child: TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(),
+                              child: Text(
+                                "SUPPORT",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.01,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: setFocus
+                                  ? Color.fromARGB(255, 174, 34, 104)
+                                  : Color.fromARGB(255, 82, 82, 82),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.12,
+                                width: MediaQuery.of(context).size.width * 0.14,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(5),
+                                    bottomRight: Radius.circular(5),
+                                  ),
+                                  color: Color.fromARGB(255, 82, 82, 82),
+                                ),
+                                child: TextButton(
+                                  onPressed: toggleFocus,
+                                  style: TextButton.styleFrom(),
+                                  child: Text(
+                                    setFocus ? "REMOVE FOCUS" : "ADD TO FOCUS",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.01,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+      ],
+    );
+  }
 }
+ 
