@@ -50,6 +50,7 @@ class DefaultFirebaseOptions {
     projectId: 'agvaapp',
     authDomain: 'agvaapp.firebaseapp.com',
     storageBucket: 'agvaapp.appspot.com',
+    measurementId: 'G-WPFMM6VK6X',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
