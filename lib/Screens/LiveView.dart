@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:agva_app/Screens/EmptyLiveView.dart';
 import 'package:agva_app/Screens/LoadingScreen.dart';
 import 'package:agva_app/widgets/LineChartWidget.dart';
-import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

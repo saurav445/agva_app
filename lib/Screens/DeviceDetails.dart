@@ -30,6 +30,7 @@ class DeviceDetails extends StatefulWidget {
 class _DeviceDetailsState extends State<DeviceDetails> {
   late SocketServices socketService;
   bool setFocus = false;
+  bool currentStatus = false;
   double progress = 0.0;
   int loadingCount = 0;
   bool showLoader = false;
@@ -57,52 +58,77 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     return mytoken;
   }
 
- void toggleFocus() async {
-  String? token = await getToken();
-  print(widget.deviceId);
+  void toggleFocus() async {
+    String? token = await getToken();
+    print(widget.deviceId);
 
-  if (token != null) {
-    var response = await http.put(
-      Uri.parse('$addtofocus/${widget.deviceId}'),
-      headers: {
-        "Authorization": 'Bearer $token',
-        "Content-Type": "application/json",
-      },
-      body: jsonEncode({
-        "addTofocus": !setFocus,
-        
-      }),
-    );
-    print('before set $setFocus');
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body);
-      var data = jsonResponse['data'];
-      var focusStatus = data['addTofocus'];
-      
-      if (focusStatus == true ) {
+    if (token != null) {
+      var response = await http.put(
+        Uri.parse('$addtofocus/${widget.deviceId}'),
+        headers: {
+          "Authorization": 'Bearer $token',
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "addTofocus": !setFocus,
+        }),
+      );
+      print('before set $setFocus');
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        var data = jsonResponse['data'];
+        var focusStatus = data['addTofocus'];
         setState(() {
           setFocus = focusStatus;
         });
         print('after set $setFocus');
       } else {
-        print('Focus status is not of type bool');
+        print('Failed to update focus status: ${response.statusCode}');
       }
     } else {
-      print('Failed to update focus status: ${response.statusCode}');
+      print("Token is null");
     }
-  } else {
-    print("Token is null");
   }
-}
+
+  void getFocusStatus() async {
+    String? token = await getToken();
+    print(widget.deviceId);
+    if (token != null) {
+      var response = await http.get(
+        Uri.parse('$getStatus/${widget.deviceId}'),
+        headers: {
+          "Authorization": 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+        var data = jsonResponse['data'];
+        var focusStatus = data['addTofocus'];
+        setState(() {
+          currentStatus = focusStatus;
+          print(currentStatus);
+        });
+      } else {
+        print('Failed to get focus status: ${response.statusCode}');
+      }
+    } else {
+      print("Token is null");
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    // toggleFocus();
+
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         loadingCount = 1;
       });
     });
+    getFocusStatus();
     widget.socketService.initializeSocket(url, widget.deviceId);
     widget.socketService.tilesDataCallBack((
       receivedPipData,
@@ -176,7 +202,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
 
   @override
   void dispose() {
-    
     loadingCount = 0;
     widget.socketService.dispose();
     super.dispose();
@@ -220,7 +245,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     }
   }
 
- Widget _buildPortraitLayout(BuildContext context) {
+  Widget _buildPortraitLayout(BuildContext context) {
     return Stack(
       children: [
         if (loadingCount == 0)
@@ -570,7 +595,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: setFocus
+                          color: currentStatus
                               ? Color.fromARGB(255, 174, 34, 104)
                               : Color.fromARGB(255, 82, 82, 82),
                         ),
@@ -590,7 +615,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                               onPressed: toggleFocus,
                               style: TextButton.styleFrom(),
                               child: Text(
-                                setFocus ? "REMOVE FOCUS" : "ADD TO FOCUS",
+                                currentStatus ? "REMOVE FOCUS" : "ADD TO FOCUS",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize:
@@ -611,8 +636,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       ],
     );
   }
-
-
 
   Widget _buildLandscapeLayout(BuildContext context) {
     return Stack(
@@ -886,7 +909,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: setFocus
+                              color: currentStatus
                                   ? Color.fromARGB(255, 174, 34, 104)
                                   : Color.fromARGB(255, 82, 82, 82),
                             ),
@@ -907,7 +930,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                   onPressed: toggleFocus,
                                   style: TextButton.styleFrom(),
                                   child: Text(
-                                    setFocus ? "REMOVE FOCUS" : "ADD TO FOCUS",
+                                    currentStatus
+                                        ? "REMOVE FOCUS"
+                                        : "ADD TO FOCUS",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize:
@@ -932,4 +957,3 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     );
   }
 }
- 

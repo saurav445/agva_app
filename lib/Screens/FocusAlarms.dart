@@ -60,7 +60,7 @@ class _FocusAlarmsState extends State<FocusAlarms> {
           appBar: AppBar(
             centerTitle: true,
             title: Text(
-              'Focus Devices',
+              'Alarms',
               style: TextStyle(
                 fontFamily: 'Avenir',
                 fontSize: 24,

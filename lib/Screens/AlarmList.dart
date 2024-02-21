@@ -51,7 +51,7 @@ class AlarmListState extends State<AlarmList> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            'Focus Device',
+            'Alarms',
             style: TextStyle(
               fontFamily: 'Avenir',
               fontSize: 24,

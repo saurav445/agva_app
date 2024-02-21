@@ -34,7 +34,6 @@ dependencies:
   provider:
   jwt_decoder:
   shared_preferences:
-  intl_phone_field: ^3.1.0
   font_awesome_flutter:
   
 
@@ -42,16 +41,14 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   socket_io_client: ^2.0.3+1
-  fl_chart: ^0.66.1
-  chart_sparkline: ^1.0.15+1
-  d_chart: ^2.6.7
-  syncfusion_flutter_charts: ^24.2.3+1
   loading_progress: ^1.0.2
   accordion: ^2.6.0
   firebase_core: ^2.25.4
   firebase_messaging: ^14.7.15
   firebase_in_app_messaging: ^0.7.4+13
   flutter_local_notifications: ^16.3.2
+  fl_chart: ^0.66.2
+  firebase_analytics: ^10.8.6
 
 dev_dependencies:
   flutter_test:

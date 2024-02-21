@@ -91,7 +91,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
-import 'package:agva_app/Screens/NotificationScreen.dart';
 import 'package:agva_app/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -109,8 +108,8 @@ Future<void> handleBackgroundMessage(RemoteMessage message) async {
 
 // Function to handle incoming messages
 void handleMessage(RemoteMessage? message) {
-  if (message == null) return; NotificationScreen();
-  navigatorKey.currentState?.pushReplacementNamed("/notification", arguments: message);
+  if (message != null) return; 
+  navigatorKey.currentState?.pushNamed("/notification", arguments: message);
  
 }
 
@@ -160,7 +159,6 @@ Future<void> initPushNotifications() async {
   // Listen for incoming messages
   FirebaseMessaging.onMessage.listen((message) {
     if (message == null) return;
-
     // Show local notification when a message is received
     _localNotifications.show(
       message.hashCode, // Unique ID for the notification

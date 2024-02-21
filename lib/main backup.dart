@@ -7,7 +7,6 @@ import 'package:agva_app/Screens/NotificationScreen.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:flutter/material.dart';
 import 'AuthScreens/SignIn.dart';
-import 'AuthScreens/SignUp.dart';
 import 'AuthScreens/SplashScreen.dart';
 import 'Screens/TermsCondition.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -45,7 +44,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: "/splash",
       routes: {
-        "/signup": (context) => SignUp(),
         "/signin": (context) => SignIn(),
         "/splash": (context) => const SplashScreen(),
         "/home": (context) => HomeScreen({}),

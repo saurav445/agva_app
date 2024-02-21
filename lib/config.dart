@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_declarations
 
 final url = 'http://13.239.2.48:8000';
-// final url = 'http://localhost:5000';
 final registerUser = '$url/api/logger/auth/register';
 final loginUser = '$url/api/logger/auth/login';
 final getDevicesByHospital = '$url/devices/get-devices-by-hospital';
@@ -15,4 +14,5 @@ final getDeviceCalibyID = '$url/api/logger/logs/calibration';
 final getDeviceCrashLogsbyID = '$url/api/logger/logs/deviceLogs';
 final addtofocus = '$url/devices/update-addtofocus';
 final getFocusDevices = '$url/api/logger/logs/Allevents/get-focused-devices';
+final getStatus = '$url/devices/get-addtofocus';
 
