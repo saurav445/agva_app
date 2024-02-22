@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:agva_app/Screens/HomeScreen.dart';
+import 'package:agva_app/Screens/User/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './SignIn.dart';

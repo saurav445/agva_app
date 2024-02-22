@@ -1,19 +1,19 @@
-// ignore_for_file: must_be_immutable
 
-import 'package:agva_app/Screens/DeviceDetails.dart';
-import 'package:agva_app/Service/SocketService.dart';
+// ignore_for_file: prefer_const_constructors, must_be_immutable, library_private_types_in_public_api, curly_braces_in_flow_control_structures
+
 import 'dart:convert';
+import 'package:agva_app/Screens/User/AlarmList.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-class MyDevices extends StatefulWidget {
+class FocusAlarms extends StatefulWidget {
   @override
-  _MyDevicesState createState() => _MyDevicesState();
+  _FocusAlarmsState createState() => _FocusAlarmsState();
 }
 
-class _MyDevicesState extends State<MyDevices> {
+class _FocusAlarmsState extends State<FocusAlarms> {
   List<Map<String, dynamic>> focusedDevices = [];
   bool isLoading = true;
   Color? newColor;
@@ -60,7 +60,7 @@ class _MyDevicesState extends State<MyDevices> {
           appBar: AppBar(
             centerTitle: true,
             title: Text(
-              'My Devices',
+              'Alarms',
               style: TextStyle(
                 fontFamily: 'Avenir',
                 fontSize: 24,
@@ -137,19 +137,17 @@ class DevicelistsPortrait extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: GestureDetector(
-                                             onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DeviceDetails(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AlarmList(
                                 device['deviceInfo']?[0]?['DeviceId'],
-                                SocketServices(),
-                                device['deviceInfo']?[0]?['Ward_No'],
-                                device['deviceInfo']?[0]?['DeviceType'],
-                                device['message']),
-                          ),
-                        );
-                      },
+                                device['deviceInfo']?[0]?['Hospital_Name'],
+                              ),
+                            ),
+                          );
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -337,19 +335,17 @@ class DevicelistsLandscape extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: GestureDetector(
-                                              onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DeviceDetails(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AlarmList(
                                 device['deviceInfo']?[0]?['DeviceId'],
-                                SocketServices(),
-                                device['deviceInfo']?[0]?['Ward_No'],
-                                device['deviceInfo']?[0]?['DeviceType'],
-                                device['message']),
-                          ),
-                        );
-                      },
+                                device['deviceInfo']?[0]?['Hospital_Name'],
+                              ),
+                            ),
+                          );
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -505,7 +501,3 @@ class DevicelistsLandscape extends StatelessWidget {
   }
 }
 
-
-                 
-
-                   

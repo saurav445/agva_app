@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:agva_app/Screens/DeviceDetails.dart';
+import 'package:agva_app/Screens/User/DeviceDetails.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:flutter/material.dart';
 

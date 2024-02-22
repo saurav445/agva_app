@@ -1,12 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable, unused_import, unnecessary_string_interpolations, use_key_in_widget_constructors
 import 'dart:math';
-import 'package:agva_app/Screens/EmptyLiveView.dart';
-import 'package:agva_app/Screens/LoadingScreen.dart';
+import 'package:agva_app/Screens/User/EmptyLiveView.dart';
+import 'package:agva_app/Service/SocketService.dart';
 import 'package:agva_app/widgets/LineChartWidget.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../Service/SocketService.dart';
 
 class LiveView extends StatefulWidget {
   final String deviceId;

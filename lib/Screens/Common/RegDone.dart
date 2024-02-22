@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'package:agva_app/AuthScreens/SignIn.dart';
 import 'package:flutter/material.dart';
-import '../AuthScreens/SignIn.dart';
 
 class RegDone extends StatefulWidget {
   const RegDone();

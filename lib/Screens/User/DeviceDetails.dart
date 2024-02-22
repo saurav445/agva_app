@@ -1,14 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:agva_app/Screens/DeviceAbout.dart';
-import 'package:agva_app/Screens/MonitorData.dart';
+import 'package:agva_app/Screens/User/MonitorData.dart';
+import 'package:agva_app/Screens/User/DeviceAbout.dart';
+import 'package:agva_app/Service/SocketService.dart';
 import 'package:agva_app/config.dart';
+import 'package:agva_app/widgets/TilesforLandscape.dart';
 import 'package:agva_app/widgets/TilesforPortait.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Service/SocketService.dart';
-import '../widgets/TilesforLandscape.dart';
 import 'LiveView.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

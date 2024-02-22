@@ -1,8 +1,9 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable, prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import
-import 'package:agva_app/Screens/DeviceDetails.dart';
-import 'package:agva_app/Screens/HomeScreen.dart';
-import 'package:agva_app/Screens/DeviceList.dart';
-import 'package:agva_app/Screens/NotificationScreen.dart';
+import 'package:agva_app/Screens/Common/TermsCondition.dart';
+import 'package:agva_app/Screens/User/DeviceDetails.dart';
+import 'package:agva_app/Screens/User/DeviceList.dart';
+import 'package:agva_app/Screens/User/HomeScreen.dart';
+import 'package:agva_app/Screens/User/NotificationScreen.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -10,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'AuthScreens/SignIn.dart';
 import 'AuthScreens/SplashScreen.dart';
-import 'Screens/TermsCondition.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 
@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
               android: AndroidNotificationDetails(
                 channel.id,
                 channel.name,
-                color: Colors.red,
+                color: Colors.transparent,
                 icon: "@drawable/ic_launcher",
               ),
             ));
