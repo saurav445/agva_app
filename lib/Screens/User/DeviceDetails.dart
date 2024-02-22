@@ -123,8 +123,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   @override
   void initState() {
     super.initState();
-    // toggleFocus();
-
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         loadingCount = 1;
@@ -594,7 +592,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         ],
                       ),
                       SizedBox(height: 16),
-                      Container(
+                      
+                      Container(  
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: currentStatus

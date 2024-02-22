@@ -39,7 +39,7 @@ void main() async {
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
-    badge: true,
+    badge: false,
     sound: true,
   );
   runApp(MyApp());
@@ -83,14 +83,18 @@ class _MyAppState extends State<MyApp> {
               android: AndroidNotificationDetails(
                 channel.id,
                 channel.name,
-                color: Colors.transparent,
+                channelShowBadge: false,
+                // color: Colors.transparent,
                 icon: "@drawable/ic_launcher",
               ),
             ));
+      //       Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(title: '', body: '',
+      // )));
       }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+ 
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
@@ -108,6 +112,7 @@ class _MyAppState extends State<MyApp> {
             );
           },
         );
+      
       }
     });
 
@@ -136,8 +141,96 @@ class _MyAppState extends State<MyApp> {
             DeviceDetails('', SocketServices(), '', '', ''),
         "/tandc": (context) => TermsCondition(),
         "/devicelist": (context) => DeviceList(),
-        "/notification": (context) => NotificationScreen(),
       },
     );
   }
 }
+
+
+
+// const AndroidNotificationChannel channel = AndroidNotificationChannel(
+//   'high_importance_channel', // id
+//   'High Importance Notifications', // title
+//   importance: Importance.high,
+// );
+
+// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//     FlutterLocalNotificationsPlugin();
+
+// class MyApp extends StatefulWidget {
+//   final FirebaseAnalyticsObserver observer;
+
+//   const MyApp({Key? key, required this.observer}) : super(key: key);
+
+//   @override
+//   State<MyApp> createState() => _MyAppState();
+// }
+
+// class _MyAppState extends State<MyApp> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     var initialzationSettingsAndroid =
+//         AndroidInitializationSettings('@drawable/ic_launcher');
+//     var initializationSettings =
+//         InitializationSettings(android: initialzationSettingsAndroid);
+//     flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+//     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+//       RemoteNotification? notification = message.notification;
+//       AndroidNotification? android = message.notification?.android;
+//       if (notification != null && android != null) {
+//         flutterLocalNotificationsPlugin.show(
+//             notification.hashCode,
+//             notification.title,
+//             notification.body,
+//             NotificationDetails(
+//               android: AndroidNotificationDetails(
+//                 channel.id,
+//                 channel.name,
+//                 importance: Importance.high,
+//                 priority: Priority.high,
+//                 channelShowBadge: false,
+//                 icon: "@drawable/ic_launcher",
+//               ),
+//             ));
+//       }
+//     });
+
+//     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+//       RemoteNotification? notification = message.notification;
+//       AndroidNotification? android = message.notification?.android;
+//       if (notification != null && android != null) {
+//         Navigator.push(
+//           context,
+//           MaterialPageRoute(
+//             builder: (context) => NotificationScreen(
+//               title: notification.title ?? '',
+//               body: notification.body ?? '',
+//             ),
+//           ),
+//         );
+//       }
+//     });
+
+//     getToken();
+//   }
+
+//   late String token;
+//   getToken() async {
+//     token = (await FirebaseMessaging.instance.getToken())!;
+//     print(' FCM Token: $token');
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       navigatorObservers: [widget.observer],
+//       initialRoute: "/splash",
+//       routes: {
+//         "/home": (context) => HomeScreen({}),
+//         "/splash": (context) => SplashScreen(),
+//       },
+//     );
+//   }
+// }
