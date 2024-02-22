@@ -48,33 +48,45 @@ class AlarmListState extends State<AlarmList> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            'Alarms',
-            style: TextStyle(
-              fontFamily: 'Avenir',
-              fontSize: 24,
-              color: Color.fromARGB(255, 255, 255, 255),
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(
+              'Alarms',
+              style: TextStyle(
+                fontFamily: 'Avenir',
+                fontSize: 24,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
             ),
           ),
-        ),
-        body: Column(
-          children: [
-            if (isLoading)
-              SizedBox( height: 1, child: LinearProgressIndicator(color: Colors.pink))
-            else if (jsonResponse['data']['findDeviceById'].isEmpty)
-              buildEmptyContainer()
-            else
-              for (var alarmData in jsonResponse['data']['findDeviceById'])
-                _buildAlarmsList(alarmData),
-          ],
-        ),
+          body: OrientationBuilder(builder: (context, orientation) {
+            if (orientation == Orientation.portrait) {
+              return SingleChildScrollView(child: portraitAlarm());
+            } else {
+              return SingleChildScrollView(child: landscapeAlarm());
+            }
+          })),
+    );
+  }
+
+  Container portraitAlarm() {
+    return Container(
+      child: Column(
+        children: [
+          if (isLoading)
+            SizedBox(
+                height: 1, child: LinearProgressIndicator(color: Colors.pink))
+          else if (jsonResponse['data']['findDeviceById'].isEmpty)
+            buildEmptyContainer()
+          else
+            for (var alarmData in jsonResponse['data']['findDeviceById'])
+              _buildPortraitAlarmsList(alarmData),
+        ],
       ),
     );
   }
 
-  Widget _buildAlarmsList(Map<String, dynamic> alarmData) {
+  Widget _buildPortraitAlarmsList(Map<String, dynamic> alarmData) {
     Color? newColor;
     Color? textColor;
 
@@ -209,8 +221,230 @@ class AlarmListState extends State<AlarmList> {
     );
   }
 
-  Widget buildEmptyContainer2() {
-    return SizedBox(height: 1, child: Center(child: LinearProgressIndicator(color: Colors.pink)));
+  Container landscapeAlarm() {
+    return Container(
+      child: Column(
+        children: [
+          if (isLoading)
+            SizedBox(
+                height: 1, child: LinearProgressIndicator(color: Colors.pink))
+          else if (jsonResponse['data']['findDeviceById'].isEmpty)
+            buildEmptyContainer()
+          else
+            for (var alarmData in jsonResponse['data']['findDeviceById'])
+              _buildLandscapeAlarmsList(alarmData),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLandscapeAlarmsList(Map<String, dynamic> alarmData) {
+    Color? newColor;
+    Color? textColor;
+
+    if (alarmData['priority'] == 'ALARM_LOW_LEVEL') {
+      newColor = Colors.amber;
+      textColor = Colors.black;
+    } else if (alarmData['priority'] == 'ALARM_MEDIUM_LEVEL') {
+      newColor = Colors.amber;
+      textColor = Colors.black;
+    } else {
+      newColor = Colors.red;
+      textColor = Colors.white;
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color.fromARGB(100, 73, 73, 73),
+              ),
+              height: MediaQuery.of(context).size.height * 0.16,
+              width: double.infinity,
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10),
+                      ),
+                      color: newColor),
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  child: Center(
+                    child: Text(
+                      alarmData['ack']['msg'],
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: textColor,
+                        fontSize: MediaQuery.of(context).size.width * 0.015,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.015,
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.16,
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            alarmData['ack']['date'],
+                            style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.01,
+                                fontWeight: FontWeight.w200),
+                          ),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          Text(
+                            alarmData['ack']['time'],
+                            style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.01,
+                                fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            'Ward No. 14',
+                            style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.01,
+                                fontWeight: FontWeight.w200),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            hospital_Name,
+                            style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.01,
+                                fontWeight: FontWeight.w200),
+                          ),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          Text(
+                            'PT. Salim Raza',
+                            style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.01,
+                                fontWeight: FontWeight.w200),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ]),
+              // child: Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     Padding(
+              //       padding: const EdgeInsets.all(15.0),
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               Row(
+              //                 children: [
+              //                   Text(
+              //                     alarmData['ack']['date'],
+              //                     style: TextStyle(
+              //                         fontFamily: 'Avenir',
+              //                         color: Color.fromARGB(255, 218, 218, 218),
+              //                         fontSize:
+              //                             MediaQuery.of(context).size.width *
+              //                                 0.03,
+              //                         fontWeight: FontWeight.w200),
+              //                   ),
+              //                   SizedBox(
+              //                     width: 5,
+              //                   ),
+              //                   Text(
+              //                     alarmData['ack']['time'],
+              //                     style: TextStyle(
+              //                         fontFamily: 'Avenir',
+              //                         color: Color.fromARGB(255, 218, 218, 218),
+              //                         fontSize:
+              //                             MediaQuery.of(context).size.width *
+              //                                 0.03,
+              //                         fontWeight: FontWeight.w200),
+              //                   ),
+              //                 ],
+              //               ),
+              //               Text(
+              //                 hospital_Name,
+              //                 style: TextStyle(
+              //                     fontFamily: 'Avenir',
+              //                     color: Color.fromARGB(255, 218, 218, 218),
+              //                     fontSize:
+              //                         MediaQuery.of(context).size.width * 0.03,
+              //                     fontWeight: FontWeight.w200),
+              //               ),
+              //             ],
+              //           ),
+              //           Column(
+              //             crossAxisAlignment: CrossAxisAlignment.end,
+              //             children: [
+              //               Text(
+              //                 'Ward No. 14',
+              //                 style: TextStyle(
+              //                     fontFamily: 'Avenir',
+              //                     color: Color.fromARGB(255, 218, 218, 218),
+              //                     fontSize:
+              //                         MediaQuery.of(context).size.width * 0.03,
+              //                     fontWeight: FontWeight.w200),
+              //               ),
+              //               Text(
+              //                 'PT. Salim Raza',
+              //                 style: TextStyle(
+              //                     fontFamily: 'Avenir',
+              //                     color: Color.fromARGB(255, 218, 218, 218),
+              //                     fontSize:
+              //                         MediaQuery.of(context).size.width * 0.03,
+              //                     fontWeight: FontWeight.w200),
+              //               ),
+              //             ],
+              //           )
+              //         ],
+              //       ),
+              //     )
+              //   ],
+              // ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget buildEmptyContainer() {

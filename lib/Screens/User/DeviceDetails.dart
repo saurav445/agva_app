@@ -80,10 +80,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         var focusStatus = data['addTofocus'];
         setState(() {
           setFocus = focusStatus;
-                   getFocusStatus();
         });
         print('after set $setFocus');
- 
+        getFocusStatus();
       } else {
         print('Failed to update focus status: ${response.statusCode}');
       }
@@ -592,8 +591,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         ],
                       ),
                       SizedBox(height: 16),
-                      
-                      Container(  
+                      Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: currentStatus

@@ -57,57 +57,271 @@ class _SettingsState extends State<Settings> {
 class SettingsLandscape extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 150),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 10,
+        Container(
+          width: MediaQuery.of(context).size.width * 0.4,
+          child: Column(
+            children: [
+              Text(
+                "AgVa",
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                  fontSize: 40,
+                  color: Color.fromARGB(255, 181, 0, 100),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: GestureDetector(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => (),
-                      //   ),
-                      // );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Color.fromARGB(255, 54, 54, 54),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 11, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              's',
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.02,
-                              ),
-                            ),
-                          ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.05,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => About()),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Color.fromARGB(255, 54, 54, 54),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'About',
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 218, 218, 218),
+                            fontSize: MediaQuery.of(context).size.width * 0.02,
+                          ),
                         ),
-                      ),
+                        Icon(Icons.arrow_forward_ios_outlined),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TermsCondition()),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Color.fromARGB(255, 54, 54, 54),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Terms & Conditions',
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 218, 218, 218),
+                            fontSize: MediaQuery.of(context).size.width * 0.02,
+                          ),
+                        ),
+                        Icon(Icons.arrow_forward_ios_outlined),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Faq()),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Color.fromARGB(255, 54, 54, 54),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'FAQ',
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 218, 218, 218),
+                            fontSize: MediaQuery.of(context).size.width * 0.02,
+                          ),
+                        ),
+                        Icon(Icons.arrow_forward_ios_outlined),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          width: 1,
+          child: Container(
+            color: Color.fromARGB(255, 181, 0, 100),
+          ),
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.4,
+          child: Column(
+            children: [
+              Text(
+                'Customer Support',
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                  color: Color.fromARGB(255, 218, 218, 218),
+                  fontSize: MediaQuery.of(context).size.width * 0.02,
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Address :',
+                        style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200),
+                      ),
+                      Text(
+                        '',
+                        style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Mobile No.',
+                        style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Email :',
+                        style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Support :',
+                        style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'GST No.',
+                        style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        'A-1 Sector 83 Noida,',
+                        style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200),
+                      ),
+                      Text(
+                        'Uttar Pradesh 201301 (IN)',
+                        style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        '+91-73 30 40 50 60',
+                        style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'info@agvahealthcare.com',
+                        style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'support@agvahelthcare.com',
+                        style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        '09ABLFA3988M1ZL',
+                        style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ],
@@ -140,8 +354,7 @@ class SettingsPortrait extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) =>  About()),
+                MaterialPageRoute(builder: (context) => About()),
               );
             },
             child: Container(
@@ -198,7 +411,7 @@ class SettingsPortrait extends StatelessWidget {
                         fontSize: MediaQuery.of(context).size.width * 0.05,
                       ),
                     ),
-                              Icon(Icons.arrow_forward_ios_outlined),
+                    Icon(Icons.arrow_forward_ios_outlined),
                   ],
                 ),
               ),
@@ -233,7 +446,7 @@ class SettingsPortrait extends StatelessWidget {
                         fontSize: MediaQuery.of(context).size.width * 0.05,
                       ),
                     ),
-                              Icon(Icons.arrow_forward_ios_outlined),
+                    Icon(Icons.arrow_forward_ios_outlined),
                   ],
                 ),
               ),

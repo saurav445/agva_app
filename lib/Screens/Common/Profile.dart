@@ -88,7 +88,8 @@ class _ProfileState extends State<Profile> {
               return ProfilePortrait(savedUsername, saveUseremail,
                   savedhospitalName, savedhospitalAddress);
             } else {
-              return ProfileLandscape();
+              return ProfileLandscape(savedUsername, saveUseremail,
+                  savedhospitalName, savedhospitalAddress);
             }
           })),
     );
@@ -96,62 +97,206 @@ class _ProfileState extends State<Profile> {
 }
 
 class ProfileLandscape extends StatelessWidget {
+  String? savedUsername;
+  String? saveUseremail;
+  String? savedhospitalName;
+  String? savedhospitalAddress;
+
+  ProfileLandscape(this.savedUsername, this.saveUseremail,
+      this.savedhospitalName, this.savedhospitalAddress);
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 150),
-          child: SingleChildScrollView(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 40),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.4,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 10,
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.1,
+                  child: Image.asset("assets/images/profile.png"),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: GestureDetector(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => (),
-                      //   ),
-                      // );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Color.fromARGB(255, 54, 54, 54),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 11, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Name :',
+                          style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w200),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Designation :',
+                          style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w200),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Speciality :',
+                          style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w200),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Email :',
+                          style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w200),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Phone No.',
+                          style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w200),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          savedUsername ?? 'N/A',
+                          style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w200),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'N/A',
+                          style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w200),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'N/A',
+                          style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w200),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          saveUseremail ?? 'N/A',
+                          style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w200),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'N/A',
+                          style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w200),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 1,
+            child: Container(
+              color: Color.fromARGB(255, 181, 0, 100),
+            ),
+          ),
+          Column(
+            children: [
+              GestureDetector(
+                // onTap: () {
+                //   Navigator.push(
+                //       context, MaterialPageRoute(builder: (context) => ()));
+                // },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Color.fromARGB(255, 65, 65, 65),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                              's',
+                              savedhospitalName ?? 'Hospital Name',
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 color: Color.fromARGB(255, 218, 218, 218),
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.02,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              savedhospitalAddress ?? 'Hospital Address',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.01,
                               ),
                             ),
                           ],
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.1,
+                            child: Image.asset("assets/images/hospital.png"),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
