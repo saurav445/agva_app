@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, curly_braces_in_flow_control_structures
 
 import 'package:agva_app/Screens/User/MonitorData.dart';
 import 'package:agva_app/Screens/User/DeviceAbout.dart';
@@ -29,6 +29,7 @@ class DeviceDetails extends StatefulWidget {
 
 class _DeviceDetailsState extends State<DeviceDetails> {
   late SocketServices socketService;
+  bool isLoading = false;
   bool setFocus = false;
   bool currentStatus = false;
   double progress = 0.0;
@@ -56,67 +57,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? mytoken = prefs.getString('mytoken');
     return mytoken;
-  }
-
-  void toggleFocus() async {
-    String? token = await getToken();
-    print(widget.deviceId);
-
-    if (token != null) {
-      var response = await http.put(
-        Uri.parse('$addtofocus/${widget.deviceId}'),
-        headers: {
-          "Authorization": 'Bearer $token',
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode({
-          "addTofocus": !setFocus,
-        }),
-      );
-      print('before set $setFocus');
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
-        var data = jsonResponse['data'];
-        var focusStatus = data['addTofocus'];
-        setState(() {
-          setFocus = focusStatus;
-        });
-        print('after set $setFocus');
-        getFocusStatus();
-      } else {
-        print('Failed to update focus status: ${response.statusCode}');
-      }
-    } else {
-      print("Token is null");
-    }
-  }
-
-  void getFocusStatus() async {
-    String? token = await getToken();
-    print(widget.deviceId);
-    if (token != null) {
-      var response = await http.get(
-        Uri.parse('$getStatus/${widget.deviceId}'),
-        headers: {
-          "Authorization": 'Bearer $token',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
-        print(jsonResponse);
-        var data = jsonResponse['data'];
-        var focusStatus = data['addTofocus'];
-        setState(() {
-          currentStatus = focusStatus;
-          print(currentStatus);
-        });
-      } else {
-        print('Failed to get focus status: ${response.statusCode}');
-      }
-    } else {
-      print("Token is null");
-    }
   }
 
   @override
@@ -196,6 +136,74 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       DeviceOrientation.landscapeRight
     ]);
   }
+
+  void toggleFocus() async {
+    setState(() {
+      isLoading = true;
+    });
+    String? token = await getToken();
+    print(widget.deviceId);
+
+    if (token != null) {
+      var response = await http.put(
+        Uri.parse('$addtofocus/${widget.deviceId}'),
+        headers: {
+          "Authorization": 'Bearer $token',
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "addTofocus": !setFocus,
+        }),
+      );
+      print('before set $setFocus');
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        var data = jsonResponse['data'];
+        var focusStatus = data['addTofocus'];
+        setState(() {
+          setFocus = focusStatus;
+   
+        });
+        print('after set $setFocus');
+        getFocusStatus();
+      } else {
+        print('Failed to update focus status: ${response.statusCode}');
+      }
+    } else {
+      print("Token is null");
+    }
+  }
+
+  void getFocusStatus() async {
+    String? token = await getToken();
+    print(widget.deviceId);
+    if (token != null) {
+      var response = await http.get(
+        Uri.parse('$getStatus/${widget.deviceId}'),
+        headers: {
+          "Authorization": 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+        var data = jsonResponse['data'];
+        var focusStatus = data['addTofocus'];
+        setState(() {
+          currentStatus = focusStatus;
+                 isLoading = false;
+          print(currentStatus);
+        });
+        
+      } else {
+        print('Failed to get focus status: ${response.statusCode}');
+      }
+    } else {
+      print("Token is null");
+    }
+  }
+
 
   final int maxLength = 4;
 
@@ -591,41 +599,49 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                         ],
                       ),
                       SizedBox(height: 16),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: currentStatus
-                              ? Color.fromARGB(255, 174, 34, 104)
-                              : Color.fromARGB(255, 82, 82, 82),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.065,
-                            width: 170,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(5),
-                                bottomRight: Radius.circular(5),
-                              ),
-                              color: Color.fromARGB(255, 82, 82, 82),
-                            ),
-                            child: TextButton(
-                              onPressed: toggleFocus,
-                              style: TextButton.styleFrom(),
-                              child: Text(
-                                currentStatus ? "REMOVE FOCUS" : "ADD TO FOCUS",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.045,
-                                  fontWeight: FontWeight.bold,
+                      if (isLoading)
+                        LinearProgressIndicator(
+                          color: Color.fromARGB(255, 174, 34, 104),
+                        )
+                      else
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: currentStatus
+                                ? Color.fromARGB(255, 174, 34, 104)
+                                : Color.fromARGB(255, 82, 82, 82),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.065,
+                              width: 170,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(5),
+                                  bottomRight: Radius.circular(5),
                                 ),
+                                color: Color.fromARGB(255, 82, 82, 82),
                               ),
+                              child: TextButton(
+                                  onPressed: toggleFocus,
+                                  style: TextButton.styleFrom(),
+                                  child: Text(
+                                    currentStatus
+                                        ? "REMOVE FOCUS"
+                                        : "ADD TO FOCUS",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.045,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )),
                             ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),

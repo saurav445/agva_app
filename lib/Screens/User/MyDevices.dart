@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, prefer_const_constructors
 
 import 'package:agva_app/Screens/User/DeviceDetails.dart';
 import 'package:agva_app/Service/SocketService.dart';
@@ -70,10 +70,12 @@ class _MyDevicesState extends State<MyDevices> {
           ),
           body: OrientationBuilder(builder: (context, orientation) {
             if (orientation == Orientation.portrait) {
-              return DevicelistsPortrait(
-                focusedDevices: focusedDevices,
-                isLoading: isLoading,
-                // alarmPriority:,
+              return SingleChildScrollView(
+                child: DevicelistsPortrait(
+                  focusedDevices: focusedDevices,
+                  isLoading: isLoading,
+                  // alarmPriority:,
+                ),
               );
             } else {
               return SingleChildScrollView(
@@ -87,7 +89,6 @@ class _MyDevicesState extends State<MyDevices> {
     );
   }
 }
-
 
 class DevicelistsPortrait extends StatelessWidget {
   late bool isLoading;
@@ -109,21 +110,24 @@ class DevicelistsPortrait extends StatelessWidget {
           SizedBox(
               height: 1, child: LinearProgressIndicator(color: Colors.pink))
         else
-   for (var device in focusedDevices)
-    Builder(builder: (context) {
-      if (device['alarmData'] != null && device['alarmData'].isNotEmpty) {
-        var priority = device['alarmData'][0]['priority'];
-        if (priority == 'ALARM_LOW_LEVEL' || priority == 'ALARM_MEDIUM_LEVEL') {
-          newColor = Colors.amber;
-        } else if (priority == 'ALARM_HIGH_LEVEL' || priority == 'ALARM_CRITICAL_LEVEL') {
-          newColor = Colors.red;
-        } else {
-          newColor = Colors.green;
-        }
-      } else {
-        // Handle the case when alarmData is null or empty
-        newColor = Colors.green; // Or any default color
-      }
+          for (var device in focusedDevices)
+            Builder(builder: (context) {
+              if (device['alarmData'] != null &&
+                  device['alarmData'].isNotEmpty) {
+                var priority = device['alarmData'][0]['priority'];
+                if (priority == 'ALARM_LOW_LEVEL' ||
+                    priority == 'ALARM_MEDIUM_LEVEL') {
+                  newColor = Colors.amber;
+                } else if (priority == 'ALARM_HIGH_LEVEL' ||
+                    priority == 'ALARM_CRITICAL_LEVEL') {
+                  newColor = Colors.red;
+                } else {
+                  newColor = Colors.green;
+                }
+              } else {
+                // Handle the case when alarmData is null or empty
+                newColor = Colors.green; // Or any default color
+              }
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
@@ -133,23 +137,22 @@ class DevicelistsPortrait extends StatelessWidget {
                     SizedBox(
                       height: 5,
                     ),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: GestureDetector(
-                                             onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DeviceDetails(
-                                device['deviceInfo']?[0]?['DeviceId'],
-                                SocketServices(),
-                                device['deviceInfo']?[0]?['Ward_No'],
-                                device['deviceInfo']?[0]?['DeviceType'],
-                                device['message']),
-                          ),
-                        );
-                      },
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DeviceDetails(
+                                  device['deviceInfo']?[0]?['DeviceId'],
+                                  SocketServices(),
+                                  device['deviceInfo']?[0]?['Ward_No'],
+                                  device['deviceInfo']?[0]?['DeviceType'],
+                                  device['message']),
+                            ),
+                          );
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -305,7 +308,6 @@ class DevicelistsPortrait extends StatelessWidget {
   }
 }
 
-
 class DevicelistsLandscape extends StatelessWidget {
   late bool isLoading;
 
@@ -337,19 +339,19 @@ class DevicelistsLandscape extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: GestureDetector(
-                                              onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DeviceDetails(
-                                device['deviceInfo']?[0]?['DeviceId'],
-                                SocketServices(),
-                                device['deviceInfo']?[0]?['Ward_No'],
-                                device['deviceInfo']?[0]?['DeviceType'],
-                                device['message']),
-                          ),
-                        );
-                      },
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DeviceDetails(
+                                  device['deviceInfo']?[0]?['DeviceId'],
+                                  SocketServices(),
+                                  device['deviceInfo']?[0]?['Ward_No'],
+                                  device['deviceInfo']?[0]?['DeviceType'],
+                                  device['message']),
+                            ),
+                          );
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -504,8 +506,3 @@ class DevicelistsLandscape extends StatelessWidget {
     );
   }
 }
-
-
-                 
-
-                   

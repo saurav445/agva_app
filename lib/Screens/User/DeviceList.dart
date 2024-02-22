@@ -24,7 +24,6 @@ class _DeviceListState extends State<DeviceList> {
     super.initState();
     initSharedPref();
     fetchGetDevicesForUser();
-    print('hellow');
     gethospital().then((hospitalName) {
       setState(() {
         savedHospitalName = hospitalName;
@@ -461,8 +460,8 @@ class _DeviceListState extends State<DeviceList> {
                 style: TextStyle(
                   fontFamily: 'Avenir',
                   color: Color.fromARGB(255, 218, 218, 218),
-                  fontSize: MediaQuery.of(context).size.width * 0.08,
-                  fontWeight: FontWeight.bold,
+                  fontSize: MediaQuery.of(context).size.width * 0.06,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
@@ -475,6 +474,7 @@ class _DeviceListState extends State<DeviceList> {
                   fontFamily: 'Avenir',
                   color: Color.fromARGB(255, 218, 218, 218),
                   fontSize: MediaQuery.of(context).size.width * 0.04,
+                  fontWeight: FontWeight.w300
                 ),
               ),
             ),
