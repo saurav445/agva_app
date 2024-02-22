@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
               android: AndroidNotificationDetails(
                 channel.id,
                 channel.name,
-                color: Colors.blue,
+                color: Colors.red,
                 icon: "@drawable/ic_launcher",
               ),
             ));

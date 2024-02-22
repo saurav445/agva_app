@@ -80,8 +80,10 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         var focusStatus = data['addTofocus'];
         setState(() {
           setFocus = focusStatus;
+                   getFocusStatus();
         });
         print('after set $setFocus');
+ 
       } else {
         print('Failed to update focus status: ${response.statusCode}');
       }
