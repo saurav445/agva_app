@@ -8,6 +8,7 @@ import 'package:agva_app/widgets/TilesforLandscape.dart';
 import 'package:agva_app/widgets/TilesforPortait.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'LiveView.dart';
 import 'package:http/http.dart' as http;
@@ -162,7 +163,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         var focusStatus = data['addTofocus'];
         setState(() {
           setFocus = focusStatus;
-   
         });
         print('after set $setFocus');
         getFocusStatus();
@@ -192,10 +192,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         var focusStatus = data['addTofocus'];
         setState(() {
           currentStatus = focusStatus;
-                 isLoading = false;
+          isLoading = false;
           print(currentStatus);
         });
-        
       } else {
         print('Failed to get focus status: ${response.statusCode}');
       }
@@ -203,7 +202,6 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       print("Token is null");
     }
   }
-
 
   final int maxLength = 4;
 
@@ -220,6 +218,22 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       child: Scaffold(
           backgroundColor: Colors.black,
           appBar: AppBar(
+            actions: <Widget>[
+              IconButton(
+                icon: FaIcon(
+                  FontAwesomeIcons.userNurse,
+                  size: 20,
+                ),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: FaIcon(
+                  FontAwesomeIcons.userPlus,
+                  size: 20,
+                ),
+                onPressed: () {},
+              )
+            ],
             backgroundColor: Colors.black,
             centerTitle: true,
             title: Text(
@@ -227,7 +241,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
               style: TextStyle(
                 fontFamily: 'Avenir',
                 fontSize: 24,
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: Colors.white,
               ),
             ),
           ),

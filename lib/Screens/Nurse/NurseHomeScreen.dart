@@ -18,6 +18,7 @@ import '../Common/Settings.dart';
 
 class NurseHomeScreen extends StatefulWidget {
   final Map<String, dynamic> data;
+  
   NurseHomeScreen(this.data);
 
   @override
@@ -156,7 +157,6 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          // Hospitals(hospitalName: hospitalName),
                           DeviceList(),
                     ),
                   );

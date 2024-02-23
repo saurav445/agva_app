@@ -1,10 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, library_private_types_in_public_api, use_key_in_widget_constructors
-import 'dart:convert';
-import 'package:agva_app/Screens/User/DeviceDetails.dart';
-import 'package:agva_app/Service/SocketService.dart';
-import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AssignedDevices extends StatefulWidget {
