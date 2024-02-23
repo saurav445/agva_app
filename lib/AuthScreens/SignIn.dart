@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'dart:convert';
-import 'package:agva_app/Screens/User/HomeScreen.dart';
+import 'package:agva_app/Screens/Nurse/NurseHomeScreen.dart';
+import 'package:agva_app/Screens/User/UserHomeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -52,23 +53,38 @@ class _SignInState extends State<SignIn> {
           var token = data['token'];
           var hospitalName = data['hospitalName'];
           var hospitalAddress = data['hospitalAddress'];
+          var usertype = data['userType'];
 
           saveUsername(name);
           saveUseremail(email);
           saveToken(token);
           saveHospital(hospitalName);
           saveHospitalAddress(hospitalAddress);
+          saveusertype(usertype);
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomeScreen({
-                'hospitalName': hospitalName,
-                'name': name,
-                'hospitalAddress': hospitalAddress
-              }),
-            ),
-          );
+          if (usertype == 'User') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UserHomeScreen({
+                  'hospitalName': hospitalName,
+                  'name': name,
+                  'hospitalAddress': hospitalAddress
+                }),
+              ),
+            );
+          } else if (usertype == 'Nurse') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NurseHomeScreen({
+                  'hospitalName': hospitalName,
+                  'name': name,
+                  'hospitalAddress': hospitalAddress
+                }),
+              ),
+            );
+          }
         } else {
           print('Invalid User Credential: ${response.statusCode}');
         }
@@ -107,6 +123,12 @@ class _SignInState extends State<SignIn> {
     print('Saved hospital address: $hospitalAddress');
   }
 
+  Future<void> saveusertype(String usertype) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('usertype', usertype);
+    print('Saved usertype: $usertype');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -134,7 +156,6 @@ class _SignInState extends State<SignIn> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: TextFormField(
-                    
                         controller: emailController,
                         //     validator: (value) {
                         //   if (value == null || value.isEmpty) {

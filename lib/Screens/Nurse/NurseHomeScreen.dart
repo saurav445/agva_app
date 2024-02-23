@@ -2,6 +2,8 @@
 
 import 'package:agva_app/AuthScreens/SignIn.dart';
 import 'package:agva_app/Screens/Common/Profile.dart';
+import 'package:agva_app/Screens/Nurse/AddPatientData.dart';
+import 'package:agva_app/Screens/Nurse/AssignedDevices.dart';
 import 'package:agva_app/Screens/User/DeviceList.dart';
 import 'package:agva_app/Screens/User/FocusAlarms.dart';
 import 'package:agva_app/Screens/User/Hospitals.dart';
@@ -14,15 +16,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Common/Settings.dart';
 
-class HomeScreen extends StatefulWidget {
+class NurseHomeScreen extends StatefulWidget {
   final Map<String, dynamic> data;
-  HomeScreen(this.data);
+  NurseHomeScreen(this.data);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _NurseHomeScreenState createState() => _NurseHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _NurseHomeScreenState extends State<NurseHomeScreen> {
   String? savedUsername;
   late SharedPreferences prefs;
 
@@ -483,7 +485,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Welcome Back!',
+                    'Welcome Nurse',
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       color: Color.fromARGB(255, 172, 172, 172),
@@ -510,7 +512,81 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyDevices(),
+                      builder: (context) => AddPatientData(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: [
+                        Color.fromARGB(255, 92, 74, 251),
+                        Color.fromARGB(255, 30, 30, 30),
+                      ],
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30, right: 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'ADD DATA',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.01,
+                            ),
+                            Text(
+                              'Add Patient Data',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 22),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            child: Image.asset("assets/images/nurse.png"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.015,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AssignedDevices(),
                     ),
                   );
                 },
@@ -535,18 +611,42 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'MY DEVICES',
-                          style: TextStyle(
-                            fontFamily: 'Avenir',
-                            color: Color.fromARGB(255, 218, 218, 218),
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'MY DEVICES',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.01,
+                            ),
+                            Text(
+                              'View Assign Devices',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
                         ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.15,
-                          child: Image.asset("assets/images/mydevices.png"),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            child: Image.asset("assets/images/deviceimage.png"),
+                          ),
                         ),
                       ],
                     ),
@@ -586,14 +686,34 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'ALARMS',
-                          style: TextStyle(
-                            fontFamily: 'Avenir',
-                            color: Color.fromARGB(255, 218, 218, 218),
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'ALARMS',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.01,
+                            ),
+                            Text(
+                              'Alert for Assigned Devices',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.4,
@@ -601,121 +721,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.015,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Hospitals(),
-                    ),
-                  );
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                      colors: [
-                        Color.fromARGB(255, 225, 92, 156),
-                        Color.fromARGB(255, 238, 44, 76),
-                      ],
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'ALL DEVICES',
-                          style: TextStyle(
-                            fontFamily: 'Avenir',
-                            color: Color.fromARGB(255, 218, 218, 218),
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 30),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.15,
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: Image.asset("assets/images/deviceimage.png"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.015,
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.15,
-                width: MediaQuery.of(context).size.width * 0.9,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.topRight,
-                    colors: [
-                      Color.fromARGB(255, 92, 74, 251),
-                      Color.fromARGB(255, 30, 30, 30),
-                    ],
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 30),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'AI',
-                            style: TextStyle(
-                              fontFamily: 'Avenir',
-                              color: Color.fromARGB(255, 218, 218, 218),
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.05,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            'COMING SOON..',
-                            style: TextStyle(
-                              fontFamily: 'Avenir',
-                              color: Color.fromARGB(255, 218, 218, 218),
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.025,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, top: 0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          child: Image.asset("assets/images/aiimage.png"),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ),

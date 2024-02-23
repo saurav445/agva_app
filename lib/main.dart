@@ -2,7 +2,7 @@
 import 'package:agva_app/Screens/Common/TermsCondition.dart';
 import 'package:agva_app/Screens/User/DeviceDetails.dart';
 import 'package:agva_app/Screens/User/DeviceList.dart';
-import 'package:agva_app/Screens/User/HomeScreen.dart';
+import 'package:agva_app/Screens/User/UserHomeScreen.dart';
 import 'package:agva_app/Screens/User/NotificationScreen.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -25,7 +25,7 @@ void main() async {
           messagingSenderId: '679007550491',
           projectId: 'agvaapp',
           storageBucket: 'agvaapp.appspot.com'));
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   FirebaseAnalytics.instance.logEvent(name: 'mycustomevent');
   Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     print('Handling a background message ${message.messageId}');
@@ -136,7 +136,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         "/signin": (context) => SignIn(),
         "/splash": (context) => const SplashScreen(),
-        "/home": (context) => HomeScreen({}),
+        "/home": (context) => UserHomeScreen({}),
         "/devicedetails": (context) =>
             DeviceDetails('', SocketServices(), '', '', ''),
         "/tandc": (context) => TermsCondition(),
