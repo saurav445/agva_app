@@ -92,6 +92,7 @@ class _DeviceListState extends State<DeviceList> {
   List<Widget> buildDeviceList() {
     return devicesForUserList.map((data) {
       Map? deviceInfo = (data['deviceInfo'] as List?)?.first;
+      
       Color? alarmColor;
       if (data['alarmData']?.isNotEmpty ?? false) {
         String priority = data['alarmData'][0]['priority'];

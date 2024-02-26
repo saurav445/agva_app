@@ -54,6 +54,7 @@ class _SignInState extends State<SignIn> {
           var hospitalName = data['hospitalName'];
           var hospitalAddress = data['hospitalAddress'];
           var usertype = data['userType'];
+          var userID = data['_id'];
 
           saveUsername(name);
           saveUseremail(email);
@@ -61,6 +62,7 @@ class _SignInState extends State<SignIn> {
           saveHospital(hospitalName);
           saveHospitalAddress(hospitalAddress);
           saveusertype(usertype);
+          saveuserID(userID);
 
           if (usertype == 'User') {
             Navigator.push(
@@ -111,6 +113,11 @@ class _SignInState extends State<SignIn> {
     prefs.setString('mytoken', mytoken);
   }
 
+  Future<void> saveuserID(String userID) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userID', userID);
+  }
+
   Future<void> saveHospital(String hospitalName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('hospitalName', hospitalName);
@@ -133,7 +140,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-     backgroundColor: Colors.black,
+        backgroundColor: Colors.black,
         body: SingleChildScrollView(
           child: Stack(
             alignment: Alignment.center,

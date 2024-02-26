@@ -8,7 +8,6 @@ import 'package:agva_app/widgets/TilesforLandscape.dart';
 import 'package:agva_app/widgets/TilesforPortait.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'LiveView.dart';
 import 'package:http/http.dart' as http;
@@ -219,20 +218,20 @@ class _DeviceDetailsState extends State<DeviceDetails> {
           backgroundColor: Colors.black,
           appBar: AppBar(
             actions: <Widget>[
-              IconButton(
-                icon: FaIcon(
-                  FontAwesomeIcons.userNurse,
-                  size: 20,
-                ),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: FaIcon(
-                  FontAwesomeIcons.userPlus,
-                  size: 20,
-                ),
-                onPressed: () {},
-              )
+              // IconButton(
+              //   icon: FaIcon(
+              //     FontAwesomeIcons.userNurse,
+              //     size: 20,
+              //   ),
+              //   onPressed: () {},
+              // ),
+              // IconButton(
+              //   icon: FaIcon(
+              //     FontAwesomeIcons.userPlus,
+              //     size: 20,
+              //   ),
+              //   onPressed: () {},
+              // )
             ],
             backgroundColor: Colors.black,
             centerTitle: true,
@@ -545,17 +544,18 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                             );
                                           } else {
                                             final snackBar = SnackBar(
-                                              content: Center(
-                                                child: const Text(
-                                                  "Device in StandBy",
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
+                                              backgroundColor:
+                                                  const Color.fromARGB(
+                                                      255, 65, 65, 65),
+                                              content: Text(
+                                                "Device in Standby",
+                                                style: TextStyle(
+                                                    color: Colors.white),
                                               ),
                                               action: SnackBarAction(
-                                                label: '',
+                                                textColor: Colors.black,
+                                                backgroundColor: Colors.white,
+                                                label: 'OK',
                                                 onPressed: () {},
                                               ),
                                             );
@@ -595,7 +595,24 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                 color: Color.fromARGB(255, 82, 82, 82),
                               ),
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  final snackBar = SnackBar(
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 65, 65, 65),
+                                    content: Text(
+                                      "Currently Unavailable",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    action: SnackBarAction(
+                                      textColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      label: 'OK',
+                                      onPressed: () {},
+                                    ),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                },
                                 style: TextButton.styleFrom(),
                                 child: Text(
                                   "SUPPORT",
@@ -614,8 +631,11 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                       ),
                       SizedBox(height: 16),
                       if (isLoading)
-                        LinearProgressIndicator(
-                          color: Color.fromARGB(255, 174, 34, 104),
+                        SizedBox(
+                          height: 0.5,
+                          child: LinearProgressIndicator(
+                            color: Color.fromARGB(255, 174, 34, 104),
+                          ),
                         )
                       else
                         Container(

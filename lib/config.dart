@@ -15,4 +15,5 @@ final getDeviceCrashLogsbyID = '$url/api/logger/logs/deviceLogs';
 final addtofocus = '$url/devices/update-addtofocus';
 final getFocusDevices = '$url/api/logger/logs/Allevents/get-focused-devices';
 final getStatus = '$url/devices/get-addtofocus';
+final getProfile = '$url/api/logger/users';
 

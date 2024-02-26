@@ -101,7 +101,7 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
         ),
         body: OrientationBuilder(builder: (context, orientation) {
           if (orientation == Orientation.portrait) {
-            return _buildPortraitLayout(context);
+            return SingleChildScrollView(child: _buildPortraitLayout(context));
           } else {
             return _buildLandscapeLayout(context);
           }
