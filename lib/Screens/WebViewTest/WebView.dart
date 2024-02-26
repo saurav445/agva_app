@@ -9,29 +9,26 @@ class WebView extends StatefulWidget {
 }
 
 class _WebViewState extends State<WebView> {
-  bool isLoading =  false;
+  bool isLoading = false;
 
-
-WebViewController controller = WebViewController()
-  ..setJavaScriptMode(JavaScriptMode.unrestricted)
-  ..setBackgroundColor(const Color(0x00000000))
-  ..setNavigationDelegate(
-    NavigationDelegate(
-      onProgress: (int progress) {
-      },
-      onPageStarted: (String url) {},
-      onPageFinished: (String url) {},
-      onWebResourceError: (WebResourceError error) {},
-      onNavigationRequest: (NavigationRequest request) {
-        // if (request.url.startsWith('https://www.youtube.com/')) {
-        //   return NavigationDecision.prevent;
-        // }
-        return NavigationDecision.navigate;
-      },
-    ),
-  )
-  ..loadRequest(Uri.parse('https://www.youtube.com/'));
-
+  WebViewController controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..setBackgroundColor(Colors.black)
+    ..setNavigationDelegate(
+      NavigationDelegate(
+        onProgress: (int progress) {},
+        onPageStarted: (String url) {},
+        onPageFinished: (String url) {},
+        onWebResourceError: (WebResourceError error) {},
+        onNavigationRequest: (NavigationRequest request) {
+          // if (request.url.startsWith('https://www.youtube.com/')) {
+          //   return NavigationDecision.prevent;
+          // }
+          return NavigationDecision.navigate;
+        },
+      ),
+    )
+    ..loadRequest(Uri.parse('https://www.youtube.com/'));
 
 // SizedBox(
 //           height:1,  child: LinearProgressIndicator());

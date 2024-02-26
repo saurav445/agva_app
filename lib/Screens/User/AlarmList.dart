@@ -48,7 +48,9 @@ class AlarmListState extends State<AlarmList> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+          backgroundColor: Colors.black,
           appBar: AppBar(
+            backgroundColor: Colors.black,
             centerTitle: true,
             title: Text(
               'Alarms',
@@ -227,7 +229,7 @@ class AlarmListState extends State<AlarmList> {
         children: [
           if (isLoading)
             SizedBox(
-                height: 1, child: LinearProgressIndicator(color: Colors.pink))
+                height: 0.5, child: LinearProgressIndicator(color: Colors.pink))
           else if (jsonResponse['data']['findDeviceById'].isEmpty)
             buildEmptyContainer()
           else

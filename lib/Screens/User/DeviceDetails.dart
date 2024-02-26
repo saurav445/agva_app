@@ -672,7 +672,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
         if (loadingCount == 0)
           Column(
             children: const [
-              LinearProgressIndicator(color: Colors.pink),
+              SizedBox(
+                  height: 0.5,
+                  child: LinearProgressIndicator(color: Colors.pink)),
               SizedBox(
                 height: 20,
               ),

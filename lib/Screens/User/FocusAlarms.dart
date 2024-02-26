@@ -57,7 +57,9 @@ class _FocusAlarmsState extends State<FocusAlarms> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+             backgroundColor: Colors.black,
           appBar: AppBar(
+                 backgroundColor: Colors.black,
             centerTitle: true,
             title: Text(
               'Alarms',
@@ -319,7 +321,7 @@ class DevicelistsLandscape extends StatelessWidget {
       children: [
         if (isLoading)
           SizedBox(
-              height: 1, child: LinearProgressIndicator(color: Colors.pink))
+              height: 0.5, child: LinearProgressIndicator(color: Colors.pink))
         else
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 150),

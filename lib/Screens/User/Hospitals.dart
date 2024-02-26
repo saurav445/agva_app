@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'DeviceList.dart';
 
 class Hospitals extends StatefulWidget {
-
   Hospitals();
 
   @override
@@ -13,20 +12,20 @@ class Hospitals extends StatefulWidget {
 }
 
 class _HospitalsState extends State<Hospitals> {
-   String? savedhospitalName;
-   String? savedhospitalAddress;
-     late SharedPreferences prefs;
+  String? savedhospitalName;
+  String? savedhospitalAddress;
+  late SharedPreferences prefs;
   bool isExpanded = false;
 
   @override
   void initState() {
     super.initState();
-  getHospital().then((hospitalName) {
+    getHospital().then((hospitalName) {
       setState(() {
         savedhospitalName = hospitalName;
       });
     });
-     getHospitalAddress().then((hospitalAddress) {
+    getHospitalAddress().then((hospitalAddress) {
       setState(() {
         savedhospitalAddress = hospitalAddress;
       });
@@ -40,7 +39,7 @@ class _HospitalsState extends State<Hospitals> {
     return hospitalName;
   }
 
-    Future<String?> getHospitalAddress() async {
+  Future<String?> getHospitalAddress() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? hospitalAddress = prefs.getString('hospitalAddress');
     print('Retrieved Username: $hospitalAddress');
@@ -49,7 +48,7 @@ class _HospitalsState extends State<Hospitals> {
 
   List<String> projectsForHospital = [
     'AgVa PRO',
-    'Suction',
+    'Emergency',
   ];
 
   @override
@@ -127,7 +126,7 @@ class _HospitalsState extends State<Hospitals> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                      savedhospitalName ?? 'Hospital Name',
+                                    savedhospitalName ?? 'Hospital Name',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),
@@ -142,7 +141,7 @@ class _HospitalsState extends State<Hospitals> {
                                         0.05,
                                   ),
                                   Text(
-                                          savedhospitalName ?? 'Hospital Address',
+                                    savedhospitalName ?? 'Hospital Address',
                                     style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),
@@ -183,7 +182,7 @@ class _HospitalsState extends State<Hospitals> {
                           },
                           child: Container(
                             height: MediaQuery.of(context).size.height * 0.2,
-                             width: MediaQuery.of(context).size.width * 0.55,
+                            width: MediaQuery.of(context).size.width * 0.55,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
                               color: Color.fromARGB(255, 90, 90, 90),
@@ -292,7 +291,7 @@ class _HospitalsState extends State<Hospitals> {
                                     MediaQuery.of(context).size.height * 0.05,
                               ),
                               Text(
-                                  savedhospitalAddress ?? 'Hospital Address',
+                                savedhospitalAddress ?? 'Hospital Address',
                                 style: TextStyle(
                                   fontFamily: 'Avenir',
                                   color: Color.fromARGB(255, 218, 218, 218),
@@ -324,12 +323,30 @@ class _HospitalsState extends State<Hospitals> {
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DeviceList(),
-                          ),
-                        );
+                        if (project == 'AgVa PRO') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DeviceList(),
+                            ),
+                          );
+                        } else {
+                          final snackBar = SnackBar(
+                            backgroundColor:
+                                const Color.fromARGB(255, 65, 65, 65),
+                            content: Text(
+                              "Not Available",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            action: SnackBarAction(
+                              textColor: Colors.black,
+                              backgroundColor: Colors.white,
+                              label: 'OK',
+                              onPressed: () {},
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
                       },
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.1,
@@ -380,8 +397,8 @@ class _HospitalsState extends State<Hospitals> {
     switch (project) {
       case 'AgVa PRO':
         return "assets/images/deviceimage.png";
-      case 'Suction':
-        return "assets/images/suctionimage.png";
+      case 'Emergency':
+        return "assets/images/deviceimage.png";
       default:
         return "assets/images/inactive.png";
     }

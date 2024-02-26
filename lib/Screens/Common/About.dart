@@ -16,7 +16,9 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+             backgroundColor: Colors.black,
         appBar: AppBar(
+               backgroundColor: Colors.black,
           centerTitle: true,
           title: Text(
             'About',
@@ -43,56 +45,17 @@ class AboutLandscape extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 150),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: GestureDetector(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => (),
-                      //   ),
-                      // );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Color.fromARGB(255, 54, 54, 54),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 11, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              's',
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.02,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          'Work in Progress',
+          style: TextStyle(
+            fontFamily: 'Avenir',
+            color: Color.fromARGB(255, 218, 218, 218),
+            fontSize: MediaQuery.of(context).size.width * 0.02,
           ),
         ),
       ],

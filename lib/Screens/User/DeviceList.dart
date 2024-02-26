@@ -540,7 +540,7 @@ class _DeviceListState extends State<DeviceList> {
             // Devices List
             if (isLoading)
               SizedBox(
-                  height: 1,
+                  height: 0.5,
                   child: Center(
                       child: LinearProgressIndicator(color: Colors.pink)))
             else

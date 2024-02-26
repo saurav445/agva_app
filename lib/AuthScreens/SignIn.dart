@@ -133,7 +133,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+     backgroundColor: Colors.black,
         body: SingleChildScrollView(
           child: Stack(
             alignment: Alignment.center,
@@ -293,7 +293,6 @@ class _SignInState extends State<SignIn> {
                     //     ),
                     //   ),
                     // ),
-                    SizedBox(height: 120),
                   ],
                 ),
               ),

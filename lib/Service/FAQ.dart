@@ -11,7 +11,9 @@ class Faq extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+                backgroundColor: Colors.transparent,
       appBar: AppBar(
+                  backgroundColor: Colors.transparent,
         centerTitle: true,
         title: Text(
           'Frequently Asked Questions',

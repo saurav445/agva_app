@@ -92,7 +92,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         ),
         body: OrientationBuilder(builder: (context, orientation) {
           if (orientation == Orientation.portrait) {
-            return _buildPortraitLayout(context);
+            return SingleChildScrollView(child: _buildPortraitLayout(context));
           } else {
             return _buildLandscapeLayout(context);
           }
@@ -216,7 +216,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Welcome Back!',
+                      'Welcome,',
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         color: Color.fromARGB(255, 172, 172, 172),
@@ -481,28 +481,23 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Welcome Back!',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 172, 172, 172),
-                      fontSize: MediaQuery.of(context).size.width * 0.04,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    savedUsername ?? 'Default User Name',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: MediaQuery.of(context).size.width * 0.05,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+              Text(
+                'Welcome,',
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                  color: Color.fromARGB(255, 172, 172, 172),
+                  fontSize: MediaQuery.of(context).size.width * 0.04,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                savedUsername ?? 'Default User Name',
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,

@@ -72,7 +72,9 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+               backgroundColor: Colors.black,
           appBar: AppBar(
+                 backgroundColor: Colors.black,
             centerTitle: true,
             title: Text(
               'Profile',
