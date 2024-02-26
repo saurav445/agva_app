@@ -32,6 +32,7 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
   @override
   void initState() {
     super.initState();
+    getsavedToken();
     getUsername().then((name) {
       setState(() {
         savedUsername = name;
@@ -56,6 +57,13 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
       DeviceOrientation.portraitDown,
     ]);
     super.dispose();
+  }
+
+    Future<String?> getsavedToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? mytoken = prefs.getString('mytoken');
+    print('Retrieved savedToken: $mytoken');
+    return mytoken;
   }
 
   Future<String?> getUsername() async {

@@ -8,9 +8,11 @@ import 'package:agva_app/Screens/User/Hospitals.dart';
 import 'package:agva_app/Screens/User/MyDevices.dart';
 import 'package:agva_app/Screens/User/NotificationScreen.dart';
 import 'package:agva_app/Screens/User/blank.dart';
+import 'package:agva_app/Screens/WebViewTest/WebView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../Common/Settings.dart';
 
@@ -662,60 +664,70 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.015,
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.15,
-                width: MediaQuery.of(context).size.width * 0.9,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.topRight,
-                    colors: [
-                      Color.fromARGB(255, 92, 74, 251),
-                      Color.fromARGB(255, 30, 30, 30),
-                    ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WebView(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: [
+                        Color.fromARGB(255, 92, 74, 251),
+                        Color.fromARGB(255, 30, 30, 30),
+                      ],
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 30),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'AI',
-                            style: TextStyle(
-                              fontFamily: 'Avenir',
-                              color: Color.fromARGB(255, 218, 218, 218),
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.05,
-                              fontWeight: FontWeight.bold,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'AI',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Text(
-                            'COMING SOON..',
-                            style: TextStyle(
-                              fontFamily: 'Avenir',
-                              color: Color.fromARGB(255, 218, 218, 218),
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.025,
+                            Text(
+                              'COMING SOON..',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.025,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, top: 0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          child: Image.asset("assets/images/aiimage.png"),
+                          ],
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, top: 0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: Image.asset("assets/images/aiimage.png"),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
