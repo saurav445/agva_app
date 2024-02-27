@@ -209,7 +209,7 @@ class _SignUpState extends State<SignUp> {
                       color: Colors.grey.withOpacity(0.3),
                       spreadRadius: 3,
                       blurRadius: 20,
-                      offset: Offset(0, 3), 
+                      offset: Offset(0, 3),
                     ),
                   ],
                   color: Colors.white,
@@ -418,7 +418,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                       ),
-                      if (rolesSelection == 'Assistant')
+                      if (rolesSelection == 'Assistant' || rolesSelection == 'User')
                         Padding(
                           padding: const EdgeInsets.only(
                               right: 30, left: 30, top: 30),
@@ -609,43 +609,30 @@ class _SignUpState extends State<SignUp> {
                       SizedBox(
                         height: 40,
                       ),
-                      Row(
-                        children: [
-                          FaIcon(
-                            isPhoneNumberVerified
-                                ? FontAwesomeIcons.check
-                                : FontAwesomeIcons.phone,
-                            color: isPhoneNumberVerified
-                                ? Colors.green
-                                : Colors.grey,
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 30),
-                              child: IntlPhoneField(
-                                controller: contactNumberController,
-                                initialCountryCode: 'IN',
-                                style: TextStyle(color: Colors.white70),
-                                decoration: InputDecoration(
-                                  hintText: 'Contact Number',
-                                  errorText: _isNotValidate
-                                      ? "Enter Proper Info"
-                                      : null,
-                                  hintStyle: TextStyle(color: Colors.white70),
-                                ),
-                                onChanged: (phone) {
-                                  setState(() {
-                                    isPhoneNumberFilled =
-                                        phone.number.isNotEmpty;
-                                  });
-                                },
-                              ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 30, left: 30),
+                        child: IntlPhoneField(
+                          controller: contactNumberController,
+                          initialCountryCode: 'IN',
+                          style: TextStyle(color: Colors.white70),
+                          decoration: InputDecoration(
+                            icon: Icon(
+                              Icons.phone,
+                              color: Colors.white70,
                             ),
+                            hintText: 'Contact Number',
+                            errorText:
+                                _isNotValidate ? "Enter Proper Info" : null,
+                            hintStyle: TextStyle(color: Colors.white70),
                           ),
-                        ],
+                          onChanged: (phone) {
+                            setState(() {
+                              isPhoneNumberFilled = phone.number.isNotEmpty;
+                            });
+                          },
+                        ),
                       ),
-                      if (isPhoneNumberFilled)
+                      if (isPhoneNumberFilled && !isPhoneNumberVerified)
                         Padding(
                           padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
                           child: Container(
@@ -682,6 +669,11 @@ class _SignUpState extends State<SignUp> {
                               ),
                             ),
                           ),
+                        ),
+                      if (isPhoneNumberVerified)
+                        Text(
+                          "Verified",
+                          style: TextStyle(color: Colors.green),
                         ),
                       SizedBox(
                         height: 30,
