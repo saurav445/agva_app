@@ -49,6 +49,7 @@ class _SignInState extends State<SignIn> {
         if (jsonResponse['statusValue'] == 'SUCCESS') {
           print(jsonResponse);
           var data = jsonResponse['data'];
+          
           var name = data['name'];
           var email = data['email'];
           var token = data['token'];

@@ -16,4 +16,8 @@ final addtofocus = '$url/devices/update-addtofocus';
 final getFocusDevices = '$url/api/logger/logs/Allevents/get-focused-devices';
 final getStatus = '$url/devices/get-addtofocus';
 final getProfile = '$url/api/logger/users';
+final verifyOtp = '$url/api/logger/verify-sms-otp';
+final sendOtp = '$url/api/logger/send-otp-sms';
+final hospitalList = '$url/hospital/hospital-list';
+
 

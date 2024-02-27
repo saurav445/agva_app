@@ -28,7 +28,7 @@ class _WebViewState extends State<WebView> {
         },
       ),
     )
-    ..loadRequest(Uri.parse('http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=724963b4f3ae2a8f'));
+    ..loadRequest(Uri.parse('http://3.27.107.198:3000'));
 
 
   @override
