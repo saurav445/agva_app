@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'dart:convert';
+import 'package:agva_app/AuthScreens/SignUp.dart';
 import 'package:agva_app/Screens/Nurse/NurseHomeScreen.dart';
 import 'package:agva_app/Screens/User/UserHomeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -255,51 +256,51 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     SizedBox(height: 30),
-                    // Padding(
-                    //   padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
-                    //   child: Container(
-                    //     height: 45,
-                    //     width: 300,
-                    //     decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //       boxShadow: [
-                    //         BoxShadow(
-                    //           color: Colors.grey.withOpacity(0.3),
-                    //           spreadRadius: 3,
-                    //           blurRadius: 20,
-                    //           offset: Offset(0, 3),
-                    //         ),
-                    //       ],
-                    //       color: Colors.white,
-                    //       gradient: LinearGradient(
-                    //         begin: Alignment.topCenter,
-                    //         end: Alignment.bottomCenter,
-                    //         colors: [
-                    //           Color.fromARGB(255, 255, 255, 255),
-                    //           Color.fromARGB(255, 255, 255, 255),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //     child: TextButton(
-                    //       onPressed: () {
-                    //         Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //             builder: (context) => SignUp(),
-                    //           ),
-                    //         );
-                    //       },
-                    //       style: TextButton.styleFrom(),
-                    //       child: Text(
-                    //         "SIGN UP",
-                    //         style: TextStyle(
-                    //           color: Color.fromARGB(255, 157, 0, 86),
-                    //           fontSize: 15,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                      child: Container(
+                        height: 45,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 3,
+                              blurRadius: 20,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                          color: Colors.white,
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color.fromARGB(255, 255, 255, 255),
+                              Color.fromARGB(255, 255, 255, 255),
+                            ],
+                          ),
+                        ),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignUp(),
+                              ),
+                            );
+                          },
+                          style: TextButton.styleFrom(),
+                          child: Text(
+                            "SIGN UP",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 157, 0, 86),
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

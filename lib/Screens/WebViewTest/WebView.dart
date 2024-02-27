@@ -28,10 +28,8 @@ class _WebViewState extends State<WebView> {
         },
       ),
     )
-    ..loadRequest(Uri.parse('https://www.youtube.com/'));
+    ..loadRequest(Uri.parse('http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=724963b4f3ae2a8f'));
 
-// SizedBox(
-//           height:1,  child: LinearProgressIndicator());
 
   @override
   Widget build(BuildContext context) {
