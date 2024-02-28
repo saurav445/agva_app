@@ -224,7 +224,7 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Welcome Back!',
+                      'Welcome Nurse',
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         color: Color.fromARGB(255, 172, 172, 172),

@@ -19,5 +19,8 @@ final getProfile = '$url/api/logger/users';
 final verifyOtp = '$url/api/logger/verify-sms-otp';
 final sendOtp = '$url/api/logger/send-otp-sms';
 final hospitalList = '$url/hospital/hospital-list';
-final getDeviceForDoctor = '&$url/api/logger/logs/Allevents/Events';
-
+final getDeviceForDoctor = '$url/api/logger/logs/Allevents/Events';
+final getActiveUsers = '$url/api/logger/active-users-list';
+final getInactiveUsers = '$url/api/logger/inactive-users-list';
+final getPendingUsers = '$url/api/logger/pending-users-list';
+final updateUserstatus = '$url/api/logger/user-account-status';

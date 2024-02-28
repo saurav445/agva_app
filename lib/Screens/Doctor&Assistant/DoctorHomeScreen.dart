@@ -492,7 +492,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Welcome Nurse',
+                    'Welcome Doctor',
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       color: Color.fromARGB(255, 172, 172, 172),
@@ -687,13 +687,10 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                       gradient: LinearGradient(
-                        colors: [
-                          Color(0xff6d6027),
-                          Color.fromARGB(255, 33, 33, 33)
-                        ],
+                        colors: [Color(0xff1d2b64), Color(0xfff8cdda)],
                         stops: [0, 1],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
                       )),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 30),
@@ -702,7 +699,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'USERS',
+                          'ASSISTANT',
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             color: Color.fromARGB(255, 218, 218, 218),
@@ -710,13 +707,9 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 30),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.2,
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: Image.asset("assets/images/users.png"),
-                          ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.22,
+                          child: Image.asset("assets/images/nurse.png"),
                         ),
                       ],
                     ),
