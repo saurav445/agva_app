@@ -7,6 +7,7 @@ import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceList.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusAlarms.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/UserControl.dart';
 import 'package:agva_app/Screens/User/blank.dart';
 import 'package:agva_app/Screens/WebViewTest/WebView.dart';
 import 'package:flutter/material.dart';
@@ -660,6 +661,61 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                             height: MediaQuery.of(context).size.height * 0.15,
                             width: MediaQuery.of(context).size.width * 0.3,
                             child: Image.asset("assets/images/deviceimage.png"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.015,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UserControl(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xff6d6027),
+                          Color.fromARGB(255, 33, 33, 33)
+                        ],
+                        stops: [0, 1],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      )),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'USERS',
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 218, 218, 218),
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            child: Image.asset("assets/images/users.png"),
                           ),
                         ),
                       ],

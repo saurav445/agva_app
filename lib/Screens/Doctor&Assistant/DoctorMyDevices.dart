@@ -53,35 +53,6 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
     }
   }
 
-  // Future<void> fetchFocusedDevices() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String? mytoken = prefs.getString('mytoken');
-  //   if (mytoken != null) {
-  //     var response = await http.get(
-  //       Uri.parse(getDeviceForUser),
-  //       headers: {
-  //         "Authorization": 'Bearer $mytoken',
-  //       },
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       var jsonResponse = jsonDecode(response.body);
-  //       var data = jsonResponse['data']['data'];
-  //       print(data);
-  //       setState(() {
-  //         isLoading = false;
-  //         focusedDevices = List<Map<String, dynamic>>.from(data)
-  //             .where((device) => device['isAssigned'] == 'Accepted')
-  //             .toList();
-  //       });
-  //     } else {
-  //       print('Failed to fetch focused devices: ${response.statusCode}');
-  //     }
-  //   } else {
-  //     print("Token is null");
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
