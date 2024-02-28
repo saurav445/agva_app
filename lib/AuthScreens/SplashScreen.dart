@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:agva_app/Screens/Nurse/NurseHomeScreen.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/NurseHomeScreen.dart';
 import 'package:agva_app/Screens/User/UserHomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,6 +43,10 @@ class _SplashScreenState extends State<SplashScreen> {
       } else if (usertype == 'Nurse') {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => NurseHomeScreen({})),
+        );
+      } else if (usertype == 'Doctor') {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => DoctorHomeScreen({})),
         );
       }
     } else {

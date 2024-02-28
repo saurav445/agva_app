@@ -2,7 +2,8 @@
 
 import 'dart:convert';
 import 'package:agva_app/AuthScreens/SignUp.dart';
-import 'package:agva_app/Screens/Nurse/NurseHomeScreen.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/NurseHomeScreen.dart';
 import 'package:agva_app/Screens/User/UserHomeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +83,17 @@ class _SignInState extends State<SignIn> {
               context,
               MaterialPageRoute(
                 builder: (context) => NurseHomeScreen({
+                  'hospitalName': hospitalName,
+                  'name': name,
+                  'hospitalAddress': hospitalAddress
+                }),
+              ),
+            );
+          } else if (usertype == 'Doctor') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DoctorHomeScreen({
                   'hospitalName': hospitalName,
                   'name': name,
                   'hospitalAddress': hospitalAddress

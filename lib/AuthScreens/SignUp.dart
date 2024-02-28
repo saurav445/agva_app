@@ -23,8 +23,9 @@ class _SignUpState extends State<SignUp> {
   bool _isNotValidate = false;
   bool first = false;
   String rolesSelection = '';
-  List showhospitalList = [];
   bool isPhoneNumberVerified = false;
+  List<String> hospitalNames = [];
+  String searchText = '';
 
   String specialitydropdown = 'Select Speciality';
   var specialityItems = [
@@ -199,37 +200,6 @@ class _SignUpState extends State<SignUp> {
             SizedBox(
               height: 20,
             ),
-            Container(
-              height: 45,
-              width: 300,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 3,
-                      blurRadius: 20,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                  color: Colors.white,
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color.fromARGB(255, 255, 255, 255),
-                        Color.fromARGB(255, 255, 255, 255)
-                      ])),
-              child: TextButton(
-                style: TextButton.styleFrom(),
-                onPressed: () {},
-                child: Text(
-                  "Verify",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 157, 0, 86), fontSize: 15),
-                ),
-              ),
-            ),
           ],
         ),
       ));
@@ -270,6 +240,58 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
+// hospital list
+
+  void extractHospitalNames(List<dynamic> responseData) {
+    hospitalNames.clear();
+    responseData.forEach((hospital) {
+      hospitalNames.add(hospital['Hospital_Name']);
+    });
+  }
+
+  List<String> filterHospitalList(String searchQuery) {
+    return hospitalNames
+        .where((hospital) =>
+            hospital.toLowerCase().contains(searchQuery.toLowerCase()))
+        .toList();
+  }
+
+  void onSearchTextChanged(String query) {
+    setState(() {
+      searchText = query;
+    });
+  }
+
+  Widget buildHospitalList() {
+    List<String> filteredList = filterHospitalList(searchText);
+    return Padding(
+      padding: const EdgeInsets.only(left: 35),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 36, 36, 36),
+        ),
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: filteredList.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(filteredList[index]),
+              onTap: () {
+                setState(() {
+                  String selectedHospital = filteredList[index];
+                  hospitalNameController.text = selectedHospital;
+                  if (selectedHospital == hospitalNameController.text) {
+                    searchText = '';
+                  }
+                });
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+
   void getHospitallist() async {
     var response = await http.get(
       Uri.parse(hospitalList),
@@ -280,11 +302,7 @@ class _SignUpState extends State<SignUp> {
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
       var data = jsonResponse['data'];
-      print(showhospitalList);
-
-      setState(() {
-        showhospitalList = data;
-      });
+      extractHospitalNames(data);
     } else {
       print('Failed to get focus status: ${response.statusCode}');
     }
@@ -418,11 +436,13 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                       ),
-                      if (rolesSelection == 'Assistant' || rolesSelection == 'User')
+                      if (rolesSelection == 'Assistant' ||
+                          rolesSelection == 'User')
                         Padding(
                           padding: const EdgeInsets.only(
                               right: 30, left: 30, top: 30),
                           child: TextFormField(
+                            keyboardType: TextInputType.number,
                             controller: firstNameController,
                             style: TextStyle(color: Colors.white70),
                             decoration: InputDecoration(
@@ -430,7 +450,7 @@ class _SignUpState extends State<SignUp> {
                                 Icons.numbers,
                                 color: Colors.white70,
                               ),
-                              hintText: 'Enter 6 digit key',
+                              hintText: 'Enter Doctor key',
                               errorText:
                                   _isNotValidate ? "Enter Proper Info" : null,
                               hintStyle: TextStyle(color: Colors.white70),
@@ -551,19 +571,30 @@ class _SignUpState extends State<SignUp> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 30, left: 30),
-                        child: TextFormField(
-                          controller: hospitalNameController,
-                          style: TextStyle(color: Colors.white70),
-                          decoration: InputDecoration(
-                            icon: FaIcon(
-                              FontAwesomeIcons.squareH,
-                              size: 20,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextFormField(
+                              controller: hospitalNameController,
+                              onChanged: onSearchTextChanged,
+                              style: TextStyle(color: Colors.white70),
+                              decoration: InputDecoration(
+                                icon: FaIcon(
+                                  FontAwesomeIcons.squareH,
+                                  size: 20,
+                                ),
+                                hintText: 'Enter Hospital Name',
+                                errorText:
+                                    _isNotValidate ? "Enter Proper Info" : null,
+                                hintStyle: TextStyle(color: Colors.white70),
+                              ),
                             ),
-                            hintText: 'Enter Hospital Name',
-                            errorText:
-                                _isNotValidate ? "Enter Proper Info" : null,
-                            hintStyle: TextStyle(color: Colors.white70),
-                          ),
+                            if (searchText.isNotEmpty)
+                              SingleChildScrollView(
+                                  child: Container(
+                                    
+                                      height: 200, child: buildHospitalList())),
+                          ],
                         ),
                       ),
                       SizedBox(
