@@ -44,7 +44,6 @@ class _UserControlState extends State<UserControl> {
         var data = jsonResponse['data'];
         var updateCurrentUser = data['accountStatus'];
         setState(() {
-          // updateCurrentUser == 'Active' ? 'Active' : 'inactive';
           print(updateCurrentUser);
         });
         getActiveUser();
@@ -353,16 +352,6 @@ class _UserControlState extends State<UserControl> {
                     child: Container(
                       height: 30,
                       width: 100,
-                      // decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(10),
-                      //     color: Colors.white,
-                      //     gradient: LinearGradient(
-                      //         begin: Alignment.topCenter,
-                      //         end: Alignment.bottomCenter,
-                      //         colors: [
-                      //           Color.fromARGB(255, 218, 0, 138),
-                      //           Color.fromARGB(255, 142, 0, 90)
-                      //         ])),
                       child: ElevatedButton(
                         onPressed: () async {
                           await userStatusUpdate(user['_id']);
