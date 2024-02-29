@@ -29,7 +29,7 @@ class _DoctorFocusAlarmsState extends State<DoctorFocusAlarms> {
     String? mytoken = prefs.getString('mytoken');
     if (mytoken != null) {
       var response = await http.get(
-        Uri.parse(getDeviceForUser),
+        Uri.parse(getDeviceForDoctor),
         headers: {
           "Authorization": 'Bearer $mytoken',
         },

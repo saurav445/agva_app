@@ -67,7 +67,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
     String? token = await getToken();
     if (token != null) {
       var response = await http.get(
-        Uri.parse(getDeviceForUser),
+        Uri.parse(getDeviceForDoctor),
         headers: {
           "Authorization": 'Bearer $token',
         },

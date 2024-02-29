@@ -30,7 +30,7 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
 
     if (mytoken != null) {
       var response = await http.get(
-        Uri.parse(getDeviceForUser),
+        Uri.parse(getDeviceForDoctor),
         headers: {
           "Authorization": 'Bearer $mytoken',
         },
