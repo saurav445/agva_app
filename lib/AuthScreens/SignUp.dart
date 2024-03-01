@@ -78,33 +78,37 @@ class _SignUpState extends State<SignUp> {
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController hospitalNameController = TextEditingController();
-  TextEditingController designationController = TextEditingController();
   TextEditingController departmentController = TextEditingController();
-  TextEditingController specialityController = TextEditingController();
   TextEditingController contactNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController doctorkeyController = TextEditingController();
 
   void register() async {
     if (firstNameController.text.isNotEmpty &&
         lastNameController.text.isNotEmpty &&
         hospitalNameController.text.isNotEmpty &&
-        designationController.text.isNotEmpty &&
         departmentController.text.isNotEmpty &&
-        specialityController.text.isNotEmpty &&
         emailController.text.isNotEmpty &&
-        passwordController.text.isNotEmpty) {
+        passwordController.text == confirmPasswordController.text &&
+        isPhoneNumberVerified) {
       var regBody = {
         "firstName": firstNameController.text,
         "lastName": lastNameController.text,
         "hospitalName": hospitalNameController.text,
-        "designation": designationController.text,
+        "designation": designationdropdown != 'Select Designation'
+            ? designationdropdown
+            : '',
         "department": departmentController.text,
-        "speciality": specialityController,
         "contactNumber": contactNumberController.text,
         "email": emailController.text,
         "passwordHash": passwordController.text,
+        "speciality":
+            specialitydropdown != 'Select Speciality' ? specialitydropdown : '',
+        "userType": rolesdropdown != 'Select Role' ? rolesdropdown : '',
+        "securityCode":
+            rolesdropdown != 'Doctor' ? doctorkeyController.text : '',
       };
 
       var response = await http.post(
@@ -114,7 +118,7 @@ class _SignUpState extends State<SignUp> {
       );
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse);
-      if (jsonResponse) {
+      if (response.statusCode == 200) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => RegDone()),
@@ -124,7 +128,7 @@ class _SignUpState extends State<SignUp> {
       }
     } else {
       setState(() {
-        _isNotValidate = true;
+        // _isNotValidate = true;
       });
     }
   }
@@ -282,6 +286,7 @@ class _SignUpState extends State<SignUp> {
                   hospitalNameController.text = selectedHospital;
                   if (selectedHospital == hospitalNameController.text) {
                     searchText = '';
+                    print(searchText);
                   }
                 });
               },
@@ -443,7 +448,7 @@ class _SignUpState extends State<SignUp> {
                               right: 30, left: 30, top: 30),
                           child: TextFormField(
                             keyboardType: TextInputType.number,
-                            controller: firstNameController,
+                            controller: doctorkeyController,
                             style: TextStyle(color: Colors.white70),
                             decoration: InputDecoration(
                               icon: Icon(
@@ -592,29 +597,8 @@ class _SignUpState extends State<SignUp> {
                             if (searchText.isNotEmpty)
                               SingleChildScrollView(
                                   child: Container(
-                                    
                                       height: 200, child: buildHospitalList())),
                           ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 30, left: 30),
-                        child: TextFormField(
-                          controller: designationController,
-                          style: TextStyle(color: Colors.white70),
-                          decoration: InputDecoration(
-                            icon: FaIcon(
-                              FontAwesomeIcons.userDoctor,
-                              size: 20,
-                            ),
-                            hintText: 'Enter your Designation',
-                            errorText:
-                                _isNotValidate ? "Enter Proper Info" : null,
-                            hintStyle: TextStyle(color: Colors.white70),
-                          ),
                         ),
                       ),
                       SizedBox(

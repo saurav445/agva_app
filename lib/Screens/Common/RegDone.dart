@@ -13,7 +13,6 @@ class _RegDoneState extends State<RegDone> {
   @override
   void initState() {
     super.initState();
-    // Start a timer to navigate to SignIn screen after 2 seconds
     Timer(Duration(seconds: 1), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => SignIn( )),
