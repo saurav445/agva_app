@@ -44,7 +44,7 @@ class _AddPatientDataState extends State<AddPatientData> {
   }
 
   void addPatientdata() async {
-    try {
+
       var regBody = {
         "UHID": enteruhidController.text,
         "age": enterpatientageController.text,
@@ -71,9 +71,6 @@ class _AddPatientDataState extends State<AddPatientData> {
       } else {
         print("Something Went Wrong");
       }
-    } catch (e) {
-      print('Error adding patient data: $e');
-    }
   }
 
   void _uploadFile(List<PlatformFile>? files) async {
