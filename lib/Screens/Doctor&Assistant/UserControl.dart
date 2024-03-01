@@ -40,7 +40,10 @@ class _UserControlState extends State<UserControl> {
         body: jsonEncode({"accountStatus": "Inactive"}),
       );
       if (response.statusCode == 200) {
+        print(response.statusCode);
+        print('user removed');
         getActiveUser();
+           getPendingUser();
       } else {
         print('Failed to update focus status: ${response.statusCode}');
       }
@@ -63,7 +66,10 @@ class _UserControlState extends State<UserControl> {
         body: jsonEncode({"accountStatus": "Active"}),
       );
       if (response.statusCode == 200) {
-        getActiveUser();
+           print(response.statusCode);
+                   print('user active');
+            getinActiveUser();
+               getPendingUser();
       } else {
         print('Failed to update focus status: ${response.statusCode}');
       }
@@ -146,8 +152,8 @@ class _UserControlState extends State<UserControl> {
 //   return DateFormat.yMd().add_jm().format(dateTime);
 // }
 
-  List<Widget> buildRequestsUserWidgets(
-      List<dynamic> requestsuserData, activeUser) {
+  List<Widget> buildRequestsUserWidgets(List<dynamic> requestsuserData,
+      Function(String) removeUser, Function(String) activeUser) {
     return requestsuserData.map((user) {
       return Column(
         children: [
@@ -223,21 +229,15 @@ class _UserControlState extends State<UserControl> {
                         child: Container(
                           height: 30,
                           width: 100,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                              gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Color.fromARGB(255, 255, 255, 255),
-                                    Color.fromARGB(255, 215, 215, 215)
-                                  ])),
-                          child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom(),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await removeUser(user['_id']);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                            ),
                             child: Text(
-                              "Reject",
+                              "Remove",
                               style:
                                   TextStyle(color: Colors.black, fontSize: 10),
                             ),
@@ -314,6 +314,9 @@ class _UserControlState extends State<UserControl> {
                         onPressed: () async {
                           await activeUser(user['_id']);
                         },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.pink,
+                        ),
                         child: Text(
                           "Active",
                           style: TextStyle(color: Colors.white, fontSize: 10),
@@ -382,21 +385,25 @@ class _UserControlState extends State<UserControl> {
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
-                    child: Container(
-                      height: 30,
-                      width: 100,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await removeUser(user['_id']);
-                        },
-                        child: Text(
-                          "Remove",
-                          style: TextStyle(color: Colors.white, fontSize: 10),
+                        padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                        child: Container(
+                          height: 30,
+                          width: 100,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await removeUser(user['_id']);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.pink,
+                            ),
+                            child: Text(
+                              "Remove",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 10),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -553,7 +560,8 @@ class _UserControlState extends State<UserControl> {
                 ? buildActiveUserWidgets(userData, removeUser)
                 : updateUser == 'InActive Users'
                     ? buildInactiveUserWidgets(inactiveuserData, activeUser)
-                    : buildRequestsUserWidgets(requestsuserData, activeUser),
+                    : buildRequestsUserWidgets(
+                        requestsuserData, activeUser, removeUser),
           ),
       ],
     );

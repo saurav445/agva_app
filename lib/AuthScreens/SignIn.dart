@@ -78,7 +78,7 @@ class _SignInState extends State<SignIn> {
                 }),
               ),
             );
-          } else if (usertype == 'Nurse') {
+          } else if (usertype == 'Assistant') {
             Navigator.push(
               context,
               MaterialPageRoute(

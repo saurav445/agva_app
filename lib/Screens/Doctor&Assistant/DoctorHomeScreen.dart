@@ -97,7 +97,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
               },
             )
           ],
-          toolbarHeight: MediaQuery.of(context).size.height * 0.08,
+      
         ),
         body: OrientationBuilder(builder: (context, orientation) {
           if (orientation == Orientation.portrait) {

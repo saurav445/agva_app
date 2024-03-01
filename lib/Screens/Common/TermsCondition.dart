@@ -8,9 +8,9 @@ class TermsCondition extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-                    backgroundColor: Colors.black,
+        backgroundColor: Colors.black,
         appBar: AppBar(
-                        backgroundColor: Colors.black,
+          backgroundColor: Colors.black,
           centerTitle: true,
           title: Text(
             'Terrms & Conditions',
@@ -48,7 +48,6 @@ class ViewPortrait extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(height: 40),
-
               Padding(
                 padding: const EdgeInsets.only(
                   left: 30,
@@ -123,7 +122,7 @@ class ViewLandscape extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                      SizedBox(height: 10),
+                  SizedBox(height: 10),
                   Text(
                     'User Agreement',
                     style: TextStyle(

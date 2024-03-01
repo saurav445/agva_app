@@ -97,7 +97,6 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
               },
             )
           ],
-          toolbarHeight: MediaQuery.of(context).size.height * 0.08,
         ),
         body: OrientationBuilder(builder: (context, orientation) {
           if (orientation == Orientation.portrait) {
@@ -224,7 +223,7 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Welcome Nurse',
+                      'Welcome',
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         color: Color.fromARGB(255, 172, 172, 172),
@@ -493,7 +492,7 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Welcome Nurse',
+                    'Welcome,',
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       color: Color.fromARGB(255, 172, 172, 172),
@@ -746,73 +745,73 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.015,
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => WebView(),
-                    ),
-                  );
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                      colors: [
-                        Color.fromARGB(255, 92, 74, 251),
-                        Color.fromARGB(255, 30, 30, 30),
-                      ],
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'AI',
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.05,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'COMING SOON..',
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.025,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15, top: 0),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: Image.asset("assets/images/aiimage.png"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => WebView(),
+              //       ),
+              //     );
+              //   },
+              //   child: Container(
+              //     height: MediaQuery.of(context).size.height * 0.15,
+              //     width: MediaQuery.of(context).size.width * 0.9,
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(10),
+              //       color: Colors.white,
+              //       gradient: LinearGradient(
+              //         begin: Alignment.bottomLeft,
+              //         end: Alignment.topRight,
+              //         colors: [
+              //           Color.fromARGB(255, 92, 74, 251),
+              //           Color.fromARGB(255, 30, 30, 30),
+              //         ],
+              //       ),
+              //     ),
+              //     child: Padding(
+              //       padding: const EdgeInsets.only(left: 30),
+              //       child: Row(
+              //         crossAxisAlignment: CrossAxisAlignment.center,
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             mainAxisAlignment: MainAxisAlignment.center,
+              //             children: [
+              //               Text(
+              //                 'AI',
+              //                 style: TextStyle(
+              //                   fontFamily: 'Avenir',
+              //                   color: Color.fromARGB(255, 218, 218, 218),
+              //                   fontSize:
+              //                       MediaQuery.of(context).size.width * 0.05,
+              //                   fontWeight: FontWeight.bold,
+              //                 ),
+              //               ),
+              //               Text(
+              //                 'COMING SOON..',
+              //                 style: TextStyle(
+              //                   fontFamily: 'Avenir',
+              //                   color: Color.fromARGB(255, 218, 218, 218),
+              //                   fontSize:
+              //                       MediaQuery.of(context).size.width * 0.025,
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //           Padding(
+              //             padding: const EdgeInsets.only(left: 15, top: 0),
+              //             child: Container(
+              //               width: MediaQuery.of(context).size.width * 0.4,
+              //               child: Image.asset("assets/images/aiimage.png"),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

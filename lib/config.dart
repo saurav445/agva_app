@@ -24,3 +24,5 @@ final getActiveUsers = '$url/api/logger/active-users-list';
 final getInactiveUsers = '$url/api/logger/inactive-users-list';
 final getPendingUsers = '$url/api/logger/pending-users-list';
 final updateUserstatus = '$url/api/logger/user-account-status';
+final addPatientData = '$url/patient/save-uhid-details';
+final patientFileupload = '$url/patient/upload-patient-file';
