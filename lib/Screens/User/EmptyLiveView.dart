@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable, unused_import, unnecessary_string_interpolations, use_key_in_widget_constructors
 import 'dart:math';
 import 'package:agva_app/widgets/LineChartWidget.dart';
+import 'package:agva_app/widgets/animatedChart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -10,7 +11,7 @@ class EmptyLiveView extends StatefulWidget {
 }
 
 class _EmptyLiveViewState extends State<EmptyLiveView> {
-  String selectedMenu = 'DATA';
+  String selectedMenu = 'GRAPHS';
 
   @override
   Widget build(BuildContext context) {
@@ -66,41 +67,44 @@ class _EmptyLiveViewState extends State<EmptyLiveView> {
                                 Column(
                                   children: [
                                     Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.2,
+                                      // height:
+                                      //     MediaQuery.of(context).size.height *
+                                      //         0.5,
                                       width: MediaQuery.of(context).size.width *
-                                          0.76,
+                                          0.72,
                                       decoration: BoxDecoration(
                                         color: Color.fromARGB(255, 0, 0, 0),
                                       ),
+                                              child: MyLineChart()
                                     ),
                                     SizedBox(
                                       height: 5,
                                     ),
-                                    Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.2,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.76,
-                                      decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.2,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.76,
-                                      decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                      ),
-                                    ),
+                                    // Container(
+                                    //   height:
+                                    //       MediaQuery.of(context).size.height *
+                                    //           0.2,
+                                    //   width: MediaQuery.of(context).size.width *
+                                    //       0.76,
+                                    //   decoration: BoxDecoration(
+                                    //     color: Color.fromARGB(255, 0, 0, 0),
+                                    //   ),
+                                    //           child: MyLineChart()
+                                    // ),
+                                    // SizedBox(
+                                    //   height: 5,
+                                    // ),
+                                    // Container(
+                                    //   height:
+                                    //       MediaQuery.of(context).size.height *
+                                    //           0.2,
+                                    //   width: MediaQuery.of(context).size.width *
+                                    //       0.76,
+                                    //   decoration: BoxDecoration(
+                                    //     color: Color.fromARGB(255, 0, 0, 0),
+                                    //   ),
+                                    //   child: MyLineChart()
+                                    // ),
                                   ],
                                 ),
                             ],

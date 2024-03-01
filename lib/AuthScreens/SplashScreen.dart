@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => UserHomeScreen({})),
         );
-      } else if (usertype == 'Nurse') {
+      } else if (usertype == 'Assistant') {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => NurseHomeScreen({})),
         );

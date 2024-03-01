@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:agva_app/Screens/User/EmptyLiveView.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:agva_app/widgets/LineChartWidget.dart';
+import 'package:agva_app/widgets/animatedChart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,7 +31,7 @@ class _LiveViewState extends State<LiveView> {
   late List<FlSpot> chartDataVolume;
   late List<FlSpot> chartDataFlow;
 
-  String selectedMenu = 'DATA';
+  String selectedMenu = 'GRAPHS';
   late String deviceId;
   late String modeData = '-';
   late List<String> observedData = [];
@@ -276,7 +277,7 @@ class _LiveViewState extends State<LiveView> {
                         //graph screen
                         Container(
                           height: MediaQuery.of(context).size.height * 0.7,
-                            width: MediaQuery.of(context).size.width * 0.74,
+                          width: MediaQuery.of(context).size.width * 0.74,
                           decoration: BoxDecoration(
                             color: Color.fromARGB(255, 0, 0, 0),
                           ),
@@ -292,6 +293,57 @@ class _LiveViewState extends State<LiveView> {
                                   Column(
                                     children: [
                                       Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.2,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.76,
+                                          decoration: BoxDecoration(
+                                            color: Color.fromARGB(255, 0, 0, 0),
+                                          ),
+                                          child: MyLineChart()
+                                          // child: LineChart(LineChartData(
+                                          //     titlesData: FlTitlesData(
+                                          //         leftTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false)),
+                                          //         rightTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false)),
+                                          //         bottomTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false,
+                                          //                 reservedSize: 0)),
+                                          //         topTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false))),
+                                          //     // borderData: FlBorderData(
+                                          //     //     show: false,
+                                          //     //     border: Border.all(
+                                          //     //       color: Colors.grey,
+                                          //     //       width: 1,
+                                          //     //     )),
+                                          //     lineBarsData: [
+                                          //       LineChartBarData(
+                                          //         gradient: LinearGradient(
+                                          //             colors: lineColors),
+                                          //         // color: Colors.white,
+                                          //         spots: chartData,
+                                          //         isCurved: false,
+                                          //         // color: Colors.white,
+                                          //         belowBarData:
+                                          //             BarAreaData(show: false),
+                                          //         dotData: FlDotData(show: false),
+                                          //       )
+                                          //     ])),
+                                          ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.2,
@@ -301,7 +353,6 @@ class _LiveViewState extends State<LiveView> {
                                         decoration: BoxDecoration(
                                           color: Color.fromARGB(255, 0, 0, 0),
                                         ),
-
                                         // child: LineChart(LineChartData(
                                         //     titlesData: FlTitlesData(
                                         //         leftTitles: AxisTitles(
@@ -317,25 +368,23 @@ class _LiveViewState extends State<LiveView> {
                                         //         topTitles: AxisTitles(
                                         //             sideTitles: SideTitles(
                                         //                 showTitles: false))),
-                                        //     // borderData: FlBorderData(
-                                        //     //     show: false,
-                                        //     //     border: Border.all(
-                                        //     //       color: Colors.grey,
-                                        //     //       width: 1,
-                                        //     //     )),
+                                        //     borderData: FlBorderData(
+                                        //         show: false,
+                                        //         border: Border.all(
+                                        //           color: Colors.grey,
+                                        //           width: 1,
+                                        //         )),
                                         //     lineBarsData: [
                                         //       LineChartBarData(
-                                        //         gradient: LinearGradient(
-                                        //             colors: lineColors),
-                                        //         // color: Colors.white,
-                                        //         spots: chartData,
+                                        //         spots: chartDataVolume,
                                         //         isCurved: false,
-                                        //         // color: Colors.white,
+                                        //         color: Colors.white,
                                         //         belowBarData:
-                                        //             BarAreaData(show: false),
+                                        //             BarAreaData(show: true),
                                         //         dotData: FlDotData(show: false),
                                         //       )
                                         //     ])),
+                                                child: MyLineChart()
                                       ),
                                       SizedBox(
                                         height: 5,
@@ -350,51 +399,7 @@ class _LiveViewState extends State<LiveView> {
                                         decoration: BoxDecoration(
                                           color: Color.fromARGB(255, 0, 0, 0),
                                         ),
-                                        child: LineChart(LineChartData(
-                                            titlesData: FlTitlesData(
-                                                leftTitles: AxisTitles(
-                                                    sideTitles: SideTitles(
-                                                        showTitles: false)),
-                                                rightTitles: AxisTitles(
-                                                    sideTitles: SideTitles(
-                                                        showTitles: false)),
-                                                bottomTitles: AxisTitles(
-                                                    sideTitles: SideTitles(
-                                                        showTitles: false,
-                                                        reservedSize: 0)),
-                                                topTitles: AxisTitles(
-                                                    sideTitles: SideTitles(
-                                                        showTitles: false))),
-                                            borderData: FlBorderData(
-                                                show: false,
-                                                border: Border.all(
-                                                  color: Colors.grey,
-                                                  width: 1,
-                                                )),
-                                            lineBarsData: [
-                                              LineChartBarData(
-                                                spots: chartDataVolume,
-                                                isCurved: false,
-                                                color: Colors.white,
-                                                belowBarData:
-                                                    BarAreaData(show: true),
-                                                dotData: FlDotData(show: false),
-                                              )
-                                            ])),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.2,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.76,
-                                        decoration: BoxDecoration(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
+                                                child: MyLineChart()
                                         // child: LineChart(LineChartData(
                                         //     titlesData: FlTitlesData(
                                         //         leftTitles: AxisTitles(
