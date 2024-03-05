@@ -2,6 +2,7 @@
 
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -24,6 +25,10 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
+     SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+  ]);
     fetchGetDevicesForUser();
     getUsername().then((name) {
       setState(() {
@@ -95,6 +100,7 @@ class _ProfileState extends State<Profile> {
   Future<void> fetchGetDevicesForUser() async {
     setState(() {
       isLoading = true;
+     
     });
     String? userid = await getUserID();
     print(userid);

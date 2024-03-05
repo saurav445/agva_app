@@ -57,9 +57,9 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-                 backgroundColor: Colors.black,
+          backgroundColor: Colors.black,
           appBar: AppBar(
-                     backgroundColor: Colors.black,
+            backgroundColor: Colors.black,
             centerTitle: true,
             title: Text(
               'My Devices',
@@ -327,170 +327,197 @@ class DevicelistsLandscape extends StatelessWidget {
           SizedBox(
               height: 1, child: LinearProgressIndicator(color: Colors.pink))
         else
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 150),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  for (var device in focusedDevices)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DoctorDeviceDetails(
-                                  device['deviceInfo']?[0]?['DeviceId'],
-                                  SocketServices(),
-                                  device['deviceInfo']?[0]?['Ward_No'],
-                                  device['deviceInfo']?[0]?['DeviceType'],
-                                  device['message']),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: newColor,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 10),
+          for (var device in focusedDevices)
+            Builder(builder: (context) {
+              if (device['alarmData'] != null &&
+                  device['alarmData'].isNotEmpty) {
+                var priority = device['alarmData'][0]['priority'];
+                if (priority == 'ALARM_LOW_LEVEL' ||
+                    priority == 'ALARM_MEDIUM_LEVEL') {
+                  newColor = Colors.amber;
+                } else if (priority == 'ALARM_HIGH_LEVEL' ||
+                    priority == 'ALARM_CRITICAL_LEVEL') {
+                  newColor = Colors.red;
+                } else {
+                  newColor = Colors.green;
+                }
+              } else {
+                // Handle the case when alarmData is null or empty
+                newColor = Colors.green; // Or any default color
+              }
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 150),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      for (var device in focusedDevices)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DoctorDeviceDetails(
+                                      device['deviceInfo']?[0]?['DeviceId'],
+                                      SocketServices(),
+                                      device['deviceInfo']?[0]?['Ward_No'],
+                                      device['deviceInfo']?[0]?['DeviceType'],
+                                      device['message']),
+                                ),
+                              );
+                            },
                             child: Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color.fromARGB(255, 174, 34, 104)),
+                                borderRadius: BorderRadius.circular(10),
+                                color: newColor
+                              ),
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
+                                padding: const EdgeInsets.only(right: 10),
                                 child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.25,
-                                  width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 65, 65, 65),
-                                  ),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color.fromARGB(255, 174, 34, 104)),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 11, vertical: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: Color.fromARGB(255, 65, 65, 65),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 11, vertical: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              '${device['deviceInfo']?[0]?['DeviceType']}',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 218, 218, 218),
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.02,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '${device['deviceInfo']?[0]?['DeviceType']}',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.02,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.015,
+                                                ),
+                                                Text(
+                                                  '${device['deviceInfo']?[0]?['Hospital_Name']}',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.015,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.005,
+                                                ),
+                                                Text(
+                                                  'Ward No. ${device['deviceInfo']?[0]?['Ward_No']}',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.015,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.015,
-                                            ),
-                                            Text(
-                                              '${device['deviceInfo']?[0]?['Hospital_Name']}',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 218, 218, 218),
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.015,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.005,
-                                            ),
-                                            Text(
-                                              'Ward No. ${device['deviceInfo']?[0]?['Ward_No']}',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 218, 218, 218),
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.015,
-                                              ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                  'PT. Salim Raza',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.02,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.015,
+                                                ),
+                                                Text(
+                                                  '24 YEARS',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.015,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.005,
+                                                ),
+                                                Text(
+                                                  '58 KG',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Avenir',
+                                                    color: Color.fromARGB(
+                                                        255, 218, 218, 218),
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.015,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              'PT. Salim Raza',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 218, 218, 218),
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.02,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.015,
-                                            ),
-                                            Text(
-                                              '24 YEARS',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 218, 218, 218),
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.015,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.005,
-                                            ),
-                                            Text(
-                                              '58 KG',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 218, 218, 218),
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.015,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -498,12 +525,11 @@ class DevicelistsLandscape extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          ),
+                    ],
+                  ),
+                ),
+              );
+            }),
       ],
     );
   }

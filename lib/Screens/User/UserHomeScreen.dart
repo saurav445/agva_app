@@ -7,7 +7,6 @@ import 'package:agva_app/Screens/User/FocusAlarms.dart';
 import 'package:agva_app/Screens/User/Hospitals.dart';
 import 'package:agva_app/Screens/User/MyDevices.dart';
 import 'package:agva_app/Screens/User/NotificationScreen.dart';
-import 'package:agva_app/Screens/User/blank.dart';
 import 'package:agva_app/Screens/WebViewTest/WebView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -116,7 +116,7 @@ class DoctorAlarmListState extends State<DoctorAlarmList> {
                 borderRadius: BorderRadius.circular(10),
                 color: Color.fromARGB(100, 73, 73, 73),
               ),
-              height: MediaQuery.of(context).size.height * 0.12,
+              height: MediaQuery.of(context).size.height * 0.05,
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

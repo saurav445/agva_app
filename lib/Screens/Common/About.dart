@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class About extends StatefulWidget {
   @override
@@ -10,6 +11,10 @@ class _AboutState extends State<About> {
   @override
   void initState() {
     super.initState();
+     SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+  ]);
   }
 
   @override

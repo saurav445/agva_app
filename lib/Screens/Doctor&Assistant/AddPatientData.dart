@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:agva_app/Screens/Doctor&Assistant/AddDiagnose.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,13 +11,17 @@ import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 
 class AddPatientData extends StatefulWidget {
-  const AddPatientData({super.key});
+  final String UHID;
+  final String deviceId;
+  AddPatientData(this.UHID, this.deviceId, {super.key});
 
   @override
   _AddPatientDataState createState() => _AddPatientDataState();
 }
 
 class _AddPatientDataState extends State<AddPatientData> {
+  late String UHID;
+  late String deviceId;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   String? _fileName;
@@ -25,8 +30,7 @@ class _AddPatientDataState extends State<AddPatientData> {
   bool _userAborted = false;
   bool first = false;
 
-  TextEditingController enteruhidController = TextEditingController();
-  TextEditingController enterdeviceIDController = TextEditingController();
+  // TextEditingController enterdeviceIDController = TextEditingController();
   TextEditingController enterpatientnameController = TextEditingController();
   TextEditingController enterpatientageController = TextEditingController();
   TextEditingController enterheightincmController = TextEditingController();
@@ -41,71 +45,40 @@ class _AddPatientDataState extends State<AddPatientData> {
   @override
   void initState() {
     super.initState();
+    print(widget.UHID);
+    print(widget.deviceId);
   }
 
   void addPatientdata() async {
+    var regBody = {
+      "UHID": widget.UHID,
+      "age": enterpatientageController.text,
+      "deviceId": widget.deviceId,
+      "doctor_name": enterdrnameController.text,
+      "dosageProvided": enterdasageController.text,
+      "height": enterheightincmController.text,
+      "hospitalName": enterhospitalnameController.text,
+      "patientName": enterpatientnameController.text,
+      "ward_no": enterwardnoController.text,
+      "weight": enterweightinkgController.text
+    };
 
-      var regBody = {
-        "UHID": enteruhidController.text,
-        "age": enterpatientageController.text,
-        "deviceId": enterdeviceIDController.text,
-        "doctor_name": enterdrnameController.text,
-        "dosageProvided": enterdasageController.text,
-        "height": enterheightincmController.text,
-        "hospitalName": enterhospitalnameController.text,
-        "patientName": enterpatientnameController.text,
-        "ward_no": enterwardnoController.text,
-        "weight": enterweightinkgController.text
-      };
-
-      var response = await http.post(
-        Uri.parse(addPatientData),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(regBody),
-      );
-      var jsonResponse = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-   
-        print(jsonResponse['data']);
-        print('Patient data added successfully');
-      } else {
-        print("Something Went Wrong");
-      }
-  }
-
-  void _uploadFile(List<PlatformFile>? files) async {
-    try {
-      if (files != null && files.isNotEmpty) {
-        var request = http.MultipartRequest(
-          'POST',
-          Uri.parse(
-              '$patientFileupload/${enterdeviceIDController.text}/${enteruhidController.text}'),
-        );
-
-        for (var file in files) {
-          request.files.add(http.MultipartFile(
-            'file',
-            file.readStream!,
-            file.size,
-            filename: file.name,
-          ));
-        }
-
-        var response = await request.send();
-
-        if (response.statusCode == 200) {
-          print('File uploaded successfully');
-        } else {
-          print('Failed to upload file: ${response.reasonPhrase}');
-        }
-      } else {
-        print('No files selected');
-      }
-    } catch (e) {
-      print('Error uploading file: $e');
+    var response = await http.post(
+      Uri.parse(updatePatientDetails),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(regBody),
+    );
+    var jsonResponse = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      print(jsonResponse['data']);
+      print('Patient data added successfully');
+    } else {
+      print("Something Went Wrong");
     }
   }
 
+//  image upload api
+// Uri.parse('$patientFileupload/${enterdeviceIDController.text}/${enteruhidController.text}'),
   void _pickFiles() async {
     _resetState();
     try {
@@ -115,6 +88,13 @@ class _AddPatientDataState extends State<AddPatientData> {
         allowedExtensions: ['jpeg', 'jpg', 'heic', 'pdf', 'png'],
       ))
           ?.files;
+      if (_paths != null && _paths!.isNotEmpty) {
+        // If files are selected, upload the first file
+        _uploadFile(_paths!.first);
+        // Add logging for file data
+        print('File name: ${_paths!.first.name}');
+        print('File size: ${_paths!.first.size}');
+      }
     } on PlatformException catch (e) {
       _logException('Unsupported operation' + e.toString());
     } catch (e) {
@@ -123,11 +103,63 @@ class _AddPatientDataState extends State<AddPatientData> {
     if (!mounted) return;
     setState(() {
       _isLoading = false;
-      _fileName =
-          _paths != null ? _paths!.map((e) => e.name).toString() : '...';
+      _fileName = _paths != null ? _paths!.first.name : '...';
       _userAborted = _paths == null;
     });
   }
+
+  void _uploadFile(PlatformFile file) async {
+    try {
+      if (file.bytes != null) {
+        var uri = Uri.parse(
+            '$patientFileupload/${widget.deviceId}/${widget.UHID}'); // Replace uploadURL with your actual URL
+        var request = http.MultipartRequest("POST", uri);
+        // request.files.add(http.MultipartFile.fromBytes(
+        //   "file",
+        //   file.bytes!,
+        //   filename: file.name,
+        // ));
+        //         request.files.add(http.MultipartFile.fromPath(
+
+        // ));
+        var response = await request.send();
+        if (response.statusCode == 200) {
+          // File uploaded successfully
+          print('File uploaded successfully');
+          // Optionally, you can add logic here to handle the response from the server
+        } else {
+          print('Failed to upload file: ${response.reasonPhrase}');
+        }
+      } else {
+        print('Error: File bytes are null');
+      }
+    } catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
+
+  // void _pickFiles() async {
+  //   _resetState();
+  //   try {
+  //     _paths = (await FilePicker.platform.pickFiles(
+  //       type: FileType.custom,
+  //       onFileLoading: (FilePickerStatus status) => print(status),
+  //       allowedExtensions: ['jpeg', 'jpg', 'heic', 'pdf', 'png'],
+  //     ))
+  //         ?.files;
+  //   } on PlatformException catch (e) {
+  //     _logException('Unsupported operation' + e.toString());
+  //   } catch (e) {
+  //     _logException(e.toString());
+  //   }
+  //   if (!mounted) return;
+  //   setState(() {
+  //     _isLoading = false;
+  //     _fileName =
+  //         _paths != null ? _paths!.map((e) => e.name).toString() : '...';
+  //     _userAborted = _paths == null;
+  //   });
+  // }
 
   void _logException(String message) {
     print(message);
@@ -163,6 +195,23 @@ class _AddPatientDataState extends State<AddPatientData> {
         backgroundColor: Colors.black,
         key: _scaffoldKey,
         appBar: AppBar(
+           actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 30,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddDiagnose(widget.UHID),
+                  ),
+                );
+              },
+            )
+          ],
           title: Text(
             "Add Patient Details",
           ),
@@ -180,14 +229,14 @@ class _AddPatientDataState extends State<AddPatientData> {
               Padding(
                 padding: const EdgeInsets.only(right: 30, left: 30),
                 child: TextFormField(
-                  controller: enteruhidController,
+                  readOnly: true,
                   style: TextStyle(color: Colors.white70),
                   decoration: InputDecoration(
                     icon: Icon(
                       Icons.person,
                       color: Colors.white70,
                     ),
-                    hintText: 'Enter UHID',
+                    hintText: widget.UHID,
                     hintStyle: TextStyle(color: Colors.white70),
                   ),
                 ),
@@ -198,14 +247,15 @@ class _AddPatientDataState extends State<AddPatientData> {
               Padding(
                 padding: const EdgeInsets.only(right: 30, left: 30),
                 child: TextFormField(
-                  controller: enterdeviceIDController,
+                   readOnly: true,
                   style: TextStyle(color: Colors.white70),
                   decoration: InputDecoration(
                     icon: Icon(
                       Icons.important_devices,
                       color: Colors.white70,
+                         size: 20,
                     ),
-                    hintText: 'Enter DeviceID',
+                    hintText: widget.deviceId,
                     hintStyle: TextStyle(color: Colors.white70),
                   ),
                 ),
