@@ -114,95 +114,95 @@ class _LiveViewState extends State<LiveView> {
       });
     });
 
-    // socketService.setOnGraphDataReceivedCallback((receivedXvalue,
-    //     receivedPressure, receivedVolume, receivedFlow, receivedGraphData) {
-    //   setState(() {
-    //     if (!freezeGraph) {
-    //       xvalue = receivedXvalue.toString();
-    //       pressure = receivedPressure.toString();
-    //       volume = receivedVolume.toString();
-    //       flow = receivedFlow.toString();
-    //       graphData = receivedGraphData;
-    //       graphPressure.add(xvalue);
-    //       graphPressure.add(pressure);
+    socketService.setOnGraphDataReceivedCallback((receivedXvalue,
+        receivedPressure, receivedVolume, receivedFlow, receivedGraphData) {
+      setState(() {
+        if (!freezeGraph) {
+          xvalue = receivedXvalue.toString();
+          pressure = receivedPressure.toString();
+          volume = receivedVolume.toString();
+          flow = receivedFlow.toString();
+          graphData = receivedGraphData;
+          graphPressure.add(xvalue);
+          graphPressure.add(pressure);
 
-    //       graphVolume.add(xvalue);
-    //       graphVolume.add(volume);
+          graphVolume.add(xvalue);
+          graphVolume.add(volume);
 
-    //       double x = double.parse(xvalue);
-    //       double y = double.parse(pressure);
+          double x = double.parse(xvalue);
+          double y = double.parse(pressure);
 
-    //       double yvolume = double.parse(volume);
+          double yvolume = double.parse(volume);
 
-    //       double yFlow = double.parse(flow);
+          double yFlow = double.parse(flow);
 
-    //       // chartData.add(FlSpot(x, y));
-    //       // chartDataVolume.add(FlSpot(x, yvolume));
-    //       // chartDataFlow.add(FlSpot(x, yFlow));
+          // chartData.add(FlSpot(x, y));
+          // chartDataVolume.add(FlSpot(x, yvolume));
+          // chartDataFlow.add(FlSpot(x, yFlow));
 
-    //       if (!isFirstTime) {
-    //         chartData.add(FlSpot(x, y));
-    //       } else {
-    //         chartData[xVal] = FlSpot(x, y);
-    //       }
+          if (!isFirstTime) {
+            chartData.add(FlSpot(x, y));
+          } else {
+            chartData[xVal] = FlSpot(x, y);
+          }
 
-    //       xVal++;
-    //       if (xVal == 350) {
-    //         isFirstTime = true;
-    //         xVal = 0;
-    //       }
+          xVal++;
+          if (xVal == 350) {
+            isFirstTime = true;
+            xVal = 0;
+          }
 
-    //       if (isFirstTime) {
-    //         for (int i = 0; i < 12; i++) {
-    //           if (i < 6) {
-    //             if ((xVal - (6 - i)) < 0) {
-    //               fifoLimit[i] = 350 + (xVal - (6 - i));
-    //             } else {
-    //               fifoLimit[i] = (xVal - (6 - i));
-    //             }
-    //           } else {
-    //             fifoLimit[i] = (xVal + (i - 6));
-    //           }
-    //         }
+          if (isFirstTime) {
+            for (int i = 0; i < 12; i++) {
+              if (i < 6) {
+                if ((xVal - (6 - i)) < 0) {
+                  fifoLimit[i] = 350 + (xVal - (6 - i));
+                } else {
+                  fifoLimit[i] = (xVal - (6 - i));
+                }
+              } else {
+                fifoLimit[i] = (xVal + (i - 6));
+              }
+            }
 
-    //         for (int index = 0; index < 350; index++) {
-    //           if (fifoLimit.contains(index)) {
-    //             lineColors[index] = Colors.black;
-    //             // dpsVolume[index].lineColor = "#000000"
-    //             // dpsFlow[index].lineColor = "#000000"
-    //           } else {
-    //             lineColors[index] = Colors.white;
-    //             // dpsVolume[index].lineColor = "#FFFFFF"
-    //             // dpsFlow[index].lineColor = "#FFFFFF"
-    //           }
-    //         }
-    //       }
+            for (int index = 0; index < 350; index++) {
+              if (fifoLimit.contains(index)) {
+                lineColors[index] = Colors.black;
+                // dpsVolume[index].lineColor = "#000000"
+                // dpsFlow[index].lineColor = "#000000"
+              } else {
+                lineColors[index] = Colors.white;
+                // dpsVolume[index].lineColor = "#FFFFFF"
+                // dpsFlow[index].lineColor = "#FFFFFF"
+              }
+            }
+          }
 
-    //       // Limit the size of chartData to control the number of points displayed
-    //       // if (chartData.length > 50) {
-    //       //   // Remove the first element to make space for new data
-    //       //   chartData.removeAt(0);
-    //       // }
-    //       if (chartDataVolume.length > 50) {
-    //         // chartData.removeLast();
-    //         // chartDataVolume = chartDataVolume.sublist(1);
+          // Limit the size of chartData to control the number of points displayed
+          // if (chartData.length > 50) {
+          //   // Remove the first element to make space for new data
+          //   chartData.removeAt(0);
+          // }
+          if (chartDataVolume.length > 50) {
+            // chartData.removeLast();
+            // chartDataVolume = chartDataVolume.sublist(1);
 
-    //         chartDataVolume.removeAt(0); // Remove the last element
-    //         print("It cleared");
-    //       }
-    //       if (chartDataFlow.length > 50) {
-    //         // chartData.removeLast();
-    //         // chartDataFlow = chartDataFlow.sublist(1);
+            chartDataVolume.removeAt(0); // Remove the last element
+            print("It cleared");
+          }
+          if (chartDataFlow.length > 50) {
+            // chartData.removeLast();
+            // chartDataFlow = chartDataFlow.sublist(1);
 
-    //         chartDataFlow.removeAt(0); // Remove the last element
-    //         print("It cleared");
-    //       }
-    //     } else {}
+            chartDataFlow.removeAt(0); // Remove the last element
+            print("It cleared");
+          }
+        } else {}
 
-    //     print(
-    //         "Graph values are $xvalue,$pressure,$volume,$flow,$graphData,'Here',$graphPressure");
-    //   });
-    // });
+        print(
+            "Graph values are $xvalue,$pressure,$volume,$flow,$graphData,'Here',$graphPressure");
+      });
+    });
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
@@ -296,7 +296,7 @@ class _LiveViewState extends State<LiveView> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.2,
+                                              0.3,
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
@@ -340,98 +340,54 @@ class _LiveViewState extends State<LiveView> {
                                           //       )
                                           //     ])),
                                           ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.2,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.76,
-                                        decoration: BoxDecoration(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
-                                        // child: LineChart(LineChartData(
-                                        //     titlesData: FlTitlesData(
-                                        //         leftTitles: AxisTitles(
-                                        //             sideTitles: SideTitles(
-                                        //                 showTitles: false)),
-                                        //         rightTitles: AxisTitles(
-                                        //             sideTitles: SideTitles(
-                                        //                 showTitles: false)),
-                                        //         bottomTitles: AxisTitles(
-                                        //             sideTitles: SideTitles(
-                                        //                 showTitles: false,
-                                        //                 reservedSize: 0)),
-                                        //         topTitles: AxisTitles(
-                                        //             sideTitles: SideTitles(
-                                        //                 showTitles: false))),
-                                        //     borderData: FlBorderData(
-                                        //         show: false,
-                                        //         border: Border.all(
-                                        //           color: Colors.grey,
-                                        //           width: 1,
-                                        //         )),
-                                        //     lineBarsData: [
-                                        //       LineChartBarData(
-                                        //         spots: chartDataVolume,
-                                        //         isCurved: false,
-                                        //         color: Colors.white,
-                                        //         belowBarData:
-                                        //             BarAreaData(show: true),
-                                        //         dotData: FlDotData(show: false),
-                                        //       )
-                                        //     ])),
-                                                child: MyLineChart()
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.2,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.76,
-                                        decoration: BoxDecoration(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
-                                                child: MyLineChart()
-                                        // child: LineChart(LineChartData(
-                                        //     titlesData: FlTitlesData(
-                                        //         leftTitles: AxisTitles(
-                                        //             sideTitles: SideTitles(
-                                        //                 showTitles: false)),
-                                        //         rightTitles: AxisTitles(
-                                        //             sideTitles: SideTitles(
-                                        //                 showTitles: false)),
-                                        //         bottomTitles: AxisTitles(
-                                        //             sideTitles: SideTitles(
-                                        //                 showTitles: false,
-                                        //                 reservedSize: 0)),
-                                        //         topTitles: AxisTitles(
-                                        //             sideTitles: SideTitles(
-                                        //                 showTitles: false))),
-                                        //     borderData: FlBorderData(
-                                        //         show: false,
-                                        //         border: Border.all(
-                                        //           color: Colors.grey,
-                                        //           width: 1,
-                                        //         )),
-                                        //     lineBarsData: [
-                                        //       LineChartBarData(
-                                        //         spots: chartDataFlow,
-                                        //         isCurved: false,
-                                        //         color: Colors.white,
-                                        //         belowBarData:
-                                        //             BarAreaData(show: true),
-                                        //         dotData: FlDotData(show: false),
-                                        //       )
-                                        //     ])),
-                                      ),
+                                          Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.3,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.76,
+                                          decoration: BoxDecoration(
+                                            color: Color.fromARGB(255, 0, 0, 0),
+                                          ),
+                                          child: Linedata()
+                                          // child: LineChart(LineChartData(
+                                          //     titlesData: FlTitlesData(
+                                          //         leftTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false)),
+                                          //         rightTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false)),
+                                          //         bottomTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false,
+                                          //                 reservedSize: 0)),
+                                          //         topTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false))),
+                                          //     // borderData: FlBorderData(
+                                          //     //     show: false,
+                                          //     //     border: Border.all(
+                                          //     //       color: Colors.grey,
+                                          //     //       width: 1,
+                                          //     //     )),
+                                          //     lineBarsData: [
+                                          //       LineChartBarData(
+                                          //         gradient: LinearGradient(
+                                          //             colors: lineColors),
+                                          //         // color: Colors.white,
+                                          //         spots: chartData,
+                                          //         isCurved: false,
+                                          //         // color: Colors.white,
+                                          //         belowBarData:
+                                          //             BarAreaData(show: false),
+                                          //         dotData: FlDotData(show: false),
+                                          //       )
+                                          //     ])),
+                                          ),
                                     ],
                                   ),
                               ],

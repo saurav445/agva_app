@@ -280,34 +280,15 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'ADD DATA',
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.05,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.01,
-                            ),
-                            Text(
-                              'Add Patient Data',
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.03,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          'ALL PATIENTS',
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 218, 218, 218),
+                            fontSize:
+                                MediaQuery.of(context).size.width * 0.05,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 22),

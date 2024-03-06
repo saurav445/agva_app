@@ -75,6 +75,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
         var data = jsonResponse['data'];
+        print(data);
         devicesForUserList = List<Map<String, dynamic>>.from(data['data']);
 
         setState(() {
@@ -428,7 +429,6 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
               ' ',
               style: TextStyle(
                 fontFamily: 'Avenir',
-                fontSize: 24,
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
             ),

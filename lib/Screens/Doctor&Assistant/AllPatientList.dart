@@ -51,8 +51,10 @@ class _AllPatientListState extends State<AllPatientList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+              backgroundColor: Colors.black,
         appBar: AppBar(
-          title: Text('Patient Information'),
+          title: Text('Patient List'),
+                  backgroundColor: Colors.black,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -65,6 +67,8 @@ class _AllPatientListState extends State<AllPatientList> {
                       child: LinearProgressIndicator(
                         color: Colors.pink,
                       ))
+                else if (userData.isEmpty)
+                Center( child:  Text('No List Found'),)
                 else
                   Column(children: buildActiveUserWidgets(userData)),
               ],
@@ -160,7 +164,7 @@ class _AllPatientListState extends State<AllPatientList> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      AddPatientData(uhid, deviceId)));
+                                      AddPatientData(uhid, deviceId, userId)));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,

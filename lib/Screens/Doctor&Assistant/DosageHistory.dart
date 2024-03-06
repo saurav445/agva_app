@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
+import 'package:agva_app/Screens/Doctor&Assistant/AddDiagnose.dart';
+import 'package:agva_app/config.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -37,16 +39,15 @@ class _DosageHistoryState extends State<DosageHistory> {
 
     if (token != null) {
       var response = await http.get(
-        Uri.parse(
-            'http://3.25.213.83:8000/patient/get-diagnose/Rohan044'),
+        Uri.parse('$url/patient/get-diagnose/${widget.uhid}'),
         headers: {
           "Authorization": 'Bearer $token',
         },
       );
       var jsonResponse = jsonDecode(response.body);
-      // print(jsonResponse);
+// print(jsonResponse);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
-        // print(jsonResponse);
+// print(jsonResponse);
         dosageList = jsonResponse['data'];
         setState(() {
           isLoading = false;
@@ -74,7 +75,7 @@ class _DosageHistoryState extends State<DosageHistory> {
             borderRadius: BorderRadius.circular(10),
             color: Colors.grey[850],
           ),
-          height: 200,
+          height: 150,
           width: 350,
           child: Padding(
             padding: const EdgeInsets.all(15),
@@ -87,7 +88,13 @@ class _DosageHistoryState extends State<DosageHistory> {
                   children: [
                     Text('Medicine'),
                     Text('Procedure'),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Text('Others'),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Text('Date')
                   ],
                 ),
@@ -97,14 +104,10 @@ class _DosageHistoryState extends State<DosageHistory> {
                   children: [
                     Text(medicine),
                     Text(procedure),
-                    Row(
-                      children: [
-                        Text(others.substring(0, 9)),
-                        TextButton(
-                            onPressed: () => _dialogBuilder(context, others),
-                            child: Text('Read More'))
-                      ],
-                    ),
+// Text(others),
+                    TextButton(
+                        onPressed: () => _dialogBuilder(context, others),
+                        child: Text('Show More')),
                     Text(date.substring(0, 10))
                   ],
                 )
@@ -141,15 +144,49 @@ class _DosageHistoryState extends State<DosageHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Dosage History'),
-        centerTitle: true,
+        backgroundColor: Colors.black,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 30,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddDiagnose(widget.uhid),
+                ),
+              );
+            },
+          )
+        ],
+        title: Text(
+          "Add Patient Details",
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            children: buildDeviceList(dosageList),
+            children: [
+              if (isLoading)
+                SizedBox(
+                    height: 1,
+                    child: LinearProgressIndicator(
+                      color: Colors.pink,
+                    ))
+              else if (dosageList.isEmpty)
+                Center(child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [ Text('No Data Found')]))
+                else
+                Column(children: buildDeviceList(dosageList)),
+            ],
           ),
         ),
       ),

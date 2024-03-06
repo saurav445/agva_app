@@ -56,22 +56,30 @@ class _PatientListState extends State<PatientList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.black,
         appBar: AppBar(
           title: Text('Patient Information'),
+          backgroundColor: Colors.black,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Column(
-            children: [
-              if (isLoading)
-                SizedBox(
-                    height: 1,
-                    child: LinearProgressIndicator(
-                      color: Colors.pink,
-                    ))
-              else
-                Column(children: buildActiveUserWidgets(userData)),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                if (isLoading)
+                  SizedBox(
+                      height: 1,
+                      child: LinearProgressIndicator(
+                        color: Colors.pink,
+                      ))
+                else if (userData.isEmpty)
+                  Center(
+                    child: Text('No List Found'),
+                  )
+                else
+                  Column(children: buildActiveUserWidgets(userData)),
+              ],
+            ),
           ),
         ));
   }
@@ -85,11 +93,6 @@ class _PatientListState extends State<PatientList> {
 
       return Column(
         children: [
-          //  if (getdata)
-          // SizedBox(
-          //   height: 1,
-          //   child: Center(child: LinearProgressIndicator(color: Colors.pink)),
-          // ) else
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.025,
           ),
@@ -164,7 +167,7 @@ class _PatientListState extends State<PatientList> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      AddPatientData(uhid, deviceId)));
+                                      AddPatientData(uhid, deviceId, userId)));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,

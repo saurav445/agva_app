@@ -26,7 +26,6 @@ final getPendingUsers = '$url/api/logger/pending-users-list';
 final updateUserstatus = '$url/api/logger/user-account-status';
 final addPatientData = '$url/patient/save-uhid-details';
 final patientFileupload = '$url/patient/upload-patient-file';
-// final patientDosageList = '$url/patient/get-diagnose';
 final patientList = '$url/patient/get-patient-list';
 final updatePatientDetails = '$url/patient/update-patient';
 final addDiagnoseDetails = '$url/patient/add-medical-diagnose';

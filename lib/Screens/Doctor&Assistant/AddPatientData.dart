@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:agva_app/Screens/Doctor&Assistant/AddDiagnose.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,17 +10,19 @@ import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 
 class AddPatientData extends StatefulWidget {
-  final String UHID;
+  final String uhid;
   final String deviceId;
-  AddPatientData(this.UHID, this.deviceId, {super.key});
+  final String userId;
+  AddPatientData(this.uhid, this.deviceId, this.userId, {super.key});
 
   @override
   _AddPatientDataState createState() => _AddPatientDataState();
 }
 
 class _AddPatientDataState extends State<AddPatientData> {
-  late String UHID;
+  late String uhid;
   late String deviceId;
+  late String userId;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   String? _fileName;
@@ -30,7 +31,6 @@ class _AddPatientDataState extends State<AddPatientData> {
   bool _userAborted = false;
   bool first = false;
 
-  // TextEditingController enterdeviceIDController = TextEditingController();
   TextEditingController enterpatientnameController = TextEditingController();
   TextEditingController enterpatientageController = TextEditingController();
   TextEditingController enterheightincmController = TextEditingController();
@@ -45,13 +45,13 @@ class _AddPatientDataState extends State<AddPatientData> {
   @override
   void initState() {
     super.initState();
-    print(widget.UHID);
+    print(widget.uhid);
     print(widget.deviceId);
   }
 
   void addPatientdata() async {
     var regBody = {
-      "UHID": widget.UHID,
+      "uhid": widget.uhid,
       "age": enterpatientageController.text,
       "deviceId": widget.deviceId,
       "doctor_name": enterdrnameController.text,
@@ -63,8 +63,8 @@ class _AddPatientDataState extends State<AddPatientData> {
       "weight": enterweightinkgController.text
     };
 
-    var response = await http.post(
-      Uri.parse(updatePatientDetails),
+    var response = await http.put(
+      Uri.parse('$updatePatientDetails/${widget.userId}'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(regBody),
     );
@@ -77,8 +77,6 @@ class _AddPatientDataState extends State<AddPatientData> {
     }
   }
 
-//  image upload api
-// Uri.parse('$patientFileupload/${enterdeviceIDController.text}/${enteruhidController.text}'),
   void _pickFiles() async {
     _resetState();
     try {
@@ -112,7 +110,7 @@ class _AddPatientDataState extends State<AddPatientData> {
     try {
       if (file.bytes != null) {
         var uri = Uri.parse(
-            '$patientFileupload/${widget.deviceId}/${widget.UHID}'); // Replace uploadURL with your actual URL
+            '$patientFileupload/${widget.deviceId}/${widget.uhid}'); // Replace uploadURL with your actual URL
         var request = http.MultipartRequest("POST", uri);
         // request.files.add(http.MultipartFile.fromBytes(
         //   "file",
@@ -195,23 +193,7 @@ class _AddPatientDataState extends State<AddPatientData> {
         backgroundColor: Colors.black,
         key: _scaffoldKey,
         appBar: AppBar(
-           actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 30,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddDiagnose(widget.UHID),
-                  ),
-                );
-              },
-            )
-          ],
+          centerTitle: true,
           title: Text(
             "Add Patient Details",
           ),
@@ -236,7 +218,7 @@ class _AddPatientDataState extends State<AddPatientData> {
                       Icons.person,
                       color: Colors.white70,
                     ),
-                    hintText: widget.UHID,
+                    hintText: widget.uhid,
                     hintStyle: TextStyle(color: Colors.white70),
                   ),
                 ),
@@ -247,13 +229,13 @@ class _AddPatientDataState extends State<AddPatientData> {
               Padding(
                 padding: const EdgeInsets.only(right: 30, left: 30),
                 child: TextFormField(
-                   readOnly: true,
+                  readOnly: true,
                   style: TextStyle(color: Colors.white70),
                   decoration: InputDecoration(
                     icon: Icon(
                       Icons.important_devices,
                       color: Colors.white70,
-                         size: 20,
+                      size: 20,
                     ),
                     hintText: widget.deviceId,
                     hintStyle: TextStyle(color: Colors.white70),

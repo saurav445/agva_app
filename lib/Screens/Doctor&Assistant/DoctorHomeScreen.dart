@@ -2,6 +2,7 @@
 
 import 'package:agva_app/AuthScreens/SignIn.dart';
 import 'package:agva_app/Screens/Common/Profile.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/AllPatientList.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/AssignedDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceList.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusAlarms.dart';
@@ -164,6 +165,24 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => DoctorDeviceList(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.devices_other, color: Colors.white),
+                title: Text(
+                  'PATIENTS',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AllPatientList(),
                     ),
                   );
                 },

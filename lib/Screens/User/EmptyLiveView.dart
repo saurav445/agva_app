@@ -67,15 +67,15 @@ class _EmptyLiveViewState extends State<EmptyLiveView> {
                                 Column(
                                   children: [
                                     Container(
-                                      // height:
-                                      //     MediaQuery.of(context).size.height *
-                                      //         0.5,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.2,
                                       width: MediaQuery.of(context).size.width *
                                           0.72,
                                       decoration: BoxDecoration(
                                         color: Color.fromARGB(255, 0, 0, 0),
                                       ),
-                                              child: MyLineChart()
+                                              child: LinearProgressIndicator()
                                     ),
                                     SizedBox(
                                       height: 5,
