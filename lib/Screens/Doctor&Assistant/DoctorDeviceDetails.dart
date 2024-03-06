@@ -163,15 +163,12 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
         var data = jsonResponse['data'];
         var focusStatus = data['addTofocus'];
         setState(() {
-
           setFocus = focusStatus;
-           getFocusStatus();
+          getFocusStatus();
         });
         print('after set $setFocus');
-       
       } else {
         print('Failed to update focus status: ${response.statusCode}');
-
       }
     } else {
       print("Token is null");

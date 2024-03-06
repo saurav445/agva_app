@@ -23,8 +23,8 @@ class _UserControlState extends State<UserControl> {
   void initState() {
     super.initState();
     getActiveUser();
-    getinActiveUser();
-    getPendingUser();
+    // getinActiveUser();
+    // getPendingUser();
   }
 
   void removeUser(String userID) async {
@@ -44,11 +44,9 @@ class _UserControlState extends State<UserControl> {
         print(response.statusCode);
         print('user removed');
         setState(() {
-          getdata = false;
-                  getActiveUser();
-           getPendingUser();
+          getActiveUser();
+          getPendingUser();
         });
-
       } else {
         print('Failed to update focus status: ${response.statusCode}');
       }
@@ -71,10 +69,10 @@ class _UserControlState extends State<UserControl> {
         body: jsonEncode({"accountStatus": "Active"}),
       );
       if (response.statusCode == 200) {
-           print(response.statusCode);
-                   print('user active');
-            getinActiveUser();
-               getPendingUser();
+        print(response.statusCode);
+        print('user active');
+        getinActiveUser();
+        getPendingUser();
       } else {
         print('Failed to update focus status: ${response.statusCode}');
       }
@@ -84,6 +82,10 @@ class _UserControlState extends State<UserControl> {
   }
 
   void getActiveUser() async {
+    setState(() {
+      isLoading = true;
+    });
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? mytoken = prefs.getString('mytoken');
     if (mytoken != null) {
@@ -94,7 +96,6 @@ class _UserControlState extends State<UserControl> {
         },
       );
       var jsonResponse = jsonDecode(response.body);
-      // print(jsonResponse);
       if (jsonResponse['statusCode'] == 200) {
         setState(() {
           userData = jsonResponse['data'];
@@ -110,6 +111,10 @@ class _UserControlState extends State<UserControl> {
   }
 
   void getinActiveUser() async {
+    setState(() {
+      isLoading = true;
+    });
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? mytoken = prefs.getString('mytoken');
     if (mytoken != null) {
@@ -120,18 +125,24 @@ class _UserControlState extends State<UserControl> {
         },
       );
       var jsonResponse = jsonDecode(response.body);
-      // print(jsonResponse);
       if (jsonResponse['statusCode'] == 200) {
         setState(() {
           inactiveuserData = jsonResponse['data'];
+          isLoading = false;
         });
       } else {
         print('Invalid User Credential: ${response.statusCode}');
+        setState(() {
+          isLoading = false;
+        });
       }
     }
   }
 
   void getPendingUser() async {
+    setState(() {
+      isLoading = true;
+    });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? mytoken = prefs.getString('mytoken');
     if (mytoken != null) {
@@ -142,131 +153,25 @@ class _UserControlState extends State<UserControl> {
         },
       );
       var jsonResponse = jsonDecode(response.body);
-      // print(jsonResponse);
       if (jsonResponse['statusCode'] == 200) {
         setState(() {
           requestsuserData = jsonResponse['data'];
+          isLoading = false;
         });
       } else {
         print('Invalid User Credential: ${response.statusCode}');
+        setState(() {
+          isLoading = false;
+        });
       }
     }
   }
-// String formatDateTime(String dateTimeString) {
-//   DateTime dateTime = DateTime.parse(dateTimeString);
-//   return DateFormat.yMd().add_jm().format(dateTime);
-// }
 
   List<Widget> buildRequestsUserWidgets(List<dynamic> requestsuserData,
       Function(String) removeUser, Function(String) activeUser) {
     return requestsuserData.map((user) {
       return Column(
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.025,
-          ),
-          Container(
-             height: MediaQuery.of(context).size.height * 0.2,
-            width: MediaQuery.of(context).size.width * 0.8,
-            decoration: BoxDecoration(
-                color: Color.fromARGB(255, 60, 60, 60),
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Name :'),
-                          Text('Speciality :'),
-                          Text('Contact :'),
-
-                          // Text('Last Active :'),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('${user['firstName']} ${user['lastName']}'),
-                          Text('${user['speciality']}'),
-                          Text('${user['contactNumber']}'),
-
-                          // Text('${user['lastLogin']}'),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.01,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
-                        child: Container(
-                          height: 30,
-                          width: 100,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              await activeUser(user['_id']);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.pink,
-                            ),
-                            child: Text(
-                              "Accept",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 10),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
-                        child: Container(
-                          height: 30,
-                          width: 100,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              await removeUser(user['_id']);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                            ),
-                            child: Text(
-                              "Remove",
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 10),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      );
-    }).toList();
-  }
-
-// inactive user list
-  List<Widget> buildInactiveUserWidgets(
-      List<dynamic> inactiveuserData, Function(String) activeUser) {
-    return inactiveuserData.map((user) {
-      return Column(
-        children: [
-          
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.025,
           ),
@@ -291,8 +196,6 @@ class _UserControlState extends State<UserControl> {
                           Text('Name :'),
                           Text('Speciality :'),
                           Text('Contact :'),
-
-                          // Text('Last Active :'),
                         ],
                       ),
                       Column(
@@ -302,8 +205,6 @@ class _UserControlState extends State<UserControl> {
                           Text('${user['firstName']} ${user['lastName']}'),
                           Text('${user['speciality']}'),
                           Text('${user['contactNumber']}'),
-
-                          // Text('${user['lastLogin']}'),
                         ],
                       ),
                     ],
@@ -311,24 +212,62 @@ class _UserControlState extends State<UserControl> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
-                    child: Container(
-                      height: 30,
-                      width: 100,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await activeUser(user['_id']);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pink,
-                        ),
-                        child: Text(
-                          "Active",
-                          style: TextStyle(color: Colors.white, fontSize: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                        child: Container(
+                          height: 30,
+                          width: 100,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              await activeUser(user['_id']);
+                              setState(() {
+                                isLoading = false;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.pink,
+                            ),
+                            child: Text(
+                              "Accept",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 10),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                        child: Container(
+                          height: 30,
+                          width: 100,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              await removeUser(user['_id']);
+                              setState(() {
+                                isLoading = false;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                            ),
+                            child: Text(
+                              "Remove",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 10),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -339,24 +278,16 @@ class _UserControlState extends State<UserControl> {
     }).toList();
   }
 
-  // active user list
-
-  List<Widget> buildActiveUserWidgets(
-      List<dynamic> userData, Function(String) removeUser) {
-    return userData.map((user) {
+  List<Widget> buildInactiveUserWidgets(
+      List<dynamic> inactiveuserData, Function(String) activeUser) {
+    return inactiveuserData.map((user) {
       return Column(
         children: [
-          
-          //  if (getdata)
-          // SizedBox(
-          //   height: 1,
-          //   child: Center(child: LinearProgressIndicator(color: Colors.pink)),
-          // ) else
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-             height: MediaQuery.of(context).size.height * 0.2,
+            height: MediaQuery.of(context).size.height * 0.2,
             width: MediaQuery.of(context).size.width * 0.8,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 60, 60, 60),
@@ -376,8 +307,6 @@ class _UserControlState extends State<UserControl> {
                           Text('Name :'),
                           Text('Speciality :'),
                           Text('Contact :'),
-
-                          // Text('Last Active :'),
                         ],
                       ),
                       Column(
@@ -387,8 +316,6 @@ class _UserControlState extends State<UserControl> {
                           Text('${user['firstName']} ${user['lastName']}'),
                           Text('${user['speciality']}'),
                           Text('${user['contactNumber']}'),
-
-                          // Text('${user['lastLogin']}'),
                         ],
                       ),
                     ],
@@ -397,25 +324,113 @@ class _UserControlState extends State<UserControl> {
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
                   Padding(
-                        padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
-                        child: Container(
-                          height: 30,
-                          width: 100,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              await removeUser(user['_id']);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.pink,
-                            ),
-                            child: Text(
-                              "Remove",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 10),
-                            ),
+                    padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                    child: Container(
+                      height: 30,
+                      width: 100,
+                      child: StatefulBuilder(builder: (context, setState) {
+                        return ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            await activeUser(user['_id']);
+                            setState(() {
+                              isLoading = false;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.pink,
                           ),
-                        ),
+                          child: Text(
+                            isLoading ? 'Processing' : 'Active',
+                            style: TextStyle(color: Colors.white, fontSize: 10),
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    }).toList();
+  }
+
+  List<Widget> buildActiveUserWidgets(
+      List<dynamic> userData, Function(String) removeUser) {
+    return userData.map((user) {
+      return Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.025,
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.2,
+            width: MediaQuery.of(context).size.width * 0.8,
+            decoration: BoxDecoration(
+                color: Color.fromARGB(255, 60, 60, 60),
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Name :'),
+                          Text('Speciality :'),
+                          Text('Contact :'),
+                        ],
                       ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('${user['firstName']} ${user['lastName']}'),
+                          Text('${user['speciality']}'),
+                          Text('${user['contactNumber']}'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                    child: Container(
+                      height: 30,
+                      width: 100,
+                      child: StatefulBuilder(builder: (context, setState) {
+                        return ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            await removeUser(user['_id']);
+                            setState(() {
+                              isLoading = false;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.pink,
+                          ),
+                          child: Text(
+                            isLoading ? 'Processing' : 'Remove',
+                            style: TextStyle(color: Colors.white, fontSize: 10),
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -447,7 +462,8 @@ class _UserControlState extends State<UserControl> {
               return SingleChildScrollView(
                   child: _buildPortraitLayout(context));
             } else {
-              return SingleChildScrollView(child: _buildLandscapeLayout(context));
+              return SingleChildScrollView(
+                  child: _buildLandscapeLayout(context));
             }
           })),
     );
@@ -468,6 +484,7 @@ class _UserControlState extends State<UserControl> {
                 onTap: () {
                   setState(() {
                     updateUser = 'Active Users';
+                    getActiveUser();
                   });
                 },
                 child: Container(
@@ -496,6 +513,7 @@ class _UserControlState extends State<UserControl> {
                 onTap: () {
                   setState(() {
                     updateUser = 'InActive Users';
+                    getinActiveUser();
                   });
                 },
                 child: Container(
@@ -524,6 +542,7 @@ class _UserControlState extends State<UserControl> {
                 onTap: () {
                   setState(() {
                     updateUser = 'Requests';
+                    getPendingUser();
                   });
                 },
                 child: Container(
@@ -559,13 +578,6 @@ class _UserControlState extends State<UserControl> {
             height: 1,
             child: Center(child: LinearProgressIndicator(color: Colors.pink)),
           )
-        // else if (userData.isEmpty)
-        //     SizedBox(
-        //       child: Text(
-        //         'No data',
-        //         style: TextStyle(color: Colors.white),
-        //       ),
-        //     )
         else
           Column(
             children: updateUser == 'Active Users'
@@ -580,8 +592,7 @@ class _UserControlState extends State<UserControl> {
   }
 
   Widget _buildLandscapeLayout(BuildContext context) {
-    
-   return Column(
+    return Column(
       children: [
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.035,
@@ -705,7 +716,8 @@ class _UserControlState extends State<UserControl> {
       ],
     );
   }
- List<Widget> buildRequestsUserWidget(List<dynamic> requestsuserData,
+
+  List<Widget> buildRequestsUserWidget(List<dynamic> requestsuserData,
       Function(String) removeUser, Function(String) activeUser) {
     return requestsuserData.map((user) {
       return Column(
@@ -714,7 +726,7 @@ class _UserControlState extends State<UserControl> {
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-             height: MediaQuery.of(context).size.height * 0.3,
+            height: MediaQuery.of(context).size.height * 0.3,
             width: MediaQuery.of(context).size.width * 0.8,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 60, 60, 60),
@@ -814,7 +826,6 @@ class _UserControlState extends State<UserControl> {
     return inactiveuserData.map((user) {
       return Column(
         children: [
-          
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.025,
           ),
@@ -894,7 +905,6 @@ class _UserControlState extends State<UserControl> {
     return userData.map((user) {
       return Column(
         children: [
-          
           //  if (getdata)
           // SizedBox(
           //   height: 1,
@@ -904,7 +914,7 @@ class _UserControlState extends State<UserControl> {
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-             height: MediaQuery.of(context).size.height * 0.3,
+            height: MediaQuery.of(context).size.height * 0.3,
             width: MediaQuery.of(context).size.width * 0.8,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 60, 60, 60),
@@ -945,25 +955,24 @@ class _UserControlState extends State<UserControl> {
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
                   Padding(
-                        padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
-                        child: Container(
-                          height: 30,
-                          width: 100,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              await removeUser(user['_id']);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.pink,
-                            ),
-                            child: Text(
-                              "Remove",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 10),
-                            ),
-                          ),
+                    padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                    child: Container(
+                      height: 30,
+                      width: 100,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await removeUser(user['_id']);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.pink,
+                        ),
+                        child: Text(
+                          "Remove",
+                          style: TextStyle(color: Colors.white, fontSize: 10),
                         ),
                       ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -972,6 +981,4 @@ class _UserControlState extends State<UserControl> {
       );
     }).toList();
   }
-
 }
-
