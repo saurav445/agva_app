@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,8 @@ class _ProfileState extends State<Profile> {
   String? savedhospitalName;
   String? savedhospitalAddress;
   String? saveduserID;
+  String? savedsecurityCode;
+
   bool isLoading = true;
   List<Map<String, dynamic>> devicesForUserList = [];
   late SharedPreferences prefs;
@@ -25,16 +27,22 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-     SystemChrome.setPreferredOrientations([
+    SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
-  ]);
+    ]);
     fetchGetDevicesForUser();
     getUsername().then((name) {
       setState(() {
         savedUsername = name;
       });
     });
+    getSecurityCode().then((securityCode) {
+      setState(() {
+        savedsecurityCode = securityCode;
+      });
+    });
+
     getUseremail().then((email) {
       setState(() {
         saveUseremail = email;
@@ -62,6 +70,12 @@ class _ProfileState extends State<Profile> {
     String? name = prefs.getString('name');
     print('Retrieved Username: $name');
     return name;
+  }
+
+  Future<String?> getSecurityCode() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? securityCode = prefs.getString('securityCode');
+    return securityCode;
   }
 
   Future<String?> getUseremail() async {
@@ -100,7 +114,6 @@ class _ProfileState extends State<Profile> {
   Future<void> fetchGetDevicesForUser() async {
     setState(() {
       isLoading = true;
-     
     });
     String? userid = await getUserID();
     print(userid);
@@ -130,7 +143,7 @@ class _ProfileState extends State<Profile> {
     }
   }
 
-  //  '${profileInfo['associationName']}',
+  // '${profileInfo['associationName']}',
 
   List<Widget> buildDeviceList() {
     return devicesForUserList.map((data) {
@@ -148,7 +161,7 @@ class _ProfileState extends State<Profile> {
         title: Container(
           width: double.infinity,
           decoration: BoxDecoration(
-               color: Color.fromARGB(255, 41, 41, 41),
+              color: Color.fromARGB(255, 41, 41, 41),
               borderRadius: BorderRadius.circular(5)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -173,11 +186,10 @@ class _ProfileState extends State<Profile> {
                     Text(
                       'Department: $department',
                       style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: MediaQuery.of(context).size.width * 0.03,
-                        fontWeight: FontWeight.w200
-                      ),
+                          fontFamily: 'Avenir',
+                          color: Color.fromARGB(255, 218, 218, 218),
+                          fontSize: MediaQuery.of(context).size.width * 0.03,
+                          fontWeight: FontWeight.w200),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.width * 0.005,
@@ -185,11 +197,10 @@ class _ProfileState extends State<Profile> {
                     Text(
                       'Work Email: $workEmail',
                       style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: MediaQuery.of(context).size.width * 0.03,
-                        fontWeight: FontWeight.w200
-                      ),
+                          fontFamily: 'Avenir',
+                          color: Color.fromARGB(255, 218, 218, 218),
+                          fontSize: MediaQuery.of(context).size.width * 0.03,
+                          fontWeight: FontWeight.w200),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.width * 0.005,
@@ -199,11 +210,10 @@ class _ProfileState extends State<Profile> {
                       child: Text(
                         'Address: $workAddress',
                         style: TextStyle(
-                          fontFamily: 'Avenir',
-                          color: Color.fromARGB(255, 218, 218, 218),
-                          fontSize: MediaQuery.of(context).size.width * 0.03,
-                          fontWeight: FontWeight.w200
-                        ),
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 218, 218, 218),
+                            fontSize: MediaQuery.of(context).size.width * 0.03,
+                            fontWeight: FontWeight.w200),
                       ),
                     ),
                   ],
@@ -290,6 +300,15 @@ class _ProfileState extends State<Profile> {
                         ),
                         SizedBox(height: 10),
                         Text(
+                          'Doc Code :',
+                          style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w200),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
                           'Designation :',
                           style: TextStyle(
                               fontFamily: 'Avenir',
@@ -331,6 +350,15 @@ class _ProfileState extends State<Profile> {
                       children: [
                         Text(
                           savedUsername ?? 'N/A',
+                          style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w200),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          savedsecurityCode ?? 'N/A',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 255, 255, 255),
@@ -551,8 +579,8 @@ class ProfileLandscape extends StatelessWidget {
             children: [
               GestureDetector(
                 // onTap: () {
-                //   Navigator.push(
-                //       context, MaterialPageRoute(builder: (context) => ()));
+                // Navigator.push(
+                // context, MaterialPageRoute(builder: (context) => ()));
                 // },
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.2,

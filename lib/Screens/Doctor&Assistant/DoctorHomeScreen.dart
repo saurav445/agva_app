@@ -1,10 +1,5 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_const, unused_import, library_private_types_in_public_api, prefer_typing_uninitialized_variables, unused_local_variable, use_build_context_synchronously
-
 import 'package:agva_app/AuthScreens/SignIn.dart';
 import 'package:agva_app/Screens/Common/Profile.dart';
-import 'package:agva_app/Screens/Doctor&Assistant/AllPatientList.dart';
-import 'package:agva_app/Screens/Doctor&Assistant/AssignedDevices.dart';
-import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceList.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusAlarms.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
@@ -29,6 +24,7 @@ class DoctorHomeScreen extends StatefulWidget {
 class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   String? savedUsername;
   String? savedsecurityCode;
+  String? saveUseremail;
   late SharedPreferences prefs;
 
   @override
@@ -43,6 +39,11 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     getSecuritycode().then((securityCode) {
       setState(() {
         savedsecurityCode = securityCode;
+      });
+    });
+    getUseremail().then((email) {
+      setState(() {
+        saveUseremail = email;
       });
     });
     // hospitalName = widget.data['hospitalName'];
@@ -71,6 +72,13 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     String? mytoken = prefs.getString('mytoken');
     print('Retrieved savedToken: $mytoken');
     return mytoken;
+  }
+
+  Future<String?> getUseremail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? email = prefs.getString('email');
+    print('Retrieved Useremail: $email');
+    return email;
   }
 
   Future<String?> getUsername() async {
@@ -120,6 +128,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
           }
         }),
         drawer: Drawer(
+          backgroundColor: Colors.black,
           child: ListView(
             padding: EdgeInsets.zero,
             physics: BouncingScrollPhysics(),
@@ -138,11 +147,14 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                           fontSize: MediaQuery.of(context).size.width * 0.1,
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'DOC CODE : ',
+                            savedUsername ?? '-',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w200,
@@ -151,10 +163,24 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                             ),
                           ),
                           Text(
-                            savedsecurityCode ?? '-',
+                            '#$savedsecurityCode' ?? '-',
                             style: TextStyle(
                               color: Colors.white,
-                                  fontWeight: FontWeight.w200,
+                              fontWeight: FontWeight.w400,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            saveUseremail ?? '-',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w200,
                               fontSize:
                                   MediaQuery.of(context).size.width * 0.04,
                             ),
@@ -295,7 +321,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Welcome Doctor',
+                    'Welcome,',
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       color: Color.fromARGB(255, 172, 172, 172),
@@ -752,7 +778,7 @@ class scrrollwidgetforlandscape extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 30),
                     child: Container(
                       // height:
-                      //     MediaQuery.of(context).size.height * 0.15,
+                      // MediaQuery.of(context).size.height * 0.15,
                       width: MediaQuery.of(context).size.width * 0.15,
                       child: Image.asset("assets/images/deviceimage.png"),
                     ),
