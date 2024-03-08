@@ -139,9 +139,6 @@ class DevicelistsPortrait extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 5,
-                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: GestureDetector(
@@ -174,7 +171,7 @@ class DevicelistsPortrait extends StatelessWidget {
                                       MediaQuery.of(context).size.height * 0.12,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 65, 65, 65),
+                                color: Color.fromARGB(255, 58, 58, 58),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(

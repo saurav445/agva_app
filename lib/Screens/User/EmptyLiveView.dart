@@ -64,49 +64,106 @@ class _EmptyLiveViewState extends State<EmptyLiveView> {
                               // Data screen
                               if (selectedMenu == 'DATA') DataScreen(),
                               if (selectedMenu == 'GRAPHS')
-                                Column(
-                                  children: [
-                                    Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.2,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.72,
-                                      decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                      ),
-                                              child: LinearProgressIndicator()
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    // Container(
-                                    //   height:
-                                    //       MediaQuery.of(context).size.height *
-                                    //           0.2,
-                                    //   width: MediaQuery.of(context).size.width *
-                                    //       0.76,
-                                    //   decoration: BoxDecoration(
-                                    //     color: Color.fromARGB(255, 0, 0, 0),
-                                    //   ),
-                                    //           child: MyLineChart()
-                                    // ),
-                                    // SizedBox(
-                                    //   height: 5,
-                                    // ),
-                                    // Container(
-                                    //   height:
-                                    //       MediaQuery.of(context).size.height *
-                                    //           0.2,
-                                    //   width: MediaQuery.of(context).size.width *
-                                    //       0.76,
-                                    //   decoration: BoxDecoration(
-                                    //     color: Color.fromARGB(255, 0, 0, 0),
-                                    //   ),
-                                    //   child: MyLineChart()
-                                    // ),
-                                  ],
-                                ),
+                                  Column(
+                                    children: [
+                                      Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.3,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.76,
+                                          decoration: BoxDecoration(
+                                            color: Color.fromARGB(255, 0, 0, 0),
+                                          ),
+                                          child: MyLineChart()
+                                          // child: LineChart(LineChartData(
+                                          //     titlesData: FlTitlesData(
+                                          //         leftTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false)),
+                                          //         rightTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false)),
+                                          //         bottomTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false,
+                                          //                 reservedSize: 0)),
+                                          //         topTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false))),
+                                          //     // borderData: FlBorderData(
+                                          //     //     show: false,
+                                          //     //     border: Border.all(
+                                          //     //       color: Colors.grey,
+                                          //     //       width: 1,
+                                          //     //     )),
+                                          //     lineBarsData: [
+                                          //       LineChartBarData(
+                                          //         gradient: LinearGradient(
+                                          //             colors: lineColors),
+                                          //         // color: Colors.white,
+                                          //         spots: chartData,
+                                          //         isCurved: false,
+                                          //         // color: Colors.white,
+                                          //         belowBarData:
+                                          //             BarAreaData(show: false),
+                                          //         dotData: FlDotData(show: false),
+                                          //       )
+                                          //     ])),
+                                          ),
+                                          Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.3,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.76,
+                                          decoration: BoxDecoration(
+                                            color: Color.fromARGB(255, 0, 0, 0),
+                                          ),
+                                          child: Linedata()
+                                          // child: LineChart(LineChartData(
+                                          //     titlesData: FlTitlesData(
+                                          //         leftTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false)),
+                                          //         rightTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false)),
+                                          //         bottomTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false,
+                                          //                 reservedSize: 0)),
+                                          //         topTitles: AxisTitles(
+                                          //             sideTitles: SideTitles(
+                                          //                 showTitles: false))),
+                                          //     // borderData: FlBorderData(
+                                          //     //     show: false,
+                                          //     //     border: Border.all(
+                                          //     //       color: Colors.grey,
+                                          //     //       width: 1,
+                                          //     //     )),
+                                          //     lineBarsData: [
+                                          //       LineChartBarData(
+                                          //         gradient: LinearGradient(
+                                          //             colors: lineColors),
+                                          //         // color: Colors.white,
+                                          //         spots: chartData,
+                                          //         isCurved: false,
+                                          //         // color: Colors.white,
+                                          //         belowBarData:
+                                          //             BarAreaData(show: false),
+                                          //         dotData: FlDotData(show: false),
+                                          //       )
+                                          //     ])),
+                                          ),
+                                    ],
+                                  ),
                             ],
                           ),
                         ),

@@ -51,6 +51,7 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
       if (jsonResponse['statusValue'] == 'SUCCESS') {
         setState(() {
           deviceAbout = jsonResponse['data'];
+          isLoading = false;
         });
       } else {
         print('Invalid User Credential: ${response.statusCode}');
@@ -74,8 +75,7 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
       if (jsonResponse['statusCode'] == 200) {
         var data = jsonResponse['data'];
         print(data['addTofocus']);
-        if (data['addTofocus'] == false) {
-        }
+        if (data['addTofocus'] == false) {}
       }
     } else {
       print("Token is null");
@@ -126,146 +126,152 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.05,
         ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Product :',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+        if (isLoading)
+          SizedBox(
+            height: 1,
+            child: Center(child: LinearProgressIndicator(color: Colors.pink)),
+          )
+        else
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Product :',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Model :',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+                  SizedBox(height: 10),
+                  Text(
+                    'Model :',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Delivery Date :',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+                  SizedBox(height: 10),
+                  Text(
+                    'Delivery Date :',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Date of Manufacture :',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+                  SizedBox(height: 10),
+                  Text(
+                    'Date of Manufacture :',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Batch No :',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+                  SizedBox(height: 10),
+                  Text(
+                    'Batch No :',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Date of Warranty :',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+                  SizedBox(height: 10),
+                  Text(
+                    'Date of Warranty :',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Last Service :',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+                  SizedBox(height: 10),
+                  Text(
+                    'Last Service :',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  deviceAbout['productType'] ?? 'N/A',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    deviceAbout['productType'] ?? '-',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  deviceAbout['model'] ?? 'N/A',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+                  SizedBox(height: 10),
+                  Text(
+                    deviceAbout['model'] ?? '-',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  deviceAbout['dispatchDate'] ?? 'N/A',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+                  SizedBox(height: 10),
+                  Text(
+                    deviceAbout['dispatchDate'] ?? '-',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  deviceAbout['manufacturingDate'] ?? 'N/A',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+                  SizedBox(height: 10),
+                  Text(
+                    deviceAbout['manufacturingDate'] ?? '-',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  deviceAbout['batchNumber'] ?? 'N/A',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+                  SizedBox(height: 10),
+                  Text(
+                    deviceAbout['batchNumber'] ?? '-',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  deviceAbout['dateOfWarranty'] ?? 'N/A',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+                  SizedBox(height: 10),
+                  Text(
+                    deviceAbout['dateOfWarranty'] ?? '-',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  deviceAbout['last_service'] ?? 'N/A',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 16,
+                  SizedBox(height: 10),
+                  Text(
+                    deviceAbout['last_service'] ?? '-',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
+                ],
+              ),
+            ],
+          ),
       ],
     );
   }

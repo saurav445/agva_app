@@ -176,13 +176,13 @@ class _UserControlState extends State<UserControl> {
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.2,
-            width: MediaQuery.of(context).size.width * 0.8,
+            height: MediaQuery.of(context).size.height * 0.15,
+            width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 60, 60, 60),
-                borderRadius: BorderRadius.all(Radius.circular(20))),
+                        color: Color.fromARGB(255, 45, 45, 45),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -202,9 +202,18 @@ class _UserControlState extends State<UserControl> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${user['firstName']} ${user['lastName']}'),
-                          Text('${user['speciality']}'),
-                          Text('${user['contactNumber']}'),
+                          Text(
+                            '${user['firstName']} ${user['lastName']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['speciality']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['contactNumber']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
                         ],
                       ),
                     ],
@@ -287,13 +296,13 @@ class _UserControlState extends State<UserControl> {
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.2,
-            width: MediaQuery.of(context).size.width * 0.8,
+            height: MediaQuery.of(context).size.height * 0.15,
+            width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 60, 60, 60),
-                borderRadius: BorderRadius.all(Radius.circular(20))),
+            color: Color.fromARGB(255, 45, 45, 45),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -313,9 +322,18 @@ class _UserControlState extends State<UserControl> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${user['firstName']} ${user['lastName']}'),
-                          Text('${user['speciality']}'),
-                          Text('${user['contactNumber']}'),
+                          Text(
+                            '${user['firstName']} ${user['lastName']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['speciality']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['contactNumber']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
                         ],
                       ),
                     ],
@@ -365,16 +383,16 @@ class _UserControlState extends State<UserControl> {
       return Column(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.025,
+            height: MediaQuery.of(context).size.height * 0.02,
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.2,
-            width: MediaQuery.of(context).size.width * 0.8,
+            height: MediaQuery.of(context).size.height * 0.15,
+            width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 60, 60, 60),
-                borderRadius: BorderRadius.all(Radius.circular(20))),
+            color: Color.fromARGB(255, 45, 45, 45),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -394,9 +412,18 @@ class _UserControlState extends State<UserControl> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${user['firstName']} ${user['lastName']}'),
-                          Text('${user['speciality']}'),
-                          Text('${user['contactNumber']}'),
+                          Text(
+                            '${user['firstName']} ${user['lastName']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['speciality']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['contactNumber']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
                         ],
                       ),
                     ],
@@ -475,100 +502,96 @@ class _UserControlState extends State<UserControl> {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.035,
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    updateUser = 'Active Users';
-                    getActiveUser();
-                  });
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  updateUser = 'Active Users';
+                  getActiveUser();
+                });
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height * 0.05,
+                width: MediaQuery.of(context).size.width * 0.25,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: updateUser == 'Active Users'
+                      ? Colors.white
+                      : Colors.transparent,
+                ),
+                child: Text(
+                  'Active Users',
+                  style: TextStyle(
                     color: updateUser == 'Active Users'
-                        ? Colors.white
-                        : Colors.transparent,
-                  ),
-                  child: Text(
-                    'Active Users',
-                    style: TextStyle(
-                      color: updateUser == 'Active Users'
-                          ? Colors.black
-                          : Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
+                        ? Colors.black
+                        : Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    updateUser = 'InActive Users';
-                    getinActiveUser();
-                  });
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  updateUser = 'InActive Users';
+                  getinActiveUser();
+                });
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height * 0.05,
+                width: MediaQuery.of(context).size.width * 0.25,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: updateUser == 'InActive Users'
+                      ? Colors.white
+                      : Colors.transparent,
+                ),
+                child: Text(
+                  'InActive Users',
+                  style: TextStyle(
                     color: updateUser == 'InActive Users'
-                        ? Colors.white
-                        : Colors.transparent,
-                  ),
-                  child: Text(
-                    'InActive Users',
-                    style: TextStyle(
-                      color: updateUser == 'InActive Users'
-                          ? Colors.black
-                          : Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
+                        ? Colors.black
+                        : Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    updateUser = 'Requests';
-                    getPendingUser();
-                  });
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: updateUser == 'Requests'
-                        ? Colors.white
-                        : Colors.transparent,
-                  ),
-                  child: Text(
-                    'Requests',
-                    style: TextStyle(
-                      color: updateUser == 'Requests'
-                          ? Colors.black
-                          : Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  updateUser = 'Requests';
+                  getPendingUser();
+                });
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height * 0.05,
+                width: MediaQuery.of(context).size.width * 0.25,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: updateUser == 'Requests'
+                      ? Colors.white
+                      : Colors.transparent,
+                ),
+                child: Text(
+                  'Requests',
+                  style: TextStyle(
+                    color:
+                        updateUser == 'Requests' ? Colors.black : Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.035,
@@ -697,13 +720,6 @@ class _UserControlState extends State<UserControl> {
             height: 1,
             child: Center(child: LinearProgressIndicator(color: Colors.pink)),
           )
-        // else if (userData.isEmpty)
-        //     SizedBox(
-        //       child: Text(
-        //         'No data',
-        //         style: TextStyle(color: Colors.white),
-        //       ),
-        //     )
         else
           Column(
             children: updateUser == 'Active Users'
@@ -917,7 +933,7 @@ class _UserControlState extends State<UserControl> {
             height: MediaQuery.of(context).size.height * 0.3,
             width: MediaQuery.of(context).size.width * 0.8,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 60, 60, 60),
+                color: Color.fromARGB(255, 70, 70, 70),
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             child: Padding(
               padding: const EdgeInsets.all(10),

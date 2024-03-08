@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddPatientData extends StatefulWidget {
   final String uhid;
@@ -40,124 +41,82 @@ class _AddPatientDataState extends State<AddPatientData> {
   TextEditingController enterwardnoController = TextEditingController();
   TextEditingController enterdasageController = TextEditingController();
 
-  String? get uploadURL => null;
+  String? get uploadURL =>
+      '$patientFileupload/${widget.deviceId}/${widget.uhid}';
 
   @override
   void initState() {
     super.initState();
     print(widget.uhid);
     print(widget.deviceId);
+    print(widget.userId);
+  }
+
+  Future<String?> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('mytoken');
   }
 
   void addPatientdata() async {
-    var regBody = {
-      "uhid": widget.uhid,
-      "age": enterpatientageController.text,
-      "deviceId": widget.deviceId,
-      "doctor_name": enterdrnameController.text,
-      "dosageProvided": enterdasageController.text,
-      "height": enterheightincmController.text,
-      "hospitalName": enterhospitalnameController.text,
-      "patientName": enterpatientnameController.text,
-      "ward_no": enterwardnoController.text,
-      "weight": enterweightinkgController.text
-    };
+    String? token = await getToken();
+    if (token != null) {
+      var regBody = {
+        "uhid": widget.uhid,
+        "age": enterpatientageController.text,
+        "deviceId": widget.deviceId,
+        "doctor_name": enterdrnameController.text,
+        "dosageProvided": enterdasageController.text,
+        "height": enterheightincmController.text,
+        "hospitalName": enterhospitalnameController.text,
+        "patientName": enterpatientnameController.text,
+        "ward_no": enterwardnoController.text,
+        "weight": enterweightinkgController.text
+      };
 
-    var response = await http.put(
-      Uri.parse('$updatePatientDetails/${widget.userId}'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(regBody),
-    );
-    var jsonResponse = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      print(jsonResponse['data']);
-      print('Patient data added successfully');
-    } else {
-      print("Something Went Wrong");
-    }
-  }
-
-  void _pickFiles() async {
-    _resetState();
-    try {
-      _paths = (await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        onFileLoading: (FilePickerStatus status) => print(status),
-        allowedExtensions: ['jpeg', 'jpg', 'heic', 'pdf', 'png'],
-      ))
-          ?.files;
-      if (_paths != null && _paths!.isNotEmpty) {
-        // If files are selected, upload the first file
-        _uploadFile(_paths!.first);
-        // Add logging for file data
-        print('File name: ${_paths!.first.name}');
-        print('File size: ${_paths!.first.size}');
-      }
-    } on PlatformException catch (e) {
-      _logException('Unsupported operation' + e.toString());
-    } catch (e) {
-      _logException(e.toString());
-    }
-    if (!mounted) return;
-    setState(() {
-      _isLoading = false;
-      _fileName = _paths != null ? _paths!.first.name : '...';
-      _userAborted = _paths == null;
-    });
-  }
-
-  void _uploadFile(PlatformFile file) async {
-    try {
-      if (file.bytes != null) {
-        var uri = Uri.parse(
-            '$patientFileupload/${widget.deviceId}/${widget.uhid}'); // Replace uploadURL with your actual URL
-        var request = http.MultipartRequest("POST", uri);
-        // request.files.add(http.MultipartFile.fromBytes(
-        //   "file",
-        //   file.bytes!,
-        //   filename: file.name,
-        // ));
-        //         request.files.add(http.MultipartFile.fromPath(
-
-        // ));
-        var response = await request.send();
-        if (response.statusCode == 200) {
-          // File uploaded successfully
-          print('File uploaded successfully');
-          // Optionally, you can add logic here to handle the response from the server
-        } else {
-          print('Failed to upload file: ${response.reasonPhrase}');
-        }
+      var response = await http.put(
+        Uri.parse('$updatePatientDetails/${widget.userId}'),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": 'Bearer $token',
+        },
+        body: jsonEncode(regBody),
+      );
+      var jsonResponse = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        print(jsonResponse);
+        print('Patient data added successfully');
       } else {
-        print('Error: File bytes are null');
+        print(response.statusCode);
       }
-    } catch (e) {
-      print('Error uploading file: $e');
     }
   }
 
-  // void _pickFiles() async {
-  //   _resetState();
-  //   try {
-  //     _paths = (await FilePicker.platform.pickFiles(
-  //       type: FileType.custom,
-  //       onFileLoading: (FilePickerStatus status) => print(status),
-  //       allowedExtensions: ['jpeg', 'jpg', 'heic', 'pdf', 'png'],
-  //     ))
-  //         ?.files;
-  //   } on PlatformException catch (e) {
-  //     _logException('Unsupported operation' + e.toString());
-  //   } catch (e) {
-  //     _logException(e.toString());
-  //   }
-  //   if (!mounted) return;
-  //   setState(() {
-  //     _isLoading = false;
-  //     _fileName =
-  //         _paths != null ? _paths!.map((e) => e.name).toString() : '...';
-  //     _userAborted = _paths == null;
-  //   });
-  // }
+  void uploadFile(List<PlatformFile> files) async {
+  for (var file in files) {
+    if (file.path != null) {
+      var request = http.MultipartRequest(
+        "POST",
+        Uri.parse(uploadURL!),
+      );
+      request.files.add(await http.MultipartFile.fromPath(
+        'file',
+        file.path!,
+      ));
+
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        var responseData = await response.stream.bytesToString();
+        print("File uploaded successfully");
+        print("Server Response: $responseData");
+      } else {
+        print("Failed to upload file. Status Code: ${response.statusCode}");
+      }
+    } else {
+      print("File path is null");
+    }
+  }
+}
+
 
   void _logException(String message) {
     print(message);
@@ -392,37 +351,24 @@ class _AddPatientDataState extends State<AddPatientData> {
               SizedBox(
                 height: 40,
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
-                child: Container(
-                  height: 45,
-                  width: 300,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 3,
-                          blurRadius: 20,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                      color: Colors.white,
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.white,
-                            Colors.white,
-                          ])),
-                  child: TextButton(
-                    onPressed: () => _pickFiles(),
-                    style: TextButton.styleFrom(),
-                    child: Text(
-                      "Select Image",
-                      style: TextStyle(color: Colors.black, fontSize: 15),
-                    ),
-                  ),
+              ElevatedButton(
+                onPressed: () async {
+                  FilePickerResult? result =
+                      await FilePicker.platform.pickFiles();
+
+                  if (result != null) {
+                    setState(() {
+                      _paths = result.files;
+                      uploadFile(result.files);
+                    });
+                  } else {}
+                },
+                 style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                            ),
+                child: Text(
+                  "Select Image",
+                  style: TextStyle(color: Colors.black, fontSize: 15),
                 ),
               ),
               Builder(
@@ -527,14 +473,6 @@ class _AddPatientDataState extends State<AddPatientData> {
                   width: 300,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 3,
-                          blurRadius: 20,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
                       color: Colors.white,
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,

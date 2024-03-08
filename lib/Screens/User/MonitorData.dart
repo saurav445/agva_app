@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:agva_app/config.dart';
 import 'package:agva_app/widgets/Alarms.dart';
 import 'package:agva_app/widgets/Calibration.dart';
-import 'package:agva_app/widgets/CrashLogs.dart';
 import 'package:agva_app/widgets/Events.dart';
 import 'package:agva_app/widgets/Trends.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +77,7 @@ class _MonitorDataState extends State<MonitorData> {
               children: [
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                       EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                   child: Column(
                     children: [
                       Container(
@@ -92,18 +91,17 @@ class _MonitorDataState extends State<MonitorData> {
                           children: [
                             buildButton('Events'),
                             buildButton('Alarms'),
-                            buildButton('Crash Logs'),
                             buildButton('Trends'),
                             buildButton('Calibration'),
                           ],
                         ),
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.7,
-                        width: MediaQuery.of(context).size.width * 1,
+                        height: MediaQuery.of(context).size.height * 0.85,
+                        width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: Color.fromARGB(255, 65, 65, 65),
+                        color: Color.fromARGB(255, 58, 58, 58),
                         ),
                         child: buildBigContainerContent(),
                       )
@@ -174,8 +172,6 @@ class _MonitorDataState extends State<MonitorData> {
         return isLoading ? buildLoading() : Events(deviceId);
       case 'Alarms':
         return isLoading ? buildLoading() : Alarms(deviceId);
-      case 'Crash Logs':
-        return isLoading ? buildLoading() : CrashLogs(deviceId);
       case 'Trends':
         return isLoading ? buildLoading() : Trends(deviceId);
       case 'Calibration':

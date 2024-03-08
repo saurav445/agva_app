@@ -45,9 +45,7 @@ class _DosageHistoryState extends State<DosageHistory> {
         },
       );
       var jsonResponse = jsonDecode(response.body);
-// print(jsonResponse);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
-// print(jsonResponse);
         dosageList = jsonResponse['data'];
         setState(() {
           isLoading = false;

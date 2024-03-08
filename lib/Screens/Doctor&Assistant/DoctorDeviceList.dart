@@ -115,7 +115,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
       if (data['addTofocus'] == true) {
         focusColor = Colors.pink;
       } else {
-        focusColor = Color.fromARGB(255, 65, 65, 65);
+        focusColor = Color.fromARGB(255, 58, 58, 58);
       }
 
       return ListTile(
@@ -137,7 +137,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                   height: MediaQuery.of(context).size.height * 0.12,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 65, 65, 65),
+                    color: Color.fromARGB(255, 58, 58, 58),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(

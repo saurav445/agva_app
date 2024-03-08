@@ -22,7 +22,7 @@ class TilesforPortait extends StatelessWidget {
       width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: Color.fromARGB(255, 87, 87, 87),
+           color: Color.fromARGB(255, 58, 58, 58),
         // color: Color.fromARGB(255, 86, 160, 198),
       ),
       child: Padding(

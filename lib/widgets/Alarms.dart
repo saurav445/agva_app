@@ -52,7 +52,6 @@ class _AlarmsState extends State<Alarms> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  buildColumnHeading('Device ID'),
                   buildColumnHeading('Code'),
                   buildColumnHeading('Alarm'),
                   buildColumnHeading('Priority'),
@@ -92,17 +91,19 @@ class _AlarmsState extends State<Alarms> {
         children: [
           Row(
             children: [
-              SizedBox(width: 20),
-              buildColumnContent(buildDeviceIdContent(alarmData['did'])),
+              SizedBox(width: 60),
               buildColumnContent(buildCodeContent(alarmData['ack']['code'])),
               buildColumnContent(buildMsgContent(alarmData['ack']['msg'])),
               SizedBox(width: 10),
               buildColumnContent(buildPriContent(alarmData['priority'])),
               buildColumnContent(buildDateContent(alarmData['ack']['date'])),
-              buildColumnContent(buildTimeContent(alarmData['ack']['time'])),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 50),
+                child: buildColumnContent(buildTimeContent(alarmData['ack']['time'])),
+              ),
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 15),
           Container(
             height: 0.1,
             color: Colors.white,
@@ -156,7 +157,7 @@ class _AlarmsState extends State<Alarms> {
 
   Widget buildMsgContent(String text) {
     return SizedBox(
-      width: 100,
+      width: 120,
       child: Text(
         text,
         style: TextStyle(
@@ -179,6 +180,8 @@ class _AlarmsState extends State<Alarms> {
         return buildMediumAlarm();
       case 'ALARM_HIGH_LEVEL':
         return buildHighAlarm();
+      case 'ALARM_CRITICAL_LEVEL':
+        return buildHighAlarm();
       default:
         return buildLowAlarm();
     }
@@ -190,7 +193,7 @@ class _AlarmsState extends State<Alarms> {
       width: 60,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: const Color.fromARGB(255, 13, 195, 19),
+      color: Color.fromARGB(255, 255, 166, 0),
       ),
     );
   }
@@ -240,7 +243,7 @@ class _AlarmsState extends State<Alarms> {
   Widget buildColumnContent(Widget child) {
     return Expanded(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           child,
         ],

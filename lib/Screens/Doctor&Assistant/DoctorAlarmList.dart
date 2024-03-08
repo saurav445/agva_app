@@ -114,9 +114,9 @@ class DoctorAlarmListState extends State<DoctorAlarmList> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color.fromARGB(100, 73, 73, 73),
+                  color: Color.fromARGB(255, 45, 45, 45),
               ),
-              height: MediaQuery.of(context).size.height * 0.05,
+              height: MediaQuery.of(context).size.height * 0.12,
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

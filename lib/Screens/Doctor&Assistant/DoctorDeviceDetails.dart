@@ -70,6 +70,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
       });
     });
     getFocusStatus();
+    print("I am here");
     widget.socketService.initializeSocket(url, widget.deviceId);
     widget.socketService.tilesDataCallBack((
       receivedPipData,
@@ -323,7 +324,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                               width: MediaQuery.of(context).size.width * 0.42,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Color.fromARGB(255, 89, 89, 89),
+                              color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: TextButton(
                                 onPressed: () {},
@@ -335,7 +336,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                     fontSize:
                                         MediaQuery.of(context).size.width *
                                             0.05,
-                                    fontWeight: FontWeight.bold,
+                             
                                   ),
                                 ),
                               ),
@@ -443,7 +444,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   MediaQuery.of(context).size.height * 0.065,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Color.fromARGB(255, 82, 82, 82),
+                                 color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -463,7 +464,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                     fontSize:
                                         MediaQuery.of(context).size.width *
                                             0.045,
-                                    fontWeight: FontWeight.bold,
+                    
                                   ),
                                 ),
                               ),
@@ -478,7 +479,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   MediaQuery.of(context).size.height * 0.065,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Color.fromARGB(255, 82, 82, 82),
+                                 color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -499,7 +500,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                     fontSize:
                                         MediaQuery.of(context).size.width *
                                             0.045,
-                                    fontWeight: FontWeight.bold,
+                             
                                   ),
                                 ),
                               ),
@@ -516,7 +517,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   MediaQuery.of(context).size.height * 0.065,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Color.fromARGB(255, 82, 82, 82),
+                                 color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: Row(
                                 mainAxisAlignment:
@@ -575,7 +576,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                                     .size
                                                     .width *
                                                 0.045,
-                                            fontWeight: FontWeight.bold,
+                                     
                                           ),
                                         ),
                                       ),
@@ -594,7 +595,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   MediaQuery.of(context).size.height * 0.065,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Color.fromARGB(255, 82, 82, 82),
+                                 color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -623,7 +624,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                     fontSize:
                                         MediaQuery.of(context).size.width *
                                             0.045,
-                                    fontWeight: FontWeight.bold,
+                             
                                   ),
                                 ),
                               ),
@@ -658,7 +659,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   topRight: Radius.circular(5),
                                   bottomRight: Radius.circular(5),
                                 ),
-                                color: Color.fromARGB(255, 82, 82, 82),
+                                 color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: TextButton(
                                   onPressed: toggleFocus,
@@ -672,7 +673,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                       fontSize:
                                           MediaQuery.of(context).size.width *
                                               0.045,
-                                      fontWeight: FontWeight.bold,
+                               
                                     ),
                                   )),
                             ),
@@ -703,7 +704,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
               Text("Connecting server..",
                   style: TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
+               
                       fontSize: 20.0))
             ],
           ),
@@ -751,7 +752,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   color: Colors.white,
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.02,
-                                  fontWeight: FontWeight.bold,
+                           
                                 ),
                               ),
                             ),
@@ -815,7 +816,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             width: MediaQuery.of(context).size.width * 0.15,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: Color.fromARGB(255, 82, 82, 82),
+                               color: Color.fromARGB(255, 58, 58, 58),
                             ),
                             child: TextButton(
                               onPressed: () {
@@ -834,7 +835,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   color: Colors.white,
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.01,
-                                  fontWeight: FontWeight.bold,
+                           
                                 ),
                               ),
                             ),
@@ -844,7 +845,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             width: MediaQuery.of(context).size.width * 0.15,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: Color.fromARGB(255, 82, 82, 82),
+                               color: Color.fromARGB(255, 58, 58, 58),
                             ),
                             child: TextButton(
                               onPressed: () {
@@ -864,7 +865,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   color: Colors.white,
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.01,
-                                  fontWeight: FontWeight.bold,
+                           
                                 ),
                               ),
                             ),
@@ -874,7 +875,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             width: MediaQuery.of(context).size.width * 0.15,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: Color.fromARGB(255, 82, 82, 82),
+                               color: Color.fromARGB(255, 58, 58, 58),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -929,7 +930,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                                   .size
                                                   .width *
                                               0.01,
-                                          fontWeight: FontWeight.bold,
+                                   
                                         ),
                                       ),
                                     ),
@@ -943,7 +944,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             width: MediaQuery.of(context).size.width * 0.15,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: Color.fromARGB(255, 82, 82, 82),
+                               color: Color.fromARGB(255, 58, 58, 58),
                             ),
                             child: TextButton(
                               onPressed: () {},
@@ -954,7 +955,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   color: Colors.white,
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.01,
-                                  fontWeight: FontWeight.bold,
+                           
                                 ),
                               ),
                             ),
@@ -977,7 +978,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                     topRight: Radius.circular(5),
                                     bottomRight: Radius.circular(5),
                                   ),
-                                  color: Color.fromARGB(255, 82, 82, 82),
+                                   color: Color.fromARGB(255, 58, 58, 58),
                                 ),
                                 child: TextButton(
                                   onPressed: toggleFocus,
@@ -991,7 +992,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                       fontSize:
                                           MediaQuery.of(context).size.width *
                                               0.01,
-                                      fontWeight: FontWeight.bold,
+                               
                                     ),
                                   ),
                                 ),

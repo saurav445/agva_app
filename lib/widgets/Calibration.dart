@@ -50,7 +50,6 @@ class _CalibrationState extends State<Calibration> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  buildColumnHeading('Device ID'),
                   buildColumnHeading('Name'),
                   buildColumnHeading('Message'),
                   buildColumnHeading('Date'),
@@ -88,8 +87,6 @@ class _CalibrationState extends State<Calibration> {
         children: [
           Row(
             children: [
-              SizedBox(width: 20),
-              buildColumnContent(buildDeviceIdContent(calbData['deviceId'])),
               SizedBox(width: 10),
               buildColumnContent(buildNameContent(calbData['name'])),
               SizedBox(width: 10),
@@ -141,7 +138,7 @@ class _CalibrationState extends State<Calibration> {
 
   Widget buildNameContent(String text) {
     return SizedBox(
-      width: 100,
+      width: 120,
       child: Text(
         text,
         style: TextStyle(
@@ -164,7 +161,7 @@ class _CalibrationState extends State<Calibration> {
     }
 
     return Container(
-      width: 80,
+      width: 100,
       height: 20,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),

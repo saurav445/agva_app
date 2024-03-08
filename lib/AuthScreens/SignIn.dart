@@ -58,6 +58,7 @@ class _SignInState extends State<SignIn> {
           var hospitalAddress = data['hospitalAddress'];
           var usertype = data['userType'];
           var userID = data['_id'];
+          var securityCode = data['securityCode'];
 
           saveUsername(name);
           saveUseremail(email);
@@ -66,6 +67,7 @@ class _SignInState extends State<SignIn> {
           saveHospitalAddress(hospitalAddress);
           saveusertype(usertype);
           saveuserID(userID);
+          savesecurityCode(securityCode);
 
           if (usertype == 'User') {
             Navigator.push(
@@ -108,6 +110,12 @@ class _SignInState extends State<SignIn> {
         print('Error: $e');
       }
     }
+  }
+
+  Future<void> savesecurityCode(String securityCode) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('securityCode', securityCode);
+    print('Saved securityCode: $securityCode');
   }
 
   Future<void> saveUsername(String name) async {

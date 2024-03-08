@@ -28,6 +28,7 @@ class DoctorHomeScreen extends StatefulWidget {
 
 class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   String? savedUsername;
+  String? savedsecurityCode;
   late SharedPreferences prefs;
 
   @override
@@ -37,6 +38,11 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     getUsername().then((name) {
       setState(() {
         savedUsername = name;
+      });
+    });
+    getSecuritycode().then((securityCode) {
+      setState(() {
+        savedsecurityCode = securityCode;
       });
     });
     // hospitalName = widget.data['hospitalName'];
@@ -72,6 +78,13 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     String? name = prefs.getString('name');
     print('Retrieved Username: $name');
     return name;
+  }
+
+  Future<String?> getSecuritycode() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? securityCode = prefs.getString('securityCode');
+    print('Retrieved securityCode: $securityCode');
+    return securityCode;
   }
 
   Future<void> logout() async {
@@ -115,12 +128,40 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 decoration: BoxDecoration(),
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text(
-                    'AgVa',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 157, 0, 86),
-                      fontSize: MediaQuery.of(context).size.width * 0.1,
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'AgVa',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 157, 0, 86),
+                          fontSize: MediaQuery.of(context).size.width * 0.1,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'DOC CODE : ',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w200,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04,
+                            ),
+                          ),
+                          Text(
+                            savedsecurityCode ?? '-',
+                            style: TextStyle(
+                              color: Colors.white,
+                                  fontWeight: FontWeight.w200,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -149,42 +190,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Profile()));
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.devices_other, color: Colors.white),
-                title: Text(
-                  'DEVICES',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DoctorDeviceList(),
-                    ),
-                  );
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.devices_other, color: Colors.white),
-                title: Text(
-                  'PATIENTS',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AllPatientList(),
-                    ),
-                  );
                 },
               ),
               ListTile(
@@ -653,7 +658,6 @@ class scrrollwidgetforlandscape extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
-        
         GestureDetector(
           onTap: () {
             Navigator.push(
@@ -761,55 +765,54 @@ class scrrollwidgetforlandscape extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
-         GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => UserControl(),
-                    ),
-                  );
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      gradient: LinearGradient(
-                        colors: [Color(0xff1d2b64), Color(0xfff8cdda)],
-                        stops: [0, 1],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      )),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'ASSISTANT',
-                          style: TextStyle(
-                            fontFamily: 'Avenir',
-                            color: Color.fromARGB(255, 218, 218, 218),
-                            fontSize: MediaQuery.of(context).size.width * 0.02,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.22,
-                          child: Image.asset("assets/images/nurse.png"),
-                        ),
-                      ],
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UserControl(),
+              ),
+            );
+          },
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.3,
+            width: MediaQuery.of(context).size.width * 0.5,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+                gradient: LinearGradient(
+                  colors: [Color(0xff1d2b64), Color(0xfff8cdda)],
+                  stops: [0, 1],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                )),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'ASSISTANT',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 218, 218, 218),
+                      fontSize: MediaQuery.of(context).size.width * 0.02,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.22,
+                    child: Image.asset("assets/images/nurse.png"),
+                  ),
+                ],
               ),
-              SizedBox(
+            ),
+          ),
+        ),
+        SizedBox(
           height: 20,
         ),
-        
         Container(
           height: MediaQuery.of(context).size.height * 0.3,
           width: MediaQuery.of(context).size.width * 0.5,

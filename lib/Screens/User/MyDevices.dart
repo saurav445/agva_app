@@ -202,7 +202,7 @@ class DevicelistsPortrait extends StatelessWidget {
                                       MediaQuery.of(context).size.height * 0.12,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 65, 65, 65),
+                                   color: Color.fromARGB(255, 58, 58, 58),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(

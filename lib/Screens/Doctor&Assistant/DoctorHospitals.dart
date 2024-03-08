@@ -234,7 +234,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.08,
+            horizontal: MediaQuery.of(context).size.width * 0.05,
             vertical: MediaQuery.of(context).size.height * 0.01,
           ),
           child: Column(
@@ -263,7 +263,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: Color.fromARGB(255, 65, 65, 65),
+           color: Color.fromARGB(255, 58, 58, 58),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20),
@@ -350,7 +350,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                       },
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.1,
-                        width: MediaQuery.of(context).size.width * 0.8,
+                        width: MediaQuery.of(context).size.width * 0.85,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           color: Color.fromARGB(255, 90, 90, 90),

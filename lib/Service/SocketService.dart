@@ -52,14 +52,23 @@ class SocketServices {
   void initializeSocket(String serverUrl, String deviceId) {
     this.deviceId = deviceId;
 
-    socket = io.io(serverUrl, <String, dynamic>{
+    print("NOW HERE IN SOCKET");
+     socket = io.io(serverUrl, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': true,
+    }
+
+    ); 
+
+    socket.onConnect((_) {
+      socket.emit('ReactStartUp',this.deviceId);
+      print("This is called to receive data");
     });
 
     socket.on('connect', (data) {
       print('Connected to the server');
       print(data);
+      print("THIS RUN HERE");
 
       socket.emit('ReactStartUp', this.deviceId);
 
@@ -121,13 +130,14 @@ class SocketServices {
       });
     });
 
-    connect();
+    // connect();
 
-    socket.on('disconnect', (data) {
-      socket.emit('ReactNodeStop', this.deviceId);
-            print(data);
-      print('Disconnected from the server');
-    });
+    // socket.on('disconnect', (data) {
+    //   socket.emit('ReactNodeStop', this.deviceId);
+    //         print(data);
+    //   print('Disconnected from the server');
+      
+    // });
   }
 
   void connect() {
@@ -137,7 +147,11 @@ class SocketServices {
   }
 
   void dispose() {
-    socket.disconnect(); // Disconnect from the server
+     socket.emit('ReactNodeStop', deviceId);
+     socket.onDisconnect((_) => 
+      print(" Disconnected from server")
+     );
+    //socket.disconnect(); // Disconnect from the server/
     socket.dispose(); // Dispose of the socket
   }
 }

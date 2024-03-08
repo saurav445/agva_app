@@ -47,12 +47,11 @@ class _EventsState extends State<Events> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding:  EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  buildColumnHeading('Device ID'),
                   buildColumnHeading('Message'),
                   buildColumnHeading('Type'),
                   buildColumnHeading('Date'),
@@ -107,22 +106,20 @@ class _EventsState extends State<Events> {
   Widget buildEventDataRow(Map<String, dynamic> eventData) {
     if (eventData.isNotEmpty) {
       return Padding(
-        padding: const EdgeInsets.only(top: 10),
+        padding:  EdgeInsets.only(top: 10),
         child: Column(
           children: [
             Row(
               children: [
                 SizedBox(width: 20),
-                buildColumnContent(builDeviceIdContent(eventData['did'])),
-                SizedBox(width: 10),
                 buildColumnContent(buildMsgContent(eventData['message'])),
-                SizedBox(         width: MediaQuery.of(context).size.width * 0.01,),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.01,),
                 buildColumnContent(buildTypeContent(eventData['type'])),
                 buildColumnContent(buildDateContent(eventData['date'])),
                 buildColumnContent(buildTimeContent(eventData['time'])),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 15),
             Container(
               height: 0.1,
               color: Colors.white,
@@ -149,7 +146,7 @@ class _EventsState extends State<Events> {
 
   Widget buildMsgContent(String text) {
     return SizedBox(
-       width: MediaQuery.of(context).size.width * 0.17,
+       width: MediaQuery.of(context).size.width * 0.223,
       child: Text(
         text,
         maxLines: 3,

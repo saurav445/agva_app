@@ -58,27 +58,30 @@ class _PatientListState extends State<PatientList> {
     return Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
+          centerTitle: true,
           title: Text('Patient Information'),
           backgroundColor: Colors.black,
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                if (isLoading)
-                  SizedBox(
-                      height: 1,
-                      child: LinearProgressIndicator(
-                        color: Colors.pink,
-                      ))
-                else if (userData.isEmpty)
-                  Center(
-                    child: Text('No List Found'),
-                  )
-                else
-                  Column(children: buildActiveUserWidgets(userData)),
-              ],
+        body: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  if (isLoading)
+                    SizedBox(
+                        height: 1,
+                        child: LinearProgressIndicator(
+                          color: Colors.pink,
+                        ))
+                  else if (userData.isEmpty)
+                    Center(
+                      child: Text('No List Found'),
+                    )
+                  else
+                    Column(children: buildActiveUserWidgets(userData)),
+                ],
+              ),
             ),
           ),
         ));
@@ -98,14 +101,14 @@ class _PatientListState extends State<PatientList> {
           ),
           Container(
             height: MediaQuery.of(context).size.height * 0.25,
-            width: MediaQuery.of(context).size.width * 0.8,
+            width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 60, 60, 60),
-                borderRadius: BorderRadius.all(Radius.circular(20))),
+                color: Color.fromARGB(255, 45, 45, 45),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -114,12 +117,30 @@ class _PatientListState extends State<PatientList> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Patient Name :'),
-                          Text('UHID :'),
-                          Text('Age :'),
-                          Text('Weight :'),
-                          Text('Hight :'),
-                          Text('Ward No. :'),
+                          Text(
+                            'Patient Name :',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            'UHID :',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            'Age :',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            'Weight :',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            'Hight :',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            'Ward No. :',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
 
                           // Text('Last Active :'),
                         ],
@@ -128,12 +149,30 @@ class _PatientListState extends State<PatientList> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${user['patientName']}'),
-                          Text('${user['UHID']}'),
-                          Text('${user['age']}'),
-                          Text('${user['weight']}'),
-                          Text('${user['height']}'),
-                          Text('${user['ward_no']}'),
+                          Text(
+                            '${user['patientName']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['UHID']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['age']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['weight']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['height']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['ward_no']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
 
                           // Text('${user['lastLogin']}'),
                         ],
