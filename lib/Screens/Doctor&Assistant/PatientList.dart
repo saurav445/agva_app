@@ -15,15 +15,35 @@ class PatientList extends StatefulWidget {
   _PatientListState createState() => _PatientListState();
 }
 
-class _PatientListState extends State<PatientList> {
+class _PatientListState extends State<PatientList>
+    with SingleTickerProviderStateMixin {
   late String deviceId;
   List<dynamic> userData = [];
   bool isLoading = true;
+  late TabController _tabController;
+  String updateUser = 'Current';
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(vsync: this, length: 2);
+    _tabController.addListener(_handleTabSelection);
     getPatientData();
+  }
+
+  void _handleTabSelection() {
+    setState(() {
+      switch (_tabController.index) {
+        case 0:
+          updateUser = 'Current';
+          getPatientData();
+          break;
+        case 1:
+          updateUser = 'Past';
+          getPatientData();
+          break;
+      }
+    });
   }
 
   void getPatientData() async {
@@ -37,7 +57,7 @@ class _PatientListState extends State<PatientList> {
         },
       );
       var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse);
+      // print(jsonResponse);
       if (jsonResponse['statusCode'] == 200) {
         setState(() {
           userData = jsonResponse['data'];
@@ -54,40 +74,231 @@ class _PatientListState extends State<PatientList> {
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
-          centerTitle: true,
-          title: Text('Patient Information'),
           backgroundColor: Colors.black,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              if (isLoading)
-                SizedBox(
-                    height: 1,
-                    child: LinearProgressIndicator(
-                      color: Colors.pink,
-                    ))
-              else if (userData.isEmpty)
-                Center(
-                  child: Text('No List Found'),
-                )
-              else
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(children: buildPatientListWidgets(userData)),
-                  ),
-                ),
+          centerTitle: true,
+          title: Text(
+            "Patients Enteries",
+            style: TextStyle(
+              fontFamily: 'Avenir',
+              fontSize: 24,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
+          bottom: TabBar(
+            controller: _tabController,
+            indicatorColor: Color.fromARGB(255, 181, 0, 100),
+            labelColor: Color.fromARGB(255, 181, 0, 100),
+            unselectedLabelColor: Colors.grey,
+            tabs: [
+              Tab(
+                text: 'Current',
+              ),
+              Tab(text: 'Past'),
             ],
           ),
-        ));
+        ),
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            SingleChildScrollView(
+                child: Column(
+              children: [
+                if (isLoading)
+                  SizedBox(
+                    height: 2,
+                    child: LinearProgressIndicator(
+                      color: Color.fromARGB(255, 181, 0, 100),
+                    ),
+                  )
+                else if (userData.isEmpty)
+                  Column(
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).size.height / 3),
+                      Text('No Data Found'),
+                    ],
+                  )
+                else
+                  Column(
+                    children: buildCurrentPatientWidgets(userData),
+                  ),
+              ],
+            )),
+            SingleChildScrollView(
+                child: Column(
+              children: [
+                if (isLoading)
+                  SizedBox(
+                    height: 2,
+                    child: LinearProgressIndicator(
+                      color: Color.fromARGB(255, 181, 0, 100),
+                    ),
+                  )
+                else if (userData.isEmpty)
+                  Column(
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).size.height / 3),
+                      Text('No Data Found'),
+                    ],
+                  )
+                else
+                  Column(
+                    children: buildPatientListWidgets(userData),
+                  ),
+              ],
+            )),
+          ],
+        ),
+      ),
+    );
   }
 
   List<Widget> buildPatientListWidgets(List<dynamic> userData) {
+    return userData.map((user) {
+      String uhid = '${user['UHID']}';
+      String userId = '${user['_id']}';
+      String deviceId = '${user['deviceId']}';
+
+      return Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.025,
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.25,
+            width: MediaQuery.of(context).size.width * 0.9,
+            decoration: BoxDecoration(
+                color: Color.fromARGB(255, 45, 45, 45),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Patient Name :',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            'UHID :',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            'Age :',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            'Weight :',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            'Hight :',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            'Ward No. :',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${user['patientName']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['UHID']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['age']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['weight']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['height']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['ward_no']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DosageHistory(uhid)));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.pink,
+                        ),
+                        child: Text(
+                          "View Dosage",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      AddPatientData(uhid, deviceId, userId)));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                        ),
+                        child: Text(
+                          "Edit Details",
+                          style: TextStyle(color: Colors.pink),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    }).toList();
+  }
+
+  List<Widget> buildCurrentPatientWidgets(List<dynamic> userData) {
     return userData.map((user) {
       String uhid = '${user['UHID']}';
       String userId = '${user['_id']}';

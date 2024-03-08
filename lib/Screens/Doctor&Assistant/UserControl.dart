@@ -538,9 +538,9 @@ class _UserControlState extends State<UserControl>
                     ),
                   )
                 else if (userData.isEmpty)
-                   Column(
+                  Column(
                     children: [
-                       SizedBox(height: MediaQuery.of(context).size.height / 3),
+                      SizedBox(height: MediaQuery.of(context).size.height / 3),
                       Text('No Data Found'),
                     ],
                   )
@@ -561,9 +561,9 @@ class _UserControlState extends State<UserControl>
                     ),
                   )
                 else if (inactiveuserData.isEmpty)
-                   Column(
+                  Column(
                     children: [
-                       SizedBox(height: MediaQuery.of(context).size.height / 3),
+                      SizedBox(height: MediaQuery.of(context).size.height / 3),
                       Text('No Data Found'),
                     ],
                   )
@@ -584,11 +584,10 @@ class _UserControlState extends State<UserControl>
                       color: Color.fromARGB(255, 181, 0, 100),
                     ),
                   )
-                else if (requestsuserData.isEmpty) 
-               
+                else if (requestsuserData.isEmpty)
                   Column(
                     children: [
-                       SizedBox(height: MediaQuery.of(context).size.height / 3),
+                      SizedBox(height: MediaQuery.of(context).size.height / 3),
                       Text('No Data Found'),
                     ],
                   )
