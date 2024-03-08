@@ -7,12 +7,6 @@ A Flutter project.
 
 # Getting Started
 
-1 - Clone Repository
-2 - Inport into VS Code or any IDE
-3 - Install Dependencies by running command
-    flutter pub get
-
-4 -  Run App Command 
-     flutter run
+1 - Clone Repository, Install Dependencies by running command "flutter pub get", Run App Command "flutter run"
 
 
