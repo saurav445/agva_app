@@ -62,32 +62,32 @@ class _PatientListState extends State<PatientList> {
           title: Text('Patient Information'),
           backgroundColor: Colors.black,
         ),
-        body: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  if (isLoading)
-                    SizedBox(
-                        height: 1,
-                        child: LinearProgressIndicator(
-                          color: Colors.pink,
-                        ))
-                  else if (userData.isEmpty)
-                    Center(
-                      child: Text('No List Found'),
-                    )
-                  else
-                    Column(children: buildActiveUserWidgets(userData)),
-                ],
-              ),
-            ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              if (isLoading)
+                SizedBox(
+                    height: 1,
+                    child: LinearProgressIndicator(
+                      color: Colors.pink,
+                    ))
+              else if (userData.isEmpty)
+                Center(
+                  child: Text('No List Found'),
+                )
+              else
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(children: buildPatientListWidgets(userData)),
+                  ),
+                ),
+            ],
           ),
         ));
   }
 
-  List<Widget> buildActiveUserWidgets(List<dynamic> userData) {
+  List<Widget> buildPatientListWidgets(List<dynamic> userData) {
     return userData.map((user) {
       String uhid = '${user['UHID']}';
       String userId = '${user['_id']}';

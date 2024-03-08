@@ -11,20 +11,41 @@ class UserControl extends StatefulWidget {
   State<UserControl> createState() => _UserControlState();
 }
 
-class _UserControlState extends State<UserControl> {
+class _UserControlState extends State<UserControl>
+    with SingleTickerProviderStateMixin {
   List<dynamic> userData = [];
   List<dynamic> inactiveuserData = [];
   List<dynamic> requestsuserData = [];
   String updateUser = 'Active Users';
   bool isLoading = true;
   bool getdata = true;
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(vsync: this, length: 3);
+    _tabController.addListener(_handleTabSelection);
     getActiveUser();
-    // getinActiveUser();
-    // getPendingUser();
+  }
+
+  void _handleTabSelection() {
+    setState(() {
+      switch (_tabController.index) {
+        case 0:
+          updateUser = 'Active Users';
+          getActiveUser();
+          break;
+        case 1:
+          updateUser = 'InActive Users';
+          getinActiveUser();
+          break;
+        case 2:
+          updateUser = 'Requests';
+          getPendingUser();
+          break;
+      }
+    });
   }
 
   void removeUser(String userID) async {
@@ -167,6 +188,12 @@ class _UserControlState extends State<UserControl> {
     }
   }
 
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   List<Widget> buildRequestsUserWidgets(List<dynamic> requestsuserData,
       Function(String) removeUser, Function(String) activeUser) {
     return requestsuserData.map((user) {
@@ -179,7 +206,7 @@ class _UserControlState extends State<UserControl> {
             height: MediaQuery.of(context).size.height * 0.15,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 45, 45, 45),
+                color: Color.fromARGB(255, 45, 45, 45),
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Padding(
               padding: EdgeInsets.all(10),
@@ -240,7 +267,7 @@ class _UserControlState extends State<UserControl> {
                               });
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.pink,
+                              backgroundColor: Color.fromARGB(255, 181, 0, 100),
                             ),
                             child: Text(
                               "Accept",
@@ -299,7 +326,7 @@ class _UserControlState extends State<UserControl> {
             height: MediaQuery.of(context).size.height * 0.15,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
-            color: Color.fromARGB(255, 45, 45, 45),
+                color: Color.fromARGB(255, 45, 45, 45),
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Padding(
               padding: EdgeInsets.all(10),
@@ -358,7 +385,7 @@ class _UserControlState extends State<UserControl> {
                             });
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.pink,
+                            backgroundColor: Color.fromARGB(255, 181, 0, 100),
                           ),
                           child: Text(
                             isLoading ? 'Processing' : 'Active',
@@ -389,7 +416,7 @@ class _UserControlState extends State<UserControl> {
             height: MediaQuery.of(context).size.height * 0.15,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
-            color: Color.fromARGB(255, 45, 45, 45),
+                color: Color.fromARGB(255, 45, 45, 45),
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Padding(
               padding: EdgeInsets.all(10),
@@ -448,7 +475,7 @@ class _UserControlState extends State<UserControl> {
                             });
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.pink,
+                            backgroundColor: Color.fromARGB(255, 181, 0, 100),
                           ),
                           child: Text(
                             isLoading ? 'Processing' : 'Remove',
@@ -471,146 +498,110 @@ class _UserControlState extends State<UserControl> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
           backgroundColor: Colors.black,
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            centerTitle: true,
-            title: Text(
-              "User Control",
-              style: TextStyle(
-                fontFamily: 'Avenir',
-                fontSize: 24,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
+          centerTitle: true,
+          title: Text(
+            "User Control",
+            style: TextStyle(
+              fontFamily: 'Avenir',
+              fontSize: 24,
+              color: Color.fromARGB(255, 255, 255, 255),
             ),
           ),
-          body: OrientationBuilder(builder: (context, orientation) {
-            if (orientation == Orientation.portrait) {
-              return SingleChildScrollView(
-                  child: _buildPortraitLayout(context));
-            } else {
-              return SingleChildScrollView(
-                  child: _buildLandscapeLayout(context));
-            }
-          })),
-    );
-  }
-
-  Widget _buildPortraitLayout(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.035,
+          bottom: TabBar(
+            controller: _tabController,
+            indicatorColor: Color.fromARGB(255, 181, 0, 100),
+            labelColor: Color.fromARGB(255, 181, 0, 100),
+            unselectedLabelColor: Colors.grey,
+            tabs: [
+              Tab(
+                text: 'Active Users',
+              ),
+              Tab(text: 'Inactive Users'),
+              Tab(text: 'Requests'),
+            ],
+          ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        body: TabBarView(
+          controller: _tabController,
           children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  updateUser = 'Active Users';
-                  getActiveUser();
-                });
-              },
-              child: Container(
-                alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height * 0.05,
-                width: MediaQuery.of(context).size.width * 0.25,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: updateUser == 'Active Users'
-                      ? Colors.white
-                      : Colors.transparent,
-                ),
-                child: Text(
-                  'Active Users',
-                  style: TextStyle(
-                    color: updateUser == 'Active Users'
-                        ? Colors.black
-                        : Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
+            SingleChildScrollView(
+                child: Column(
+              children: [
+                if (isLoading)
+                  SizedBox(
+                    height: 2,
+                    child: LinearProgressIndicator(
+                      color: Color.fromARGB(255, 181, 0, 100),
+                    ),
+                  )
+                else if (userData.isEmpty)
+                   Column(
+                    children: [
+                       SizedBox(height: MediaQuery.of(context).size.height / 3),
+                      Text('No Data Found'),
+                    ],
+                  )
+                else
+                  Column(
+                    children: buildActiveUserWidgets(userData, removeUser),
                   ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  updateUser = 'InActive Users';
-                  getinActiveUser();
-                });
-              },
-              child: Container(
-                alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height * 0.05,
-                width: MediaQuery.of(context).size.width * 0.25,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: updateUser == 'InActive Users'
-                      ? Colors.white
-                      : Colors.transparent,
-                ),
-                child: Text(
-                  'InActive Users',
-                  style: TextStyle(
-                    color: updateUser == 'InActive Users'
-                        ? Colors.black
-                        : Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
+              ],
+            )),
+            SingleChildScrollView(
+                child: Column(
+              children: [
+                if (isLoading)
+                  SizedBox(
+                    height: 2,
+                    child: LinearProgressIndicator(
+                      color: Color.fromARGB(255, 181, 0, 100),
+                    ),
+                  )
+                else if (inactiveuserData.isEmpty)
+                   Column(
+                    children: [
+                       SizedBox(height: MediaQuery.of(context).size.height / 3),
+                      Text('No Data Found'),
+                    ],
+                  )
+                else
+                  Column(
+                    children:
+                        buildInactiveUserWidgets(inactiveuserData, activeUser),
                   ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  updateUser = 'Requests';
-                  getPendingUser();
-                });
-              },
-              child: Container(
-                alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height * 0.05,
-                width: MediaQuery.of(context).size.width * 0.25,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: updateUser == 'Requests'
-                      ? Colors.white
-                      : Colors.transparent,
-                ),
-                child: Text(
-                  'Requests',
-                  style: TextStyle(
-                    color:
-                        updateUser == 'Requests' ? Colors.black : Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
+              ],
+            )),
+            SingleChildScrollView(
+                child: Column(
+              children: [
+                if (isLoading)
+                  SizedBox(
+                    height: 2,
+                    child: LinearProgressIndicator(
+                      color: Color.fromARGB(255, 181, 0, 100),
+                    ),
+                  )
+                else if (requestsuserData.isEmpty) 
+               
+                  Column(
+                    children: [
+                       SizedBox(height: MediaQuery.of(context).size.height / 3),
+                      Text('No Data Found'),
+                    ],
+                  )
+                else
+                  Column(
+                    children: buildRequestsUserWidgets(
+                        requestsuserData, activeUser, removeUser),
                   ),
-                ),
-              ),
-            ),
+              ],
+            )),
           ],
         ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.035,
-        ),
-        if (isLoading)
-          SizedBox(
-            height: 1,
-            child: Center(child: LinearProgressIndicator(color: Colors.pink)),
-          )
-        else
-          Column(
-            children: updateUser == 'Active Users'
-                ? buildActiveUserWidgets(userData, removeUser)
-                : updateUser == 'InActive Users'
-                    ? buildInactiveUserWidgets(inactiveuserData, activeUser)
-                    : buildRequestsUserWidgets(
-                        requestsuserData, activeUser, removeUser),
-          ),
-      ],
+      ),
     );
   }
 
@@ -795,7 +786,7 @@ class _UserControlState extends State<UserControl> {
                               await activeUser(user['_id']);
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.pink,
+                              backgroundColor: Color.fromARGB(255, 181, 0, 100),
                             ),
                             child: Text(
                               "Accept",
@@ -896,7 +887,7 @@ class _UserControlState extends State<UserControl> {
                           await activeUser(user['_id']);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pink,
+                          backgroundColor: Color.fromARGB(255, 181, 0, 100),
                         ),
                         child: Text(
                           "Active",
@@ -980,7 +971,7 @@ class _UserControlState extends State<UserControl> {
                           await removeUser(user['_id']);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pink,
+                          backgroundColor: Color.fromARGB(255, 181, 0, 100),
                         ),
                         child: Text(
                           "Remove",

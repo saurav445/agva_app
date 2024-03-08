@@ -317,32 +317,32 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Welcome,',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 172, 172, 172),
-                      fontSize: MediaQuery.of(context).size.width * 0.04,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    savedUsername ?? 'Default User Name',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: MediaQuery.of(context).size.width * 0.05,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
-              ),
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     Text(
+              //       'Welcome,',
+              //       style: TextStyle(
+              //         fontFamily: 'Avenir',
+              //         color: Color.fromARGB(255, 172, 172, 172),
+              //         fontSize: MediaQuery.of(context).size.width * 0.04,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //     Text(
+              //       savedUsername ?? 'Default User Name',
+              //       style: TextStyle(
+              //         fontFamily: 'Avenir',
+              //         color: Color.fromARGB(255, 255, 255, 255),
+              //         fontSize: MediaQuery.of(context).size.width * 0.05,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height * 0.03,
+              // ),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
