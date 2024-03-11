@@ -111,6 +111,7 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
 
   Widget _buildPortraitLayout(BuildContext context) {
     return Column(
+
       children: [
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.035,
@@ -132,7 +133,9 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
             child: Center(child: LinearProgressIndicator(color: Colors.pink)),
           )
         else if (deviceAbout.isEmpty)
-        Center(child: Text('No Data Found'),)
+          Center(
+            child: Text('No Data Found'),
+          )
         else
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,6 +206,19 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
                       fontSize: 16,
                     ),
                   ),
+                   SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      _downloadPdf(deviceAbout['DhrPdf']);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.pink,
+                    ),
+                    child: Text(
+                      'Download DHR',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ],
               ),
               Column(
@@ -270,12 +286,41 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
                       fontSize: 16,
                     ),
                   ),
+                 
                 ],
               ),
             ],
           ),
+          
       ],
     );
+  }
+
+  void _downloadPdf(String? pdfUrl) async {
+    if (pdfUrl != null) {
+      // try {
+      //   // Get the download directory using downloads_path_provider package
+      //   Directory? downloadDirectory = await DownloadsPathProvider.downloadsDirectory;
+
+      //   // Generate a unique file name for the downloaded PDF
+      //   String fileName = 'DHR_${DateTime.now().millisecondsSinceEpoch}.pdf';
+
+      //   // Download the PDF from the provided URL
+      //   var response = await http.get(Uri.parse(pdfUrl));
+
+      //   // Create the file in the download directory
+      //   File file = File('${downloadDirectory!.path}/$fileName');
+
+      //   // Write the PDF data to the file
+      //   await file.writeAsBytes(response.bodyBytes);
+
+      //   print('PDF downloaded to: ${file.path}');
+      // } catch (e) {
+      //   print('Error downloading PDF: $e');
+      // }
+    } else {
+      print('PDF URL is null');
+    }
   }
 
   Widget _buildLandscapeLayout(BuildContext context) {
