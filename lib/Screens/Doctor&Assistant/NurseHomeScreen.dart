@@ -9,7 +9,7 @@ import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceList.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusAlarms.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
-import 'package:agva_app/Screens/User/NotificationScreen.dart';
+import 'package:agva_app/Screens/Common/NotificationScreen.dart';
 import 'package:agva_app/Screens/WebViewTest/WebView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

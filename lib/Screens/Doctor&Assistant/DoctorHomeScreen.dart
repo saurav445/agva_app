@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:agva_app/AuthScreens/SignIn.dart';
 import 'package:agva_app/Screens/Common/Profile.dart';
@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Common/Settings.dart';
+import '../Common/NotificationScreen.dart';
 
 class DoctorHomeScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -117,7 +118,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
             IconButton(
               icon: Icon(Icons.notifications),
               onPressed: () {
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(title: '', body: '',)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(title: '', body: '',)));
               },
             )
           ],
@@ -555,7 +556,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WebView(),
+                      builder: (context) => WebViewPage(),
                     ),
                   );
                 },

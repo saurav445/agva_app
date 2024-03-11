@@ -19,6 +19,8 @@
 //     final body = message.notification?.body ?? 'No Body';
 //     final data = message.data;
 
+// ignore_for_file: prefer_const_constructors
+
 //     return Scaffold(
 //       appBar: AppBar(
 //         title: const Text("Notifications"),
@@ -54,7 +56,10 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
+        backgroundColor: Colors.black,
+        centerTitle: true,
         title: Text('Notification'),
       ),
       body: Center(

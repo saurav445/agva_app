@@ -1,5 +1,5 @@
 
-import 'package:agva_app/Screens/User/NotificationScreen.dart';
+import 'package:agva_app/Screens/Common/NotificationScreen.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {

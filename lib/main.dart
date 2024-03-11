@@ -3,7 +3,7 @@ import 'package:agva_app/Screens/Common/TermsCondition.dart';
 import 'package:agva_app/Screens/User/DeviceDetails.dart';
 import 'package:agva_app/Screens/User/DeviceList.dart';
 import 'package:agva_app/Screens/User/UserHomeScreen.dart';
-import 'package:agva_app/Screens/User/NotificationScreen.dart';
+import 'package:agva_app/Screens/Common/NotificationScreen.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
