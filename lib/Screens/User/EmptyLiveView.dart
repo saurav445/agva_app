@@ -78,7 +78,7 @@ class _EmptyLiveViewState extends State<EmptyLiveView> {
                                           decoration: BoxDecoration(
                                             color: Color.fromARGB(255, 0, 0, 0),
                                           ),
-                                          child: MyLineChart()
+                                          child: Linedata()
                                           // child: LineChart(LineChartData(
                                           //     titlesData: FlTitlesData(
                                           //         leftTitles: AxisTitles(

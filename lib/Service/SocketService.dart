@@ -14,29 +14,22 @@ class SocketServices {
   late io.Socket socket;
   late String deviceId;
 
-  //for values
+
+  late void Function(double, double, double, List<String>) onGraphDataReceived;
+
+  setOnGraphDataReceivedCallback(
+      void Function(double, double, double, List<String>) callback) {
+    onGraphDataReceived = callback;
+  }
+
   void Function(String, List<String>, List<String>, List<String>, String,
       String, String)? onDataReceived;
-
-  void Function()? onSocketConnected;
 
   void setOnDataReceivedCallback(
       void Function(String, List<String>, List<String>, List<String>, String,
               String, String)
           callback) {
     onDataReceived = callback;
-  }
-
-  void setOnSocketConnectedCallback(void Function() callback) {
-    onSocketConnected = callback;
-  }
-
-  late void Function(int, double, double, double, List<String>)?
-      onGraphDataReceived;
-
-  void setOnGraphDataReceivedCallback(
-      void Function(int, double, double, double, List<String>) callback) {
-    onGraphDataReceived = callback;
   }
 
   late void Function(String, String, String, String, String, String, String,
@@ -49,19 +42,17 @@ class SocketServices {
     tilesData = callback;
   }
 
-  void initializeSocket(String serverUrl, String deviceId) {
+  void initializeSocket(String url, String deviceId) {
     this.deviceId = deviceId;
 
     print("NOW HERE IN SOCKET");
-     socket = io.io(serverUrl, <String, dynamic>{
+    socket = io.io(url, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': true,
-    }
-
-    ); 
+    });
 
     socket.onConnect((_) {
-      socket.emit('ReactStartUp',this.deviceId);
+      socket.emit('ReactStartUp', this.deviceId);
       print("This is called to receive data");
     });
 
@@ -72,32 +63,16 @@ class SocketServices {
 
       socket.emit('ReactStartUp', this.deviceId);
 
-      // socket.on('SpecificDataReceivingReact', (data) {
+      socket.on('DataGraphReceivingReact', (data) {
+        var graphDataString = data.split("^")[1];
 
-      //   var tilesDataCheck = data.split("^")[2];
-      //   List<String> tilesDataList = tilesDataCheck.split(",");
-      //   // double pip = double.parse(tilesDataList[1]);
-      //   // double peep = double.parse(tilesDataList[1]);
-      //   // double vti = double.parse(tilesDataList[1]);
-      //   // double rr = double.parse(tilesDataList[1]);
-      //   // double fio2 = double.parse(tilesData[1]);
+        List<String> graphDataList = graphDataString.split(",");
+        double pressure = double.parse(graphDataList[1]);
+        double volume = double.parse(graphDataList[2]);
+        double flow = double.parse(graphDataList[3]);
 
-      // });
-
-      // socket.on('DataGraphReceivingReact', (data) {
-
-      //   var graphDataString = data.split("^")[1];
-
-      //   List<String> graphDataList = graphDataString.split(",");
-
-      //   double xvalue = double.parse(graphDataList[0]);
-      //   double pressure = double.parse(graphDataList[1]);
-      //   double volume = double.parse(graphDataList[2]);
-      //   double flow = double.parse(graphDataList[3]);
-
-      //   onGraphDataReceived!(
-      //       xvalue.toInt(), pressure, volume, flow, graphDataList);
-      // });
+        onGraphDataReceived(pressure, volume, flow, graphDataList);
+      });
 
       socket.on('DataReceivingReact', (data) {
         var modeData = data.split("^")[1];
@@ -136,7 +111,7 @@ class SocketServices {
     //   socket.emit('ReactNodeStop', this.deviceId);
     //         print(data);
     //   print('Disconnected from the server');
-      
+
     // });
   }
 
@@ -147,10 +122,8 @@ class SocketServices {
   }
 
   void dispose() {
-     socket.emit('ReactNodeStop', deviceId);
-     socket.onDisconnect((_) => 
-      print(" Disconnected from server")
-     );
+    socket.emit('ReactNodeStop', deviceId);
+    socket.onDisconnect((_) => print(" Disconnected from server"));
     //socket.disconnect(); // Disconnect from the server/
     socket.dispose(); // Dispose of the socket
   }

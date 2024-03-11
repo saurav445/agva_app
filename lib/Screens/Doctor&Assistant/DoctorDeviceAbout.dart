@@ -1,10 +1,12 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_constructors_in_immutables
 
 import 'dart:convert';
+import 'dart:io';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DoctorDeviceAbout extends StatefulWidget {
   final String deviceId;
@@ -111,7 +113,6 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
 
   Widget _buildPortraitLayout(BuildContext context) {
     return Column(
-
       children: [
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.035,
@@ -206,7 +207,7 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
                       fontSize: 16,
                     ),
                   ),
-                   SizedBox(height: 20),
+                  SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       _downloadPdf(deviceAbout['DhrPdf']);
@@ -286,42 +287,53 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
                       fontSize: 16,
                     ),
                   ),
-                 
                 ],
               ),
             ],
           ),
-          
       ],
     );
   }
 
-  void _downloadPdf(String? pdfUrl) async {
-    if (pdfUrl != null) {
-      // try {
-      //   // Get the download directory using downloads_path_provider package
-      //   Directory? downloadDirectory = await DownloadsPathProvider.downloadsDirectory;
 
-      //   // Generate a unique file name for the downloaded PDF
-      //   String fileName = 'DHR_${DateTime.now().millisecondsSinceEpoch}.pdf';
-
-      //   // Download the PDF from the provided URL
-      //   var response = await http.get(Uri.parse(pdfUrl));
-
-      //   // Create the file in the download directory
-      //   File file = File('${downloadDirectory!.path}/$fileName');
-
-      //   // Write the PDF data to the file
-      //   await file.writeAsBytes(response.bodyBytes);
-
-      //   print('PDF downloaded to: ${file.path}');
-      // } catch (e) {
-      //   print('Error downloading PDF: $e');
-      // }
-    } else {
-      print('PDF URL is null');
-    }
+void _downloadPdf(String? pdfUrl) async {
+  if (pdfUrl != null) {
+      var response = await http.get(Uri.parse(pdfUrl));
+      if (response.statusCode == 200) {
+        Directory? downloadsDirectory = await getExternalStorageDirectory();
+        String? downloadsPath = downloadsDirectory?.path;
+        var time = DateTime.now().microsecondsSinceEpoch;
+        var filePath = '$downloadsPath/DHR-$time.pdf';
+        File file = File(filePath);
+        await file.writeAsBytes(response.bodyBytes);
+        _showDialog('Download Successful', 'File downloaded to: $filePath');
+      } else {
+        _showDialog('Download Failed', 'Please check your internet connection');
+      }
+  } else {
+    print('PDF URL is null');
   }
+}
+
+void _showDialog(String title, String content) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+}
 
   Widget _buildLandscapeLayout(BuildContext context) {
     return Column(

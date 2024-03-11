@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
 import 'package:agva_app/Screens/User/DeviceDetails.dart';
-import 'package:agva_app/Service/SocketService.dart';
 import 'dart:convert';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
@@ -177,7 +176,6 @@ class DevicelistsPortrait extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => DeviceDetails(
                                   device['deviceInfo']?[0]?['DeviceId'],
-                                  SocketServices(),
                                   device['deviceInfo']?[0]?['Ward_No'],
                                   device['deviceInfo']?[0]?['DeviceType'],
                                   device['message']),
@@ -376,7 +374,6 @@ class DevicelistsLandscape extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => DeviceDetails(
                                   device['deviceInfo']?[0]?['DeviceId'],
-                                  SocketServices(),
                                   device['deviceInfo']?[0]?['Ward_No'],
                                   device['deviceInfo']?[0]?['DeviceType'],
                                   device['message']),

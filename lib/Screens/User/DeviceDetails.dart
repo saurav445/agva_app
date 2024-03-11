@@ -15,12 +15,12 @@ import 'dart:convert';
 
 class DeviceDetails extends StatefulWidget {
   final String deviceId;
-  final SocketServices socketService;
   final String wardNo;
   final String deviceType;
   final String message;
 
-  const DeviceDetails(this.deviceId, this.socketService, this.wardNo,
+
+  const DeviceDetails(this.deviceId, this.wardNo,
       this.deviceType, this.message);
 
   @override
@@ -28,7 +28,7 @@ class DeviceDetails extends StatefulWidget {
 }
 
 class _DeviceDetailsState extends State<DeviceDetails> {
-  late SocketServices socketService;
+   var socketService = SocketServices();
   bool isLoading = false;
   bool setFocus = false;
   bool currentStatus = false;
@@ -68,8 +68,8 @@ class _DeviceDetailsState extends State<DeviceDetails> {
       });
     });
     getFocusStatus();
-    widget.socketService.initializeSocket(url, widget.deviceId);
-    widget.socketService.tilesDataCallBack((
+    socketService.initializeSocket(url, widget.deviceId);
+    socketService.tilesDataCallBack((
       receivedPipData,
       receivedPipValue,
       receivedMviData,
@@ -207,7 +207,7 @@ class _DeviceDetailsState extends State<DeviceDetails> {
   @override
   void dispose() {
     loadingCount = 0;
-    widget.socketService.dispose();
+    // socketService.dispose();
     super.dispose();
   }
 

@@ -27,6 +27,7 @@ class _UserControlState extends State<UserControl>
     _tabController = TabController(vsync: this, length: 3);
     _tabController.addListener(_handleTabSelection);
     getActiveUser();
+    getPendingUser();
   }
 
   void _handleTabSelection() {
@@ -519,8 +520,25 @@ class _UserControlState extends State<UserControl>
               Tab(
                 text: 'Active Users',
               ),
-              Tab(text: 'Inactive Users'),
-              Tab(text: 'Requests'),
+              Tab(
+                text: 'Inactive Users',
+              ),
+              Tab(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Requests'),
+                    if (requestsuserData.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: ImageIcon(
+                          AssetImage('assets/images/pinkdot.png'),
+                          size: 8,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

@@ -138,7 +138,7 @@ class _MyAppState extends State<MyApp> {
         "/splash": (context) => const SplashScreen(),
         "/home": (context) => UserHomeScreen({}),
         "/devicedetails": (context) =>
-            DeviceDetails('', SocketServices(), '', '', ''),
+            DeviceDetails('', '', '', ''),
         "/tandc": (context) => TermsCondition(),
         "/devicelist": (context) => DeviceList(),
       },

@@ -2,6 +2,7 @@
 import 'dart:math';
 import 'package:agva_app/Screens/User/EmptyLiveView.dart';
 import 'package:agva_app/Service/SocketService.dart';
+import 'package:agva_app/config.dart';
 import 'package:agva_app/widgets/LineChartWidget.dart';
 import 'package:agva_app/widgets/animatedChart.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -10,6 +11,8 @@ import 'package:flutter/services.dart';
 
 class LiveView extends StatefulWidget {
   final String deviceId;
+  final Color sinColor = Colors.white;
+
   LiveView(this.deviceId);
 
   @override
@@ -17,20 +20,7 @@ class LiveView extends StatefulWidget {
 }
 
 class _LiveViewState extends State<LiveView> {
-  List<double> data1 = [];
-  List<double> data2 = [];
-  List<double> data3 = [];
-  List<int> fifoLimit = [350];
-  List<Color> lineColors = [Colors.black, Colors.white];
-
-  bool isFirstTime = false;
-  int xVal = 0;
   Color? newColor;
-
-  late List<FlSpot> chartData;
-  late List<FlSpot> chartDataVolume;
-  late List<FlSpot> chartDataFlow;
-
   String selectedMenu = 'GRAPHS';
   late String deviceId;
   late String modeData = '-';
@@ -40,18 +30,10 @@ class _LiveViewState extends State<LiveView> {
   late String alarmName = "";
   late String alarmColor;
   late String alarmColor2;
-  late String xvalue = "";
-  late String pressure = "";
-  late String volume = "";
-  late String flow = "";
-  late List<String> graphData = [];
-
-  late List<String> graphPressure = [];
-
-  late List<String> graphVolume = [];
-
-  late List<String> graphFlow = [];
-
+  late double pressure;
+  late double volume;
+  late double flow;
+  late List<dynamic> graphDataList = [];
   bool freezeGraph = false;
 
   void generateData() {
@@ -60,10 +42,7 @@ class _LiveViewState extends State<LiveView> {
     }
   }
 
-  Random random = Random();
-
   bool _isLoading = true;
-  // late String alertData;
 
   callme() async {
     await Future.delayed(Duration(seconds: 3), () {
@@ -73,20 +52,23 @@ class _LiveViewState extends State<LiveView> {
     });
   }
 
-  List<double> generateRandomData(int count) {
-    // Generate 'count' random double values between 10 and 90
-    final random = Random();
-    return List.generate(count, (index) => random.nextDouble() * 80 + 10);
-  }
-
   @override
   void initState() {
     super.initState();
-    chartData = [];
-    chartDataVolume = [];
-    chartDataFlow = [];
     SocketServices socketService = SocketServices();
-    socketService.initializeSocket('http://52.64.235.38:8000', widget.deviceId);
+    socketService.initializeSocket('$url', widget.deviceId);
+
+    socketService.setOnGraphDataReceivedCallback(
+        (receivedPressure, receivedVolume, receivedFlow, receivedGraphData) {
+      setState(() {
+        pressure = receivedPressure;
+        volume = receivedVolume;
+        flow = receivedFlow;
+        graphDataList = receivedGraphData;
+        print('$pressure , $volume, $flow, $graphDataList');
+      });
+    });
+
     socketService.setOnDataReceivedCallback((
       receivedModeData,
       receivedObservedData,
@@ -111,96 +93,6 @@ class _LiveViewState extends State<LiveView> {
         } else if (alarmColor2 == '#000000') {
           newColor = Colors.black;
         }
-      });
-    });
-
-    socketService.setOnGraphDataReceivedCallback((receivedXvalue,
-        receivedPressure, receivedVolume, receivedFlow, receivedGraphData) {
-      setState(() {
-        if (!freezeGraph) {
-          xvalue = receivedXvalue.toString();
-          pressure = receivedPressure.toString();
-          volume = receivedVolume.toString();
-          flow = receivedFlow.toString();
-          graphData = receivedGraphData;
-          graphPressure.add(xvalue);
-          graphPressure.add(pressure);
-
-          graphVolume.add(xvalue);
-          graphVolume.add(volume);
-
-          double x = double.parse(xvalue);
-          double y = double.parse(pressure);
-
-          double yvolume = double.parse(volume);
-
-          double yFlow = double.parse(flow);
-
-          // chartData.add(FlSpot(x, y));
-          // chartDataVolume.add(FlSpot(x, yvolume));
-          // chartDataFlow.add(FlSpot(x, yFlow));
-
-          if (!isFirstTime) {
-            chartData.add(FlSpot(x, y));
-          } else {
-            chartData[xVal] = FlSpot(x, y);
-          }
-
-          xVal++;
-          if (xVal == 350) {
-            isFirstTime = true;
-            xVal = 0;
-          }
-
-          if (isFirstTime) {
-            for (int i = 0; i < 12; i++) {
-              if (i < 6) {
-                if ((xVal - (6 - i)) < 0) {
-                  fifoLimit[i] = 350 + (xVal - (6 - i));
-                } else {
-                  fifoLimit[i] = (xVal - (6 - i));
-                }
-              } else {
-                fifoLimit[i] = (xVal + (i - 6));
-              }
-            }
-
-            for (int index = 0; index < 350; index++) {
-              if (fifoLimit.contains(index)) {
-                lineColors[index] = Colors.black;
-                // dpsVolume[index].lineColor = "#000000"
-                // dpsFlow[index].lineColor = "#000000"
-              } else {
-                lineColors[index] = Colors.white;
-                // dpsVolume[index].lineColor = "#FFFFFF"
-                // dpsFlow[index].lineColor = "#FFFFFF"
-              }
-            }
-          }
-
-          // Limit the size of chartData to control the number of points displayed
-          // if (chartData.length > 50) {
-          //   // Remove the first element to make space for new data
-          //   chartData.removeAt(0);
-          // }
-          if (chartDataVolume.length > 50) {
-            // chartData.removeLast();
-            // chartDataVolume = chartDataVolume.sublist(1);
-
-            chartDataVolume.removeAt(0); // Remove the last element
-            print("It cleared");
-          }
-          if (chartDataFlow.length > 50) {
-            // chartData.removeLast();
-            // chartDataFlow = chartDataFlow.sublist(1);
-
-            chartDataFlow.removeAt(0); // Remove the last element
-            print("It cleared");
-          }
-        } else {}
-
-        print(
-            "Graph values are $xvalue,$pressure,$volume,$flow,$graphData,'Here',$graphPressure");
       });
     });
 
@@ -290,13 +182,14 @@ class _LiveViewState extends State<LiveView> {
                                 if (selectedMenu == 'DATA')
                                   DataScreen(observedData: observedData),
                                 if (selectedMenu == 'GRAPHS')
-                                  Column(
-                                    children: [
-                                      Container(
+                                  SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        Container(
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.3,
+                                              0.5,
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
@@ -304,91 +197,17 @@ class _LiveViewState extends State<LiveView> {
                                           decoration: BoxDecoration(
                                             color: Color.fromARGB(255, 0, 0, 0),
                                           ),
-                                          child: MyLineChart()
-                                          // child: LineChart(LineChartData(
-                                          //     titlesData: FlTitlesData(
-                                          //         leftTitles: AxisTitles(
-                                          //             sideTitles: SideTitles(
-                                          //                 showTitles: false)),
-                                          //         rightTitles: AxisTitles(
-                                          //             sideTitles: SideTitles(
-                                          //                 showTitles: false)),
-                                          //         bottomTitles: AxisTitles(
-                                          //             sideTitles: SideTitles(
-                                          //                 showTitles: false,
-                                          //                 reservedSize: 0)),
-                                          //         topTitles: AxisTitles(
-                                          //             sideTitles: SideTitles(
-                                          //                 showTitles: false))),
-                                          //     // borderData: FlBorderData(
-                                          //     //     show: false,
-                                          //     //     border: Border.all(
-                                          //     //       color: Colors.grey,
-                                          //     //       width: 1,
-                                          //     //     )),
-                                          //     lineBarsData: [
-                                          //       LineChartBarData(
-                                          //         gradient: LinearGradient(
-                                          //             colors: lineColors),
-                                          //         // color: Colors.white,
-                                          //         spots: chartData,
-                                          //         isCurved: false,
-                                          //         // color: Colors.white,
-                                          //         belowBarData:
-                                          //             BarAreaData(show: false),
-                                          //         dotData: FlDotData(show: false),
-                                          //       )
-                                          //     ])),
-                                          ),
-                                          Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.3,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.76,
-                                          decoration: BoxDecoration(
-                                            color: Color.fromARGB(255, 0, 0, 0),
-                                          ),
-                                          child: Linedata()
-                                          // child: LineChart(LineChartData(
-                                          //     titlesData: FlTitlesData(
-                                          //         leftTitles: AxisTitles(
-                                          //             sideTitles: SideTitles(
-                                          //                 showTitles: false)),
-                                          //         rightTitles: AxisTitles(
-                                          //             sideTitles: SideTitles(
-                                          //                 showTitles: false)),
-                                          //         bottomTitles: AxisTitles(
-                                          //             sideTitles: SideTitles(
-                                          //                 showTitles: false,
-                                          //                 reservedSize: 0)),
-                                          //         topTitles: AxisTitles(
-                                          //             sideTitles: SideTitles(
-                                          //                 showTitles: false))),
-                                          //     // borderData: FlBorderData(
-                                          //     //     show: false,
-                                          //     //     border: Border.all(
-                                          //     //       color: Colors.grey,
-                                          //     //       width: 1,
-                                          //     //     )),
-                                          //     lineBarsData: [
-                                          //       LineChartBarData(
-                                          //         gradient: LinearGradient(
-                                          //             colors: lineColors),
-                                          //         // color: Colors.white,
-                                          //         spots: chartData,
-                                          //         isCurved: false,
-                                          //         // color: Colors.white,
-                                          //         belowBarData:
-                                          //             BarAreaData(show: false),
-                                          //         dotData: FlDotData(show: false),
-                                          //       )
-                                          //     ])),
-                                          ),
-                                    ],
+                                          // chart area
+                                          child:  Column(
+                children: [
+                  LineChartWidget(dataPoints: _convertDataToFlSpots(graphDataList[0])),
+                  LineChartWidget(dataPoints: _convertDataToFlSpots(graphDataList[2])),
+                  LineChartWidget(dataPoints: _convertDataToFlSpots(graphDataList[1])),
+                ],
+              ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                               ],
                             ),
@@ -427,6 +246,12 @@ class _LiveViewState extends State<LiveView> {
           ),
         ),
       ),
+    );
+  }
+   List<FlSpot> _convertDataToFlSpots(List<dynamic> data) {
+    return List<FlSpot>.generate(
+      data.length,
+      (index) => FlSpot(index.toDouble(), data[index]),
     );
   }
 }
