@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable
 
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
@@ -442,7 +442,7 @@ class ProfileLandscape extends StatelessWidget {
   String? savedhospitalAddress;
 
   ProfileLandscape(this.savedUsername, this.saveUseremail,
-      this.savedhospitalName, this.savedhospitalAddress);
+      this.savedhospitalName, this.savedhospitalAddress, {super.key});
 
   @override
   Widget build(BuildContext context) {

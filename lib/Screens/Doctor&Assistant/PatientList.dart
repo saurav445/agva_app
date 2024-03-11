@@ -19,6 +19,7 @@ class _PatientListState extends State<PatientList>
     with SingleTickerProviderStateMixin {
   late String deviceId;
   List<dynamic> userData = [];
+  List<dynamic> currentData = [];
   bool isLoading = true;
   late TabController _tabController;
   String updateUser = 'Current';
@@ -57,11 +58,11 @@ class _PatientListState extends State<PatientList>
         },
       );
       var jsonResponse = jsonDecode(response.body);
-      // print(jsonResponse);
+      print(jsonResponse);
       if (jsonResponse['statusCode'] == 200) {
         setState(() {
           userData = jsonResponse['data'];
-
+          currentData = jsonResponse['currentData'];
           isLoading = false;
         });
       } else {
@@ -130,7 +131,7 @@ class _PatientListState extends State<PatientList>
                   )
                 else
                   Column(
-                    children: buildCurrentPatientWidgets(userData),
+                    children: buildCurrentPatientWidgets(currentData),
                   ),
               ],
             )),
@@ -298,8 +299,8 @@ class _PatientListState extends State<PatientList>
     }).toList();
   }
 
-  List<Widget> buildCurrentPatientWidgets(List<dynamic> userData) {
-    return userData.map((user) {
+  List<Widget> buildCurrentPatientWidgets(List<dynamic> currentData) {
+    return currentData.map((user) {
       String uhid = '${user['UHID']}';
       String userId = '${user['_id']}';
 

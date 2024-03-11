@@ -131,6 +131,8 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
             height: 1,
             child: Center(child: LinearProgressIndicator(color: Colors.pink)),
           )
+        else if (deviceAbout.isEmpty)
+        Center(child: Text('No Data Found'),)
         else
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,

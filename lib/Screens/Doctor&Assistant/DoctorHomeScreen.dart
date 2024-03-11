@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:agva_app/AuthScreens/SignIn.dart';
 import 'package:agva_app/Screens/Common/Profile.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusAlarms.dart';
@@ -163,7 +165,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                             ),
                           ),
                           Text(
-                            '#$savedsecurityCode' ?? '-',
+                            '#$savedsecurityCode',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w400,
@@ -486,7 +488,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 30),
-                          child: Container(
+                          child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.15,
                             width: MediaQuery.of(context).size.width * 0.3,
                             child: Image.asset("assets/images/deviceimage.png"),
