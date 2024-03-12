@@ -2,8 +2,8 @@
 
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceAbout.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/PatientList.dart';
-import 'package:agva_app/Screens/User/LiveView.dart';
-import 'package:agva_app/Screens/User/MonitorData.dart';
+import 'package:agva_app/Screens/Common/MonitorData.dart';
+import 'package:agva_app/Screens/WebViewTest/WebView.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:agva_app/config.dart';
 import 'package:agva_app/widgets/TilesforLandscape.dart';
@@ -324,7 +324,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                               width: MediaQuery.of(context).size.width * 0.42,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                              color: Color.fromARGB(255, 58, 58, 58),
+                                color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: TextButton(
                                 onPressed: () {},
@@ -336,7 +336,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                     fontSize:
                                         MediaQuery.of(context).size.width *
                                             0.05,
-                             
                                   ),
                                 ),
                               ),
@@ -444,7 +443,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   MediaQuery.of(context).size.height * 0.065,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                 color: Color.fromARGB(255, 58, 58, 58),
+                                color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -464,7 +463,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                     fontSize:
                                         MediaQuery.of(context).size.width *
                                             0.045,
-                    
                                   ),
                                 ),
                               ),
@@ -479,7 +477,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   MediaQuery.of(context).size.height * 0.065,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                 color: Color.fromARGB(255, 58, 58, 58),
+                                color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -500,7 +498,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                     fontSize:
                                         MediaQuery.of(context).size.width *
                                             0.045,
-                             
                                   ),
                                 ),
                               ),
@@ -517,7 +514,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   MediaQuery.of(context).size.height * 0.065,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                 color: Color.fromARGB(255, 58, 58, 58),
+                                color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: Row(
                                 mainAxisAlignment:
@@ -538,12 +535,12 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) =>
+                                                  builder: (context) => WebViewPage()
 // SocketGraphPage(
 // widget.deviceId),
-                                                    LiveView(widget.deviceId),
+                                                  // LiveView(widget.deviceId),
 // LineGraphApp(),
-                                              ),
+                                                  ),
                                             );
                                           } else {
                                             final snackBar = SnackBar(
@@ -576,7 +573,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                                     .size
                                                     .width *
                                                 0.045,
-                                     
                                           ),
                                         ),
                                       ),
@@ -595,7 +591,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   MediaQuery.of(context).size.height * 0.065,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                 color: Color.fromARGB(255, 58, 58, 58),
+                                color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: TextButton(
                                 onPressed: () {
@@ -624,7 +620,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                     fontSize:
                                         MediaQuery.of(context).size.width *
                                             0.045,
-                             
                                   ),
                                 ),
                               ),
@@ -659,7 +654,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   topRight: Radius.circular(5),
                                   bottomRight: Radius.circular(5),
                                 ),
-                                 color: Color.fromARGB(255, 58, 58, 58),
+                                color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: TextButton(
                                   onPressed: toggleFocus,
@@ -673,7 +668,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                       fontSize:
                                           MediaQuery.of(context).size.width *
                                               0.045,
-                               
                                     ),
                                   )),
                             ),
@@ -702,10 +696,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                 height: 20,
               ),
               Text("Connecting server..",
-                  style: TextStyle(
-                      color: Colors.white,
-               
-                      fontSize: 20.0))
+                  style: TextStyle(color: Colors.white, fontSize: 20.0))
             ],
           ),
         if (loadingCount != 0)
@@ -752,7 +743,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   color: Colors.white,
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.02,
-                           
                                 ),
                               ),
                             ),
@@ -816,7 +806,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             width: MediaQuery.of(context).size.width * 0.15,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                               color: Color.fromARGB(255, 58, 58, 58),
+                              color: Color.fromARGB(255, 58, 58, 58),
                             ),
                             child: TextButton(
                               onPressed: () {
@@ -835,7 +825,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   color: Colors.white,
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.01,
-                           
                                 ),
                               ),
                             ),
@@ -845,7 +834,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             width: MediaQuery.of(context).size.width * 0.15,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                               color: Color.fromARGB(255, 58, 58, 58),
+                              color: Color.fromARGB(255, 58, 58, 58),
                             ),
                             child: TextButton(
                               onPressed: () {
@@ -865,7 +854,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   color: Colors.white,
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.01,
-                           
                                 ),
                               ),
                             ),
@@ -875,7 +863,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             width: MediaQuery.of(context).size.width * 0.15,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                               color: Color.fromARGB(255, 58, 58, 58),
+                              color: Color.fromARGB(255, 58, 58, 58),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -892,14 +880,14 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                     TextButton(
                                       onPressed: () {
                                         if (widget.message == 'ACTIVE') {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LiveView(widget.deviceId),
-// LineGraphApp(),
-                                            ),
-                                          );
+//                                           Navigator.push(
+//                                             context,
+//                                             MaterialPageRoute(
+//                                               builder: (context) =>
+//                                                   LiveView(widget.deviceId),
+// // LineGraphApp(),
+//                                             ),
+//                                           );
                                         } else {
                                           final snackBar = SnackBar(
                                             content: Center(
@@ -930,7 +918,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                                   .size
                                                   .width *
                                               0.01,
-                                   
                                         ),
                                       ),
                                     ),
@@ -944,7 +931,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             width: MediaQuery.of(context).size.width * 0.15,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                               color: Color.fromARGB(255, 58, 58, 58),
+                              color: Color.fromARGB(255, 58, 58, 58),
                             ),
                             child: TextButton(
                               onPressed: () {},
@@ -955,7 +942,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                   color: Colors.white,
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.01,
-                           
                                 ),
                               ),
                             ),
@@ -978,7 +964,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                     topRight: Radius.circular(5),
                                     bottomRight: Radius.circular(5),
                                   ),
-                                   color: Color.fromARGB(255, 58, 58, 58),
+                                  color: Color.fromARGB(255, 58, 58, 58),
                                 ),
                                 child: TextButton(
                                   onPressed: toggleFocus,
@@ -992,7 +978,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                       fontSize:
                                           MediaQuery.of(context).size.width *
                                               0.01,
-                               
                                     ),
                                   ),
                                 ),

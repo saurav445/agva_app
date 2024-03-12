@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_declarations
 
-final url = 'http://3.25.213.83:8000';
+final url = 'http://192.168.2.1:8000';
 final registerUser = '$url/api/logger/auth/register';
 final loginUser = '$url/api/logger/auth/login';
 final getDevicesByHospital = '$url/devices/get-devices-by-hospital';

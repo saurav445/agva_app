@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, curly_braces_in_flow_control_structures
 
-import 'package:agva_app/Screens/User/MonitorData.dart';
+import 'package:agva_app/Screens/Common/MonitorData.dart';
 import 'package:agva_app/Screens/User/DeviceAbout.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:agva_app/config.dart';
@@ -9,7 +9,7 @@ import 'package:agva_app/widgets/TilesforPortait.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'LiveView.dart';
+import '../Common/LiveView.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

@@ -27,6 +27,7 @@ class _UserControlState extends State<UserControl>
     _tabController = TabController(vsync: this, length: 3);
     _tabController.addListener(_handleTabSelection);
     getActiveUser();
+              getinActiveUser();
     getPendingUser();
   }
 

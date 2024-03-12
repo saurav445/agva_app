@@ -660,12 +660,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => WebViewPage(),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => MyApp(),
+                  //   ),
+                  // );
                 },
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.15,

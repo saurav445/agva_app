@@ -1,6 +1,6 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable, unused_import, unnecessary_string_interpolations, use_key_in_widget_constructors, unused_local_variable
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable, unused_import, unnecessary_string_interpolations, use_key_in_widget_constructors, unused_local_variable, prefer_const_constructors_in_immutables
 import 'dart:math';
-import 'package:agva_app/Screens/User/EmptyLiveView.dart';
+import 'package:agva_app/Screens/Common/EmptyLiveView.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:agva_app/config.dart';
 import 'package:agva_app/widgets/LineChartWidget.dart';
@@ -352,27 +352,25 @@ class DataScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    child: Column(
-                      children: [
-                        Text(
-                          label.isEmpty ? '-' : label,
-                          style: TextStyle(
-                            fontFamily: 'Avenir',
-                            color: Color.fromARGB(255, 136, 136, 136),
-                            fontSize: MediaQuery.of(context).size.width * 0.01,
-                          ),
+                  Column(
+                    children: [
+                      Text(
+                        label.isEmpty ? '-' : label,
+                        style: TextStyle(
+                          fontFamily: 'Avenir',
+                          color: Color.fromARGB(255, 136, 136, 136),
+                          fontSize: MediaQuery.of(context).size.width * 0.01,
                         ),
-                        Text(
-                          isMachine ? 'M' : '$value',
-                          style: TextStyle(
-                            fontFamily: 'Avenir',
-                            color: Color.fromARGB(255, 218, 218, 218),
-                            fontSize: MediaQuery.of(context).size.width * 0.02,
-                          ),
+                      ),
+                      Text(
+                        isMachine ? 'M' : '$value',
+                        style: TextStyle(
+                          fontFamily: 'Avenir',
+                          color: Color.fromARGB(255, 218, 218, 218),
+                          fontSize: MediaQuery.of(context).size.width * 0.02,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
