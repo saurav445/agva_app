@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, use_build_context_synchronously, prefer_const_literals_to_create_immutables
 
+import 'dart:async';
 import 'package:agva_app/AuthScreens/SignIn.dart';
 import 'package:agva_app/Screens/Common/RegDone.dart';
 import 'package:agva_app/Screens/Common/TermsCondition.dart';
@@ -20,12 +21,15 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   bool isPhoneNumberFilled = false;
   bool passwordVisible = false;
+  bool confirmpasswordVisible = false;
   bool _isNotValidate = false;
   bool first = false;
   String rolesSelection = '';
   bool isPhoneNumberVerified = false;
   List<String> hospitalNames = [];
   String searchText = '';
+   bool otpSent = false; 
+  Timer? _resendTimer;
 
   String specialitydropdown = 'Select Speciality';
   var specialityItems = [
@@ -118,7 +122,7 @@ class _SignUpState extends State<SignUp> {
       );
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse);
-      if (response.statusCode == 200) {
+      if (jsonResponse['statusValue'] == 'SUCCESS') {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => RegDone()),
@@ -144,75 +148,66 @@ class _SignUpState extends State<SignUp> {
     var jsonResponse = jsonDecode(response.body);
     print(jsonResponse);
     if (jsonResponse['statusValue'] == 'SUCCESS') {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        duration: Duration(minutes: 10),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-        backgroundColor: Colors.white,
-        content: Column(
-          children: [
-            Container(
-              height: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "OTP",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+       setState(() {
+        otpSent = true;
+      });
+        _resendTimer = Timer(Duration(minutes: 1), () {
+        setState(() {
+          otpSent = false; 
+        });
+      });
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Enter 4 Digit OTP",
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    fontWeight: FontWeight.w400,
                   ),
-                ],
-              ),
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  height: 1,
+                  child: Container(
+                    color: Color.fromARGB(255, 181, 0, 100),
+                  ),
+                ),
+                SizedBox(height: 20),
+                OTPTextField(
+                  length: 4,
+                  width: MediaQuery.of(context).size.width,
+                  fieldWidth: 40,
+                  style: TextStyle(fontSize: 14, color: Colors.black),
+                  textFieldAlignment: MainAxisAlignment.spaceAround,
+                  fieldStyle: FieldStyle.box,
+                  onCompleted: (otp) {
+                    print("Completed OTP: $otp");
+                    Navigator.of(context).pop();
+                    putOTPtophone(context, otp);
+                  },
+                ),
+                SizedBox(height: 20),
+              ],
             ),
-            SizedBox(
-              height: 1,
-              child: Container(
-                color: Color.fromARGB(255, 181, 0, 100),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Enter 4 Digit OTP",
-              style: TextStyle(
-                  color: const Color.fromARGB(255, 0, 0, 0),
-                  fontWeight: FontWeight.w400),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            OTPTextField(
-              length: 4,
-              width: MediaQuery.of(context).size.width,
-              fieldWidth: 40,
-              style: TextStyle(fontSize: 14, color: Colors.black),
-              textFieldAlignment: MainAxisAlignment.spaceAround,
-              fieldStyle: FieldStyle.box,
-              onCompleted: (otp) {
-                print("Completed OTP: $otp");
-                putOTPtophone(otp);
-              },
-            ),
-            SizedBox(
-              height: 20,
-            ),
-          ],
-        ),
-      ));
+          );
+        },
+      );
+     
     } else {
       print('Invalid User Credential: ${response.statusCode}');
     }
   }
 
-  void putOTPtophone(String otp) async {
+  void putOTPtophone(BuildContext context, String otp) async {
     Map<String, dynamic> requestBody = {
       'otp': otp,
     };
@@ -230,16 +225,26 @@ class _SignUpState extends State<SignUp> {
     print(jsonResponse);
     if (response.statusCode == 200 &&
         jsonResponse['statusValue'] == 'SUCCESS') {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
       setState(() {
         isPhoneNumberVerified = true;
       });
     } else {
       print('Invalid OTP: ${response.statusCode}');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Invalid OTP'),
-        ),
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Invalid OTP'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
       );
     }
   }
@@ -318,6 +323,11 @@ class _SignUpState extends State<SignUp> {
     super.initState();
     getHospitallist();
     passwordVisible = true;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -457,7 +467,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                               hintText: 'Enter Doctor key',
                               errorText:
-                                  _isNotValidate ? "Enter Proper Info" : null,
+                                  _isNotValidate ? "Enter Proper key" : null,
                               hintStyle: TextStyle(color: Colors.white70),
                             ),
                           ),
@@ -525,8 +535,7 @@ class _SignUpState extends State<SignUp> {
                               color: Colors.white70,
                             ),
                             hintText: 'First Name',
-                            errorText:
-                                _isNotValidate ? "Enter Proper Info" : null,
+                            errorText: _isNotValidate ? "Required" : null,
                             hintStyle: TextStyle(color: Colors.white70),
                           ),
                         ),
@@ -545,8 +554,7 @@ class _SignUpState extends State<SignUp> {
                               color: Colors.white70,
                             ),
                             hintText: 'Last Name',
-                            errorText:
-                                _isNotValidate ? "Enter Proper Info" : null,
+                            errorText: _isNotValidate ? "Required" : null,
                             hintStyle: TextStyle(color: Colors.white70),
                           ),
                         ),
@@ -566,7 +574,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             hintText: 'Enter your Email',
                             errorText:
-                                _isNotValidate ? "Enter Proper Info" : null,
+                                _isNotValidate ? "Enter valid email" : null,
                             hintStyle: TextStyle(color: Colors.white70),
                           ),
                         ),
@@ -589,8 +597,7 @@ class _SignUpState extends State<SignUp> {
                                   size: 20,
                                 ),
                                 hintText: 'Enter Hospital Name',
-                                errorText:
-                                    _isNotValidate ? "Enter Proper Info" : null,
+                                errorText: _isNotValidate ? "Required" : null,
                                 hintStyle: TextStyle(color: Colors.white70),
                               ),
                             ),
@@ -616,7 +623,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             hintText: 'Enter your Department',
                             errorText:
-                                _isNotValidate ? "Enter Proper Info" : null,
+                                _isNotValidate ? "Enter valid number" : null,
                             hintStyle: TextStyle(color: Colors.white70),
                           ),
                         ),
@@ -637,7 +644,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             hintText: 'Contact Number',
                             errorText:
-                                _isNotValidate ? "Enter Proper Info" : null,
+                                _isNotValidate ? "Enter valid number" : null,
                             hintStyle: TextStyle(color: Colors.white70),
                           ),
                           onChanged: (phone) {
@@ -690,6 +697,7 @@ class _SignUpState extends State<SignUp> {
                           "Verified",
                           style: TextStyle(color: Colors.green),
                         ),
+                        
                       SizedBox(
                         height: 30,
                       ),
@@ -705,8 +713,7 @@ class _SignUpState extends State<SignUp> {
                               color: Colors.white70,
                             ),
                             hintText: 'Enter your Password',
-                            errorText:
-                                _isNotValidate ? "Enter Proper Info" : null,
+                            errorText: _isNotValidate ? "Required" : null,
                             hintStyle: TextStyle(color: Colors.white70),
                             suffixIcon: IconButton(
                               icon: Icon(passwordVisible
@@ -730,7 +737,7 @@ class _SignUpState extends State<SignUp> {
                         padding: const EdgeInsets.only(right: 30, left: 30),
                         child: TextFormField(
                           controller: confirmPasswordController,
-                          obscureText: passwordVisible,
+                          obscureText: confirmpasswordVisible,
                           style: TextStyle(color: Colors.white70),
                           decoration: InputDecoration(
                             icon: Icon(
@@ -738,17 +745,17 @@ class _SignUpState extends State<SignUp> {
                               color: Colors.white70,
                             ),
                             hintText: 'Confirm Password',
-                            errorText:
-                                _isNotValidate ? "Enter Proper Info" : null,
+                            errorText: _isNotValidate ? "Required" : null,
                             hintStyle: TextStyle(color: Colors.white70),
                             suffixIcon: IconButton(
-                              icon: Icon(passwordVisible
+                              icon: Icon(confirmpasswordVisible
                                   ? Icons.visibility_off
                                   : Icons.visibility),
                               onPressed: () {
                                 setState(
                                   () {
-                                    passwordVisible = !passwordVisible;
+                                    confirmpasswordVisible =
+                                        !confirmpasswordVisible;
                                   },
                                 );
                               },

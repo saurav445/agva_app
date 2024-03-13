@@ -42,37 +42,35 @@ class _EventsState extends State<Events> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding:  EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  buildColumnHeading('Message'),
-                  buildColumnHeading('Type'),
-                  buildColumnHeading('Date'),
-                  buildColumnHeading('Time'),
-                ],
-              ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                buildColumnHeading('Message'),
+                buildColumnHeading('Type'),
+                buildColumnHeading('Date'),
+                buildColumnHeading('Time'),
+              ],
             ),
-            Container(
-              height: 0.1,
-              color: Color.fromARGB(255, 255, 255, 255),
-            ),
-            if (isLoading) // Show loading indicator
-              buildEmptyContainer2()
-            else if (jsonResponse['data']['findDeviceById']
-                .isEmpty) // Show "No Alarm Logs" message
-              buildEmptyContainer()
-            else
-              for (var eventData in jsonResponse['data']['findDeviceById'])
-                buildEventDataRow(eventData),
-          ],
-        ),
+          ),
+          Container(
+            height: 0.1,
+            color: Color.fromARGB(255, 255, 255, 255),
+          ),
+          if (isLoading) // Show loading indicator
+            buildEmptyContainer2()
+          else if (jsonResponse['data']['findDeviceById']
+              .isEmpty) // Show "No Alarm Logs" message
+            buildEmptyContainer()
+          else
+            for (var eventData in jsonResponse['data']['findDeviceById'])
+              buildEventDataRow(eventData),
+        ],
       ),
     );
   }
@@ -82,7 +80,6 @@ class _EventsState extends State<Events> {
         padding: const EdgeInsets.only(top: 80),
         child: CircularProgressIndicator());
   }
-
 
   Widget buildEmptyContainer() {
     return Center(
@@ -106,14 +103,16 @@ class _EventsState extends State<Events> {
   Widget buildEventDataRow(Map<String, dynamic> eventData) {
     if (eventData.isNotEmpty) {
       return Padding(
-        padding:  EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(top: 10),
         child: Column(
           children: [
             Row(
               children: [
                 SizedBox(width: 20),
                 buildColumnContent(buildMsgContent(eventData['message'])),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.01,),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.01,
+                ),
                 buildColumnContent(buildTypeContent(eventData['type'])),
                 buildColumnContent(buildDateContent(eventData['date'])),
                 buildColumnContent(buildTimeContent(eventData['time'])),
@@ -132,8 +131,6 @@ class _EventsState extends State<Events> {
     }
   }
 
-
-
   Widget builDeviceIdContent(String text) {
     return Text(
       text,
@@ -146,7 +143,7 @@ class _EventsState extends State<Events> {
 
   Widget buildMsgContent(String text) {
     return SizedBox(
-       width: MediaQuery.of(context).size.width * 0.223,
+      width: MediaQuery.of(context).size.width * 0.223,
       child: Text(
         text,
         maxLines: 3,
