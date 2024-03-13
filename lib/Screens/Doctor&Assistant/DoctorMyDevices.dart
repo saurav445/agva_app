@@ -21,6 +21,7 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
   @override
   void initState() {
     super.initState();
+    print('here  i am ');
     fetchFocusedDevices();
   }
 
@@ -39,6 +40,7 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
         var data = jsonResponse['data']['data'];
+        print(jsonResponse);
         setState(() {
           isLoading = false;
           focusedDevices = List<Map<String, dynamic>>.from(data)

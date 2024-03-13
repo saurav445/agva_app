@@ -51,6 +51,8 @@ class SocketServices {
       'autoConnect': true,
     });
 
+    socket.connect();
+
     socket.onConnect((_) {
       socket.emit('ReactStartUp', this.deviceId);
       print("This is called to receive data");
@@ -122,9 +124,10 @@ class SocketServices {
   }
 
   void dispose() {
-    socket.emit('ReactNodeStop', deviceId);
+    socket.emit('ReactNodeStop', this.deviceId);
     socket.onDisconnect((_) => print(" Disconnected from server"));
-    //socket.disconnect(); // Disconnect from the server/
+    socket.onclose(this.deviceId);
+    //socket.disconnect(); // Disconnect from the server
     socket.dispose(); // Dispose of the socket
   }
 }

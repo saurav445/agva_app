@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, curly_braces_in_flow_control_structures
 
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceAbout.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/PatientList.dart';
 import 'package:agva_app/Screens/Common/MonitorData.dart';
 import 'package:agva_app/Screens/WebViewTest/WebView.dart';
@@ -38,6 +39,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
   int loadingCount = 0;
   bool showLoader = false;
   late String deviceId;
+  List<Map<String, dynamic>> focusedDevices = [];
 
   late String pip = '--';
   late String mVi = '--';
@@ -61,9 +63,39 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
     return mytoken;
   }
 
+  Future<void> fetchFocusedDevices() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? mytoken = prefs.getString('mytoken');
+
+    if (mytoken != null) {
+      var response = await http.get(
+        Uri.parse(getDeviceForDoctor),
+        headers: {
+          "Authorization": 'Bearer $mytoken',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        var data = jsonResponse['data']['data'];
+        setState(() {
+          isLoading = false;
+          focusedDevices = List<Map<String, dynamic>>.from(data)
+              .where((device) => device['addTofocus'] == true)
+              .toList();
+        });
+      } else {
+        print('Failed to fetch focused devices: ${response.statusCode}');
+      }
+    } else {
+      print("Token is null");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         loadingCount = 1;
@@ -124,9 +156,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
         pulseValue = receivedPulseValue;
         modeData = receivedModeData;
       });
-// Delayed loading mechanism
       Future.delayed(Duration(seconds: 1), () {
-// After 1 second, hide the loader and show other widgets
         setState(() {
           showLoader = false;
         });
@@ -155,7 +185,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
           "Content-Type": "application/json",
         },
         body: jsonEncode({
-          "addTofocus": !setFocus,
+          "addTofocus": !currentStatus,
         }),
       );
       print('before set $setFocus');
@@ -209,9 +239,9 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
 
   @override
   void dispose() {
+    super.dispose();
     loadingCount = 0;
     widget.socketService.dispose();
-    super.dispose();
   }
 
   @override
@@ -253,7 +283,23 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
             } else {
               return _buildLandscapeLayout(context);
             }
-          })),
+          }),
+                   floatingActionButton: Padding(
+          padding: const EdgeInsets.only(left: 5.0),
+          child: Container(
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color.fromRGBO(255, 255, 255, 0.5)),
+            child: FloatingActionButton(
+              backgroundColor: Colors.transparent,
+              onPressed: () => {Navigator.pop(context)},
+              child: Icon(Icons.arrow_back),
+            ),
+          ),
+          
+    )
+          ),
+          
     );
   }
 
@@ -535,7 +581,8 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) => WebViewPage()
+                                                  builder: (context) =>
+                                                      WebViewPage()
 // SocketGraphPage(
 // widget.deviceId),
                                                   // LiveView(widget.deviceId),
