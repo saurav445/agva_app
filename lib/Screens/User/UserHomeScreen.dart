@@ -7,7 +7,7 @@ import 'package:agva_app/Screens/User/FocusAlarms.dart';
 import 'package:agva_app/Screens/User/Hospitals.dart';
 import 'package:agva_app/Screens/User/MyDevices.dart';
 import 'package:agva_app/Screens/Common/NotificationScreen.dart';
-import 'package:agva_app/Screens/WebViewTest/WebView.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/LiveWebView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';

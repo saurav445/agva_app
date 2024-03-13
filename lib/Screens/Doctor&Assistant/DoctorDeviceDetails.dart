@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, curly_braces_in_flow_control_structures
 
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceAbout.dart';
-import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/PatientList.dart';
 import 'package:agva_app/Screens/Common/MonitorData.dart';
-import 'package:agva_app/Screens/WebViewTest/WebView.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/LiveWebView.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:agva_app/config.dart';
 import 'package:agva_app/widgets/TilesforLandscape.dart';

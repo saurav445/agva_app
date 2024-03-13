@@ -4,12 +4,12 @@ import 'package:agva_app/Screens/Common/MonitorData.dart';
 import 'package:agva_app/Screens/User/DeviceAbout.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:agva_app/config.dart';
+import 'package:agva_app/main.dart';
 import 'package:agva_app/widgets/TilesforLandscape.dart';
 import 'package:agva_app/widgets/TilesforPortait.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Common/LiveView.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -535,10 +535,11 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) =>
+                                                builder: (context) =>MyApp()
 // SocketGraphPage(
 // widget.deviceId),
-                                                    LiveView(widget.deviceId),
+                                                    // LiveView(widget.deviceId),
+                                                    
 // LineGraphApp(),
                                               ),
                                             );
@@ -892,8 +893,9 @@ class _DeviceDetailsState extends State<DeviceDetails> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LiveView(widget.deviceId),
+                                              builder: (context) => MyApp()
+                                                  // LiveView(widget.deviceId),
+                                                  
 // LineGraphApp(),
                                             ),
                                           );

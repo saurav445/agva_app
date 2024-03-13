@@ -28,7 +28,7 @@ class _SignUpState extends State<SignUp> {
   bool isPhoneNumberVerified = false;
   List<String> hospitalNames = [];
   String searchText = '';
-   bool otpSent = false; 
+  bool otpSent = false;
   Timer? _resendTimer;
 
   String specialitydropdown = 'Select Speciality';
@@ -148,12 +148,12 @@ class _SignUpState extends State<SignUp> {
     var jsonResponse = jsonDecode(response.body);
     print(jsonResponse);
     if (jsonResponse['statusValue'] == 'SUCCESS') {
-       setState(() {
+      setState(() {
         otpSent = true;
       });
-        _resendTimer = Timer(Duration(minutes: 1), () {
+      _resendTimer = Timer(Duration(minutes: 1), () {
         setState(() {
-          otpSent = false; 
+          otpSent = false;
         });
       });
       showDialog(
@@ -201,7 +201,6 @@ class _SignUpState extends State<SignUp> {
           );
         },
       );
-     
     } else {
       print('Invalid User Credential: ${response.statusCode}');
     }
@@ -697,7 +696,6 @@ class _SignUpState extends State<SignUp> {
                           "Verified",
                           style: TextStyle(color: Colors.green),
                         ),
-                        
                       SizedBox(
                         height: 30,
                       ),

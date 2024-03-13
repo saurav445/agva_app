@@ -7,7 +7,7 @@ import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/UserControl.dart';
 
-import 'package:agva_app/Screens/WebViewTest/WebView.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/LiveWebView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
