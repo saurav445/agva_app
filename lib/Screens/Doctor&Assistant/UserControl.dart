@@ -120,6 +120,7 @@ class _UserControlState extends State<UserControl>
       );
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusCode'] == 200) {
+        print(jsonResponse);
         setState(() {
           userData = jsonResponse['data'];
           isLoading = false;
@@ -197,7 +198,7 @@ class _UserControlState extends State<UserControl>
   }
 
   List<Widget> buildRequestsUserWidgets(List<dynamic> requestsuserData,
-      Function(String) removeUser, Function(String) activeUser) {
+      Function(String) activeUser, Function(String) removeUser) {
     return requestsuserData.map((user) {
       return Column(
         children: [

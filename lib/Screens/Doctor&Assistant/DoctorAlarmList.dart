@@ -61,13 +61,16 @@ class DoctorAlarmListState extends State<DoctorAlarmList> {
               ),
             ),
           ),
-          body: OrientationBuilder(builder: (context, orientation) {
-            if (orientation == Orientation.portrait) {
-              return SingleChildScrollView(child: portraitAlarm());
-            } else {
-              return SingleChildScrollView(child: landscapeAlarm());
-            }
-          })),
+          body: RefreshIndicator(
+            onRefresh: getAlarmbyId,
+            child: OrientationBuilder(builder: (context, orientation) {
+              if (orientation == Orientation.portrait) {
+                return SingleChildScrollView(child: portraitAlarm());
+              } else {
+                return SingleChildScrollView(child: landscapeAlarm());
+              }
+            }),
+          )),
     );
   }
 

@@ -1,4 +1,5 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable, prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import
+import 'package:agva_app/AuthScreens/RegDone.dart';
 import 'package:agva_app/Screens/Common/TermsCondition.dart';
 import 'package:agva_app/Screens/User/DeviceDetails.dart';
 import 'package:agva_app/Screens/User/DeviceList.dart';
@@ -134,6 +135,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: "/splash",
       routes: {
+        "/regdone": (context) => RegDone(),
         "/signin": (context) => SignIn(),
         "/splash": (context) => const SplashScreen(),
         "/home": (context) => UserHomeScreen({}),

@@ -31,7 +31,7 @@ class _AddPatientDataState extends State<AddPatientData> {
   bool _isLoading = false;
   bool _userAborted = false;
   bool first = false;
-
+TextEditingController enterpatientuhidController = TextEditingController();
   TextEditingController enterpatientnameController = TextEditingController();
   TextEditingController enterpatientageController = TextEditingController();
   TextEditingController enterheightincmController = TextEditingController();
@@ -61,7 +61,7 @@ class _AddPatientDataState extends State<AddPatientData> {
     String? token = await getToken();
     if (token != null) {
       var regBody = {
-        "uhid": widget.uhid,
+        "uhid": enterpatientuhidController,
         "age": enterpatientageController.text,
         "deviceId": widget.deviceId,
         "doctor_name": enterdrnameController.text,
@@ -188,7 +188,7 @@ class _AddPatientDataState extends State<AddPatientData> {
               Padding(
                 padding: const EdgeInsets.only(right: 30, left: 30),
                 child: TextFormField(
-                  readOnly: true,
+                  controller: enterpatientuhidController,
                   style: TextStyle(color: Colors.white70),
                   decoration: InputDecoration(
                     icon: Icon(

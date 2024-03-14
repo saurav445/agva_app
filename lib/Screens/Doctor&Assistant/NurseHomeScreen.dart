@@ -4,7 +4,7 @@ import 'package:agva_app/AuthScreens/SignIn.dart';
 import 'package:agva_app/Screens/Common/Profile.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/AddPatientData.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/AllPatientList.dart';
-import 'package:agva_app/Screens/Doctor&Assistant/AssignedDevices.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/AssistantList.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceList.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusAlarms.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
@@ -28,6 +28,7 @@ class NurseHomeScreen extends StatefulWidget {
 }
 
 class _NurseHomeScreenState extends State<NurseHomeScreen> {
+   String? saveUseremail;
   String? savedUsername;
   late SharedPreferences prefs;
 
@@ -113,25 +114,66 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
             return _buildLandscapeLayout(context);
           }
         }),
-        drawer: Drawer(
+          drawer: Drawer(
+          backgroundColor: Colors.black,
           child: ListView(
             padding: EdgeInsets.zero,
             physics: BouncingScrollPhysics(),
             children: [
-              DrawerHeader(
-                decoration: BoxDecoration(),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'AgVa',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 157, 0, 86),
-                      fontSize: MediaQuery.of(context).size.width * 0.1,
+              SizedBox(
+                height: 200,
+                child: DrawerHeader(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                        Color.fromARGB(255, 218, 0, 138),
+                        Color.fromARGB(255, 117, 0, 74)
+                      ])),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/profile.png',
+                          height: 80,
+                          width: 80,
+                        ),
+                        // Text(
+                        //   'AgVa',
+                        //   style: TextStyle(
+                        //     color: Color.fromARGB(255, 255, 255, 255),
+                        //     fontSize: MediaQuery.of(context).size.width * 0.1,
+                        //   ),
+                        // ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          savedUsername ?? '-',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.width * 0.04,
+                          ),
+                        ),
+                        Text(
+                          saveUseremail ?? '-',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w200,
+                            fontSize: MediaQuery.of(context).size.width * 0.03,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
               ListTile(
+            
                 leading: const Icon(Icons.home, color: Colors.white),
                 title: Text(
                   'HOME',
@@ -156,24 +198,6 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Profile()));
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.devices_other, color: Colors.white),
-                title: Text(
-                  'DEVICES',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DoctorDeviceList(),
-                    ),
-                  );
                 },
               ),
               ListTile(
@@ -211,6 +235,7 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
       ),
     );
   }
+
 
  
   Widget _buildPortraitLayout(BuildContext context) {

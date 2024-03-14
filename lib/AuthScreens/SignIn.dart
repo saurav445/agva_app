@@ -1,10 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'dart:convert';
 import 'package:agva_app/AuthScreens/SignUp.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/NurseHomeScreen.dart';
 import 'package:agva_app/Screens/User/UserHomeScreen.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -16,16 +16,22 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  bool _isNotValidate = false;
   bool passwordVisible = true;
   late SharedPreferences prefs;
 
   @override
   void initState() {
     super.initState();
+
     initSharedPref();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
   void initSharedPref() async {
@@ -35,7 +41,7 @@ class _SignInState extends State<SignIn> {
   String mytoken = "token";
 
   void signIn() async {
-    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+    if (_formKey.currentState!.validate()) {
       try {
         var response = await http.post(
           Uri.parse(loginUser),
@@ -50,7 +56,6 @@ class _SignInState extends State<SignIn> {
         if (jsonResponse['statusValue'] == 'SUCCESS') {
           print(jsonResponse);
           var data = jsonResponse['data'];
-          
           var name = data['name'];
           var email = data['email'];
           var token = data['token'];
@@ -59,6 +64,9 @@ class _SignInState extends State<SignIn> {
           var usertype = data['userType'];
           var userID = data['_id'];
           var securityCode = data['securityCode'];
+          var designation = data['designation'];
+          var speciality = data['speciality'];
+          var phoneno = data['contactNumber'];
 
           saveUsername(name);
           saveUseremail(email);
@@ -68,6 +76,9 @@ class _SignInState extends State<SignIn> {
           saveusertype(usertype);
           saveuserID(userID);
           savesecurityCode(securityCode);
+          savedesignation(designation);
+          saveSpeciality(speciality);
+          savePhoneno(phoneno);
 
           if (usertype == 'User') {
             Navigator.push(
@@ -104,11 +115,72 @@ class _SignInState extends State<SignIn> {
             );
           }
         } else {
-          print('Invalid User Credential: ${response.statusCode}');
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Please check your email/password",
+                      style: TextStyle(
+                        color: const Color.fromARGB(255, 0, 0, 0),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                      child: Container(
+                        height: 40,
+                        width: 200,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 3,
+                                blurRadius: 20,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                            color: Colors.white,
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Color.fromARGB(255, 218, 0, 138),
+                                  Color.fromARGB(255, 142, 0, 90)
+                                ])),
+                        child: TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          style: TextButton.styleFrom(),
+                          child: Text(
+                            "OK",
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
         }
       } catch (e) {
         print('Error: $e');
       }
+    } else {
+      setState(() {
+        _isNotValidate = true;
+      });
     }
   }
 
@@ -116,6 +188,24 @@ class _SignInState extends State<SignIn> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('securityCode', securityCode);
     print('Saved securityCode: $securityCode');
+  }
+
+  Future<void> savedesignation(String designation) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('designation', designation);
+    print('Saved designation: $designation');
+  }
+
+  Future<void> saveSpeciality(String speciality) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('speciality', speciality);
+    print('Saved Speciality: $speciality');
+  }
+
+  Future<void> savePhoneno(String phoneno) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('phoneno', phoneno);
+    print('Saved phoneno: $phoneno');
   }
 
   Future<void> saveUsername(String name) async {
@@ -158,175 +248,190 @@ class _SignInState extends State<SignIn> {
     print('Saved usertype: $usertype');
   }
 
+  String? validateEmail(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Please enter email';
+    }
+    return null;
+  }
+
+  String? validatePassword(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Please enter password';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: SingleChildScrollView(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 120),
-                    Text(
-                      "AgVa",
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        fontSize: 60,
-                        color: Color.fromARGB(255, 181, 0, 100),
-                      ),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SingleChildScrollView(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(height: 120),
+                  Text(
+                    "AgVa",
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      fontSize: 60,
+                      color: Color.fromARGB(255, 181, 0, 100),
                     ),
-                    SizedBox(height: 60),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: TextFormField(
-                        controller: emailController,
-                        //     validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter email';
-                        //   }
-                        //   return null;
-                        // },
-                        style: TextStyle(color: Colors.white70),
-                        decoration: InputDecoration(
-                          icon: Icon(Icons.email, color: Colors.white70),
-                          // errorText: _isNotValidate ? "Enter Proper Info" : null,
-                          hintText: 'Enter your email',
-                          hintStyle: TextStyle(color: Colors.white70),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 40),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: TextFormField(
-                        controller: passwordController,
-                        obscureText: passwordVisible,
-                        style: TextStyle(color: Colors.white70),
-                        decoration: InputDecoration(
-                          icon: Icon(Icons.lock, color: Colors.white70),
-                          hintText: 'Enter your Password',
-                          // errorText: _isNotValidate ? "Enter Proper Info" : null,
-                          hintStyle: TextStyle(color: Colors.white70),
-                          suffixIcon: IconButton(
-                            icon: Icon(passwordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off),
-                            onPressed: () {
-                              setState(() {
-                                passwordVisible = !passwordVisible;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Padding(
-                    //   padding: const EdgeInsets.fromLTRB(230, 20, 0, 0),
-                    //   child: Row(
-                    //     children: [
-                    //       InkWell(
-                    //         child: Text(
-                    //           "Forget Password ?",
-                    //           style: TextStyle(
-                    //               color: Colors.white70, fontSize: 14),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    SizedBox(height: 60),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
-                      child: Container(
-                        height: 45,
-                        width: 300,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 3,
-                              blurRadius: 20,
-                              offset: Offset(0, 3),
+                  ),
+                  SizedBox(height: 60),
+                  Form(
+                           key: _formKey,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: TextFormField(
+                            controller: emailController,
+                            validator: validateEmail,
+                            style: TextStyle(color: Colors.white70),
+                            decoration: InputDecoration(
+                              icon: Icon(Icons.email, color: Colors.white70),
+                              // errorText: _isNotValidate ? "Enter Proper Info" : null,
+                              hintText: 'Enter your email',
+                              hintStyle: TextStyle(color: Colors.white70),
                             ),
-                          ],
-                          color: Colors.white,
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromARGB(255, 218, 0, 138),
-                              Color.fromARGB(255, 142, 0, 90),
-                            ],
                           ),
                         ),
-                        child: TextButton(
-                          onPressed: signIn,
-                          style: TextButton.styleFrom(),
-                          child: Text(
-                            "SIGN IN",
-                            style: TextStyle(color: Colors.white, fontSize: 15),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 30),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
-                      child: Container(
-                        height: 45,
-                        width: 300,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 3,
-                              blurRadius: 20,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                          color: Colors.white,
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromARGB(255, 255, 255, 255),
-                              Color.fromARGB(255, 255, 255, 255),
-                            ],
-                          ),
-                        ),
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignUp(),
+                        SizedBox(height: 40),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: TextFormField(
+                            controller: passwordController,
+                            obscureText: passwordVisible,
+                            validator: validatePassword,
+                            style: TextStyle(color: Colors.white70),
+                            decoration: InputDecoration(
+                              icon: Icon(Icons.lock, color: Colors.white70),
+                              hintText: 'Enter your Password',
+                              // errorText: _isNotValidate ? "Enter Proper Info" : null,
+                              hintStyle: TextStyle(color: Colors.white70),
+                              suffixIcon: IconButton(
+                                icon: Icon(passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
+                                onPressed: () {
+                                  setState(() {
+                                    passwordVisible = !passwordVisible;
+                                  });
+                                },
                               ),
-                            );
-                          },
-                          style: TextButton.styleFrom(),
-                          child: Text(
-                            "SIGN UP",
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 157, 0, 86),
-                              fontSize: 15,
                             ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.fromLTRB(230, 20, 0, 0),
+                  //   child: Row(
+                  //     children: [
+                  //       InkWell(
+                  //         child: Text(
+                  //           "Forget Password ?",
+                  //           style: TextStyle(
+                  //               color: Colors.white70, fontSize: 14),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  SizedBox(height: 60),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                    child: Container(
+                      height: 45,
+                      width: 300,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 3,
+                            blurRadius: 20,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                        color: Colors.white,
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color.fromARGB(255, 218, 0, 138),
+                            Color.fromARGB(255, 142, 0, 90),
+                          ],
+                        ),
+                      ),
+                      child: TextButton(
+                        onPressed: signIn,
+                        style: TextButton.styleFrom(),
+                        child: Text(
+                          "SIGN IN",
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                    child: Container(
+                      height: 45,
+                      width: 300,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 3,
+                            blurRadius: 20,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                        color: Colors.white,
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color.fromARGB(255, 255, 255, 255),
+                            Color.fromARGB(255, 255, 255, 255),
+                          ],
+                        ),
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignUp(),
+                            ),
+                          );
+                        },
+                        style: TextButton.styleFrom(),
+                        child: Text(
+                          "SIGN UP",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 157, 0, 86),
+                            fontSize: 15,
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

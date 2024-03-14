@@ -22,7 +22,7 @@ class _WebViewPageState extends State<WebViewPage> {
       DeviceOrientation.landscapeLeft,
     ]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    Timer(Duration(minutes: 5), () {
+    Timer(Duration(minutes: 4), () {
       print('Inside webView');
       Navigator.pop(context);
     });

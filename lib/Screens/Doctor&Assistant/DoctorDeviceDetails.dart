@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, curly_braces_in_flow_control_structures
 
+import 'package:agva_app/Screens/Doctor&Assistant/AssistantList.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceAbout.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/PatientList.dart';
 import 'package:agva_app/Screens/Common/MonitorData.dart';
@@ -283,20 +284,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
               return _buildLandscapeLayout(context);
             }
           }),
-                   floatingActionButton: Padding(
-          padding: const EdgeInsets.only(left: 5.0),
-          child: Container(
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color.fromRGBO(255, 255, 255, 0.5)),
-            child: FloatingActionButton(
-              backgroundColor: Colors.transparent,
-              onPressed: () => {Navigator.pop(context)},
-              child: Icon(Icons.arrow_back),
-            ),
-          ),
-          
-    )
           ),
           
     );
@@ -641,26 +628,27 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                               ),
                               child: TextButton(
                                 onPressed: () {
-                                  final snackBar = SnackBar(
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 65, 65, 65),
-                                    content: Text(
-                                      "Currently Unavailable",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    action: SnackBarAction(
-                                      textColor: Colors.black,
-                                      backgroundColor: Colors.white,
-                                      label: 'OK',
-                                      onPressed: () {},
-                                    ),
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AssistantList(widget.deviceId)));
+                                  // final snackBar = SnackBar(
+                                  //   backgroundColor:
+                                  //       const Color.fromARGB(255, 65, 65, 65),
+                                  //   content: Text(
+                                  //     "Currently Unavailable",
+                                  //     style: TextStyle(color: Colors.white),
+                                  //   ),
+                                  //   action: SnackBarAction(
+                                  //     textColor: Colors.black,
+                                  //     backgroundColor: Colors.white,
+                                  //     label: 'OK',
+                                  //     onPressed: () {},
+                                  //   ),
+                                  // );
+                                  // ScaffoldMessenger.of(context)
+                                  //     .showSnackBar(snackBar);
                                 },
                                 style: TextButton.styleFrom(),
                                 child: Text(
-                                  "SUPPORT",
+                                  "ASSIGN",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize:
@@ -687,7 +675,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             borderRadius: BorderRadius.circular(5),
                             color: currentStatus
                                 ? Color.fromARGB(255, 174, 34, 104)
-                                : Color.fromARGB(255, 82, 82, 82),
+                                :  Color.fromARGB(255, 58, 58, 58),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8),

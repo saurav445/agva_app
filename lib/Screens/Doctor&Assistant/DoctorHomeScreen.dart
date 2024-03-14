@@ -130,71 +130,66 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
             return _buildLandscapeLayout(context);
           }
         }),
-        drawer: Drawer(
+             drawer: Drawer(
           backgroundColor: Colors.black,
           child: ListView(
             padding: EdgeInsets.zero,
             physics: BouncingScrollPhysics(),
             children: [
-              DrawerHeader(
-                decoration: BoxDecoration(),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'AgVa',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 157, 0, 86),
-                          fontSize: MediaQuery.of(context).size.width * 0.1,
+              SizedBox(
+                height: 200,
+                child: DrawerHeader(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                        Color.fromARGB(255, 218, 0, 138),
+                        Color.fromARGB(255, 117, 0, 74)
+                      ])),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/profile.png',
+                          height: 80,
+                          width: 80,
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            savedUsername ?? '-',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w200,
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.04,
-                            ),
+                        // Text(
+                        //   'AgVa',
+                        //   style: TextStyle(
+                        //     color: Color.fromARGB(255, 255, 255, 255),
+                        //     fontSize: MediaQuery.of(context).size.width * 0.1,
+                        //   ),
+                        // ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          savedUsername ?? '-',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.width * 0.04,
                           ),
-                          Text(
-                            '#$savedsecurityCode',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400,
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.04,
-                            ),
+                        ),
+                        Text(
+                          saveUseremail ?? '-',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w200,
+                            fontSize: MediaQuery.of(context).size.width * 0.03,
                           ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            saveUseremail ?? '-',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w200,
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.04,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               ListTile(
+            
                 leading: const Icon(Icons.home, color: Colors.white),
                 title: Text(
                   'HOME',

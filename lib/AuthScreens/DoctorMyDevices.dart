@@ -1,19 +1,19 @@
+// ignore_for_file: must_be_immutable, prefer_const_constructors
 
-// ignore_for_file: prefer_const_constructors, must_be_immutable, library_private_types_in_public_api, curly_braces_in_flow_control_structures
-
+import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceDetails.dart';
+import 'package:agva_app/Service/SocketService.dart';
 import 'dart:convert';
-import 'package:agva_app/Screens/Doctor&Assistant/DoctorAlarmList.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-class DoctorFocusAlarms extends StatefulWidget {
+class DoctorMyDevices extends StatefulWidget {
   @override
-  _DoctorFocusAlarmsState createState() => _DoctorFocusAlarmsState();
+  _DoctorMyDevicesState createState() => _DoctorMyDevicesState();
 }
 
-class _DoctorFocusAlarmsState extends State<DoctorFocusAlarms> {
+class _DoctorMyDevicesState extends State<DoctorMyDevices> {
   List<Map<String, dynamic>> focusedDevices = [];
   bool isLoading = true;
   Color? newColor;
@@ -21,6 +21,7 @@ class _DoctorFocusAlarmsState extends State<DoctorFocusAlarms> {
   @override
   void initState() {
     super.initState();
+    print('here  i am ');
     fetchFocusedDevices();
   }
 
@@ -39,10 +40,11 @@ class _DoctorFocusAlarmsState extends State<DoctorFocusAlarms> {
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
         var data = jsonResponse['data']['data'];
+        print(jsonResponse);
         setState(() {
           isLoading = false;
           focusedDevices = List<Map<String, dynamic>>.from(data)
-              .where((device) => device['addTofocus'] == true && device['isAssigned'] == true)
+              .where((device) => device['addTofocus'] == true)
               .toList();
         });
       } else {
@@ -134,22 +136,27 @@ class DevicelistsPortrait extends StatelessWidget {
                 newColor = Colors.green; // Or any default color
               }
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
+                padding:  EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      height: 0,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: GestureDetector(
-                       onTap: () {
+                        onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DoctorAlarmList(
-                                device['deviceInfo']?[0]?['DeviceId'],
-                                device['deviceInfo']?[0]?['Hospital_Name'],
-                              ),
+                              builder: (context) => DoctorDeviceDetails(
+                                  device['deviceInfo']?[0]?['DeviceId'],
+                                  SocketServices(),
+                                  device['deviceInfo']?[0]?['Ward_No'],
+                                  device['deviceInfo']?[0]?['DeviceType'],
+                                  device['message']),
                             ),
                           );
                         },
@@ -171,7 +178,7 @@ class DevicelistsPortrait extends StatelessWidget {
                                       MediaQuery.of(context).size.height * 0.12,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 58, 58, 58),
+                                   color: Color.fromARGB(255, 58, 58, 58),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -358,16 +365,18 @@ class DevicelistsLandscape extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: GestureDetector(
                             onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DoctorAlarmList(
-                                device['deviceInfo']?[0]?['DeviceId'],
-                                device['deviceInfo']?[0]?['Hospital_Name'],
-                              ),
-                            ),
-                          );
-                        },
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DoctorDeviceDetails(
+                                      device['deviceInfo']?[0]?['DeviceId'],
+                                      SocketServices(),
+                                      device['deviceInfo']?[0]?['Ward_No'],
+                                      device['deviceInfo']?[0]?['DeviceType'],
+                                      device['message']),
+                                ),
+                              );
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),

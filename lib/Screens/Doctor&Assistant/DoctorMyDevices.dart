@@ -44,7 +44,7 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
         setState(() {
           isLoading = false;
           focusedDevices = List<Map<String, dynamic>>.from(data)
-              .where((device) => device['addTofocus'] == true)
+              .where((device) => device['addTofocus'] == true && device['isAssigned'] == true  )
               .toList();
         });
       } else {
@@ -72,24 +72,27 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
               ),
             ),
           ),
-          body: OrientationBuilder(builder: (context, orientation) {
-            if (orientation == Orientation.portrait) {
-              return SingleChildScrollView(
-                child: DevicelistsPortrait(
-                  focusedDevices: focusedDevices,
-                  isLoading: isLoading,
-                  // alarmPriority:,
-                ),
-              );
-            } else {
-              return SingleChildScrollView(
-                child: DevicelistsLandscape(
-                  focusedDevices: focusedDevices,
-                  isLoading: isLoading,
-                ),
-              );
-            }
-          })),
+          body: RefreshIndicator(
+            onRefresh: fetchFocusedDevices,
+            child: OrientationBuilder(builder: (context, orientation) {
+              if (orientation == Orientation.portrait) {
+                return SingleChildScrollView(
+                  child: DevicelistsPortrait(
+                    focusedDevices: focusedDevices,
+                    isLoading: isLoading,
+                    // alarmPriority:,
+                  ),
+                );
+              } else {
+                return SingleChildScrollView(
+                  child: DevicelistsLandscape(
+                    focusedDevices: focusedDevices,
+                    isLoading: isLoading,
+                  ),
+                );
+              }
+            }),
+          )),
     );
   }
 }

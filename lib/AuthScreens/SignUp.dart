@@ -1,8 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields, use_build_context_synchronously, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, avoid_print, use_build_context_synchronously
 
 import 'dart:async';
+import 'package:agva_app/AuthScreens/RegDone.dart';
 import 'package:agva_app/AuthScreens/SignIn.dart';
-import 'package:agva_app/Screens/Common/RegDone.dart';
 import 'package:agva_app/Screens/Common/TermsCondition.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +30,8 @@ class _SignUpState extends State<SignUp> {
   String searchText = '';
   bool otpSent = false;
   Timer? _resendTimer;
+  int remainingTime = 60;
+  bool isTimerRunning = false;
 
   String specialitydropdown = 'Select Speciality';
   var specialityItems = [
@@ -95,8 +97,7 @@ class _SignUpState extends State<SignUp> {
         hospitalNameController.text.isNotEmpty &&
         departmentController.text.isNotEmpty &&
         emailController.text.isNotEmpty &&
-        passwordController.text == confirmPasswordController.text &&
-        isPhoneNumberVerified) {
+        passwordController.text == confirmPasswordController.text) {
       var regBody = {
         "firstName": firstNameController.text,
         "lastName": lastNameController.text,
@@ -122,7 +123,86 @@ class _SignUpState extends State<SignUp> {
       );
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse);
-      if (jsonResponse['statusValue'] == 'SUCCESS') {
+      if (jsonResponse['message'] == 'Error ! Wrong security code.') {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Email already in use",
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  SizedBox(
+                    height: 1,
+                    child: Container(
+                      color: Color.fromARGB(255, 181, 0, 100),
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "try with different Email",
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                    child: Container(
+                      height: 40,
+                      width: 200,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 3,
+                              blurRadius: 20,
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                          color: Colors.white,
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromARGB(255, 218, 0, 138),
+                                Color.fromARGB(255, 142, 0, 90)
+                              ])),
+                      child: TextButton(
+                        onPressed: () => {Navigator.pop(context)},
+                        style: TextButton.styleFrom(),
+                        child: Text(
+                          "OK",
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      } else if (jsonResponse['statusValue'] == 'SUCCESS') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RegDone()),
+        );
+      } else if (jsonResponse['statusValue'] == 'SUCCESS') {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => RegDone()),
@@ -132,9 +212,24 @@ class _SignUpState extends State<SignUp> {
       }
     } else {
       setState(() {
-        // _isNotValidate = true;
+        _isNotValidate = true;
       });
     }
+  }
+
+  void startResendTimer() {
+    remainingTime = 60;
+    isTimerRunning = true;
+    _resendTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (remainingTime > 0) {
+          remainingTime--;
+        } else {
+          timer.cancel();
+          isTimerRunning = false;
+        }
+      });
+    });
   }
 
   void sendOTPtophone(BuildContext context) async {
@@ -150,12 +245,9 @@ class _SignUpState extends State<SignUp> {
     if (jsonResponse['statusValue'] == 'SUCCESS') {
       setState(() {
         otpSent = true;
+        startResendTimer();
       });
-      _resendTimer = Timer(Duration(minutes: 1), () {
-        setState(() {
-          otpSent = false;
-        });
-      });
+
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -201,6 +293,79 @@ class _SignUpState extends State<SignUp> {
           );
         },
       );
+    } else if (jsonResponse['message'] == 'Contact Number already verified.') {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Phone Number already in use",
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 15),
+                SizedBox(
+                  height: 1,
+                  child: Container(
+                    color: Color.fromARGB(255, 181, 0, 100),
+                  ),
+                ),
+                SizedBox(height: 15),
+                Text(
+                  "try with different phone number",
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                  child: Container(
+                    height: 40,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 3,
+                            blurRadius: 20,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                        color: Colors.white,
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color.fromARGB(255, 218, 0, 138),
+                              Color.fromARGB(255, 142, 0, 90)
+                            ])),
+                    child: TextButton(
+                      onPressed: () => {Navigator.pop(context)},
+                      style: TextButton.styleFrom(),
+                      child: Text(
+                        "OK",
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
     } else {
       print('Invalid User Credential: ${response.statusCode}');
     }
@@ -233,15 +398,63 @@ class _SignUpState extends State<SignUp> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Invalid OTP'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Invalid OTP",
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 15),
+                SizedBox(
+                  height: 1,
+                  child: Container(
+                    color: Color.fromARGB(255, 181, 0, 100),
+                  ),
+                ),
+                SizedBox(height: 15),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                  child: Container(
+                    height: 40,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 3,
+                            blurRadius: 20,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                        color: Colors.white,
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color.fromARGB(255, 218, 0, 138),
+                              Color.fromARGB(255, 142, 0, 90)
+                            ])),
+                    child: TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: TextButton.styleFrom(),
+                      child: Text(
+                        "OK",
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           );
         },
       );
@@ -526,18 +739,23 @@ class _SignUpState extends State<SignUp> {
                       Padding(
                         padding: const EdgeInsets.only(right: 30, left: 30),
                         child: TextFormField(
-                          controller: firstNameController,
-                          style: TextStyle(color: Colors.white70),
-                          decoration: InputDecoration(
-                            icon: Icon(
-                              Icons.person,
-                              color: Colors.white70,
+                            controller: firstNameController,
+                            style: TextStyle(color: Colors.white70),
+                            decoration: InputDecoration(
+                              icon: Icon(
+                                Icons.person,
+                                color: Colors.white70,
+                              ),
+                              hintText: 'First Name',
+                              errorText: _isNotValidate ? "Required" : null,
+                              hintStyle: TextStyle(color: Colors.white70),
                             ),
-                            hintText: 'First Name',
-                            errorText: _isNotValidate ? "Required" : null,
-                            hintStyle: TextStyle(color: Colors.white70),
-                          ),
-                        ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Enter Name';
+                              }
+                              return null;
+                            }),
                       ),
                       SizedBox(
                         height: 40,
@@ -654,43 +872,92 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       if (isPhoneNumberFilled && !isPhoneNumberVerified)
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
-                          child: Container(
-                            height: 45,
-                            width: 100,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 3,
-                                    blurRadius: 20,
-                                    offset: Offset(
-                                        0, 3), // changes position of shadow
+                        if (isTimerRunning)
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                                child: Container(
+                                  height: 45,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.3),
+                                        spreadRadius: 3,
+                                        blurRadius: 20,
+                                        offset: Offset(
+                                            0, 3), // changes position of shadow
+                                      ),
+                                    ],
+                                    color: Colors.grey[600],
                                   ),
-                                ],
-                                color: Colors.white,
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Color.fromARGB(255, 218, 0, 138),
-                                      Color.fromARGB(255, 142, 0, 90)
-                                    ])),
-                            child: TextButton(
-                              onPressed: () {
-                                sendOTPtophone(context);
-                              },
-                              style: TextButton.styleFrom(),
-                              child: Text(
-                                "Verify",
+                                  child: TextButton(
+                                    onPressed: () {
+                                      if (!isTimerRunning) {
+                                        sendOTPtophone(context);
+                                      }
+                                    },
+                                    style: TextButton.styleFrom(),
+                                    child: Text(
+                                      "Verify",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Resent OTP 00:$remainingTime",
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 15),
+                                    color: Colors.green, fontSize: 12),
+                              )
+                            ],
+                          )
+                        else
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                            child: Container(
+                              height: 45,
+                              width: 200,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      spreadRadius: 3,
+                                      blurRadius: 20,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Color.fromARGB(255, 218, 0, 138),
+                                        Color.fromARGB(255, 142, 0, 90)
+                                      ])),
+                              child: TextButton(
+                                onPressed: () {
+                                  if (!isTimerRunning) {
+                                    sendOTPtophone(context);
+                                  }
+                                },
+                                style: TextButton.styleFrom(),
+                                child: Text(
+                                  "Verify",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 15),
+                                ),
                               ),
                             ),
                           ),
-                        ),
                       if (isPhoneNumberVerified)
                         Text(
                           "Verified",
@@ -832,7 +1099,93 @@ class _SignUpState extends State<SignUp> {
                                     Color.fromARGB(255, 142, 0, 90)
                                   ])),
                           child: TextButton(
-                            onPressed: register,
+                            onPressed:
+                            () => {
+                            if (isPhoneNumberVerified)
+                            register()
+                            else
+                            {
+                            showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                            return AlertDialog(
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.circular(10.0),
+                            ),
+                            content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                            Text(
+                            "Please verify phone number",
+                            style: TextStyle(
+                            color: const Color.fromARGB(
+                            255, 0, 0, 0),
+                            fontWeight: FontWeight.bold,
+                            ),
+                            ),
+                            SizedBox(height: 15),
+                            SizedBox(
+                            height: 1,
+                            child: Container(
+                            color: Color.fromARGB(
+                            255, 181, 0, 100),
+                            ),
+                            ),
+                            SizedBox(height: 15),
+                            Padding(
+                            padding: EdgeInsets.fromLTRB(
+                            15, 0, 22, 0),
+                            child: Container(
+                            height: 40,
+                            width: 200,
+                            decoration: BoxDecoration(
+                            borderRadius:
+                            BorderRadius.circular(
+                            30),
+                            boxShadow: [
+                            BoxShadow(
+                            color: Colors.grey
+                            .withOpacity(0.3),
+                            spreadRadius: 3,
+                            blurRadius: 20,
+                            offset: Offset(0,
+                            3), // changes position of shadow
+                            ),
+                            ],
+                            color: Colors.white,
+                            gradient: LinearGradient(
+                            begin:
+                            Alignment.topCenter,
+                            end: Alignment
+                            .bottomCenter,
+                            colors: [
+                            Color.fromARGB(
+                            255, 218, 0, 138),
+                            Color.fromARGB(
+                            255, 142, 0, 90)
+                            ])),
+                            child: TextButton(
+                            onPressed: () =>
+                            Navigator.pop(context),
+                            style: TextButton.styleFrom(),
+                            child: Text(
+                            "OK",
+                            style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15),
+                            ),
+                            ),
+                            ),
+                            ),
+                            ],
+                            ),
+                            );
+                            },
+                            )
+                            }
+                            },
                             style: TextButton.styleFrom(),
                             child: Text(
                               "SIGN UP",
