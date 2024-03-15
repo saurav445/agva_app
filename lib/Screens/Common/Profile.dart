@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable
-
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +18,9 @@ class _ProfileState extends State<Profile> {
   String? savedhospitalAddress;
   String? saveduserID;
   String? savedsecurityCode;
-
+  String? savedDesignation;
+  String? savedspeciality;
+  String? savedphoneno;
   bool isLoading = true;
   List<Map<String, dynamic>> devicesForUserList = [];
   late SharedPreferences prefs;
@@ -40,6 +41,21 @@ class _ProfileState extends State<Profile> {
     getSecurityCode().then((securityCode) {
       setState(() {
         savedsecurityCode = securityCode;
+      });
+    });
+    getDesignation().then((designation) {
+      setState(() {
+        savedDesignation = designation;
+      });
+    });
+    getSpeciality().then((speciality) {
+      setState(() {
+        savedspeciality = speciality;
+      });
+    });
+    getPhoneno().then((phoneno) {
+      setState(() {
+        savedphoneno = phoneno;
       });
     });
 
@@ -72,6 +88,26 @@ class _ProfileState extends State<Profile> {
     return name;
   }
 
+  Future<String?> getDesignation() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? designation = prefs.getString('designation');
+    print('Retrieved designation: $designation');
+    return designation;
+  }
+
+  Future<String?> getSpeciality() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? speciality = prefs.getString('speciality');
+    print('Retrieved Speciality: $speciality');
+    return speciality;
+  }
+  Future<String?> getPhoneno() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? phoneno = prefs.getString('phoneno');
+    print('Retrieved Phoneno: $phoneno');
+    return phoneno;
+  }
+
   Future<String?> getSecurityCode() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? securityCode = prefs.getString('securityCode');
@@ -95,7 +131,7 @@ class _ProfileState extends State<Profile> {
   Future<String?> getHospitalAddress() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? hospitalAddress = prefs.getString('hospitalAddress');
-    print('Retrieved Username: $hospitalAddress');
+    print('Retrieved Hospital Address: $hospitalAddress');
     return hospitalAddress;
   }
 
@@ -143,7 +179,7 @@ class _ProfileState extends State<Profile> {
     }
   }
 
-  // '${profileInfo['associationName']}',
+  //  '${profileInfo['associationName']}',
 
   List<Widget> buildDeviceList() {
     return devicesForUserList.map((data) {
@@ -349,7 +385,7 @@ class _ProfileState extends State<Profile> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          savedUsername ?? 'N/A',
+                          savedUsername ?? '-',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 255, 255, 255),
@@ -358,7 +394,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          savedsecurityCode ?? 'N/A',
+                          savedsecurityCode ?? '-',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 255, 255, 255),
@@ -367,7 +403,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          'N/A',
+                          savedDesignation ?? '-',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 255, 255, 255),
@@ -376,7 +412,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          'N/A',
+                         savedspeciality ?? '-',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 255, 255, 255),
@@ -385,7 +421,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          saveUseremail ?? 'N/A',
+                          saveUseremail ?? '-',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 255, 255, 255),
@@ -394,7 +430,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          'N/A',
+                          savedphoneno ?? '-',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 255, 255, 255),
@@ -427,7 +463,20 @@ class _ProfileState extends State<Profile> {
                     Center(child: LinearProgressIndicator(color: Colors.pink)))
           else
             Column(
-              children: buildDeviceList(),
+              children: 
+              [ Text(
+                      'Associations',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 218, 218, 218),
+                        fontSize: MediaQuery.of(context).size.width * 0.050,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                Column(
+                  children: buildDeviceList(),
+                ),
+              ],
             ),
         ],
       ),
@@ -519,7 +568,7 @@ class ProfileLandscape extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          savedUsername ?? 'N/A',
+                          savedUsername ?? '-',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 255, 255, 255),
@@ -528,7 +577,7 @@ class ProfileLandscape extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          'N/A',
+                          '-',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 255, 255, 255),
@@ -537,7 +586,7 @@ class ProfileLandscape extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          'N/A',
+                          '-',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 255, 255, 255),
@@ -546,7 +595,7 @@ class ProfileLandscape extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          saveUseremail ?? 'N/A',
+                          saveUseremail ?? '-',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 255, 255, 255),
@@ -555,7 +604,7 @@ class ProfileLandscape extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          'N/A',
+                          '-',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 255, 255, 255),

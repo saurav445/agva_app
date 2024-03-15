@@ -3,6 +3,7 @@ import 'package:agva_app/Screens/Doctor&Assistant/AddPatientData.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DosageHistory.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,10 +20,14 @@ class _AllPatientListState extends State<AllPatientList> {
   @override
   void initState() {
     super.initState();
-    AllPatientList();
+      SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+  ]);
+    allPatientList();
   }
 
-  void AllPatientList() async {
+  void allPatientList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? mytoken = prefs.getString('mytoken');
     if (mytoken != null) {
@@ -140,42 +145,60 @@ class _AllPatientListState extends State<AllPatientList> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DosageHistory(uhid)));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pink,
+                                    if (uhid.isNotEmpty)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DosageHistory(uhid)));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.pink,
+                          ),
+                          child: Text(
+                            "View Dosage",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
-                        child: Text(
-                          "View Dosage",
-                          style: TextStyle(color: Colors.white),
-                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddPatientData(
+                                        uhid, deviceId, userId)));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                          ),
+                          child: Text(
+                            "Edit Details",
+                            style: TextStyle(color: Colors.pink),
+                          ),
+                        )
+                      ],
+                    )
+                  else
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    AddPatientData(uhid, deviceId, userId)));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      AddPatientData(uhid, deviceId, userId)));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                        ),
-                        child: Text(
-                          "Edit Details",
-                          style: TextStyle(color: Colors.pink),
-                        ),
+                      child: Text(
+                        "Add Details",
+                        style: TextStyle(color: Colors.pink),
                       ),
-                    ],
-                  ),
+                    ),
                 ],
               ),
             ),

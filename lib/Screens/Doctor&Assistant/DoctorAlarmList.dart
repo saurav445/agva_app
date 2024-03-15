@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class DoctorAlarmList extends StatefulWidget {
@@ -24,6 +25,10 @@ class DoctorAlarmListState extends State<DoctorAlarmList> {
   @override
   void initState() {
     super.initState();
+      SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+  ]);
     deviceId = widget.deviceId;
     hospital_Name = widget.hospital_Name;
     getAlarmbyId();

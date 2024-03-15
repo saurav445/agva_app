@@ -56,8 +56,10 @@ class _WebViewPageState extends State<WebViewPage> {
         },
       ),
     )
-    ..loadRequest(Uri.parse(
-        'http://192.168.2.10:3000/live?code=SBXMH&projectName=Ventilator&DeviceId=724963b4f3ae2a8f'));
+    // ..loadRequest(Uri.parse(
+    //     'http://172.20.10.4:3000/live?code=SBXMH&projectName=Ventilator&DeviceId=724963b4f3ae2a8f'));
+            ..loadRequest(Uri.parse(
+        'http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=724963b4f3ae2a8f'));
 
   @override
   Widget build(BuildContext context) {

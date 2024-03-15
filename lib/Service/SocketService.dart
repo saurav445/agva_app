@@ -54,7 +54,7 @@ class SocketServices {
     socket.connect();
 
     socket.onConnect((_) {
-      socket.emit('ReactStartUp', 'this.deviceId');
+      socket.emit('ReactStartUp', this.deviceId);
       print("This is called to receive data");
     });
 
@@ -63,7 +63,7 @@ class SocketServices {
       print(data);
       print("THIS RUN HERE");
 
-      socket.emit('ReactStartUp', 'this.deviceId');
+      socket.emit('ReactStartUp', this.deviceId);
 
       socket.on('DataGraphReceivingReact', (data) {
         var graphDataString = data.split("^")[1];

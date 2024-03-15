@@ -2,6 +2,7 @@
 
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +25,10 @@ class _UserControlState extends State<UserControl>
   @override
   void initState() {
     super.initState();
+     SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+  ]);
     _tabController = TabController(vsync: this, length: 3);
     _tabController.addListener(_handleTabSelection);
     getActiveUser();

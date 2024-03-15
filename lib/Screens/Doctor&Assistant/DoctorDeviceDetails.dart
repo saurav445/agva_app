@@ -1,6 +1,4 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, curly_braces_in_flow_control_structures
-
-import 'package:agva_app/Screens/Doctor&Assistant/AssistantList.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceAbout.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/PatientList.dart';
 import 'package:agva_app/Screens/Common/MonitorData.dart';
@@ -628,27 +626,27 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                               ),
                               child: TextButton(
                                 onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AssistantList(widget.deviceId)));
-                                  // final snackBar = SnackBar(
-                                  //   backgroundColor:
-                                  //       const Color.fromARGB(255, 65, 65, 65),
-                                  //   content: Text(
-                                  //     "Currently Unavailable",
-                                  //     style: TextStyle(color: Colors.white),
-                                  //   ),
-                                  //   action: SnackBarAction(
-                                  //     textColor: Colors.black,
-                                  //     backgroundColor: Colors.white,
-                                  //     label: 'OK',
-                                  //     onPressed: () {},
-                                  //   ),
-                                  // );
-                                  // ScaffoldMessenger.of(context)
-                                  //     .showSnackBar(snackBar);
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => AssistantList(widget.deviceId)));
+                                  final snackBar = SnackBar(
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 65, 65, 65),
+                                    content: Text(
+                                      "Currently Unavailable",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    action: SnackBarAction(
+                                      textColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      label: 'OK',
+                                      onPressed: () {},
+                                    ),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
                                 },
                                 style: TextButton.styleFrom(),
                                 child: Text(
-                                  "ASSIGN",
+                                  "SUPPORT",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize:

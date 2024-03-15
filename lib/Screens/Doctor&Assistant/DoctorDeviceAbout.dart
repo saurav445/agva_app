@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
@@ -19,6 +20,7 @@ class DoctorDeviceAbout extends StatefulWidget {
 }
 
 class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
+  
   Map<String, dynamic> deviceAbout = {};
   late String deviceId;
   late String deviceType;
@@ -27,6 +29,12 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
   @override
   void initState() {
     super.initState();
+        Future.delayed(Duration(seconds: 3)).then((_) {
+    });
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ]);
     deviceId = widget.deviceId;
     deviceType = widget.deviceType;
     getProductionDetails();
@@ -39,7 +47,7 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
     return mytoken;
   }
 
-  void getProductionDetails() async {
+  Future<void> getProductionDetails() async {
     String? token = await getToken();
     if (token != null) {
       var response = await http.get(
@@ -85,6 +93,17 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
   }
 
   @override
+  dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -101,13 +120,16 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
               ),
             ),
           ),
-          body: OrientationBuilder(builder: (context, orientation) {
-            if (orientation == Orientation.portrait) {
-              return _buildPortraitLayout(context);
-            } else {
-              return _buildLandscapeLayout(context);
-            }
-          })),
+          body: RefreshIndicator(
+            onRefresh: getProductionDetails,
+            child: OrientationBuilder(builder: (context, orientation) {
+              if (orientation == Orientation.portrait) {
+                return _buildPortraitLayout(context);
+              } else {
+                return _buildLandscapeLayout(context);
+              }
+            }),
+          )),
     );
   }
 
@@ -295,9 +317,8 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
     );
   }
 
-
-void _downloadPdf(String? pdfUrl) async {
-  if (pdfUrl != null) {
+  void _downloadPdf(String? pdfUrl) async {
+    if (pdfUrl != null) {
       var response = await http.get(Uri.parse(pdfUrl));
       if (response.statusCode == 200) {
         Directory? downloadsDirectory = await getExternalStorageDirectory();
@@ -310,30 +331,30 @@ void _downloadPdf(String? pdfUrl) async {
       } else {
         _showDialog('Download Failed', 'Please check your internet connection');
       }
-  } else {
-    print('PDF URL is null');
+    } else {
+      print('PDF URL is null');
+    }
   }
-}
 
-void _showDialog(String title, String content) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text(title),
-        content: Text(content),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('OK'),
-          ),
-        ],
-      );
-    },
-  );
-}
+  void _showDialog(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Widget _buildLandscapeLayout(BuildContext context) {
     return Column(

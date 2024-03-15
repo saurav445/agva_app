@@ -1,14 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../config.dart';
 
 class AddDiagnose extends StatefulWidget {
-  final String UHID;
-  AddDiagnose(this.UHID);
+  final String uhid;
+  AddDiagnose(this.uhid);
 
   @override
   State<AddDiagnose> createState() => _AddDiagnoseState();
@@ -17,14 +18,18 @@ class AddDiagnose extends StatefulWidget {
 class _AddDiagnoseState extends State<AddDiagnose> {
 
 
-  late String UHID;
+  late String uhid;
   List<dynamic> userData = [];
 
   bool isLoading = true;
 
   void initState() {
     super.initState();
-    print(widget.UHID);
+    print(widget.uhid);
+     SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+  ]);
   }
 
   TextEditingController medicineController = TextEditingController();
@@ -45,7 +50,7 @@ class _AddDiagnoseState extends State<AddDiagnose> {
     };
 
     var response = await http.post(
-      Uri.parse('$addDiagnoseDetails/${widget.UHID}'),
+      Uri.parse('$addDiagnoseDetails/${widget.uhid}'),
       headers: {
         "Content-Type": "application/json",
         "Authorization": 'Bearer $token',
@@ -84,7 +89,7 @@ class _AddDiagnoseState extends State<AddDiagnose> {
                   Icons.person,
                   color: Colors.white70,
                 ),
-                hintText: widget.UHID,
+                hintText: widget.uhid,
                 hintStyle: TextStyle(color: Colors.white70),
               ),
             ),

@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:agva_app/Screens/Doctor&Assistant/AddDiagnose.dart';
 import 'package:agva_app/config.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -23,6 +24,10 @@ class _DosageHistoryState extends State<DosageHistory> {
   @override
   void initState() {
     super.initState();
+     SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+  ]);
     getdosageHistory();
   }
 

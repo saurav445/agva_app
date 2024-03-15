@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'DoctorDeviceList.dart';
 
@@ -20,6 +21,10 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
   @override
   void initState() {
     super.initState();
+     SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+  ]);
     getHospital().then((hospitalName) {
       setState(() {
         savedhospitalName = hospitalName;
@@ -185,7 +190,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                             width: MediaQuery.of(context).size.width * 0.55,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              color: Color.fromARGB(255, 90, 90, 90),
+                              color: Color.fromARGB(255, 55, 55, 55),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -263,7 +268,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-           color: Color.fromARGB(255, 58, 58, 58),
+           color: Color.fromARGB(255, 42, 42, 42),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20),
@@ -353,7 +358,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                         width: MediaQuery.of(context).size.width * 0.85,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: Color.fromARGB(255, 90, 90, 90),
+                          color: Color.fromARGB(255, 62, 62, 62),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

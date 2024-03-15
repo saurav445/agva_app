@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_declarations
 
-final url = 'http://172.20.10.14:8000';
+final url = 'http://192.168.2.1:8000';
 final registerUser = '$url/api/logger/auth/register';
 final loginUser = '$url/api/logger/auth/login';
 final getDevicesByHospital = '$url/devices/get-devices-by-hospital';
@@ -33,3 +33,6 @@ final getAllPatientList = '$url/patient/get-allUhid';
 final dosageList = '$url/patient/get-diagnose';
 final requestDeviceinfo = '$url/api/logger/send-device-req';
 final assignDevice = '$url/api/logger/assign-device-to-assistant';
+final getAssignedList = '$url/api/logger/get-assistant-list';
+final revokeAssign = '$url/api/logger/logs/delete-access-from-assistant';
+final getAssignedAssistandList = '$url/api/logger/logs/get-device-access-ast-list';
