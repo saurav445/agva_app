@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer__literals_to_create_immutables, prefer__ructors, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:convert';
 import 'package:agva_app/config.dart';
@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class Trends extends StatefulWidget {
   final String deviceId;
-  const Trends(this.deviceId);
+  Trends(this.deviceId);
 
   @override
   State<Trends> createState() => _TrendsState();
@@ -53,9 +53,9 @@ class _TrendsState extends State<Trends> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (isLoading) 
+        if (isLoading)
           buildEmptyContainer2()
-        else if (trendsDataList.isEmpty) 
+        else if (trendsDataList.isEmpty)
           buildEmptyContainer()
         else
           trendData(trendsDataList: trendsDataList),
@@ -77,7 +77,7 @@ class _TrendsState extends State<Trends> {
 
   Widget buildEmptyContainer() {
     return Padding(
-      padding: const EdgeInsets.only(top: 80),
+      padding: EdgeInsets.only(top: 80),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -98,7 +98,7 @@ class _TrendsState extends State<Trends> {
 
 // ignore: camel_case_types
 class trendData extends StatelessWidget {
-  const trendData({
+  trendData({
     super.key,
     required this.trendsDataList,
   });
@@ -108,17 +108,16 @@ class trendData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-    
       children: [
         Row(
           children: [
             Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
                   color: Color.fromARGB(255, 77, 77, 77),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 39, vertical: 6),
+                  height: 30,
+                  width: 140,
+                  child: Center(
                     child: Text(
                       'Parameter',
                       style: TextStyle(
@@ -128,21 +127,25 @@ class trendData extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    'Mode',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 218, 218, 218),
+                Container(
+                  color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                      'Mode',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
                     ),
                   ),
                 ),
                 Container(
-                  color: const Color.fromARGB(255, 218, 217, 217),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 58, vertical: 3),
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 140,
+                  child: Center(
                     child: Text(
                       'PIP',
                       style: TextStyle(
@@ -152,21 +155,25 @@ class trendData extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    'PEEP',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 218, 218, 218),
+                Container(
+                                color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                      'PEEP',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
                     ),
                   ),
                 ),
                 Container(
-                  color: const Color.fromARGB(255, 218, 217, 217),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 32, vertical: 3),
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 140,
+                  child: Center(
                     child: Text(
                       'Mean Airway',
                       style: TextStyle(
@@ -176,21 +183,25 @@ class trendData extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    'VTi',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 218, 218, 218),
+                Container(
+                  color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                      'VTi',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
                     ),
                   ),
                 ),
                 Container(
-                  color: const Color.fromARGB(255, 218, 217, 217),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 57, vertical: 3),
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 140,
+                  child: Center(
                     child: Text(
                       'VTe',
                       style: TextStyle(
@@ -200,21 +211,25 @@ class trendData extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    'MVe',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 218, 218, 218),
+                Container(
+                         color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                      'MVe',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
                     ),
                   ),
                 ),
                 Container(
-                  color: const Color.fromARGB(255, 218, 217, 217),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 57, vertical: 3),
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 140,
+                  child: Center(
                     child: Text(
                       'MVi',
                       style: TextStyle(
@@ -224,21 +239,25 @@ class trendData extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    'FiO2',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 218, 218, 218),
+                Container(
+                            color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                      'FiO2',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
                     ),
                   ),
                 ),
                 Container(
-                  color: const Color.fromARGB(255, 218, 217, 217),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 60, vertical: 3),
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 140,
+                  child: Center(
                     child: Text(
                       'RR',
                       style: TextStyle(
@@ -248,21 +267,25 @@ class trendData extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    'I:E',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 218, 218, 218),
+                Container(
+                            color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                      'I:E',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
                     ),
                   ),
                 ),
                 Container(
-                  color: const Color.fromARGB(255, 218, 217, 217),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 52, vertical: 3),
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 140,
+                  child: Center(
                     child: Text(
                       'Tinsp',
                       style: TextStyle(
@@ -277,12 +300,13 @@ class trendData extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
+                                Container(
                   color: Color.fromARGB(255, 77, 77, 77),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 39, vertical: 6),
+                  height: 30,
+                  width: 120,
+                  child: Center(
                     child: Text(
-                      'Unit',
+                           'Unit',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 255, 255, 255),
@@ -290,21 +314,25 @@ class trendData extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    'ModeType',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 218, 218, 218),
+                Container(
+                  color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 120,
+                  child: Center(
+                    child: Text(
+                            'ModeType',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
                     ),
                   ),
                 ),
                 Container(
-                  color: const Color.fromARGB(255, 218, 217, 217),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 120,
+                  child: Center(
                     child: Text(
                       'cmH2O',
                       style: TextStyle(
@@ -314,23 +342,13 @@ class trendData extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
+                Container(
+                                color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 120,
+                  child: Center(
+                    child: Text(
                     'cmH2O',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 218, 218, 218),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: const Color.fromARGB(255, 218, 217, 217),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-                    child: Text(
-                      'cmH2O',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -338,21 +356,25 @@ class trendData extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    'ml',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 218, 218, 218),
+                Container(
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 120,
+                  child: Center(
+                    child: Text(
+                 'cmH2O',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
                     ),
                   ),
                 ),
                 Container(
-                  color: const Color.fromARGB(255, 218, 217, 217),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 43.5, vertical: 3),
+                  color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 120,
+                  child: Center(
                     child: Text(
                       'ml',
                       style: TextStyle(
@@ -362,23 +384,13 @@ class trendData extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    'Litre',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 218, 218, 218),
-                    ),
-                  ),
-                ),
                 Container(
-                  color: const Color.fromARGB(255, 218, 217, 217),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 38, vertical: 3),
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 120,
+                  child: Center(
                     child: Text(
-                      'Litre',
+                      'ml',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -386,23 +398,13 @@ class trendData extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    '%',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 218, 218, 218),
-                    ),
-                  ),
-                ),
                 Container(
-                  color: const Color.fromARGB(255, 218, 217, 217),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 38, vertical: 3),
+                         color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 120,
+                  child: Center(
                     child: Text(
-                      'BPM',
+                 'Litre',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -410,23 +412,69 @@ class trendData extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    'Ratio',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 218, 218, 218),
+                Container(
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 120,
+                  child: Center(
+                    child: Text(
+                 'Litre',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
                     ),
                   ),
                 ),
                 Container(
-                  color: const Color.fromARGB(255, 218, 217, 217),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 41, vertical: 3),
+                            color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 120,
+                  child: Center(
                     child: Text(
-                      'sec',
+                     '%',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 120,
+                  child: Center(
+                    child: Text(
+                    'BPM',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                            color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 120,
+                  child: Center(
+                    child: Text(
+                       'Ratio',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 120,
+                  child: Center(
+                    child: Text(
+                  'sec',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -449,164 +497,188 @@ class trendData extends StatelessWidget {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
-                      color: Color.fromARGB(255, 77, 77, 77),
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 39.5, vertical: 6),
-                        child: Text(
+                                    Container(
+                  color: Color.fromARGB(255, 77, 77, 77),
+                  height: 30,
+                  width: 140,
+                  child: Center(
+                    child: Text(
                           '${trendsData['time']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        ),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),
-                    Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Text(
-                        '${trendsData['mode']}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 218, 218, 218),
-                        ),
+                  ),
+                ),
+                Container(
+                  color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                                 '${trendsData['mode']}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
-                    Container(
-                      color: const Color.fromARGB(255, 218, 217, 217),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 48, vertical: 3),
-                        child: Text(
-                          '${trendsData['pip']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
+                  ),
+                ),
+                Container(
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                '${trendsData['pip']}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
-                    Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Text(
-                        '${trendsData['peep']}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 218, 218, 218),
-                        ),
+                  ),
+                ),
+                Container(
+                                color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                             '${trendsData['peep']}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
-                    Container(
-                      color: const Color.fromARGB(255, 218, 217, 217),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 48, vertical: 3),
-                        child: Text(
+                  ),
+                ),
+                Container(
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
                           '${trendsData['mean_Airway']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
-                    Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Text(
-                        '${trendsData['vti']}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 218, 218, 218),
-                        ),
+                  ),
+                ),
+                Container(
+                  color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                            '${trendsData['vti']}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
-                    Container(
-                      color: const Color.fromARGB(255, 218, 217, 217),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 44.5, vertical: 3),
-                        child: Text(
-                          '${trendsData['vte']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
+                  ),
+                ),
+                Container(
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                            '${trendsData['vte']}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
-                    Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Text(
-                        '${trendsData['mve']}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 218, 218, 218),
-                        ),
+                  ),
+                ),
+                Container(
+                         color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                         '${trendsData['mve']}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
-                    Container(
-                      color: const Color.fromARGB(255, 218, 217, 217),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 46, vertical: 3),
-                        child: Text(
-                          '${trendsData['mvi']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
+                  ),
+                ),
+                Container(
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                            '${trendsData['mvi']}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
-                    Padding(
-                       padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Text(
-                        '${trendsData['fio2']}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 218, 218, 218),
-                        ),
+                  ),
+                ),
+                Container(
+                            color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                       '${trendsData['fio2']}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
-                    Container(
-                      color: const Color.fromARGB(255, 218, 217, 217),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 48, vertical: 3),
-                        child: Text(
-                          '${trendsData['respiratory_Rate']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
+                  ),
+                ),
+                Container(
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                    '${trendsData['respiratory_Rate']}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
-                    Padding(
-                 padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Text(
-                        '${trendsData['ie']}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 218, 218, 218),
-                        ),
+                  ),
+                ),
+                Container(
+                            color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                   '${trendsData['ie']}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
-                    Container(
-                      color: const Color.fromARGB(255, 218, 217, 217),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 46, vertical: 3),
-                        child: Text(
-                          '${trendsData['tinsp']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
+                  ),
+                ),
+                Container(
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 140,
+                  child: Center(
+                    child: Text(
+                            '${trendsData['tinsp']}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
+                  ),
+                ),
                   ],
                 );
               }).toList(),
