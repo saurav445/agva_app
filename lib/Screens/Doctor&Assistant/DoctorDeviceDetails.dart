@@ -29,7 +29,6 @@ class DoctorDeviceDetails extends StatefulWidget {
 }
 
 class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
-
   late SocketServices socketService;
   bool isLoading = false;
   bool setFocus = false;
@@ -55,8 +54,9 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
   late String modeData = '--';
   late String alarmName;
   late String alarmColor;
-  
-  String get uri => 'http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=';
+
+  String get uri =>
+      'http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=';
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -93,7 +93,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
     }
   }
 
-late String webUrl;
+  late String webUrl;
 
   @override
   void initState() {
@@ -171,7 +171,6 @@ late String webUrl;
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
     ]);
-
   }
 
   void toggleFocus() async {
@@ -254,44 +253,49 @@ late String webUrl;
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context, 'refresh');
+            },
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: FaIcon(
+                FontAwesomeIcons.person,
+                size: 20,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PatientList(widget.deviceId),
+                  ),
+                );
+              },
+            ),
+          ],
           backgroundColor: Colors.black,
-          appBar: AppBar(
-            actions: <Widget>[
-              IconButton(
-                icon: FaIcon(
-                  FontAwesomeIcons.person,
-                  size: 20,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PatientList(widget.deviceId),
-                    ),
-                  );
-                },
-              ),
-            ],
-            backgroundColor: Colors.black,
-            centerTitle: true,
-            title: Text(
-              'Patient Details',
-              style: TextStyle(
-                fontFamily: 'Avenir',
-                fontSize: 24,
-                color: Colors.white,
-              ),
+          centerTitle: true,
+          title: Text(
+            'Patient Details',
+            style: TextStyle(
+              fontFamily: 'Avenir',
+              fontSize: 24,
+              color: Colors.white,
             ),
           ),
-          body: OrientationBuilder(builder: (context, orientation) {
-            if (orientation == Orientation.portrait) {
-              return _buildPortraitLayout(context);
-            } else {
-              return _buildLandscapeLayout(context);
-            }
-          }),
-          ),
-          
+        ),
+        body: OrientationBuilder(builder: (context, orientation) {
+          if (orientation == Orientation.portrait) {
+            return _buildPortraitLayout(context);
+          } else {
+            return _buildLandscapeLayout(context);
+          }
+        }),
+      ),
     );
   }
 
@@ -574,7 +578,10 @@ late String webUrl;
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      WebViewPage(widget.deviceId, uri: uri,)
+                                                      WebViewPage(
+                                                        widget.deviceId,
+                                                        uri: uri,
+                                                      )
 // SocketGraphPage(
 // widget.deviceId),
                                                   // LiveView(widget.deviceId),
@@ -681,7 +688,7 @@ late String webUrl;
                             borderRadius: BorderRadius.circular(5),
                             color: currentStatus
                                 ? Color.fromARGB(255, 174, 34, 104)
-                                :  Color.fromARGB(255, 58, 58, 58),
+                                : Color.fromARGB(255, 58, 58, 58),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8),
