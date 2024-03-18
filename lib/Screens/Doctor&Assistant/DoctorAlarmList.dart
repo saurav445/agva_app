@@ -55,6 +55,12 @@ class DoctorAlarmListState extends State<DoctorAlarmList> {
       child: Scaffold(
           backgroundColor: Colors.black,
           appBar: AppBar(
+             leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context, 'refresh');
+            },
+          ),
             backgroundColor: Colors.black,
             centerTitle: true,
             title: Text(

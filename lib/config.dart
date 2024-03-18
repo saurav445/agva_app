@@ -3,7 +3,7 @@
 // 3.25.213.83:8000
 //Local IP 192.168.2.1:8000
 
-final url = 'http://3.25.213.83:8000';
+final url = 'http://192.168.2.1:8000';
 final registerUser = '$url/api/logger/auth/register';
 final loginUser = '$url/api/logger/auth/login';
 final getDevicesByHospital = '$url/devices/get-devices-by-hospital';
@@ -38,5 +38,9 @@ final requestDeviceinfo = '$url/api/logger/send-device-req';
 final assignDevice = '$url/api/logger/assign-device-to-assistant';
 final getAssignedList = '$url/api/logger/get-assistant-list';
 final revokeAssign = '$url/api/logger/logs/delete-access-from-assistant';
-final getAssignedAssistandList =
-    '$url/api/logger/logs/get-device-access-ast-list';
+final getAssignedAssistandList ='$url/api/logger/logs/get-device-access-ast-list';
+final gethospitallist = '$url/hospital/get-access-hospital-list';
+
+
+
+// &&  device['deviceInfo']?[0]['Hospital_Name'] == 'KGMU Lucknow' 

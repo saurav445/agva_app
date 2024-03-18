@@ -113,22 +113,28 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 10),
                                     child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
+                                      onTap: () async {
+                                        final result = await Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 DoctorDeviceDetails(
-                                                    device['deviceInfo']?[0]
-                                                        ?['DeviceId'],
-                                                    SocketServices(),
-                                                    device['deviceInfo']?[0]
-                                                        ?['Ward_No'],
-                                                    device['deviceInfo']?[0]
-                                                        ?['DeviceType'],
-                                                    device['message']),
+                                              device['deviceInfo']?[0]
+                                                  ['DeviceId'],
+                                              SocketServices(),
+                                              device['deviceInfo']?[0]
+                                                  ['Ward_No'],
+                                              device['deviceInfo']?[0]
+                                                  ['DeviceType'],
+                                              device['message'],
+                                            ),
                                           ),
                                         );
+
+                                        if (result != null &&
+                                            result == 'refresh') {
+                                          fetchFocusedDevices();
+                                        }
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(

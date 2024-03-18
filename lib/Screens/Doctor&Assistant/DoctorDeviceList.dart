@@ -9,12 +9,20 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DoctorDeviceList extends StatefulWidget {
+  final String hospitalName;
+  final String hospitaladdress;
+  DoctorDeviceList(this.hospitalName,this.hospitaladdress);
+
+
+
   @override
   _DoctorDeviceListState createState() => _DoctorDeviceListState();
 }
 
 class _DoctorDeviceListState extends State<DoctorDeviceList> {
   bool isLoading = true;
+  late String hospitalName;
+  late String hospitaladdress;
   List<Map<String, dynamic>> focusedDevices = [];
   bool requestdata = false;
   String? savedHospitalName;
@@ -24,6 +32,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
   @override
   void initState() {
     super.initState();
+    print(widget.hospitalName);
     print('i am in device list');
     fetchGetDevicesForDoctor();
     SystemChrome.setPreferredOrientations([
@@ -87,7 +96,8 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
         // devicesForUserList = List<Map<String, dynamic>>.from(data['data']);
         focusedDevices = List<Map<String, dynamic>>.from(data)
             .where((device) =>
-                device['isAssigned'] == true || device['addTofocus'] == true)
+                device['isAssigned'] == true &&
+                device['deviceInfo'][0]?['Hospital_Name'] == widget.hospitalName)
             .toList();
 
         setState(() {
@@ -108,6 +118,12 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context, 'refresh');
+            },
+          ),
           backgroundColor: Colors.black,
           centerTitle: true,
           title: Text(
@@ -130,7 +146,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                       left: MediaQuery.of(context).size.width * 0.05,
                     ),
                     child: Text(
-                      savedHospitalName ?? 'Default Hospital Name',
+                      widget.hospitalName,
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         color: Color.fromARGB(255, 218, 218, 218),
@@ -144,7 +160,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                       left: MediaQuery.of(context).size.width * 0.05,
                     ),
                     child: Text(
-                      storedHospitalAddress ?? 'Default Hospital Address',
+                      widget.hospitaladdress,
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         color: Color.fromARGB(255, 218, 218, 218),
@@ -160,19 +176,27 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                             height: 1,
                             child: LinearProgressIndicator(
                                 color: Color.fromARGB(255, 174, 34, 104)))
-                      else
+                      else if (focusedDevices.isEmpty)
+                       Column(
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).size.height / 3),
+                      Text('No Devices'),
+                    ],
+                  )
+                      else 
                         for (var device in focusedDevices)
                           Builder(builder: (context) {
                             var newColor;
                             if (device['addTofocus'] == true) {
                               newColor = Color.fromARGB(255, 174, 34, 104);
                             } else {
+
                               newColor = Color.fromARGB(
                                   255, 58, 58, 58); // Or any default color
                             }
 
                             return Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 30),
+                              padding: EdgeInsets.symmetric(horizontal: 20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -205,20 +229,6 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                                         if (result != null &&
                                             result == 'refresh') {
                                           fetchGetDevicesForDoctor();
-                                          print('i am in device list');
-                                          initSharedPref();
-                                          gethospital().then((hospitalName) {
-                                            setState(() {
-                                              savedHospitalName = hospitalName;
-                                            });
-                                          });
-                                          gethospitalAddress()
-                                              .then((hospitalAddress) {
-                                            setState(() {
-                                              storedHospitalAddress =
-                                                  hospitalAddress;
-                                            });
-                                          });
                                         }
                                       },
                                       child: Container(

@@ -110,7 +110,8 @@ class _DoctorFocusAlarmsState extends State<DoctorFocusAlarms> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 10),
                                     child: GestureDetector(
-                                      onTap: () {
+                                      onTap: () async{ 
+                                        final result = await
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -123,6 +124,10 @@ class _DoctorFocusAlarmsState extends State<DoctorFocusAlarms> {
                                             ),
                                           ),
                                         );
+                                         if (result != null &&
+                                            result == 'refresh') {
+                                          fetchFocusedDevices();
+                                        }
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
