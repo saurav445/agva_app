@@ -29,6 +29,7 @@ class DoctorDeviceDetails extends StatefulWidget {
 }
 
 class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
+
   late SocketServices socketService;
   bool isLoading = false;
   bool setFocus = false;
@@ -54,6 +55,8 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
   late String modeData = '--';
   late String alarmName;
   late String alarmColor;
+  
+  String get uri => 'http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=';
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -89,6 +92,8 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
       print("Token is null");
     }
   }
+
+late String webUrl;
 
   @override
   void initState() {
@@ -166,6 +171,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
     ]);
+
   }
 
   void toggleFocus() async {
@@ -241,6 +247,8 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
     loadingCount = 0;
     widget.socketService.dispose();
   }
+
+  // final uri = 'http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=';
 
   @override
   Widget build(BuildContext context) {
@@ -566,7 +574,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      WebViewPage()
+                                                      WebViewPage(widget.deviceId, uri: uri,)
 // SocketGraphPage(
 // widget.deviceId),
                                                   // LiveView(widget.deviceId),

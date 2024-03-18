@@ -6,12 +6,9 @@ import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusAlarms.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/UserControl.dart';
-
-import 'package:agva_app/Screens/Doctor&Assistant/LiveWebView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../Common/Settings.dart';
 import '../Common/NotificationScreen.dart';
 
@@ -547,14 +544,14 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 height: MediaQuery.of(context).size.height * 0.015,
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => WebViewPage(),
-                    ),
-                  );
-                },
+                // onTap: () {
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => WebViewPage(),
+                //     ),
+                //   );
+                // },
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.15,
                   width: MediaQuery.of(context).size.width * 0.9,
@@ -838,14 +835,14 @@ class scrrollwidgetforlandscape extends StatelessWidget {
           height: 20,
         ),
         GestureDetector(
-           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WebViewPage(),
-              ),
-            );
-          },
+          //  onTap: () {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => WebViewPage(),
+          //     ),
+          //   );
+          // },
           child: Container(
             height: MediaQuery.of(context).size.height * 0.3,
             width: MediaQuery.of(context).size.width * 0.5,

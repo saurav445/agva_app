@@ -1,18 +1,23 @@
-import 'dart:async';
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatefulWidget {
-  const WebViewPage({super.key});
+  final String deviceId;
+  final String uri;
+
+  WebViewPage(this.deviceId, {required this.uri});
 
   @override
   State<WebViewPage> createState() => _WebViewPageState();
 }
 
 class _WebViewPageState extends State<WebViewPage> {
+  late String webUrl;
   bool isLoading = false;
+  late WebViewController controller;
 
   @override
   void initState() {
@@ -21,13 +26,26 @@ class _WebViewPageState extends State<WebViewPage> {
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    Timer(Duration(minutes: 4), () {
-      print('Inside webView');
-      Navigator.pop(context);
-    });
+    webUrl = '${widget.uri}${widget.deviceId}';
+    print(widget.deviceId);
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..goBack().timeout(Duration(minutes: 5))
+      ..enableZoom(false)
+      ..setBackgroundColor(Colors.black)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {},
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {},
+          onWebResourceError: (WebResourceError error) {},
+          onNavigationRequest: (NavigationRequest request) {
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(webUrl));
   }
-
 
   @override
   void dispose() {
@@ -40,47 +58,28 @@ class _WebViewPageState extends State<WebViewPage> {
     ]);
   }
 
-  WebViewController controller = WebViewController()
-    ..setJavaScriptMode(JavaScriptMode.unrestricted)
-    ..goBack().timeout(Duration(minutes: 5))
-    ..enableZoom(false)
-    ..setBackgroundColor(Colors.black)
-    ..setNavigationDelegate(
-      NavigationDelegate(
-        onProgress: (int progress) {},
-        onPageStarted: (String url) {},
-        onPageFinished: (String url) {},
-        onWebResourceError: (WebResourceError error) {},
-        onNavigationRequest: (NavigationRequest request) {
-          return NavigationDecision.navigate;
-        },
-      ),
-    )
-    // ..loadRequest(Uri.parse(
-    //     'http://172.20.10.4:3000/live?code=SBXMH&projectName=Ventilator&DeviceId=724963b4f3ae2a8f'));
-            ..loadRequest(Uri.parse(
-        'http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=724963b4f3ae2a8f'));
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-          child: WebViewWidget(controller: controller),
+      body: WebViewWidget(controller: controller),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(left: 5.0),
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Color.fromRGBO(255, 255, 255, 0.5),
+          ),
+          child: FloatingActionButton(
+            backgroundColor: Colors.transparent,
+            onPressed: () => Navigator.pop(context),
+            child: Icon(Icons.arrow_back),
+          ),
         ),
-        floatingActionButton: Padding(
-            padding: const EdgeInsets.only(left: 5.0),
-            child: Container(
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color.fromRGBO(255, 255, 255, 0.5)),
-              child: FloatingActionButton(
-                backgroundColor: Colors.transparent,
-                onPressed: () => {Navigator.pop(context)},
-                child: Icon(Icons.arrow_back),
-              ),
-            )));
+      ),
+    );
   }
 }
+
 
 // import 'dart:async';
 
