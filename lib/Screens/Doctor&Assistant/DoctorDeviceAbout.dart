@@ -20,7 +20,6 @@ class DoctorDeviceAbout extends StatefulWidget {
 }
 
 class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
-  
   Map<String, dynamic> deviceAbout = {};
   late String deviceId;
   late String deviceType;
@@ -29,8 +28,7 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
   @override
   void initState() {
     super.initState();
-        Future.delayed(Duration(seconds: 3)).then((_) {
-    });
+    Future.delayed(Duration(seconds: 3)).then((_) {});
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
@@ -229,19 +227,19 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
                       fontSize: 16,
                     ),
                   ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      _downloadPdf(deviceAbout['DhrPdf']);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.pink,
-                    ),
-                    child: Text(
-                      'Download DHR',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                  // SizedBox(height: 20),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     _downloadPdf(deviceAbout['DhrPdf']);
+                  //   },
+                  //   style: ElevatedButton.styleFrom(
+                  //     backgroundColor: Colors.pink,
+                  //   ),
+                  //   child: Text(
+                  //     'Download DHR',
+                  //     style: TextStyle(color: Colors.white),
+                  //   ),
+                  // ),
                 ],
               ),
               Column(

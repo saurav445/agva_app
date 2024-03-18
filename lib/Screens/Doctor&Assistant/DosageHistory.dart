@@ -1,38 +1,33 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:convert';
-import 'package:agva_app/Screens/Doctor&Assistant/AddDiagnose.dart';
-import 'package:agva_app/config.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/AddDiagnose.dart';
+import 'package:agva_app/config.dart';
 
 class DosageHistory extends StatefulWidget {
   final String uhid;
-  DosageHistory(this.uhid, {super.key});
+
+  DosageHistory(this.uhid, {Key? key}) : super(key: key);
 
   @override
   State<DosageHistory> createState() => _DosageHistoryState();
 }
 
 class _DosageHistoryState extends State<DosageHistory> {
-  late String uhid;
   List<dynamic> dosageList = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitDown,
+    SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
-  ]);
+      DeviceOrientation.portraitDown,
+    ]);
     getdosageHistory();
   }
-
-  late SharedPreferences prefs;
-  bool isLoading = true;
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -40,6 +35,10 @@ class _DosageHistoryState extends State<DosageHistory> {
   }
 
   Future<void> getdosageHistory() async {
+    setState(() {
+      isLoading = true;
+    });
+
     String? token = await getToken();
 
     if (token != null) {
@@ -51,8 +50,8 @@ class _DosageHistoryState extends State<DosageHistory> {
       );
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
-        dosageList = jsonResponse['data'];
         setState(() {
+          dosageList = jsonResponse['data'];
           isLoading = false;
         });
       } else {
@@ -89,29 +88,30 @@ class _DosageHistoryState extends State<DosageHistory> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Medicine'),
-                    Text('Procedure'),
+                    Text('Medicine',style: TextStyle(fontWeight: FontWeight.w400),),
+                    
+                    Text('Procedure',style: TextStyle(fontWeight: FontWeight.w400),),
                     SizedBox(
                       height: 5,
                     ),
-                    Text('Others'),
+                    Text('Others',style: TextStyle(fontWeight: FontWeight.w400),),
                     SizedBox(
                       height: 5,
                     ),
-                    Text('Date')
+                    Text('Date',style: TextStyle(fontWeight: FontWeight.w400),)
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(medicine),
-                    Text(procedure),
-// Text(others),
+                    Text(medicine,style: TextStyle(fontWeight: FontWeight.w200),),
+                    Text(procedure,style: TextStyle(fontWeight: FontWeight.w200),),
                     TextButton(
-                        onPressed: () => _dialogBuilder(context, others),
-                        child: Text('Show More')),
-                    Text(date.substring(0, 10))
+                      onPressed: () => _dialogBuilder(context, others),
+                      child: Text('Show More',style: TextStyle(fontWeight: FontWeight.w400),),
+                    ),
+                    Text(date.substring(0, 10),style: TextStyle(fontWeight: FontWeight.w200),)
                   ],
                 )
               ],
@@ -149,6 +149,7 @@ class _DosageHistoryState extends State<DosageHistory> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.black,
         actions: <Widget>[
           IconButton(
@@ -168,28 +169,36 @@ class _DosageHistoryState extends State<DosageHistory> {
           )
         ],
         title: Text(
-          "Add Patient Details",
+          "Medications",
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              if (isLoading)
-                SizedBox(
+      body: RefreshIndicator(
+        onRefresh: getdosageHistory,
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(), 
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 0),
+            child: Column(
+              children: [
+                if (isLoading)
+                  SizedBox(
                     height: 1,
                     child: LinearProgressIndicator(
                       color: Colors.pink,
-                    ))
-              else if (dosageList.isEmpty)
-                Center(child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [ Text('No Data Found')]))
+                    ),
+                  )
+                else if (dosageList.isEmpty)
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [Text('No Data Found')],
+                    ),
+                  )
                 else
-                Column(children: buildDeviceList(dosageList)),
-            ],
+                  ...buildDeviceList(dosageList), 
+              ],
+            ),
           ),
         ),
       ),

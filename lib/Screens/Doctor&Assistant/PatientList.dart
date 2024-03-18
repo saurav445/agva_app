@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable
 import 'package:agva_app/Screens/Doctor&Assistant/AddPatientData.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DosageHistory.dart';
 import 'package:agva_app/config.dart';
@@ -28,10 +28,10 @@ class _PatientListState extends State<PatientList>
   @override
   void initState() {
     super.initState();
-     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitDown,
+    SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
-  ]);
+      DeviceOrientation.portraitDown,
+    ]);
     _tabController = TabController(vsync: this, length: 2);
     _tabController.addListener(_handleTabSelection);
     getPatientData();
@@ -114,56 +114,67 @@ class _PatientListState extends State<PatientList>
             ],
           ),
         ),
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            SingleChildScrollView(
-                child: Column(
-              children: [
-                if (isLoading)
-                  SizedBox(
-                    height: 2,
-                    child: LinearProgressIndicator(
-                      color: Color.fromARGB(255, 181, 0, 100),
+        body: RefreshIndicator(
+          onRefresh: () {
+            return Future.delayed(Duration(seconds: 1), () {
+              setState(() {
+                getPatientData();
+              });
+            });
+          },
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              SingleChildScrollView(
+                  child: Column(
+                children: [
+                  if (isLoading)
+                    SizedBox(
+                      height: 2,
+                      child: LinearProgressIndicator(
+                        color: Color.fromARGB(255, 181, 0, 100),
+                      ),
+                    )
+                  else if (userData.isEmpty)
+                    Column(
+                      children: [
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height / 3),
+                        Text('No Data Found'),
+                      ],
+                    )
+                  else
+                    Column(
+                      children: buildCurrentPatientWidgets(currentData),
                     ),
-                  )
-                else if (userData.isEmpty)
-                  Column(
-                    children: [
-                      SizedBox(height: MediaQuery.of(context).size.height / 3),
-                      Text('No Data Found'),
-                    ],
-                  )
-                else
-                  Column(
-                    children: buildCurrentPatientWidgets(currentData),
-                  ),
-              ],
-            )),
-            SingleChildScrollView(
-                child: Column(
-              children: [
-                if (isLoading)
-                  SizedBox(
-                    height: 2,
-                    child: LinearProgressIndicator(
-                      color: Color.fromARGB(255, 181, 0, 100),
+                ],
+              )),
+              SingleChildScrollView(
+                  child: Column(
+                children: [
+                  if (isLoading)
+                    SizedBox(
+                      height: 2,
+                      child: LinearProgressIndicator(
+                        color: Color.fromARGB(255, 181, 0, 100),
+                      ),
+                    )
+                  else if (userData.isEmpty)
+                    Column(
+                      children: [
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height / 3),
+                        Text('No Data Found'),
+                      ],
+                    )
+                  else
+                    Column(
+                      children: buildPatientListWidgets(userData),
                     ),
-                  )
-                else if (userData.isEmpty)
-                  Column(
-                    children: [
-                      SizedBox(height: MediaQuery.of(context).size.height / 3),
-                      Text('No Data Found'),
-                    ],
-                  )
-                else
-                  Column(
-                    children: buildPatientListWidgets(userData),
-                  ),
-              ],
-            )),
-          ],
+                ],
+              )),
+            ],
+          ),
         ),
       ),
     );
@@ -194,34 +205,36 @@ class _PatientListState extends State<PatientList>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
+                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             'Patient Name :',
-                            style: TextStyle(fontWeight: FontWeight.w200),
+                            style: TextStyle(fontWeight: FontWeight.w400),
                           ),
                           Text(
                             'UHID :',
-                            style: TextStyle(fontWeight: FontWeight.w200),
+                            style: TextStyle(fontWeight: FontWeight.w400),
                           ),
                           Text(
                             'Age :',
-                            style: TextStyle(fontWeight: FontWeight.w200),
+                            style: TextStyle(fontWeight: FontWeight.w400),
                           ),
                           Text(
                             'Weight :',
-                            style: TextStyle(fontWeight: FontWeight.w200),
+                            style: TextStyle(fontWeight: FontWeight.w400),
                           ),
                           Text(
                             'Hight :',
-                            style: TextStyle(fontWeight: FontWeight.w200),
+                            style: TextStyle(fontWeight: FontWeight.w400),
                           ),
                           Text(
                             'Ward No. :',
-                            style: TextStyle(fontWeight: FontWeight.w200),
+                            style: TextStyle(fontWeight: FontWeight.w400),
                           ),
+
+                          // Text('Last Active :'),
                         ],
                       ),
                       Column(
@@ -259,58 +272,20 @@ class _PatientListState extends State<PatientList>
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
-                  if (uhid.isNotEmpty)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DosageHistory(uhid)));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.pink,
-                          ),
-                          child: Text(
-                            "View Dosage",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddPatientData(
-                                        uhid, deviceId, userId)));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                          ),
-                          child: Text(
-                            "Edit Details",
-                            style: TextStyle(color: Colors.pink),
-                          ),
-                        )
-                      ],
-                    )
-                  else
+             
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    AddPatientData(uhid, deviceId, userId)));
+                                builder: (context) => DosageHistory(uhid)));
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor: const Color.fromARGB(255, 181, 0, 100),
                       ),
                       child: Text(
-                        "Add Details",
-                        style: TextStyle(color: Colors.pink),
+                        "View Medication",
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                 ],
@@ -326,7 +301,6 @@ class _PatientListState extends State<PatientList>
     return currentData.map((user) {
       String uhid = '${user['UHID']}';
       String userId = '${user['_id']}';
-
       String deviceId = '${user['deviceId']}';
 
       return Column(
@@ -354,27 +328,27 @@ class _PatientListState extends State<PatientList>
                         children: [
                           Text(
                             'Patient Name :',
-                            style: TextStyle(fontWeight: FontWeight.w200),
+                            style: TextStyle(fontWeight: FontWeight.w400),
                           ),
                           Text(
                             'UHID :',
-                            style: TextStyle(fontWeight: FontWeight.w200),
+                            style: TextStyle(fontWeight: FontWeight.w400),
                           ),
                           Text(
                             'Age :',
-                            style: TextStyle(fontWeight: FontWeight.w200),
+                            style: TextStyle(fontWeight: FontWeight.w400),
                           ),
                           Text(
                             'Weight :',
-                            style: TextStyle(fontWeight: FontWeight.w200),
+                            style: TextStyle(fontWeight: FontWeight.w400),
                           ),
                           Text(
                             'Hight :',
-                            style: TextStyle(fontWeight: FontWeight.w200),
+                            style: TextStyle(fontWeight: FontWeight.w400),
                           ),
                           Text(
                             'Ward No. :',
-                            style: TextStyle(fontWeight: FontWeight.w200),
+                            style: TextStyle(fontWeight: FontWeight.w400),
                           ),
 
                           // Text('Last Active :'),
@@ -417,6 +391,7 @@ class _PatientListState extends State<PatientList>
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
+                  if(uhid.isNotEmpty)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -428,14 +403,31 @@ class _PatientListState extends State<PatientList>
                                   builder: (context) => DosageHistory(uhid)));
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pink,
+                          backgroundColor: const Color.fromARGB(255, 181, 0, 100),
                         ),
                         child: Text(
-                          "View Dosage",
+                          "View Medication",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
                       ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      AddPatientData(uhid,deviceId,userId)));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                        ),
+                        child: Text(
+                          "Edit Details",
+                          style: TextStyle(color: Colors.pink),
+                        ),
+                      ),
+                    ],
+                  )else ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -447,12 +439,10 @@ class _PatientListState extends State<PatientList>
                           backgroundColor: Colors.white,
                         ),
                         child: Text(
-                          "Edit Details",
+                          "Add Details",
                           style: TextStyle(color: Colors.pink),
                         ),
                       ),
-                    ],
-                  ),
                 ],
               ),
             ),

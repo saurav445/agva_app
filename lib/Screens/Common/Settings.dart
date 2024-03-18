@@ -1,5 +1,4 @@
-
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: must_be_immutable, prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:agva_app/Screens/Common/TermsCondition.dart';
 import 'package:agva_app/Screens/Common/About.dart';
@@ -46,17 +45,17 @@ class _SettingsState extends State<Settings> {
             return SettingsLandscape();
           }
         }),
-        floatingActionButton: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Color.fromARGB(255, 181, 0, 100),
-          ),
-          child: FloatingActionButton(
-            backgroundColor: Colors.transparent,
-            onPressed: () => {Navigator.pop(context)},
-            child: Icon(Icons.chat),
-          ),
-        ),
+        // floatingActionButton: Container(
+        //   decoration: BoxDecoration(
+        //     shape: BoxShape.circle,
+        //     color: Color.fromARGB(255, 181, 0, 100),
+        //   ),
+        //   child: FloatingActionButton(
+        //     backgroundColor: Colors.transparent,
+        //     onPressed: () => {Navigator.pop(context)},
+        //     child: Icon(Icons.chat),
+        //   ),
+        // ),
       ),
     );
   }
@@ -194,7 +193,7 @@ class SettingsLandscape extends StatelessWidget {
             color: Color.fromARGB(255, 181, 0, 100),
           ),
         ),
-        SizedBox(
+        Container(
           width: MediaQuery.of(context).size.width * 0.4,
           child: Column(
             children: [
@@ -345,9 +344,9 @@ class SettingsPortrait extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 30,
           ),
-          const Text(
+          Text(
             "AgVa",
             style: TextStyle(
               fontFamily: 'Avenir',
@@ -499,37 +498,37 @@ class SettingsPortrait extends StatelessWidget {
               color: Color.fromARGB(255, 181, 0, 100),
             ),
           ),
-          SizedBox(
-            height: 30,
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Faq()),
-              );
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Color.fromARGB(255, 54, 54, 54),
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Center(
-                  child: Text(
-                    'FAQ',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize: MediaQuery.of(context).size.width * 0.05,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // SizedBox(
+          //   height: 30,
+          // ),
+          // GestureDetector(
+          //   onTap: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(builder: (context) => Faq()),
+          //     );
+          //   },
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(5),
+          //       color: Color.fromARGB(255, 54, 54, 54),
+          //     ),
+          //     child: Padding(
+          //       padding:
+          //           const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          //       child: Center(
+          //         child: Text(
+          //           'FAQ',
+          //           style: TextStyle(
+          //             fontFamily: 'Avenir',
+          //             color: Color.fromARGB(255, 218, 218, 218),
+          //             fontSize: MediaQuery.of(context).size.width * 0.05,
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           SizedBox(
             height: 30,
           ),
@@ -555,7 +554,7 @@ class SettingsPortrait extends StatelessWidget {
                         horizontal: 20, vertical: 10),
                     child: Center(
                       child: Text(
-                        'About',
+                        'ABOUT',
                         style: TextStyle(
                           fontFamily: 'Avenir',
                           color: Color.fromARGB(255, 218, 218, 218),

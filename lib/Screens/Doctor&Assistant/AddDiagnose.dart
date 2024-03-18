@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 import '../../config.dart';
 
 class AddDiagnose extends StatefulWidget {
-  final String uhid;
-  AddDiagnose(this.uhid);
+  final String UHID;
+  AddDiagnose(this.UHID);
 
   @override
   State<AddDiagnose> createState() => _AddDiagnoseState();
@@ -18,18 +18,18 @@ class AddDiagnose extends StatefulWidget {
 class _AddDiagnoseState extends State<AddDiagnose> {
 
 
-  late String uhid;
+  late String UHID;
   List<dynamic> userData = [];
 
   bool isLoading = true;
 
   void initState() {
     super.initState();
-    print(widget.uhid);
      SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
-  ]);
+    ]);
+    print(widget.UHID);
   }
 
   TextEditingController medicineController = TextEditingController();
@@ -50,7 +50,7 @@ class _AddDiagnoseState extends State<AddDiagnose> {
     };
 
     var response = await http.post(
-      Uri.parse('$addDiagnoseDetails/${widget.uhid}'),
+      Uri.parse('$addDiagnoseDetails/${widget.UHID}'),
       headers: {
         "Content-Type": "application/json",
         "Authorization": 'Bearer $token',
@@ -89,7 +89,7 @@ class _AddDiagnoseState extends State<AddDiagnose> {
                   Icons.person,
                   color: Colors.white70,
                 ),
-                hintText: widget.uhid,
+                hintText: widget.UHID,
                 hintStyle: TextStyle(color: Colors.white70),
               ),
             ),

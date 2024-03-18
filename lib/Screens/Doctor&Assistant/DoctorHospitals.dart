@@ -21,10 +21,10 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
   @override
   void initState() {
     super.initState();
-     SystemChrome.setPreferredOrientations([
+    SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
-  ]);
+    ]);
     getHospital().then((hospitalName) {
       setState(() {
         savedhospitalName = hospitalName;
@@ -268,7 +268,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-           color: Color.fromARGB(255, 42, 42, 42),
+                    color: Color.fromARGB(255, 42, 42, 42),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20),

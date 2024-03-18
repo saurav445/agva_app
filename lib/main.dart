@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, must_be_immutable, prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import
+// ignore_for_file: use_key_in_widget_constructors, must_be_immutable, prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, duplicate_ignore
 import 'package:agva_app/AuthScreens/RegDone.dart';
 import 'package:agva_app/Screens/Common/TermsCondition.dart';
 import 'package:agva_app/Screens/User/DeviceDetails.dart';

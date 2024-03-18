@@ -25,14 +25,13 @@ class _UserControlState extends State<UserControl>
   @override
   void initState() {
     super.initState();
-     SystemChrome.setPreferredOrientations([
+    SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
-  ]);
+    ]);
     _tabController = TabController(vsync: this, length: 3);
     _tabController.addListener(_handleTabSelection);
     getActiveUser();
-              getinActiveUser();
     getPendingUser();
   }
 
@@ -69,6 +68,49 @@ class _UserControlState extends State<UserControl>
         body: jsonEncode({"accountStatus": "Inactive"}),
       );
       if (response.statusCode == 200) {
+         showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "User Removed",
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                    child: Container(
+                      height: 30,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Color.fromARGB(255, 157, 0, 86),
+                      ),
+                      child: TextButton(
+                        onPressed: () => {Navigator.pop(context)},
+                        style: TextButton.styleFrom(),
+                        child: Text(
+                          "OK",
+                          style: TextStyle(color: Colors.white, fontSize: 10),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
         print(response.statusCode);
         print('user removed');
         setState(() {
@@ -97,6 +139,49 @@ class _UserControlState extends State<UserControl>
         body: jsonEncode({"accountStatus": "Active"}),
       );
       if (response.statusCode == 200) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "User Active",
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
+                    child: Container(
+                      height: 30,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Color.fromARGB(255, 157, 0, 86),
+                      ),
+                      child: TextButton(
+                        onPressed: () => {Navigator.pop(context)},
+                        style: TextButton.styleFrom(),
+                        child: Text(
+                          "OK",
+                          style: TextStyle(color: Colors.white, fontSize: 10),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
         print(response.statusCode);
         print('user active');
         getinActiveUser();
@@ -125,7 +210,6 @@ class _UserControlState extends State<UserControl>
       );
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusCode'] == 200) {
-        print(jsonResponse);
         setState(() {
           userData = jsonResponse['data'];
           isLoading = false;
@@ -203,7 +287,7 @@ class _UserControlState extends State<UserControl>
   }
 
   List<Widget> buildRequestsUserWidgets(List<dynamic> requestsuserData,
-      Function(String) activeUser, Function(String) removeUser) {
+      Function(String) removeUser, Function(String) activeUser) {
     return requestsuserData.map((user) {
       return Column(
         children: [
@@ -733,7 +817,9 @@ class _UserControlState extends State<UserControl>
         if (isLoading)
           SizedBox(
             height: 1,
-            child: Center(child: LinearProgressIndicator(color: Colors.pink)),
+            child: Center(
+                child: LinearProgressIndicator(
+                    color: const Color.fromARGB(255, 181, 0, 100))),
           )
         else
           Column(

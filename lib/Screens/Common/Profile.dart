@@ -1,4 +1,5 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable
+// ignore_for_file: must_be_immutable
+
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -101,6 +102,7 @@ class _ProfileState extends State<Profile> {
     print('Retrieved Speciality: $speciality');
     return speciality;
   }
+
   Future<String?> getPhoneno() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? phoneno = prefs.getString('phoneno');
@@ -179,7 +181,7 @@ class _ProfileState extends State<Profile> {
     }
   }
 
-  //  '${profileInfo['associationName']}',
+  // '${profileInfo['associationName']}',
 
   List<Widget> buildDeviceList() {
     return devicesForUserList.map((data) {
@@ -412,7 +414,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                         savedspeciality ?? '-',
+                          savedspeciality ?? '-',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 255, 255, 255),
@@ -454,7 +456,7 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
           if (isLoading)
             SizedBox(
@@ -463,16 +465,16 @@ class _ProfileState extends State<Profile> {
                     Center(child: LinearProgressIndicator(color: Colors.pink)))
           else
             Column(
-              children: 
-              [ Text(
-                      'Associations',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: MediaQuery.of(context).size.width * 0.050,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+              children: [
+                Text(
+                  'ASSOCIATION',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(255, 218, 218, 218),
+                    fontSize: MediaQuery.of(context).size.width * 0.055,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ), SizedBox(height: 20,),
                 Column(
                   children: buildDeviceList(),
                 ),
@@ -491,7 +493,8 @@ class ProfileLandscape extends StatelessWidget {
   String? savedhospitalAddress;
 
   ProfileLandscape(this.savedUsername, this.saveUseremail,
-      this.savedhospitalName, this.savedhospitalAddress, {super.key});
+      this.savedhospitalName, this.savedhospitalAddress,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {

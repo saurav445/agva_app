@@ -1,4 +1,6 @@
 
+// ignore_for_file: unused_field
+
 import 'dart:convert';
 import 'package:agva_app/AuthScreens/SignUp.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';

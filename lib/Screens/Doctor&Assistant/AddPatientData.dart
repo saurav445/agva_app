@@ -1,5 +1,4 @@
-
-// ignore_for_file: avoid_print, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings, library_private_types_in_public_api, avoid_print, prefer_final_fields, unused_field
 
 import 'dart:async';
 import 'dart:convert';
@@ -119,7 +118,7 @@ class _AddPatientDataState extends State<AddPatientData> {
                   style: TextButton.styleFrom(
                     textStyle: Theme.of(context).textTheme.labelLarge,
                   ),
-                  child: const Text('Dismiss'),
+                  child: const Text('OK'),
                   onPressed: () {
                     print("CHECKED");
                     Navigator.pop(context);
@@ -462,7 +461,7 @@ class _AddPatientDataState extends State<AddPatientData> {
                     backgroundColor: Colors.white,
                   ),
                   child: Text(
-                    "Select Image",
+                    "Upload Documents",
                     style: TextStyle(color: Colors.black, fontSize: 15),
                   ),
                 )
@@ -485,7 +484,7 @@ class _AddPatientDataState extends State<AddPatientData> {
                   backgroundColor: Colors.white,
                 ),
                 child: Text(
-                  "Select Image",
+                  "Upload Documents",
                   style: TextStyle(color: Colors.black, fontSize: 15),
                 ),
               ),
@@ -595,14 +594,9 @@ class _AddPatientDataState extends State<AddPatientData> {
                   width: 300,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color.fromARGB(255, 218, 0, 138),
-                            Color.fromARGB(255, 142, 0, 90)
-                          ])),
+                      color: const Color.fromARGB(255, 181, 0, 100),
+                      
+                          ),
                   child: TextButton(
                     onPressed: addPatientdata,
                     style: TextButton.styleFrom(),
