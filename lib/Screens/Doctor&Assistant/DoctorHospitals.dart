@@ -84,7 +84,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
         child: Stack(children: [
           ListView(children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: buildPatientListWidgets(),
               ),
@@ -133,7 +133,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 218, 218, 218),
                               fontSize:
-                                  MediaQuery.of(context).size.width * 0.05,
+                                  MediaQuery.of(context).size.width * 0.045,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -172,9 +172,12 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      child: Image.asset("assets/images/hospital.png"),
+                    Padding(
+                      padding:  EdgeInsets.only(top: 5),
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        child: Image.asset("assets/images/hospital.png"),
+                      ),
                     ),
                   ],
                 ),
@@ -219,7 +222,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                     }
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 60),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Container(
                     
                       decoration: BoxDecoration(
@@ -227,7 +230,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                         color: Color.fromARGB(255, 62, 62, 62),
                       ),
                       child: Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: 10),
+                        padding:  EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,

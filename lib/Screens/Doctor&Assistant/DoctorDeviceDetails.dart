@@ -374,7 +374,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                 color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: Padding(
-                                padding:  EdgeInsets.symmetric(vertical: 20),
+                                padding:  EdgeInsets.symmetric(vertical: 12),
                                 child: Center(
                                   child: Text(
                                     modeData,

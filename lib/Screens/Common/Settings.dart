@@ -241,13 +241,14 @@ class _SettingsState extends State<Settings> {
                       );
                     },
                     child: Container(
+                               width:    MediaQuery.of(context).size.width * 0.40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Color.fromARGB(255, 54, 54, 54),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 100, vertical: 10),
+                            horizontal: 30, vertical: 10),
                         child: Center(
                           child: Text(
                             'ABOUT',
@@ -271,14 +272,14 @@ class _SettingsState extends State<Settings> {
                       );
                     },
                     child: Container(
-                      // width: 150,
+                      width:    MediaQuery.of(context).size.width * 0.40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Color.fromARGB(255, 54, 54, 54),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 100, vertical: 10),
+                            horizontal: 30, vertical: 10),
                         child: Center(
                           child: Text(
                             'T & C',

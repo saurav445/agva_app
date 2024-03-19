@@ -47,11 +47,11 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
         var data = jsonResponse['data']['data'];
         print(jsonResponse);
         setState(() {
-          isLoading = false;
           focusedDevices = List<Map<String, dynamic>>.from(data)
               .where((device) =>
                   device['addTofocus'] == true && device['isAssigned'] == true)
               .toList();
+          isLoading = false;
         });
       } else {
         print('Failed to fetch focused devices: ${response.statusCode}');
@@ -154,7 +154,6 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
                                               padding: const EdgeInsets.only(
                                                   left: 10),
                                               child: Container(
-                                    
                                                 width: double.infinity,
                                                 decoration: BoxDecoration(
                                                   color: Color.fromARGB(
