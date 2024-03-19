@@ -1,4 +1,4 @@
-// // ignore_for_file: use_key_in_widget_constructors, must_be_immutable, prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, duplicate_ignore
+// ignore_for_file: use_key_in_widget_constructors, must_be_immutable, prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, duplicate_ignore
 // import 'package:agva_app/AuthScreens/RegDone.dart';
 // import 'package:agva_app/Screens/Common/TermsCondition.dart';
 // import 'package:agva_app/Screens/User/DeviceDetails.dart';
@@ -14,6 +14,7 @@
 // import 'AuthScreens/SplashScreen.dart';
 // import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
+// import 'package:overlay_support/overlay_support.dart';
 
 // final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -49,7 +50,6 @@
 // const AndroidNotificationChannel channel = AndroidNotificationChannel(
 //   'high_importance_channel', // id
 //   'High Importance Notifications', // title
-//   // 'This channel is used for important notifications.', // description
 //   importance: Importance.high,
 // );
 // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -89,31 +89,7 @@
 //                 icon: "@drawable/ic_launcher",
 //               ),
 //             ));
-//       //       Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(title: '', body: '',
-//       // )));
-//       }
-//     });
-
-//     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-
-//       RemoteNotification? notification = message.notification;
-//       AndroidNotification? android = message.notification?.android;
-//       if (notification != null && android != null) {
-//         showDialog(
-//           context: context,
-//           builder: (_) {
-//             return AlertDialog(
-//               title: Text(notification.title.toString()),
-//               content: SingleChildScrollView(
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [Text(notification.body.toString())],
-//                 ),
-//               ),
-//             );
-//           },
-//         );
-
+//      Navigator.pushNamed(context, 'notification');
 //       }
 //     });
 
@@ -124,6 +100,160 @@
 //   getToken() async {
 //     token = (await FirebaseMessaging.instance.getToken())!;
 //     print(' FCM Token: $token');
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return OverlaySupport(
+//       child: MaterialApp(
+//         themeMode: ThemeMode.dark,
+//         theme: ThemeData(primarySwatch: Colors.blue),
+//         darkTheme: ThemeData(brightness: Brightness.dark),
+//         debugShowCheckedModeBanner: false,
+//         initialRoute: "/splash",
+//         routes: {
+//           "/regdone": (context) => RegDone(),
+//           "/signin": (context) => SignIn(),
+//           "/splash": (context) => const SplashScreen(),
+//           "/home": (context) => UserHomeScreen({}),
+//           "/devicedetails": (context) =>
+//               DeviceDetails('', '', '', ''),
+//           "/tandc": (context) => TermsCondition(),
+//           "/devicelist": (context) => DeviceList(),
+//                    "/notification": (context) => NotificationScreen(notificationTitle: ModalRoute.of(context)!.settings.arguments as String),
+
+//         },
+//       ),
+//     );
+//   }
+// }
+
+import 'package:agva_app/AuthScreens/RegDone.dart';
+import 'package:agva_app/Screens/Common/TermsCondition.dart';
+import 'package:agva_app/Screens/User/DeviceDetails.dart';
+import 'package:agva_app/Screens/User/DeviceList.dart';
+import 'package:agva_app/Screens/User/UserHomeScreen.dart';
+import 'package:agva_app/Screens/Common/NotificationScreen.dart';
+import 'package:agva_app/Service/SocketService.dart';
+import 'package:agva_app/Service/firebase_options.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'AuthScreens/SignIn.dart';
+import 'AuthScreens/SplashScreen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
+import 'package:overlay_support/overlay_support.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(MyApp());
+}
+
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  'high_importance_channel', // id
+  'High Importance Notifications', // title
+  importance: Importance.high,
+);
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+class MyApp extends StatefulWidget {
+  static FirebaseInAppMessaging fiam = FirebaseInAppMessaging.instance;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    var initialzationSettingsAndroid =
+        AndroidInitializationSettings('@drawable/ic_launcher');
+    var initializationSettings =
+        InitializationSettings(android: initialzationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+
+    getToken();
+  }
+
+  late String token;
+  getToken() async {
+    token = (await FirebaseMessaging.instance.getToken())!;
+    print(' FCM Token: $token');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return OverlaySupport(
+      child: MaterialApp(
+        themeMode: ThemeMode.dark,
+        theme: ThemeData(primarySwatch: Colors.blue),
+        darkTheme: ThemeData(brightness: Brightness.dark),
+        debugShowCheckedModeBanner: false,
+        initialRoute: "/splash",
+        routes: {
+          "/regdone": (context) => RegDone(),
+          "/signin": (context) => SignIn(),
+          "/splash": (context) => const SplashScreen(),
+          "/home": (context) => UserHomeScreen({}),
+          "/devicedetails": (context) => DeviceDetails('', '', '', ''),
+          "/tandc": (context) => TermsCondition(),
+          "/devicelist": (context) => DeviceList(),
+          "/notification": (context) => NotificationScreen(),
+        },
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+// import 'package:agva_app/AuthScreens/RegDone.dart';
+// import 'package:agva_app/Screens/Common/TermsCondition.dart';
+// import 'package:agva_app/Screens/User/DeviceDetails.dart';
+// import 'package:agva_app/Screens/User/DeviceList.dart';
+// import 'package:agva_app/Screens/User/UserHomeScreen.dart';
+// import 'package:agva_app/Screens/Common/NotificationScreen.dart';
+// import 'package:agva_app/Service/SocketService.dart';
+// import 'package:firebase_analytics/firebase_analytics.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'AuthScreens/SignIn.dart';
+// import 'AuthScreens/SplashScreen.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
+
+// final navigatorKey = GlobalKey<NavigatorState>();
+
+// void main() async {
+//   runApp(MyApp());
+// }
+
+// class MyApp extends StatefulWidget {
+//   @override
+//   State<MyApp> createState() => _MyAppState();
+// }
+
+// class _MyAppState extends State<MyApp> {
+//   @override
+//   void initState() {
+//     super.initState();
 //   }
 
 //   @override
@@ -139,65 +269,10 @@
 //         "/signin": (context) => SignIn(),
 //         "/splash": (context) => const SplashScreen(),
 //         "/home": (context) => UserHomeScreen({}),
-//         "/devicedetails": (context) =>
-//             DeviceDetails('', '', '', ''),
+//         "/devicedetails": (context) => DeviceDetails('', '', '', ''),
 //         "/tandc": (context) => TermsCondition(),
 //         "/devicelist": (context) => DeviceList(),
 //       },
 //     );
 //   }
 // }
-
-import 'package:agva_app/AuthScreens/RegDone.dart';
-import 'package:agva_app/Screens/Common/TermsCondition.dart';
-import 'package:agva_app/Screens/User/DeviceDetails.dart';
-import 'package:agva_app/Screens/User/DeviceList.dart';
-import 'package:agva_app/Screens/User/UserHomeScreen.dart';
-import 'package:agva_app/Screens/Common/NotificationScreen.dart';
-import 'package:agva_app/Service/SocketService.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'AuthScreens/SignIn.dart';
-import 'AuthScreens/SplashScreen.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
-
-final navigatorKey = GlobalKey<NavigatorState>();
-
-void main() async {
-  runApp(MyApp());
-}
-
-class MyApp extends StatefulWidget {
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      themeMode: ThemeMode.dark,
-      theme: ThemeData(primarySwatch: Colors.blue),
-      darkTheme: ThemeData(brightness: Brightness.dark),
-      debugShowCheckedModeBanner: false,
-      initialRoute: "/splash",
-      routes: {
-        "/regdone": (context) => RegDone(),
-        "/signin": (context) => SignIn(),
-        "/splash": (context) => const SplashScreen(),
-        "/home": (context) => UserHomeScreen({}),
-        "/devicedetails": (context) => DeviceDetails('', '', '', ''),
-        "/tandc": (context) => TermsCondition(),
-        "/devicelist": (context) => DeviceList(),
-      },
-    );
-  }
-}

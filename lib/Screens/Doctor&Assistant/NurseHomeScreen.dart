@@ -96,13 +96,11 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
             IconButton(
               icon: Icon(Icons.notifications),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NotificationScreen(
-                              title: '',
-                              body: '',
-                            )));
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => NotificationScreen(
+                //             )));
               },
             )
           ],

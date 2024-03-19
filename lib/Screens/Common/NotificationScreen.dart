@@ -1,83 +1,90 @@
-// // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
-// import 'package:firebase_messaging/firebase_messaging.dart';
-// import 'package:flutter/material.dart';
-
-// class NotificationScreen extends StatefulWidget {
-//   late RemoteMessage message;
-//   @override
-//   State<NotificationScreen> createState() => _NotificationScreenState();
-// }
-
-// class _NotificationScreenState extends State<NotificationScreen> {
-//     late RemoteMessage message;
-
-//   @override
-//   Widget build(BuildContext context) {
-
-//     final title = message.notification?.title ?? 'No Title';
-//     final body = message.notification?.body ?? 'No Body';
-//     final data = message.data;
-
-// ignore_for_file: prefer_const_constructors
-
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Notifications"),
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Text('Title: $title'),
-//             Text('Body: $body'),
-//             // if (data.isNotEmpty) ...[
-//             //   SizedBox(height: 20),
-//             //   Text('Additional Data:',
-//             //       style: TextStyle(fontWeight: FontWeight.bold)),
-//             //   for (var entry in data.entries) ...[
-//             //     Text('${entry.key}: ${entry.value}'),
-//             //   ],
-//             // ],
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+import 'package:agva_app/Service/MessagingService.dart';
 import 'package:flutter/material.dart';
 
-class NotificationScreen extends StatelessWidget {
-  final String title;
-  final String body;
+class NotificationScreen extends StatefulWidget {
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
 
-  NotificationScreen({required this.title, required this.body});
-
+class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black,
         centerTitle: true,
-        title: Text('Notification'),
+        title: Text("Notifications"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              title,
-              style: TextStyle(fontSize: 24),
+      body: ListView.builder(
+        itemCount: MessagingService.notifications.length,
+        itemBuilder: (context, index) {
+          // Access notification data
+          final notification = MessagingService.notifications[index];
+          final notificationData = notification.data;
+          final title = notification.notification!.title ?? "";
+          final body = notification.notification!.body ?? "";
+
+          return ListTile(
+            title: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 55, 55, 55),
+                  borderRadius: BorderRadius.circular(5)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 218, 218, 218),
+                            fontSize: MediaQuery.of(context).size.width * 0.035,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.width * 0.02,
+                        ),
+                        Text(
+                          body,
+                          style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 218, 218, 218),
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.03,
+                              fontWeight: FontWeight.w200),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                        height: 20,
+                        child: Image.asset('assets/images/Logo.png'))
+                  ],
+                ),
+              ),
             ),
-            SizedBox(height: 20),
-            Text(
-              body,
-              style: TextStyle(fontSize: 18),
-            ),
-          ],
-        ),
+
+            // title: Text(title),
+            // subtitle: Text(body),
+            onTap: () {
+              _handleNotificationTap(context, notificationData);
+            },
+          );
+        },
       ),
     );
+  }
+
+  void _handleNotificationTap(BuildContext context, Map<String, dynamic> data) {
+    if (data.containsKey('screen')) {
+      final screen = data['screen'];
+      Navigator.of(context).pushNamed(screen);
+    }
   }
 }

@@ -6,6 +6,7 @@ import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusAlarms.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/UserControl.dart';
+import 'package:agva_app/Service/MessagingService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +23,7 @@ class DoctorHomeScreen extends StatefulWidget {
 }
 
 class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
+  final _messagingService = MessagingService();
   String? savedUsername;
   String? savedsecurityCode;
   String? saveUseremail;
@@ -30,6 +32,8 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   @override
   void initState() {
     super.initState();
+    _messagingService.init(context);
+
     getsavedToken();
     getUsername().then((name) {
       setState(() {
@@ -46,8 +50,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
         saveUseremail = email;
       });
     });
-    // hospitalName = widget.data['hospitalName'];
-    // hospitalAddress = widget.data['hospitalAddress'];
     SystemChrome.setPreferredOrientations([
       // DeviceOrientation.landscapeRight,
       // DeviceOrientation.landscapeLeft,
@@ -115,7 +117,10 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
             IconButton(
               icon: Icon(Icons.notifications),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(title: '', body: '',)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NotificationScreen()));
               },
             )
           ],
@@ -127,7 +132,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
             return _buildLandscapeLayout(context);
           }
         }),
-             drawer: Drawer(
+        drawer: Drawer(
           backgroundColor: Colors.black,
           child: ListView(
             padding: EdgeInsets.zero,
@@ -151,8 +156,8 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                       children: [
                         Image.asset(
                           'assets/images/profile.png',
-                          height: 80,
-                          width: 80,
+                          height: 70,
+                          width: 70,
                         ),
                         // Text(
                         //   'AgVa',
@@ -162,7 +167,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                         //   ),
                         // ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
+                          height: MediaQuery.of(context).size.height * 0.025,
                         ),
                         Text(
                           savedUsername ?? '-',
@@ -177,7 +182,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w200,
-                            fontSize: MediaQuery.of(context).size.width * 0.02,
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
                           ),
                         ),
                       ],
@@ -186,7 +191,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 ),
               ),
               ListTile(
-            
                 leading: const Icon(Icons.home, color: Colors.white),
                 title: Text(
                   'HOME',
