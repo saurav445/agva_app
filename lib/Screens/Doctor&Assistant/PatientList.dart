@@ -192,7 +192,7 @@ class _PatientListState extends State<PatientList>
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.25,
+
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 45, 45, 45),
@@ -200,7 +200,7 @@ class _PatientListState extends State<PatientList>
             child: Padding(
               padding: EdgeInsets.all(10),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -309,7 +309,6 @@ class _PatientListState extends State<PatientList>
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.25,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 45, 45, 45),
@@ -317,7 +316,7 @@ class _PatientListState extends State<PatientList>
             child: Padding(
               padding: EdgeInsets.all(10),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

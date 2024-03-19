@@ -49,8 +49,8 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     // hospitalName = widget.data['hospitalName'];
     // hospitalAddress = widget.data['hospitalAddress'];
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
+      // DeviceOrientation.landscapeRight,
+      // DeviceOrientation.landscapeLeft,
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
@@ -115,26 +115,26 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
             IconButton(
               icon: Icon(Icons.notifications),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(title: '', body: '',)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NotificationScreen(
+                              title: '',
+                              body: '',
+                            )));
               },
             )
           ],
         ),
-        body: OrientationBuilder(builder: (context, orientation) {
-          if (orientation == Orientation.portrait) {
-            return SingleChildScrollView(child: _buildPortraitLayout(context));
-          } else {
-            return _buildLandscapeLayout(context);
-          }
-        }),
-             drawer: Drawer(
+        body: SingleChildScrollView(child: _buildPortraitLayout(context)),
+        drawer: Drawer(
           backgroundColor: Colors.black,
           child: ListView(
             padding: EdgeInsets.zero,
             physics: BouncingScrollPhysics(),
             children: [
               SizedBox(
-                height: 200,
+                height: MediaQuery.of(context).size.height * 0.2,
                 child: DrawerHeader(
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -162,14 +162,14 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                         //   ),
                         // ),
                         SizedBox(
-                          height: 5,
+                          height: MediaQuery.of(context).size.height * 0.03,
                         ),
                         Text(
                           savedUsername ?? '-',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.width * 0.04,
+                            fontSize: MediaQuery.of(context).size.width * 0.03,
                           ),
                         ),
                         Text(
@@ -177,7 +177,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w200,
-                            fontSize: MediaQuery.of(context).size.width * 0.03,
+                            fontSize: MediaQuery.of(context).size.width * 0.02,
                           ),
                         ),
                       ],
@@ -186,7 +186,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 ),
               ),
               ListTile(
-            
                 leading: const Icon(Icons.home, color: Colors.white),
                 title: Text(
                   'HOME',
@@ -348,7 +347,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                   );
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -377,8 +375,8 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.15,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.2,
                           child: Image.asset("assets/images/mydevices.png"),
                         ),
                       ],
@@ -399,7 +397,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                   );
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -428,8 +425,8 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.4,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.18,
                           child: Image.asset("assets/images/alarmimage.png"),
                         ),
                       ],
@@ -450,7 +447,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                   );
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -479,13 +475,9 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 30),
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.15,
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: Image.asset("assets/images/deviceimage.png"),
-                          ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.18,
+                          child: Image.asset("assets/images/deviceimage.png"),
                         ),
                       ],
                     ),
@@ -505,7 +497,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                   );
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -532,7 +523,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.22,
+                          width: MediaQuery.of(context).size.width * 0.18,
                           child: Image.asset("assets/images/nurse.png"),
                         ),
                       ],
@@ -553,7 +544,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 //   );
                 // },
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -598,12 +588,9 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                             ),
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15, top: 0),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: Image.asset("assets/images/aiimage.png"),
-                          ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.22,
+                          child: Image.asset("assets/images/aiimage.png"),
                         ),
                       ],
                     ),

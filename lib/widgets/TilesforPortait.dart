@@ -18,7 +18,6 @@ class TilesforPortait extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.065,
       width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
@@ -26,7 +25,7 @@ class TilesforPortait extends StatelessWidget {
         // color: Color.fromARGB(255, 86, 160, 198),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

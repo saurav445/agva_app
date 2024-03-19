@@ -254,7 +254,7 @@ class _SignUpState extends State<SignUp> {
           return AlertDialog(
             backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
+              borderRadius: BorderRadius.circular(10.0),
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -570,7 +570,7 @@ class _SignUpState extends State<SignUp> {
                       Padding(
                         padding: const EdgeInsets.only(right: 30, left: 35),
                         child: Container(
-                          width: 330,
+                          // width: 330,
                           decoration: BoxDecoration(),
                           child: DropdownButtonFormField(
                             value: designationdropdown,
@@ -619,7 +619,6 @@ class _SignUpState extends State<SignUp> {
                       Padding(
                         padding: const EdgeInsets.only(right: 30, left: 35),
                         child: Container(
-                          width: 330,
                           decoration: BoxDecoration(),
                           child: DropdownButtonFormField(
                             value: rolesdropdown,
@@ -690,7 +689,6 @@ class _SignUpState extends State<SignUp> {
                       Padding(
                         padding: const EdgeInsets.only(right: 30, left: 35),
                         child: Container(
-                          width: 330,
                           decoration: BoxDecoration(),
                           child: DropdownButtonFormField(
                             value: specialitydropdown,
@@ -1099,92 +1097,91 @@ class _SignUpState extends State<SignUp> {
                                     Color.fromARGB(255, 142, 0, 90)
                                   ])),
                           child: TextButton(
-                            onPressed:
-                            () => {
-                            if (isPhoneNumberVerified)
-                            register()
-                            else
-                            {
-                            showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                            return AlertDialog(
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(10.0),
-                            ),
-                            content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                            Text(
-                            "Please verify phone number",
-                            style: TextStyle(
-                            color: const Color.fromARGB(
-                            255, 0, 0, 0),
-                            fontWeight: FontWeight.bold,
-                            ),
-                            ),
-                            SizedBox(height: 15),
-                            SizedBox(
-                            height: 1,
-                            child: Container(
-                            color: Color.fromARGB(
-                            255, 181, 0, 100),
-                            ),
-                            ),
-                            SizedBox(height: 15),
-                            Padding(
-                            padding: EdgeInsets.fromLTRB(
-                            15, 0, 22, 0),
-                            child: Container(
-                            height: 40,
-                            width: 200,
-                            decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(
-                            30),
-                            boxShadow: [
-                            BoxShadow(
-                            color: Colors.grey
-                            .withOpacity(0.3),
-                            spreadRadius: 3,
-                            blurRadius: 20,
-                            offset: Offset(0,
-                            3), // changes position of shadow
-                            ),
-                            ],
-                            color: Colors.white,
-                            gradient: LinearGradient(
-                            begin:
-                            Alignment.topCenter,
-                            end: Alignment
-                            .bottomCenter,
-                            colors: [
-                            Color.fromARGB(
-                            255, 218, 0, 138),
-                            Color.fromARGB(
-                            255, 142, 0, 90)
-                            ])),
-                            child: TextButton(
-                            onPressed: () =>
-                            Navigator.pop(context),
-                            style: TextButton.styleFrom(),
-                            child: Text(
-                            "OK",
-                            style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15),
-                            ),
-                            ),
-                            ),
-                            ),
-                            ],
-                            ),
-                            );
-                            },
-                            )
-                            }
+                            onPressed: () => {
+                              if (isPhoneNumberVerified)
+                                register()
+                              else
+                                {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              "Please verify phone number",
+                                              style: TextStyle(
+                                                color: const Color.fromARGB(
+                                                    255, 0, 0, 0),
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            SizedBox(height: 15),
+                                            SizedBox(
+                                              height: 1,
+                                              child: Container(
+                                                color: Color.fromARGB(
+                                                    255, 181, 0, 100),
+                                              ),
+                                            ),
+                                            SizedBox(height: 15),
+                                            Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  15, 0, 22, 0),
+                                              child: Container(
+                                                height: 40,
+                                                width: 200,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.3),
+                                                        spreadRadius: 3,
+                                                        blurRadius: 20,
+                                                        offset: Offset(0,
+                                                            3), // changes position of shadow
+                                                      ),
+                                                    ],
+                                                    color: Colors.white,
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Color.fromARGB(
+                                                              255, 218, 0, 138),
+                                                          Color.fromARGB(
+                                                              255, 142, 0, 90)
+                                                        ])),
+                                                child: TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  style: TextButton.styleFrom(),
+                                                  child: Text(
+                                                    "OK",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  )
+                                }
                             },
                             style: TextButton.styleFrom(),
                             child: Text(

@@ -147,10 +147,7 @@ class _DoctorFocusAlarmsState extends State<DoctorFocusAlarms> {
                                               padding: const EdgeInsets.only(
                                                   left: 10),
                                               child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.12,
+                          
                                                 width: double.infinity,
                                                 decoration: BoxDecoration(
                                                   color: Color.fromARGB(

@@ -150,7 +150,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: MediaQuery.of(context).size.width * 0.06,
+                        fontSize: MediaQuery.of(context).size.width * 0.05,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -164,7 +164,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         color: Color.fromARGB(255, 218, 218, 218),
-                        fontSize: MediaQuery.of(context).size.width * 0.04,
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
@@ -249,10 +249,6 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                                               padding: const EdgeInsets.only(
                                                   left: 10),
                                               child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.12,
                                                 width: double.infinity,
                                                 decoration: BoxDecoration(
                                                   color: Color.fromARGB(

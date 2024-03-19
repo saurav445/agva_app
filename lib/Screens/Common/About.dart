@@ -34,44 +34,7 @@ class _AboutState extends State<About> {
             ),
           ),
         ),
-        body: OrientationBuilder(builder: (context, orientation) {
-          if (orientation == Orientation.portrait) {
-            return SingleChildScrollView(child: AboutPortrait());
-          } else {
-            return AboutLandscape();
-          }
-        }),
-      ),
-    );
-  }
-}
-
-class AboutLandscape extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          'Work in Progress',
-          style: TextStyle(
-            fontFamily: 'Avenir',
-            color: Color.fromARGB(255, 218, 218, 218),
-            fontSize: MediaQuery.of(context).size.width * 0.02,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class AboutPortrait extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
+        body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(
         children: [
@@ -207,7 +170,7 @@ class AboutPortrait extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
+                  SizedBox(
                     width: 160,
                     child: Text(
                       'Dr Deepak Agarwal is a pioneer and one of the world renowned name in neurosurgery. He is currently a practicing neurosurgeon at Indias most premier medical institute AIIMS New Delhi',
@@ -224,6 +187,8 @@ class AboutPortrait extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    ),
       ),
     );
   }

@@ -143,7 +143,7 @@ class _EventsState extends State<Events> {
 
   Widget buildMsgContent(String text) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.223,
+      width: MediaQuery.of(context).size.width * 0.200,
       child: Text(
         text,
         maxLines: 3,

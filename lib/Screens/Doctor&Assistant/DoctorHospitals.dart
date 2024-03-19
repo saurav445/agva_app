@@ -83,8 +83,11 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
         onRefresh: getHospitals,
         child: Stack(children: [
           ListView(children: [
-            Column(
-              children: buildPatientListWidgets(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                children: buildPatientListWidgets(),
+              ),
             ),
           ]),
         ]),
@@ -99,7 +102,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
       String pincode = '${hospital['Pincode']}';
       String hospitaladdress = '${hospital['Hospital_Address']}';
       return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           GestureDetector(
             onTap: () {
@@ -108,20 +111,19 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
               });
             },
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.13,
               width: MediaQuery.of(context).size.width * 0.9,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(10),
                 color: Color.fromARGB(255, 51, 50, 50),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding:  EdgeInsets.only(left: 20),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 7),
+                      padding:  EdgeInsets.only(top: 5),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -131,47 +133,48 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 218, 218, 218),
                               fontSize:
-                                  MediaQuery.of(context).size.width * 0.06,
+                                  MediaQuery.of(context).size.width * 0.05,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.05,
+                            height: MediaQuery.of(context).size.height * 0.04,
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                '$city,',
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  color: Color.fromARGB(255, 218, 218, 218),
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.03,
+                          Padding(
+                            padding:  EdgeInsets.only(bottom: 1),
+                            child: Row(
+                              children: [
+                                Text(
+                                  '$city,',
+                                  style: TextStyle(
+                                    fontFamily: 'Avenir',
+                                    color: Color.fromARGB(255, 218, 218, 218),
+                                    fontSize:
+                                        MediaQuery.of(context).size.width * 0.03,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                pincode,
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  color: Color.fromARGB(255, 218, 218, 218),
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.03,
+                                SizedBox(
+                                  width:    MediaQuery.of(context).size.width * 0.01,
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  pincode,
+                                  style: TextStyle(
+                                    fontFamily: 'Avenir',
+                                    color: Color.fromARGB(255, 218, 218, 218),
+                                    fontSize:
+                                        MediaQuery.of(context).size.width * 0.03,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
+                         
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.25,
-                        child: Image.asset("assets/images/hospital.png"),
-                      ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      child: Image.asset("assets/images/hospital.png"),
                     ),
                   ],
                 ),
@@ -215,39 +218,38 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
                   },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Color.fromARGB(255, 62, 62, 62),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 30),
-                          child: Text(
-                            project,
-                            style: TextStyle(
-                              fontFamily: 'Avenir',
-                              color: Color.fromARGB(255, 228, 228, 228),
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.06,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 60),
+                    child: Container(
+                    
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Color.fromARGB(255, 62, 62, 62),
+                      ),
+                      child: Padding(
+                        padding:  EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              project,
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 228, 228, 228),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
+                              ),
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: Image.asset(
-                              getImagePath(project),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.08,
+                              child: Image.asset(
+                                getImagePath(project),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),

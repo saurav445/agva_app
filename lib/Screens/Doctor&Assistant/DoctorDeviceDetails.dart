@@ -245,6 +245,12 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
     super.dispose();
     loadingCount = 0;
     widget.socketService.dispose();
+     SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
   }
 
   // final uri = 'http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=';
@@ -334,13 +340,13 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.035,
+                  height: MediaQuery.of(context).size.height * 0.03,
                 ),
                 Text(
                   "SALIM RAZA",
                   style: TextStyle(
                     fontFamily: 'Avenir',
-                    fontSize: MediaQuery.of(context).size.width * 0.07,
+                    fontSize: MediaQuery.of(context).size.width * 0.06,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
@@ -361,32 +367,35 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.065,
-                              width: MediaQuery.of(context).size.width * 0.42,
+
+                              width: MediaQuery.of(context).size.width * 0.45,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: Color.fromARGB(255, 58, 58, 58),
                               ),
-                              child: TextButton(
-                                onPressed: () {},
-                                style: TextButton.styleFrom(),
-                                child: Text(
-                                  modeData,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
-                                            0.05,
+                              child: Padding(
+                                padding:  EdgeInsets.symmetric(vertical: 20),
+                                child: Center(
+                                  child: Text(
+                                    modeData,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.05,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(height: 16),
+                         SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
                             TilesforPortait(
                               title: fiO2,
                               value: fiO2Value,
-                              width: constraints.maxWidth * 0.42,
+                              width: constraints.maxWidth * 0.45,
                             ),
                             SizedBox(
                               height:
@@ -395,7 +404,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             TilesforPortait(
                               title: vti,
                               value: vtiValue,
-                              width: constraints.maxWidth * 0.42,
+                              width: constraints.maxWidth * 0.45,
                             ),
                             SizedBox(
                               height:
@@ -404,7 +413,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             TilesforPortait(
                               title: 'SpO2',
                               value: spo2value,
-                              width: constraints.maxWidth * 0.42,
+                              width: constraints.maxWidth * 0.45,
                             ),
                             SizedBox(
                               height:
@@ -413,7 +422,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             TilesforPortait(
                               title: 'EtCo2',
                               value: '-',
-                              width: constraints.maxWidth * 0.42,
+                              width: constraints.maxWidth * 0.45,
                             ),
                           ],
                         ),
@@ -427,7 +436,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             TilesforPortait(
                               title: pip,
                               value: pipValue,
-                              width: constraints.maxWidth * 0.42,
+                              width: constraints.maxWidth * 0.45,
                             ),
                             SizedBox(
                               height:
@@ -436,7 +445,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             TilesforPortait(
                               title: rr,
                               value: rrValue,
-                              width: constraints.maxWidth * 0.42,
+                              width: constraints.maxWidth * 0.45,
                             ),
                             SizedBox(
                               height:
@@ -445,7 +454,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             TilesforPortait(
                               title: mVi,
                               value: mViValue,
-                              width: constraints.maxWidth * 0.42,
+                              width: constraints.maxWidth * 0.45,
                             ),
                             SizedBox(
                               height:
@@ -454,7 +463,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             TilesforPortait(
                               title: 'PULSE',
                               value: pulseValue,
-                              width: constraints.maxWidth * 0.42,
+                              width: constraints.maxWidth * 0.45,
                             ),
                             SizedBox(
                               height:
@@ -463,7 +472,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                             TilesforPortait(
                               title: 'ET-CUFF',
                               value: '-',
-                              width: constraints.maxWidth * 0.42,
+                              width: constraints.maxWidth * 0.45,
                             ),
                           ],
                         ),
@@ -474,15 +483,14 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                 SizedBox(height: 16),
 //buttons
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  padding:  EdgeInsets.only(left: 18, right: 18, bottom: 40),
                   child: Column(
                     children: [
                       Row(
                         children: [
                           Expanded(
                             child: Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.065,
+           
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: Color.fromARGB(255, 58, 58, 58),
@@ -515,8 +523,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                           ),
                           Expanded(
                             child: Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.065,
+           
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: Color.fromARGB(255, 58, 58, 58),
@@ -552,8 +559,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                         children: [
                           Expanded(
                             child: Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.065,
+           
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: Color.fromARGB(255, 58, 58, 58),
@@ -633,8 +639,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                           ),
                           Expanded(
                             child: Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.065,
+           
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: Color.fromARGB(255, 58, 58, 58),
@@ -693,9 +698,8 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8),
                             child: Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.065,
-                              width: 170,
+           
+                              width:       MediaQuery.of(context).size.width * 0.42,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(5),

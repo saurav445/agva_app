@@ -63,6 +63,9 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
         });
       } else {
         print('Invalid User Credential: ${response.statusCode}');
+        setState(() {
+                    isLoading = false;
+        });
       }
     } else {
       print('Token not found');
@@ -155,7 +158,13 @@ class _DoctorDeviceAboutState extends State<DoctorDeviceAbout> {
           )
         else if (deviceAbout.isEmpty)
           Center(
-            child: Text('No Data Found'),
+                  
+            child: Column(
+              children: [
+                 SizedBox(height: MediaQuery.of(context).size.height / 4),
+                Text('No Data Found'),
+              ],
+            ),
           )
         else
           Row(

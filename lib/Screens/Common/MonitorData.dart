@@ -81,8 +81,8 @@ class _MonitorDataState extends State<MonitorData> {
                   child: Column(
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        width: MediaQuery.of(context).size.width * 1,
+                        // height: MediaQuery.of(context).size.height * 0.1,
+                        // width: MediaQuery.of(context).size.width * 1,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Color.fromARGB(255, 157, 0, 86),
@@ -97,7 +97,7 @@ class _MonitorDataState extends State<MonitorData> {
                         ),
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.85,
+                        height: MediaQuery.of(context).size.height * 0.80,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
@@ -137,11 +137,11 @@ class _MonitorDataState extends State<MonitorData> {
     Color textColor = isActive ? Colors.black87 : Colors.white;
 
     return Padding(
-      padding: const EdgeInsets.all(1.0),
+      padding:  EdgeInsets.all(1.0),
       child: Container(
         alignment: Alignment.center,
-        height: MediaQuery.of(context).size.height * 0.1,
-        width: MediaQuery.of(context).size.width * 0.09,
+        // height: MediaQuery.of(context).size.height * 0.1,
+        // width: MediaQuery.of(context).size.width * 0.09,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: buttonColor,
@@ -150,10 +150,13 @@ class _MonitorDataState extends State<MonitorData> {
           onTap: () {
             setActiveButton(buttonName);
           },
-          child: Text(
-            buttonName,
-            style: TextStyle(
-                color: textColor, fontSize: 12, fontWeight: FontWeight.bold),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              buttonName,
+              style: TextStyle(
+                  color: textColor, fontSize: 12, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ),
