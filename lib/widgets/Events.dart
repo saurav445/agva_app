@@ -17,21 +17,28 @@ class _EventsState extends State<Events> {
   bool isLoading = true;
   late String deviceId;
   late Map<String, dynamic> jsonResponse;
+  int currentPage = 1;
 
   @override
   void initState() {
     super.initState();
     deviceId = widget.deviceId;
-    getEventusingId();
+    getEventusingId(currentPage);
   }
 
-  Future<void> getEventusingId() async {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<void> getEventusingId(currentPage) async {
     var response = await http.get(
-      Uri.parse('$getDeviceEventbyID/$deviceId?page=1&limit=6'),
+      Uri.parse('$getDeviceEventbyID/$deviceId?page=$currentPage&limit=5'),
     );
     jsonResponse = jsonDecode(response.body);
     print('Current Device ID: $deviceId');
     if (jsonResponse['statusCode'] == 200) {
+      print(jsonResponse);
       setState(() {
         isLoading = false;
       });
@@ -40,10 +47,26 @@ class _EventsState extends State<Events> {
     }
   }
 
+  void next() {
+    {
+      currentPage++;
+      getEventusingId(currentPage);
+    }
+  }
+
+  void back() {
+    {
+      currentPage--;
+      getEventusingId(currentPage);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 58, 58, 58),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
+      body: Column(
         children: [
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
@@ -69,8 +92,40 @@ class _EventsState extends State<Events> {
             buildEmptyContainer()
           else
             for (var eventData in jsonResponse['data']['findDeviceById'])
-              buildEventDataRow(eventData),
+              buildEventDataRow(eventData, next, back),
         ],
+      ),
+      floatingActionButton: Container(
+        // width: 150,
+        height: 45,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(50)),
+            color: Color.fromARGB(0, 0, 0, 0)),
+
+        child: Row(
+          children: [
+            if (currentPage >= 2)
+              FloatingActionButton(
+                backgroundColor: Colors.transparent,
+                elevation: 1,
+                onPressed: back,
+                child: Icon(Icons.arrow_left_outlined),
+              ),
+            SizedBox(
+              width: 10,
+            ),
+            if (currentPage >= 2) Text(currentPage.toString()),
+            SizedBox(
+              width: 10,
+            ),
+            FloatingActionButton(
+              backgroundColor: Colors.transparent,
+              elevation: 1,
+              onPressed: next,
+              child: Icon(Icons.arrow_right_outlined),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -100,28 +155,32 @@ class _EventsState extends State<Events> {
     );
   }
 
-  Widget buildEventDataRow(Map<String, dynamic> eventData) {
+  Widget buildEventDataRow(Map<String, dynamic> eventData, next, back) {
     if (eventData.isNotEmpty) {
       return Padding(
         padding: EdgeInsets.only(top: 10),
         child: Column(
           children: [
-            Row(
+            Column(
               children: [
-                SizedBox(width: 20),
-                buildColumnContent(buildMsgContent(eventData['message'])),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.01,
+                Row(
+                  children: [
+                    SizedBox(width: 20),
+                    buildColumnContent(buildMsgContent(eventData['message'])),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.01,
+                    ),
+                    buildColumnContent(buildTypeContent(eventData['type'])),
+                    buildColumnContent(buildDateContent(eventData['date'])),
+                    buildColumnContent(buildTimeContent(eventData['time'])),
+                  ],
                 ),
-                buildColumnContent(buildTypeContent(eventData['type'])),
-                buildColumnContent(buildDateContent(eventData['date'])),
-                buildColumnContent(buildTimeContent(eventData['time'])),
+                SizedBox(height: 10),
+                Container(
+                  height: 0.1,
+                  color: Colors.white,
+                ),
               ],
-            ),
-            SizedBox(height: 15),
-            Container(
-              height: 0.1,
-              color: Colors.white,
             ),
           ],
         ),
@@ -143,7 +202,7 @@ class _EventsState extends State<Events> {
 
   Widget buildMsgContent(String text) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.200,
+      width: MediaQuery.of(context).size.width * 0.223,
       child: Text(
         text,
         maxLines: 3,
