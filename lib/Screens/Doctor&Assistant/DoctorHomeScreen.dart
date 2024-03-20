@@ -1,17 +1,18 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:agva_app/AuthScreens/SignIn.dart';
+import 'package:agva_app/Screens/Common/NotificationScreen.dart';
 import 'package:agva_app/Screens/Common/Profile.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusAlarms.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/UserControl.dart';
 import 'package:agva_app/Service/MessagingService.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Common/Settings.dart';
-import '../Common/NotificationScreen.dart';
 
 class DoctorHomeScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -28,12 +29,17 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   String? savedsecurityCode;
   String? saveUseremail;
   late SharedPreferences prefs;
+  int notificationCounts = MessagingService.notifications.length;
 
   @override
   void initState() {
     super.initState();
     _messagingService.init(context);
+    setState(() {
+      notificationCounts = MessagingService.notifications.length;
+    });
 
+    print('notificationCounts in home $notificationCounts');
     getsavedToken();
     getUsername().then((name) {
       setState(() {
@@ -114,24 +120,22 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
         appBar: AppBar(
           backgroundColor: Colors.black,
           actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.notifications),
-              onPressed: () {
-                Navigator.push(
+            badges.Badge(
+              position: badges.BadgePosition.topEnd(top: 11, end: 11),
+              child: IconButton(
+                icon: Icon(Icons.notifications),
+                onPressed: () {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => NotificationScreen()));
-              },
-            )
+                        builder: (context) => NotificationScreen()),
+                  );
+                },
+              ),
+            ),
           ],
         ),
-        body: OrientationBuilder(builder: (context, orientation) {
-          if (orientation == Orientation.portrait) {
-            return SingleChildScrollView(child: _buildPortraitLayout(context));
-          } else {
-            return _buildLandscapeLayout(context);
-          }
-        }),
+        body: SingleChildScrollView(child: _buildPortraitLayout(context)),
         drawer: Drawer(
           backgroundColor: Colors.black,
           child: ListView(
@@ -159,13 +163,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                           height: 70,
                           width: 70,
                         ),
-                        // Text(
-                        //   'AgVa',
-                        //   style: TextStyle(
-                        //     color: Color.fromARGB(255, 255, 255, 255),
-                        //     fontSize: MediaQuery.of(context).size.width * 0.1,
-                        //   ),
-                        // ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.025,
                         ),
@@ -250,58 +247,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildLandscapeLayout(BuildContext context) {
-    return Stack(
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.05,
-            vertical: MediaQuery.of(context).size.height * 0.05,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Welcome',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 172, 172, 172),
-                        fontSize: MediaQuery.of(context).size.width * 0.02,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      savedUsername ?? 'Default User Name',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: MediaQuery.of(context).size.width * 0.03,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.08,
-              ),
-              SingleChildScrollView(child: scrrollwidgetforlandscape()),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.03,
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 
@@ -615,292 +560,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 ),
               ),
             ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class scrrollwidgetforlandscape extends StatelessWidget {
-  const scrrollwidgetforlandscape({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DoctorMyDevices(),
-              ),
-            );
-          },
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            width: MediaQuery.of(context).size.width * 0.5,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                colors: [
-                  Color.fromARGB(255, 173, 25, 25),
-                  Color.fromARGB(255, 254, 134, 134),
-                ],
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'MY DEVICES',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize: MediaQuery.of(context).size.width * 0.02,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    child: Image.asset("assets/images/mydevices.png"),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DoctorFocusAlarms(),
-              ),
-            );
-          },
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            width: MediaQuery.of(context).size.width * 0.5,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                colors: [
-                  Color.fromARGB(255, 50, 50, 50),
-                  Color.fromARGB(255, 255, 255, 255),
-                ],
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'ALARMS',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize: MediaQuery.of(context).size.width * 0.02,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    child: Image.asset("assets/images/alarmimage.png"),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DoctorHospitals(),
-              ),
-            );
-          },
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            width: MediaQuery.of(context).size.width * 0.5,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                colors: [
-                  Color.fromARGB(255, 225, 92, 156),
-                  Color.fromARGB(255, 238, 44, 76),
-                ],
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'ALL DEVICES',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize: MediaQuery.of(context).size.width * 0.02,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: Container(
-                      // height:
-                      // MediaQuery.of(context).size.height * 0.15,
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      child: Image.asset("assets/images/deviceimage.png"),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => UserControl(),
-              ),
-            );
-          },
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            width: MediaQuery.of(context).size.width * 0.5,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                gradient: LinearGradient(
-                  colors: [Color(0xff1d2b64), Color(0xfff8cdda)],
-                  stops: [0, 1],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                )),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'ASSISTANT',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize: MediaQuery.of(context).size.width * 0.02,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.22,
-                    child: Image.asset("assets/images/nurse.png"),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        GestureDetector(
-          //  onTap: () {
-          //   Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => WebViewPage(),
-          //     ),
-          //   );
-          // },
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            width: MediaQuery.of(context).size.width * 0.5,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                colors: [
-                  Color.fromARGB(255, 92, 74, 251),
-                  Color.fromARGB(255, 30, 30, 30),
-                ],
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'AI',
-                        style: TextStyle(
-                          fontFamily: 'Avenir',
-                          color: Color.fromARGB(255, 218, 218, 218),
-                          fontSize: MediaQuery.of(context).size.width * 0.02,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'COMING SOON..',
-                        style: TextStyle(
-                          fontFamily: 'Avenir',
-                          color: Color.fromARGB(255, 218, 218, 218),
-                          fontSize: MediaQuery.of(context).size.width * 0.01,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 0, top: 0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.17,
-                      child: Image.asset("assets/images/aiimage.png"),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ),
         ),
       ],

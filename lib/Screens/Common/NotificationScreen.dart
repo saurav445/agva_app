@@ -2,17 +2,43 @@
 
 import 'package:agva_app/Service/MessagingService.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class NotificationScreen extends StatefulWidget {
+
+
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
   @override
+  void initState() {
+    super.initState();
+    notificationCounts = MessagingService.notifications.length;
+    print('notificationCounts inscreen $notificationCounts');
+
+    SystemChrome.setPreferredOrientations([
+      // DeviceOrientation.landscapeRight,
+      // DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  int notificationCounts = MessagingService.notifications.length;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
+         leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context, 'refresh');
+            },
+          ),
+        backgroundColor: Colors.black,
         centerTitle: true,
         title: Text("Notifications"),
       ),

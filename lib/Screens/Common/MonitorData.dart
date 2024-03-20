@@ -73,7 +73,7 @@ class _MonitorDataState extends State<MonitorData> {
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
                   padding:
@@ -97,7 +97,7 @@ class _MonitorDataState extends State<MonitorData> {
                         ),
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.80,
+                        // height: MediaQuery.of(context).size.height * 0.80,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),

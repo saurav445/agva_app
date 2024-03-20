@@ -55,8 +55,9 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
   late String alarmName;
   late String alarmColor;
 
-  String get uri =>
-      'http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=';
+  // String get uri =>
+  //     'http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=';
+  String get  uri => 'http://172.20.10.10:3000/live?code=SBXMH&projectName=Ventilator&DeviceId=';
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -245,15 +246,13 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
     super.dispose();
     loadingCount = 0;
     widget.socketService.dispose();
-     SystemChrome.setPreferredOrientations([
+    SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
     ]);
   }
-
-  // final uri = 'http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=';
 
   @override
   Widget build(BuildContext context) {
@@ -367,14 +366,13 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-
                               width: MediaQuery.of(context).size.width * 0.45,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: Color.fromARGB(255, 58, 58, 58),
                               ),
                               child: Padding(
-                                padding:  EdgeInsets.symmetric(vertical: 12),
+                                padding: EdgeInsets.symmetric(vertical: 12),
                                 child: Center(
                                   child: Text(
                                     modeData,
@@ -388,7 +386,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                 ),
                               ),
                             ),
-                         SizedBox(
+                            SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.015,
                             ),
@@ -483,14 +481,13 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                 SizedBox(height: 16),
 //buttons
                 Padding(
-                  padding:  EdgeInsets.only(left: 18, right: 18, bottom: 40),
+                  padding: EdgeInsets.only(left: 18, right: 18, bottom: 40),
                   child: Column(
                     children: [
                       Row(
                         children: [
                           Expanded(
                             child: Container(
-           
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: Color.fromARGB(255, 58, 58, 58),
@@ -523,7 +520,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                           ),
                           Expanded(
                             child: Container(
-           
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: Color.fromARGB(255, 58, 58, 58),
@@ -559,7 +555,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                         children: [
                           Expanded(
                             child: Container(
-           
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: Color.fromARGB(255, 58, 58, 58),
@@ -639,7 +634,6 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                           ),
                           Expanded(
                             child: Container(
-           
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: Color.fromARGB(255, 58, 58, 58),
@@ -698,8 +692,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8),
                             child: Container(
-           
-                              width:       MediaQuery.of(context).size.width * 0.42,
+                              width: MediaQuery.of(context).size.width * 0.42,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(5),
