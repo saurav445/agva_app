@@ -17,17 +17,18 @@ class _AlarmsState extends State<Alarms> {
   bool isLoading = true;
   late String deviceId;
   late Map<String, dynamic> jsonResponse;
+  int currentPage = 1;
 
   @override
   void initState() {
     super.initState();
     deviceId = widget.deviceId;
-    getAlarmbyId();
+    getAlarmbyId(currentPage);
   }
 
-  Future<void> getAlarmbyId() async {
+  Future<void> getAlarmbyId(currentPage) async {
     var response = await http.get(
-      Uri.parse('$getDeviceAlarmsbyID/$deviceId?page=1&limit=5'),
+      Uri.parse('$getDeviceAlarmsbyID/$deviceId?page=$currentPage&limit=5'),
     );
     jsonResponse = jsonDecode(response.body);
     print('Current Device ID: $deviceId');
@@ -39,39 +40,85 @@ class _AlarmsState extends State<Alarms> {
       print('Invalid User Credential: ${response.statusCode}');
     }
   }
+   void next() {
+    {
+      currentPage++;
+      getAlarmbyId(currentPage);
+    }
+  }
+
+
+  void back() {
+    {
+      currentPage--;
+      getAlarmbyId(currentPage);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SingleChildScrollView(
-        child: Column(
+    return Scaffold(
+         backgroundColor: Color.fromARGB(255, 58, 58, 58),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                buildColumnHeading('Code'),
+                buildColumnHeading('Alarm'),
+                buildColumnHeading('Priority'),
+                buildColumnHeading('Date'),
+                buildColumnHeading('Time'),
+              ],
+            ),
+          ),
+          Container(
+            height: 0.1,
+            color: Color.fromARGB(255, 255, 255, 255),
+          ),
+          if (isLoading) // Show loading indicator
+            buildEmptyContainer2()
+          else if (jsonResponse['data']['findDeviceById']
+              .isEmpty) // Show "No Alarm Logs" message
+            buildEmptyContainer()
+          else
+            for (var alarmData in jsonResponse['data']['findDeviceById'])
+              buildAlarmDataRow(alarmData),
+        ],
+      ),
+       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Container(
+        // width: 150,
+        height: 45,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(50)),
+            color: Color.fromARGB(0, 0, 0, 0)),
+
+        child: Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  buildColumnHeading('Code'),
-                  buildColumnHeading('Alarm'),
-                  buildColumnHeading('Priority'),
-                  buildColumnHeading('Date'),
-                  buildColumnHeading('Time'),
-                ],
+            if (currentPage >= 2)
+              FloatingActionButton(
+                backgroundColor: Colors.transparent,
+                elevation: 1,
+                onPressed: back,
+                child: Icon(Icons.arrow_left_outlined),
               ),
+            SizedBox(
+              width: 10,
             ),
-            Container(
-              height: 0.1,
-              color: Color.fromARGB(255, 255, 255, 255),
+            if (currentPage >= 2) Text(currentPage.toString()),
+            SizedBox(
+              width: 10,
             ),
-            if (isLoading) // Show loading indicator
-              buildEmptyContainer2()
-            else if (jsonResponse['data']['findDeviceById']
-                .isEmpty) // Show "No Alarm Logs" message
-              buildEmptyContainer()
-            else
-              for (var alarmData in jsonResponse['data']['findDeviceById'])
-                buildAlarmDataRow(alarmData),
+            FloatingActionButton(
+              backgroundColor: Colors.transparent,
+              elevation: 1,
+              onPressed: next,
+              child: Icon(Icons.arrow_right_outlined),
+            ),
           ],
         ),
       ),

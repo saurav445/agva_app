@@ -104,6 +104,7 @@ class _AddPatientDataState extends State<AddPatientData> {
       );
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
+
         showDialog(
           barrierLabel: "Data submission",
           context: context,
@@ -120,8 +121,7 @@ class _AddPatientDataState extends State<AddPatientData> {
                   ),
                   child: const Text('OK'),
                   onPressed: () {
-                    print("CHECKED");
-                    Navigator.pop(context);
+                    Navigator.pop(context, 'refresh');
                     clearText();
                     setState(() {
                       _paths = null;

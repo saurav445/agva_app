@@ -192,7 +192,7 @@ class _PatientListState extends State<PatientList>
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-
+            height: MediaQuery.of(context).size.height * 0.25,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 45, 45, 45),
@@ -200,12 +200,12 @@ class _PatientListState extends State<PatientList>
             child: Padding(
               padding: EdgeInsets.all(10),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                     Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -272,22 +272,21 @@ class _PatientListState extends State<PatientList>
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
-             
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DosageHistory(uhid)));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 181, 0, 100),
-                      ),
-                      child: Text(
-                        "View Medication",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DosageHistory(uhid)));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 181, 0, 100),
                     ),
+                    child: Text(
+                      "Events",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -309,6 +308,7 @@ class _PatientListState extends State<PatientList>
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
+            height: MediaQuery.of(context).size.height * 0.25,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 45, 45, 45),
@@ -316,7 +316,7 @@ class _PatientListState extends State<PatientList>
             child: Padding(
               padding: EdgeInsets.all(10),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -390,58 +390,71 @@ class _PatientListState extends State<PatientList>
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
-                  if(uhid.isNotEmpty)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DosageHistory(uhid)));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 181, 0, 100),
+                  if (uhid.isNotEmpty)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DosageHistory(uhid)));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 181, 0, 100),
+                          ),
+                          child: Text(
+                            "    Events   ",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
-                        child: Text(
-                          "View Medication",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      AddPatientData(uhid,deviceId,userId)));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                        ),
-                        child: Text(
-                          "Edit Details",
-                          style: TextStyle(color: Colors.pink),
-                        ),
-                      ),
-                    ],
-                  )else ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
+                        ElevatedButton(
+                          onPressed: () async {
+                            final result = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      AddPatientData(uhid, deviceId, userId)));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
+                                      AddPatientData(uhid, deviceId, userId)),
+                            );
+
+                            if (result != null && result == 'refresh') {
+                              getPatientData();
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                          ),
+                          child: Text(
+                            "Edit Details",
+                            style: TextStyle(color: Colors.pink),
+                          ),
                         ),
-                        child: Text(
-                          "Add Details",
-                          style: TextStyle(color: Colors.pink),
-                        ),
+                      ],
+                    )
+                  else
+                    ElevatedButton(
+                      onPressed: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  AddPatientData(uhid, deviceId, userId)),
+                        );
+
+                        if (result != null && result == 'refresh') {
+                          getPatientData();
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
                       ),
+                      child: Text(
+                        "Add Details",
+                        style: TextStyle(color: Colors.pink),
+                      ),
+                    ),
                 ],
               ),
             ),

@@ -59,43 +59,41 @@ class MessagingService {
                   icon: "@drawable/ic_launcher",
                 ),
               ));
-              
-if(notificationData.containsKey('screen')) {
-showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      message.notification!.title!,
-                      style: TextStyle(
-                        color: const Color.fromARGB(255, 0, 0, 0),
-                        fontWeight: FontWeight.bold,
+          if (notificationData['screen'] == '/usercontrol') {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        message.notification!.title!,
+                        style: TextStyle(
+                          color: const Color.fromARGB(255, 0, 0, 0),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      height: 1,
-                      child: Container(
-                        color: Color.fromARGB(255, 181, 0, 100),
+                      SizedBox(height: 10),
+                      SizedBox(
+                        height: 1,
+                        child: Container(
+                          color: Color.fromARGB(255, 181, 0, 100),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      message.notification!.body!,
-                      style: TextStyle(
-                        color: const Color.fromARGB(255, 0, 0, 0),
-                        fontWeight: FontWeight.w400,
+                      SizedBox(height: 10),
+                      Text(
+                        message.notification!.body!,
+                        style: TextStyle(
+                          color: const Color.fromARGB(255, 0, 0, 0),
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    if (notificationData.containsKey('screen'))
+                      SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -118,21 +116,12 @@ showDialog(
                           ),
                         ],
                       )
-                    else
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: Text(
-                          'Dismiss',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                  ],
-                ),
-              );
-            },
-          );
-}
-          
+                    ],
+                  ),
+                );
+              },
+            );
+          }
         }
       }
     });
@@ -143,12 +132,12 @@ showDialog(
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       if (message != null) {
         _handleNotificationClick(context, message);
-         final notificationData = message.data;
+        final notificationData = message.data;
 
-    if (notificationData.containsKey('screen')) {
-      final screen = notificationData['screen'];
-      Navigator.of(context).pushNamed(screen);
-    }
+        if (notificationData.containsKey('screen')) {
+          final screen = notificationData['screen'];
+          Navigator.of(context).pushNamed(screen);
+        }
       }
     });
 
@@ -158,12 +147,12 @@ showDialog(
           'onMessageOpenedApp: ${message.notification!.title.toString()}');
       _handleNotificationClick(context, message);
       notifications.add(message);
-       final notificationData = message.data;
+      final notificationData = message.data;
 
-    if (notificationData.containsKey('screen')) {
-      final screen = notificationData['screen'];
-      Navigator.of(context).pushNamed(screen);
-    }
+      if (notificationData.containsKey('screen')) {
+        final screen = notificationData['screen'];
+        Navigator.of(context).pushNamed(screen);
+      }
     });
   }
 

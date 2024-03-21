@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,8 +17,6 @@ class AddDiagnose extends StatefulWidget {
 }
 
 class _AddDiagnoseState extends State<AddDiagnose> {
-
-
   late String UHID;
   List<dynamic> userData = [];
 
@@ -25,7 +24,8 @@ class _AddDiagnoseState extends State<AddDiagnose> {
 
   void initState() {
     super.initState();
-     SystemChrome.setPreferredOrientations([
+    dateInput.text = "";
+    SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
     ]);
@@ -35,14 +35,15 @@ class _AddDiagnoseState extends State<AddDiagnose> {
   TextEditingController medicineController = TextEditingController();
   TextEditingController procedureController = TextEditingController();
   TextEditingController otherController = TextEditingController();
-     Future<String?> getToken() async {
+  TextEditingController dateInput = TextEditingController();
+  TextEditingController timeInput = TextEditingController();
+  Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('mytoken');
   }
 
-
   void addDiagnoseData() async {
-      String? token = await getToken();
+    String? token = await getToken();
     var regBody = {
       "medicine": medicineController.text,
       "procedure": procedureController.text,
@@ -60,7 +61,7 @@ class _AddDiagnoseState extends State<AddDiagnose> {
     var jsonResponse = jsonDecode(response.body);
     print(jsonResponse);
     if (response.statusCode == 200) {
-      Navigator.pop(context);
+      Navigator.pop(context, 'refresh');
       print(jsonResponse['data']);
       print('Patient data added successfully');
     } else {
@@ -71,11 +72,11 @@ class _AddDiagnoseState extends State<AddDiagnose> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-              backgroundColor: Colors.black,
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Add Diagnose'),
+        title: Text('Add Events'),
         centerTitle: true,
-                backgroundColor: Colors.black,
+        backgroundColor: Colors.black,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -104,39 +105,72 @@ class _AddDiagnoseState extends State<AddDiagnose> {
                   Icons.medication,
                   color: Colors.white70,
                 ),
-                hintText: 'Enter Medicine Name',
+                hintText: 'Events',
                 hintStyle: TextStyle(color: Colors.white70),
               ),
             ),
             SizedBox(
               height: 40,
             ),
-            TextFormField(
-              controller: procedureController,
-              style: TextStyle(color: Colors.white70),
-              decoration: InputDecoration(
-                icon: Icon(
-                  Icons.scatter_plot_sharp,
-                  color: Colors.white70,
+            TextField(
+                readOnly: true,
+                controller: dateInput,
+                style: TextStyle(color: Colors.white70),
+                decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.date_range,
+                    color: Colors.white70,
+                  ),
+                  hintText: 'Date',
+                  hintStyle: TextStyle(color: Colors.white70),
                 ),
-                hintText: 'Enter Procedure',
-                hintStyle: TextStyle(color: Colors.white70),
-              ),
-            ),
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1950),
+                      lastDate: DateTime(2100));
+
+                  if (pickedDate != null) {
+                    print(pickedDate);
+                    String formattedDate =
+                        DateFormat('yyyy-MM-dd').format(pickedDate);
+                    print(formattedDate);
+                    setState(() {
+                      dateInput.text = formattedDate;
+                    });
+                  }
+                }),
             SizedBox(
               height: 40,
             ),
-            TextFormField(
-              controller: otherController,
+            TextField(
+              readOnly: true,
+              controller: timeInput,
               style: TextStyle(color: Colors.white70),
               decoration: InputDecoration(
                 icon: Icon(
-                  Icons.edit,
+                  Icons.access_time,
                   color: Colors.white70,
                 ),
-                hintText: 'Discription',
+                hintText: 'Time',
                 hintStyle: TextStyle(color: Colors.white70),
               ),
+              onTap: () async {
+                TimeOfDay? pickedTime = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                );
+
+                if (pickedTime != null) {
+                  print(pickedTime);
+                  String formattedTime = pickedTime.format(context);
+                  print(formattedTime);
+                  setState(() {
+                    timeInput.text = formattedTime;
+                  });
+                }
+              },
             ),
             SizedBox(
               height: 80,

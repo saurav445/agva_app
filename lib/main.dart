@@ -3,6 +3,8 @@
 import 'package:agva_app/AuthScreens/RegDone.dart';
 import 'package:agva_app/Screens/Common/NotificationScreen.dart';
 import 'package:agva_app/Screens/Common/TermsCondition.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/NurseHomeScreen.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/UserControl.dart';
 import 'package:agva_app/Screens/User/DeviceDetails.dart';
 import 'package:agva_app/Screens/User/DeviceList.dart';
@@ -76,12 +78,14 @@ class _MyAppState extends State<MyApp> {
           "/regdone": (context) => RegDone(),
           "/signin": (context) => SignIn(),
           "/splash": (context) => const SplashScreen(),
-          "/home": (context) => UserHomeScreen({}),
+          "/userhome": (context) => UserHomeScreen({}),
+          "/doctorhome": (context) => DoctorHomeScreen({}),
+          "/nursehome": (context) => NurseHomeScreen({}),
           "/devicedetails": (context) => DeviceDetails('', '', '', ''),
           "/tandc": (context) => TermsCondition(),
           "/devicelist": (context) => DeviceList(),
           "/notification": (context) => NotificationScreen(),
-           "/usercontrol": (context) => UserControl(),
+          "/usercontrol": (context) => UserControl(),
         },
       ),
     );

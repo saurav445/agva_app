@@ -1,9 +1,8 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/AddDiagnose.dart';
 import 'package:agva_app/config.dart';
@@ -52,6 +51,7 @@ class _DosageHistoryState extends State<DosageHistory> {
       );
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
+        print(jsonResponse);
         setState(() {
           dosageList = jsonResponse['data'];
           isLoading = false;
@@ -69,9 +69,15 @@ class _DosageHistoryState extends State<DosageHistory> {
     return dosageList.map((data) {
       print('dosagelist: $data');
       String medicine = data['medicine'];
-      String procedure = data['procedure'];
-      String others = data['others'];
+      // String procedure = data['procedure'];
+      // String others = data['others'];
       String date = data['date'];
+
+      DateTime dateTime = DateTime.parse(date);
+
+      String formattedTime = DateFormat('HH:mm:00').format(dateTime);
+
+      print(formattedTime); // Output: 05:14:00
 
       return ListTile(
         title: Container(
@@ -79,7 +85,6 @@ class _DosageHistoryState extends State<DosageHistory> {
             borderRadius: BorderRadius.circular(10),
             color: Colors.grey[850],
           ),
-          height: 150,
           width: 350,
           child: Padding(
             padding: const EdgeInsets.all(15),
@@ -90,30 +95,51 @@ class _DosageHistoryState extends State<DosageHistory> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Medicine',style: TextStyle(fontWeight: FontWeight.w400),),
-                    
-                    Text('Procedure',style: TextStyle(fontWeight: FontWeight.w400),),
-                    SizedBox(
-                      height: 5,
+                    Text(
+                      'Event',
+                      style: TextStyle(fontWeight: FontWeight.w400),
                     ),
-                    Text('Others',style: TextStyle(fontWeight: FontWeight.w400),),
-                    SizedBox(
-                      height: 5,
+                    Text(
+                      'Date',
+                      style: TextStyle(fontWeight: FontWeight.w400),
                     ),
-                    Text('Date',style: TextStyle(fontWeight: FontWeight.w400),)
+                    Text(
+                      'Time',
+                      style: TextStyle(fontWeight: FontWeight.w400),
+                    ),
+
+                    // Text(
+                    //   'Others',
+                    //   style: TextStyle(fontWeight: FontWeight.w400),
+                    // ),
+                    // SizedBox(
+                    //   height: 5,
+                    // ),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(medicine,style: TextStyle(fontWeight: FontWeight.w200),),
-                    Text(procedure,style: TextStyle(fontWeight: FontWeight.w200),),
-                    TextButton(
-                      onPressed: () => _dialogBuilder(context, others),
-                      child: Text('Show More',style: TextStyle(fontWeight: FontWeight.w400),),
+                    Text(
+                      medicine,
+                      style: TextStyle(fontWeight: FontWeight.w200),
                     ),
-                    Text(date.substring(0, 10),style: TextStyle(fontWeight: FontWeight.w200),)
+                    Text(
+                      formattedTime,
+                      style: TextStyle(fontWeight: FontWeight.w200),
+                    ),
+                    // TextButton(
+                    //   onPressed: () => _dialogBuilder(context, others),
+                    //   child: Text(
+                    //     'Show More',
+                    //     style: TextStyle(fontWeight: FontWeight.w400),
+                    //   ),
+                    // ),
+                    Text(
+                      date.substring(0, 10),
+                      style: TextStyle(fontWeight: FontWeight.w200),
+                    ),
                   ],
                 )
               ],
@@ -160,24 +186,27 @@ class _DosageHistoryState extends State<DosageHistory> {
               color: Colors.white,
               size: 30,
             ),
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AddDiagnose(widget.uhid),
-                ),
+                    builder: (context) => AddDiagnose(widget.uhid)),
               );
+
+              if (result != null && result == 'refresh') {
+                getdosageHistory();
+              }
             },
           )
         ],
         title: Text(
-          "Medications",
+          "Events",
         ),
       ),
       body: RefreshIndicator(
         onRefresh: getdosageHistory,
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(), 
+          physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 0),
             child: Column(
@@ -198,7 +227,7 @@ class _DosageHistoryState extends State<DosageHistory> {
                     ),
                   )
                 else
-                  ...buildDeviceList(dosageList), 
+                  ...buildDeviceList(dosageList),
               ],
             ),
           ),

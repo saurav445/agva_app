@@ -122,6 +122,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
           actions: <Widget>[
             badges.Badge(
               position: badges.BadgePosition.topEnd(top: 11, end: 11),
+              badgeContent: Text(notificationCounts.toString()),
               child: IconButton(
                 icon: Icon(Icons.notifications),
                 onPressed: () {

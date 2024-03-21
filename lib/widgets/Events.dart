@@ -33,7 +33,7 @@ class _EventsState extends State<Events> {
 
   Future<void> getEventusingId(currentPage) async {
     var response = await http.get(
-      Uri.parse('$getDeviceEventbyID/$deviceId?page=$currentPage&limit=5'),
+      Uri.parse('$getDeviceEventbyID/$deviceId?page=$currentPage&limit=4'),
     );
     jsonResponse = jsonDecode(response.body);
     print('Current Device ID: $deviceId');

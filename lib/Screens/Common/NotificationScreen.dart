@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
+import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/NurseHomeScreen.dart';
+import 'package:agva_app/Screens/User/UserHomeScreen.dart';
 import 'package:agva_app/Service/MessagingService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationScreen extends StatefulWidget {
-
-
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
 }
@@ -15,6 +17,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   void initState() {
     super.initState();
+        getUserType();
     notificationCounts = MessagingService.notifications.length;
     print('notificationCounts inscreen $notificationCounts');
 
@@ -26,18 +29,44 @@ class _NotificationScreenState extends State<NotificationScreen> {
     ]);
   }
 
+  Future<String?> getUserType() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? usertype = prefs.getString('usertype');
+    print('Retrieved usertype: $usertype');
+    return usertype;
+  }
+
+  Future<void> checkandNavigate() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String usertype = prefs.getString('usertype') ?? "";
+
+    if (usertype == 'User') {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => UserHomeScreen({})),
+      );
+    } else if (usertype == 'Assistant') {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => NurseHomeScreen({})),
+      );
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => DoctorHomeScreen({})),
+      );
+    }
+  }
+
   int notificationCounts = MessagingService.notifications.length;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-         leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context, 'refresh');
-            },
-          ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushNamed(context, '/doctorhome');
+          },
+        ),
         backgroundColor: Colors.black,
         centerTitle: true,
         title: Text("Notifications"),

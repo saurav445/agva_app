@@ -537,7 +537,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                                 },
                                 style: TextButton.styleFrom(),
                                 child: Text(
-                                  "MONITOR",
+                                  "EVENT DATA",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize:
