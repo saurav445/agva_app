@@ -31,12 +31,18 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   late SharedPreferences prefs;
   int notificationCounts = MessagingService.notifications.length;
 
+  void updateBadgeCount() {
+    setState(() {
+      notificationCounts = MessagingService.notifications.length;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _messagingService.init(context);
-    setState(() {
-      notificationCounts = MessagingService.notifications.length;
+    _messagingService.messageStream.listen((message) {
+      updateBadgeCount();
     });
 
     print('notificationCounts in home $notificationCounts');
@@ -120,10 +126,23 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
         appBar: AppBar(
           backgroundColor: Colors.black,
           actions: <Widget>[
-            badges.Badge(
-              position: badges.BadgePosition.topEnd(top: 11, end: 11),
-              badgeContent: Text(notificationCounts.toString()),
-              child: IconButton(
+            if (MessagingService.notifications.isNotEmpty)
+              badges.Badge(
+                position: badges.BadgePosition.topEnd(top: 11, end: 11),
+                // badgeContent: Text(notificationCounts.toString()),
+                child: IconButton(
+                  icon: Icon(Icons.notifications),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NotificationScreen()),
+                    );
+                  },
+                ),
+              )
+            else
+              IconButton(
                 icon: Icon(Icons.notifications),
                 onPressed: () {
                   Navigator.push(
@@ -133,7 +152,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                   );
                 },
               ),
-            ),
           ],
         ),
         body: SingleChildScrollView(child: _buildPortraitLayout(context)),

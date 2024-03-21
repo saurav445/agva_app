@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, curly_braces_in_flow_control_structures
 
+import 'dart:async';
+
 import 'package:agva_app/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +20,19 @@ class MessagingService {
 
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
+final _messageController = StreamController<RemoteMessage>.broadcast();
+
+Stream<RemoteMessage> get messageStream => _messageController.stream;
+
+
   Future<void> init(BuildContext context) async {
     NotificationSettings settings = await _fcm.requestPermission(
       alert: true,
-      announcement: false,
+      announcement: true,
       badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
+      carPlay: true,
+      criticalAlert: true,
+      provisional: true,
       sound: true,
     );
 
