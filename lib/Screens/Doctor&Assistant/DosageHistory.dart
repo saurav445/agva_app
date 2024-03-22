@@ -68,8 +68,8 @@ class _DosageHistoryState extends State<DosageHistory> {
   List<Widget> buildDeviceList(List<dynamic> dosageList) {
     return dosageList.map((data) {
       print('dosagelist: $data');
-      String medicine = data['medicine'];
-      // String procedure = data['procedure'];
+      String event = data['medicine'];
+      String diagnosis = data['procedure'];
       // String others = data['others'];
       String date = data['date'];
 
@@ -100,6 +100,10 @@ class _DosageHistoryState extends State<DosageHistory> {
                       style: TextStyle(fontWeight: FontWeight.w400),
                     ),
                     Text(
+                      'Diagnosis',
+                      style: TextStyle(fontWeight: FontWeight.w400),
+                    ),
+                    Text(
                       'Date',
                       style: TextStyle(fontWeight: FontWeight.w400),
                     ),
@@ -122,7 +126,11 @@ class _DosageHistoryState extends State<DosageHistory> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      medicine,
+                      event,
+                      style: TextStyle(fontWeight: FontWeight.w200),
+                    ),
+                     Text(
+                      diagnosis,
                       style: TextStyle(fontWeight: FontWeight.w200),
                     ),
                     Text(

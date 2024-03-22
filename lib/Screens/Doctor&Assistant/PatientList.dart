@@ -94,7 +94,7 @@ class _PatientListState extends State<PatientList>
           backgroundColor: Colors.black,
           centerTitle: true,
           title: Text(
-            "Patients Enteries",
+            "Patients Entries",
             style: TextStyle(
               fontFamily: 'Avenir',
               fontSize: 24,
