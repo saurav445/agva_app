@@ -192,7 +192,6 @@ class _PatientListState extends State<PatientList>
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.25,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 45, 45, 45),
@@ -202,7 +201,7 @@ class _PatientListState extends State<PatientList>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Row(
+           Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
@@ -217,6 +216,14 @@ class _PatientListState extends State<PatientList>
                             'UHID :',
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
+                           Text(
+                            'Bed No. :',
+                            style: TextStyle(fontWeight: FontWeight.w400),
+                          ),
+                           Text(
+                            'Ward No. :',
+                            style: TextStyle(fontWeight: FontWeight.w400),
+                          ),
                           Text(
                             'Age :',
                             style: TextStyle(fontWeight: FontWeight.w400),
@@ -226,13 +233,10 @@ class _PatientListState extends State<PatientList>
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
                           Text(
-                            'Hight :',
+                            'Height :',
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
-                          Text(
-                            'Ward No. :',
-                            style: TextStyle(fontWeight: FontWeight.w400),
-                          ),
+                         
 
                           // Text('Last Active :'),
                         ],
@@ -249,6 +253,15 @@ class _PatientListState extends State<PatientList>
                             '${user['UHID']}',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
+                          //ward no. change to bed no.
+                          Text(
+                            '${user['bed_no']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['ward_no']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
                           Text(
                             '${user['age']}',
                             style: TextStyle(fontWeight: FontWeight.w200),
@@ -261,10 +274,9 @@ class _PatientListState extends State<PatientList>
                             '${user['height']}',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
-                          Text(
-                            '${user['ward_no']}',
-                            style: TextStyle(fontWeight: FontWeight.w200),
-                          ),
+                          
+
+                          // Text('${user['lastLogin']}'),
                         ],
                       ),
                     ],
@@ -308,7 +320,7 @@ class _PatientListState extends State<PatientList>
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.25,
+
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 45, 45, 45),
@@ -333,6 +345,14 @@ class _PatientListState extends State<PatientList>
                             'UHID :',
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
+                           Text(
+                            'Bed No. :',
+                            style: TextStyle(fontWeight: FontWeight.w400),
+                          ),
+                           Text(
+                            'Ward No. :',
+                            style: TextStyle(fontWeight: FontWeight.w400),
+                          ),
                           Text(
                             'Age :',
                             style: TextStyle(fontWeight: FontWeight.w400),
@@ -342,13 +362,10 @@ class _PatientListState extends State<PatientList>
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
                           Text(
-                            'Hight :',
+                            'Height :',
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
-                          Text(
-                            'Ward No. :',
-                            style: TextStyle(fontWeight: FontWeight.w400),
-                          ),
+                         
 
                           // Text('Last Active :'),
                         ],
@@ -365,6 +382,15 @@ class _PatientListState extends State<PatientList>
                             '${user['UHID']}',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
+                          //ward no. change to bed no.
+                          Text(
+                            '${user['bed_no']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
+                          Text(
+                            '${user['ward_no']}',
+                            style: TextStyle(fontWeight: FontWeight.w200),
+                          ),
                           Text(
                             '${user['age']}',
                             style: TextStyle(fontWeight: FontWeight.w200),
@@ -377,10 +403,7 @@ class _PatientListState extends State<PatientList>
                             '${user['height']}',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
-                          Text(
-                            '${user['ward_no']}',
-                            style: TextStyle(fontWeight: FontWeight.w200),
-                          ),
+                          
 
                           // Text('${user['lastLogin']}'),
                         ],

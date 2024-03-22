@@ -692,7 +692,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8),
                             child: Container(
-                              width: MediaQuery.of(context).size.width * 0.42,
+                              width: MediaQuery.of(context).size.width * 0.45,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(5),

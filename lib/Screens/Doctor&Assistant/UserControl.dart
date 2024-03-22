@@ -598,7 +598,7 @@ class _UserControlState extends State<UserControl>
             "User Control",
             style: TextStyle(
               fontFamily: 'Avenir',
-              fontSize: 24,
+          
               color: Color.fromARGB(255, 255, 255, 255),
             ),
           ),

@@ -17,7 +17,7 @@ class AddPatientData extends StatefulWidget {
   final String uhid;
   final String deviceId;
   final String userId;
-  
+
   AddPatientData(this.uhid, this.deviceId, this.userId, {super.key});
 
   @override
@@ -46,6 +46,7 @@ class _AddPatientDataState extends State<AddPatientData> {
   final enterdasageController = TextEditingController();
   final enteruhidController = TextEditingController();
   final enterdeviceIdController = TextEditingController();
+  final enterbednoController = TextEditingController();
 
   String? get uploadURL =>
       '$patientFileupload/${widget.deviceId}/${enteruhidController.text}';
@@ -60,6 +61,7 @@ class _AddPatientDataState extends State<AddPatientData> {
     enterdasageController.clear();
     enteruhidController.clear();
     enterdeviceIdController.clear();
+    enterbednoController.clear();
   }
 
   @override
@@ -91,7 +93,8 @@ class _AddPatientDataState extends State<AddPatientData> {
         "height": enterheightincmController.text,
         "patientName": enterpatientnameController.text,
         "ward_no": enterwardnoController.text,
-        "weight": enterweightinkgController.text
+        "weight": enterweightinkgController.text,
+        "bed_no": enterbednoController.text
       };
 
       var response = await http.put(
@@ -104,7 +107,7 @@ class _AddPatientDataState extends State<AddPatientData> {
       );
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
-
+        print(jsonResponse);
         showDialog(
           barrierLabel: "Data submission",
           context: context,
@@ -121,10 +124,11 @@ class _AddPatientDataState extends State<AddPatientData> {
                   ),
                   child: const Text('OK'),
                   onPressed: () {
-                    Navigator.pop(context, 'refresh');
+                   
                     clearText();
                     setState(() {
                       _paths = null;
+                       Navigator.pop(context, 'refresh');
                     });
                   },
                 ),
@@ -390,14 +394,14 @@ class _AddPatientDataState extends State<AddPatientData> {
               Padding(
                 padding: const EdgeInsets.only(right: 30, left: 30),
                 child: TextFormField(
-                  controller: enterdasageController,
+                  controller: enterdrnameController,
                   style: TextStyle(color: Colors.white70),
                   decoration: InputDecoration(
                     icon: Icon(
-                      Icons.medical_information,
+                      Icons.person,
                       color: Colors.white70,
                     ),
-                    hintText: 'Dosage Provided',
+                    hintText: 'Enter Dr. Name',
                     hintStyle: TextStyle(color: Colors.white70),
                   ),
                 ),
@@ -408,14 +412,14 @@ class _AddPatientDataState extends State<AddPatientData> {
               Padding(
                 padding: const EdgeInsets.only(right: 30, left: 30),
                 child: TextFormField(
-                  controller: enterdrnameController,
+                  controller: enterbednoController,
                   style: TextStyle(color: Colors.white70),
                   decoration: InputDecoration(
                     icon: Icon(
-                      Icons.person,
+                      Icons.bed,
                       color: Colors.white70,
                     ),
-                    hintText: 'Enter Dr. Name',
+                    hintText: 'Enter Bed No.',
                     hintStyle: TextStyle(color: Colors.white70),
                   ),
                 ),
@@ -465,125 +469,126 @@ class _AddPatientDataState extends State<AddPatientData> {
                     style: TextStyle(color: Colors.black, fontSize: 15),
                   ),
                 )
-              else ElevatedButton(
-                onPressed: () async {
-                  FilePickerResult? result =
-                      await FilePicker.platform.pickFiles();
-                  setState(() {
-                    _isLoading = true;
-                  });
-
-                  if (result != null) {
+              else
+                ElevatedButton(
+                  onPressed: () async {
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles();
                     setState(() {
-                      _paths = result.files;
-                      uploadFilewithoutuhid(result.files);
+                      _isLoading = true;
                     });
-                  } else {}
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+
+                    if (result != null) {
+                      setState(() {
+                        _paths = result.files;
+                        uploadFilewithoutuhid(result.files);
+                      });
+                    } else {}
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                  ),
+                  child: Text(
+                    "Upload Documents",
+                    style: TextStyle(color: Colors.black, fontSize: 15),
+                  ),
                 ),
-                child: Text(
-                  "Upload Documents",
-                  style: TextStyle(color: Colors.black, fontSize: 15),
-                ),
-              ),
-                Builder(
-                  builder: (BuildContext context) => _isLoading
-                      ? Row(
-                          children: [
-                            Expanded(
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 5.0,
-                                  ),
-                                  child: const CircularProgressIndicator(),
+              Builder(
+                builder: (BuildContext context) => _isLoading
+                    ? Row(
+                        children: [
+                          Expanded(
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 5.0,
                                 ),
+                                child: const CircularProgressIndicator(),
                               ),
                             ),
-                          ],
-                        )
-                      : _userAborted
-                          ? Row(
-                              children: [
-                                Expanded(
-                                  child: Center(
-                                    child: SizedBox(
-                                      height: 10,
-                                      child: ListTile(
-                                        leading: Icon(
-                                          Icons.error_outline,
-                                        ),
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 10.0),
-                                        title: const Text(
-                                          'User has aborted the dialog',
-                                        ),
+                          ),
+                        ],
+                      )
+                    : _userAborted
+                        ? Row(
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: SizedBox(
+                                    height: 10,
+                                    child: ListTile(
+                                      leading: Icon(
+                                        Icons.error_outline,
+                                      ),
+                                      contentPadding:
+                                          EdgeInsets.symmetric(vertical: 10.0),
+                                      title: const Text(
+                                        'User has aborted the dialog',
                                       ),
                                     ),
                                   ),
                                 ),
-                              ],
-                            )
-                          : _paths != null
-                              ? Container(
-                                  padding: EdgeInsets.symmetric(
-                                      // vertical: 1.0,
-                                      horizontal: 30),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.1,
-                                  child: ListView.builder(
-                                    itemCount:
-                                        _paths != null && _paths!.isNotEmpty
-                                            ? _paths!.length
-                                            : 1,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      final bool isMultiPath =
-                                          _paths != null && _paths!.isNotEmpty;
-                                      final String name = 'File:' +
-                                          (isMultiPath
-                                              ? _paths!
-                                                  .map((e) => e.name)
-                                                  .toList()[index]
-                                              : _fileName ?? '...');
+                              ),
+                            ],
+                          )
+                        : _paths != null
+                            ? Container(
+                                padding: EdgeInsets.symmetric(
+                                    // vertical: 1.0,
+                                    horizontal: 30),
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                child: ListView.builder(
+                                  itemCount:
+                                      _paths != null && _paths!.isNotEmpty
+                                          ? _paths!.length
+                                          : 1,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final bool isMultiPath =
+                                        _paths != null && _paths!.isNotEmpty;
+                                    final String name = 'File:' +
+                                        (isMultiPath
+                                            ? _paths!
+                                                .map((e) => e.name)
+                                                .toList()[index]
+                                            : _fileName ?? '...');
 
-                                      Upload(File img) async {
-                                        var uri = Uri.parse(uploadURL!);
-                                        var request =
-                                            http.MultipartRequest("POST", uri);
-                                        request.files
-                                            .add(http.MultipartFile.fromBytes(
-                                          "file",
-                                          img.readAsBytesSync(),
-                                          filename: "Photo.jpg",
-                                        ));
+                                    Upload(File img) async {
+                                      var uri = Uri.parse(uploadURL!);
+                                      var request =
+                                          http.MultipartRequest("POST", uri);
+                                      request.files
+                                          .add(http.MultipartFile.fromBytes(
+                                        "file",
+                                        img.readAsBytesSync(),
+                                        filename: "Photo.jpg",
+                                      ));
 
-                                        var response = await request.send();
-                                        setState(() {
-                                          _isLoading = true;
-                                        });
-                                        print(response.statusCode);
-                                        response.stream
-                                            .transform(utf8.decoder)
-                                            .listen((value) {
-                                          print(value);
-                                        });
-                                      }
+                                      var response = await request.send();
+                                      setState(() {
+                                        _isLoading = true;
+                                      });
+                                      print(response.statusCode);
+                                      response.stream
+                                          .transform(utf8.decoder)
+                                          .listen((value) {
+                                        print(value);
+                                      });
+                                    }
 
-                                      return ListTile(
-                                        title: Text(
-                                          name,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )
-                              : SizedBox(
-                                  height: 1,
+                                    return ListTile(
+                                      title: Text(
+                                        name,
+                                      ),
+                                    );
+                                  },
                                 ),
-                ),
+                              )
+                            : SizedBox(
+                                height: 1,
+                              ),
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -593,10 +598,9 @@ class _AddPatientDataState extends State<AddPatientData> {
                   height: 45,
                   width: 300,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color.fromARGB(255, 181, 0, 100),
-                      
-                          ),
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color.fromARGB(255, 181, 0, 100),
+                  ),
                   child: TextButton(
                     onPressed: addPatientdata,
                     style: TextButton.styleFrom(),

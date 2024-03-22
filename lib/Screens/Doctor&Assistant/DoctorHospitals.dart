@@ -74,7 +74,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
           'HOSPITALS',
           style: TextStyle(
             fontFamily: 'Avenir',
-            fontSize: 24,
+
             color: Color.fromARGB(255, 255, 255, 255),
           ),
         ),
