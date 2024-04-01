@@ -138,14 +138,14 @@ class _AlarmsState extends State<Alarms> {
         children: [
           Row(
             children: [
-              SizedBox(width: 60),
+              SizedBox(width: 40),
               buildColumnContent(buildCodeContent(alarmData['ack']['code'])),
               buildColumnContent(buildMsgContent(alarmData['ack']['msg'])),
               SizedBox(width: 10),
               buildColumnContent(buildPriContent(alarmData['priority'])),
               buildColumnContent(buildDateContent(alarmData['ack']['date'])),
               Padding(
-                padding: const EdgeInsets.only(left: 10, right: 50),
+                padding: const EdgeInsets.only(left: 10, right: 40),
                 child: buildColumnContent(buildTimeContent(alarmData['ack']['time'])),
               ),
             ],

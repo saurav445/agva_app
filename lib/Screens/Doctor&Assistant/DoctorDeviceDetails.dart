@@ -57,7 +57,8 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
 
   // String get uri =>
   //     'http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=';
-  String get  uri => 'http://172.20.10.10:3000/live?code=SBXMH&projectName=Ventilator&DeviceId=';
+  String get uri =>
+      'http://172.20.10.10:3000/live?code=SBXMH&projectName=Ventilator&DeviceId=';
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -169,8 +170,8 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight
+      // DeviceOrientation.landscapeLeft,
+      // DeviceOrientation.landscapeRight
     ]);
   }
 
@@ -249,8 +250,8 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight
+      // DeviceOrientation.landscapeLeft,
+      // DeviceOrientation.landscapeRight
     ]);
   }
 

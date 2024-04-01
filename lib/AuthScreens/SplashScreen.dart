@@ -23,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
+// Get usertype from SharedPreferences
   Future<String?> getUserType() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? usertype = prefs.getString('usertype');
@@ -30,11 +31,13 @@ class _SplashScreenState extends State<SplashScreen> {
     return usertype;
   }
 
+// Get mytoken from SharedPreferences
   Future<void> checkIfLoggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String storedToken = prefs.getString('mytoken') ?? "";
     String usertype = prefs.getString('usertype') ?? "";
 
+// if token is not empty this code will execute
     if (storedToken.isNotEmpty) {
       if (usertype == 'User') {
         Navigator.of(context).pushReplacement(
@@ -49,13 +52,16 @@ class _SplashScreenState extends State<SplashScreen> {
           MaterialPageRoute(builder: (context) => DoctorHomeScreen({})),
         );
       }
-    } else {
+    }
+    // if token is empty this code will execute
+    else {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => SignIn()),
       );
     }
   }
 
+// Asset Image
   @override
   Widget build(BuildContext context) {
     return Scaffold(

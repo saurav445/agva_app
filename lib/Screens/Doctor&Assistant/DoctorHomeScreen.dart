@@ -179,26 +179,26 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                       children: [
                         Image.asset(
                           'assets/images/profile.png',
-                          height: 70,
-                          width: 70,
+                          height: 50,
+                         
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.025,
+                          height: MediaQuery.of(context).size.height * 0.020,
                         ),
                         Text(
                           savedUsername ?? '-',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.width * 0.03,
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
                           ),
                         ),
                         Text(
                           saveUseremail ?? '-',
                           style: TextStyle(
                             color: Colors.white,
-                            fontWeight: FontWeight.w200,
-                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.w400,
+                            fontSize: MediaQuery.of(context).size.width * 0.02,
                           ),
                         ),
                       ],

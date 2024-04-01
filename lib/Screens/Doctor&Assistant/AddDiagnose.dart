@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../config.dart';
@@ -16,6 +17,10 @@ class AddDiagnose extends StatefulWidget {
 }
 
 class _AddDiagnoseState extends State<AddDiagnose> {
+  // Check Box Variables
+  bool hypertension = false;
+  bool diabetes = false;
+
   late String uhid;
   // List<TextEditingController> eventControllers = [];
   // List<TextEditingController> diagnosisControllers = [];
@@ -31,6 +36,7 @@ class _AddDiagnoseState extends State<AddDiagnose> {
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
     ]);
+    //pass uhid
     uhid = widget.uhid;
     print(uhid);
   }
@@ -40,7 +46,7 @@ class _AddDiagnoseState extends State<AddDiagnose> {
   TextEditingController otherController = TextEditingController();
   TextEditingController dateInput = TextEditingController();
   TextEditingController timeInput = TextEditingController();
-
+//accessing token from sharedpreference
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('mytoken');
@@ -53,6 +59,7 @@ class _AddDiagnoseState extends State<AddDiagnose> {
     // List<String> diagnosisTexts =
     //     diagnosisControllers.map((controller) => controller.text).toList();
 
+// get data from backend
     var regBody = {
       "medicine": eventController.text,
       "procedure": diagnosisController.text,
@@ -70,7 +77,7 @@ class _AddDiagnoseState extends State<AddDiagnose> {
     var jsonResponse = jsonDecode(response.body);
     print(jsonResponse);
     if (response.statusCode == 200) {
-      Navigator.pop(context, 'refresh');
+      Navigator.pop(context, 'refresh'); // Refresh on backpress
       print(jsonResponse['data']);
       print('Patient data added successfully');
     } else {
@@ -204,21 +211,51 @@ class _AddDiagnoseState extends State<AddDiagnose> {
                 height: 30,
               ),
               TextField(
-                readOnly: true,
-                controller: dateInput,
-                style: TextStyle(color: Colors.white70),
-                decoration: InputDecoration(
-                  icon: Icon(
-                    Icons.date_range,
-                    color: Colors.white70,
+                  readOnly: true,
+                  controller: dateInput,
+                  style: TextStyle(color: Colors.white70),
+                  decoration: InputDecoration(
+                    icon: Icon(
+                      Icons.date_range,
+                      color: Colors.white70,
+                    ),
+                    hintText: 'Date',
+                    hintStyle: TextStyle(color: Colors.white70),
                   ),
-                  hintText: 'Date',
-                  hintStyle: TextStyle(color: Colors.white70),
-                ),
-                onTap: () async {
-                  // date picker logic
-                },
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                    
+                    
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1950),
+                        lastDate: DateTime(2100));
+                        builder: (BuildContext context, Widget child) {
+            return Theme(
+              data: ThemeData.dark().copyWith(
+                colorScheme: ColorScheme.dark( 
+                    primary: Colors.deepPurple,
+                    onPrimary: Colors.white,
+                    surface: Colors.pink,
+                    onSurface: Colors.yellow,
+                    ),
+                dialogBackgroundColor:Colors.blue[900],
               ),
+              child: child,
+            );
+          };
+
+                    if (pickedDate != null) {
+                      print(pickedDate);
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(pickedDate);
+                      print(formattedDate);
+                      setState(() {
+                        dateInput.text = formattedDate;
+                      });
+                    }
+                  }
+                  ),
               SizedBox(
                 height: 30,
               ),
@@ -235,9 +272,22 @@ class _AddDiagnoseState extends State<AddDiagnose> {
                   hintStyle: TextStyle(color: Colors.white70),
                 ),
                 onTap: () async {
-                  // time picker logic
+                  TimeOfDay? pickedTime = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                  );
+
+                  if (pickedTime != null) {
+                    print(pickedTime);
+                    String formattedTime = pickedTime.format(context);
+                    print(formattedTime);
+                    setState(() {
+                      timeInput.text = formattedTime;
+                    });
+                  }
                 },
               ),
+
               // SizedBox(
               //   height: 50,
               // ),
@@ -281,6 +331,47 @@ class _AddDiagnoseState extends State<AddDiagnose> {
               //   ],
               // ),
               SizedBox(
+                height: 30,
+              ),
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: 10,
+                  ),
+                 
+                  Checkbox(
+                    // checkColor: Colors.greenAccent,
+                    activeColor: Colors.white,
+                    value: hypertension,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        print(value);
+                        hypertension = value!;
+                      });
+                    },
+                  ),
+                   Text(
+                    'Hypertension',
+                    style: TextStyle(fontSize: 17.0),
+                  ),
+                 
+                  Checkbox(
+                    activeColor: Colors.white,
+                    value: diabetes,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        print(value);
+                        diabetes = value!;
+                      });
+                    },
+                  ),
+                   Text(
+                    'Diabetes',
+                    style: TextStyle(fontSize: 17.0),
+                  ),
+                ],
+              ),
+              SizedBox(
                 height: 80,
               ),
               Padding(
@@ -315,3 +406,47 @@ class _AddDiagnoseState extends State<AddDiagnose> {
     );
   }
 }
+// enum SingingCharacter { Hypertension, Diabetes }
+
+// class RadioExample extends StatefulWidget {
+//   const RadioExample({super.key});
+
+//   @override
+//   State<RadioExample> createState() => _RadioExampleState();
+// }
+
+// class _RadioExampleState extends State<RadioExample> {
+//   SingingCharacter? _character = SingingCharacter.Hypertension;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: <Widget>[
+//         ListTile(
+//           title: const Text('Hypertension'),
+//           leading: Radio<SingingCharacter>(
+//             value: SingingCharacter.Hypertension,
+//             groupValue: _character,
+//             onChanged: (SingingCharacter? value) {
+//               setState(() {
+//                 _character = value;
+//               });
+//             },
+//           ),
+//         ),
+//         ListTile(
+//           title: const Text('Diabetes'),
+//           leading: Radio<SingingCharacter>(
+//             value: SingingCharacter.Diabetes,
+//             groupValue: _character,
+//             onChanged: (SingingCharacter? value) {
+//               setState(() {
+//                 _character = value;
+//               });
+//             },
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }

@@ -11,6 +11,9 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  bool? hypertension = false;
+  bool? diabetes = false;
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +47,7 @@ class _SettingsState extends State<Settings> {
               SizedBox(
                 height: 30,
               ),
+             
               Text(
                 "AgVa",
                 style: TextStyle(
@@ -241,7 +245,7 @@ class _SettingsState extends State<Settings> {
                       );
                     },
                     child: Container(
-                               width:    MediaQuery.of(context).size.width * 0.40,
+                      width: MediaQuery.of(context).size.width * 0.40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Color.fromARGB(255, 54, 54, 54),
@@ -272,7 +276,7 @@ class _SettingsState extends State<Settings> {
                       );
                     },
                     child: Container(
-                      width:    MediaQuery.of(context).size.width * 0.40,
+                      width: MediaQuery.of(context).size.width * 0.40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Color.fromARGB(255, 54, 54, 54),
@@ -347,3 +351,46 @@ class _SettingsState extends State<Settings> {
     );
   }
 }
+// enum SingingCharacter { Hypertension, Diabetes, None}
+
+// class RadioExample extends StatefulWidget {
+
+//   @override
+//   State<RadioExample> createState() => _RadioExampleState();
+// }
+
+// class _RadioExampleState extends State<RadioExample> {
+//   SingingCharacter? _character = SingingCharacter.None;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: <Widget>[
+//         ListTile(
+//           title: const Text('Hypertension'),
+//           leading: Radio<SingingCharacter>(
+//             value: SingingCharacter.Hypertension,
+//             groupValue: _character,
+//             onChanged: (SingingCharacter? value) {
+//               setState(() {
+//                 _character = value;
+//               });
+//             },
+//           ),
+//         ),
+//         ListTile(
+//           title: const Text('Diabetes'),
+//           leading: Radio<SingingCharacter>(
+//             value: SingingCharacter.Diabetes,
+//             groupValue: _character,
+//             onChanged: (SingingCharacter? value) {
+//               setState(() {
+//                 _character = value;
+//               });
+//             },
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }

@@ -295,7 +295,7 @@ class _UserControlState extends State<UserControl>
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.15,
+
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 45, 45, 45),
@@ -415,7 +415,7 @@ class _UserControlState extends State<UserControl>
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.15,
+
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 45, 45, 45),
@@ -505,7 +505,7 @@ class _UserControlState extends State<UserControl>
             height: MediaQuery.of(context).size.height * 0.02,
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.15,
+
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 45, 45, 45),

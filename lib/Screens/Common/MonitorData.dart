@@ -44,8 +44,8 @@ class _MonitorDataState extends State<MonitorData> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
+      // DeviceOrientation.landscapeRight,
+      // DeviceOrientation.landscapeLeft,
     ]);
     super.dispose();
   }
@@ -152,10 +152,13 @@ class _MonitorDataState extends State<MonitorData> {
           onTap: () {
             setActiveButton(buttonName);
           },
-          child: Text(
-            buttonName,
-            style: TextStyle(
-                color: textColor, fontSize: 12, fontWeight: FontWeight.bold),
+          child: Padding(
+            padding: const EdgeInsets.all(1.0),
+            child: Text(
+              buttonName,
+              style: TextStyle(
+                  color: textColor, fontSize: 10, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ),
@@ -175,7 +178,7 @@ class _MonitorDataState extends State<MonitorData> {
       case 'Alarms':
         return isLoading ? buildLoading() : Alarms(deviceId);
       case 'Trends':
-        return isLoading ? buildLoading() : Trends(deviceId);
+        return isLoading ? buildLoading() : SingleChildScrollView(child: Trends(deviceId));
       case 'Calibration':
         return isLoading ? buildLoading() : Calibration(deviceId);
       default:
