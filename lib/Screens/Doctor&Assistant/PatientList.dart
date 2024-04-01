@@ -180,6 +180,24 @@ class _PatientListState extends State<PatientList>
     );
   }
 
+  String getHypertensioninfo(String hyper) {
+    switch (hyper) {
+      case 'true':
+        return "assets/images/true.png";
+      default:
+        return "assets/images/false.png";
+    }
+  }
+
+  String getDiabetesinfo(String diabe) {
+    switch (diabe) {
+      case 'true':
+        return "assets/images/true.png";
+      default:
+        return "assets/images/false.png";
+    }
+  }
+
   List<Widget> buildPatientListWidgets(List<dynamic> userData) {
     return userData.map((user) {
       String uhid = '${user['UHID']}';
@@ -201,7 +219,7 @@ class _PatientListState extends State<PatientList>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-           Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
@@ -216,11 +234,11 @@ class _PatientListState extends State<PatientList>
                             'UHID :',
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
-                           Text(
+                          Text(
                             'Bed No. :',
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
-                           Text(
+                          Text(
                             'Ward No. :',
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
@@ -236,7 +254,6 @@ class _PatientListState extends State<PatientList>
                             'Height :',
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
-                         
 
                           // Text('Last Active :'),
                         ],
@@ -274,7 +291,6 @@ class _PatientListState extends State<PatientList>
                             '${user['height']}',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
-                          
 
                           // Text('${user['lastLogin']}'),
                         ],
@@ -313,6 +329,8 @@ class _PatientListState extends State<PatientList>
       String uhid = '${user['UHID']}';
       String userId = '${user['_id']}';
       String deviceId = '${user['deviceId']}';
+      String hyper = '${user['hypertension']}';
+      String diabe = '${user['diabetes']}';
 
       return Column(
         children: [
@@ -320,7 +338,6 @@ class _PatientListState extends State<PatientList>
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 45, 45, 45),
@@ -345,11 +362,11 @@ class _PatientListState extends State<PatientList>
                             'UHID :',
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
-                           Text(
+                          Text(
                             'Bed No. :',
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
-                           Text(
+                          Text(
                             'Ward No. :',
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
@@ -365,7 +382,14 @@ class _PatientListState extends State<PatientList>
                             'Height :',
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
-                         
+                          Text(
+                            'Hypertension :',
+                            style: TextStyle(fontWeight: FontWeight.w400),
+                          ),
+                          Text(
+                            'Diabetes :',
+                            style: TextStyle(fontWeight: FontWeight.w400),
+                          ),
 
                           // Text('Last Active :'),
                         ],
@@ -403,8 +427,29 @@ class _PatientListState extends State<PatientList>
                             '${user['height']}',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
-                          
-
+                          // Text(
+                          //   '${user['hypertension']}',
+                          //   style: TextStyle(fontWeight: FontWeight.w200),
+                          // ),
+                          SizedBox(
+                            width: 16,
+                            child: Image.asset(
+                              getHypertensioninfo(hyper),
+                            ),
+                          ),
+                          // Text(
+                          //   '${user['diabetes']}',
+                          //   style: TextStyle(fontWeight: FontWeight.w200),
+                          // ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          SizedBox(
+                            width: 16,
+                            child: Image.asset(
+                              getDiabetesinfo(diabe),
+                            ),
+                          ),
                           // Text('${user['lastLogin']}'),
                         ],
                       ),

@@ -333,44 +333,7 @@ class _AddDiagnoseState extends State<AddDiagnose> {
               SizedBox(
                 height: 30,
               ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 10,
-                  ),
-                 
-                  Checkbox(
-                    // checkColor: Colors.greenAccent,
-                    activeColor: Colors.white,
-                    value: hypertension,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        print(value);
-                        hypertension = value!;
-                      });
-                    },
-                  ),
-                   Text(
-                    'Hypertension',
-                    style: TextStyle(fontSize: 17.0),
-                  ),
-                 
-                  Checkbox(
-                    activeColor: Colors.white,
-                    value: diabetes,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        print(value);
-                        diabetes = value!;
-                      });
-                    },
-                  ),
-                   Text(
-                    'Diabetes',
-                    style: TextStyle(fontSize: 17.0),
-                  ),
-                ],
-              ),
+            
               SizedBox(
                 height: 80,
               ),

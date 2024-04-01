@@ -25,6 +25,8 @@ class AddPatientData extends StatefulWidget {
 }
 
 class _AddPatientDataState extends State<AddPatientData> {
+  bool hypertension = false;
+  bool diabetes = false;
   late String uhid;
   late String deviceId;
   late String userId;
@@ -94,7 +96,9 @@ class _AddPatientDataState extends State<AddPatientData> {
         "patientName": enterpatientnameController.text,
         "ward_no": enterwardnoController.text,
         "weight": enterweightinkgController.text,
-        "bed_no": enterbednoController.text
+        "bed_no": enterbednoController.text,
+        "hypertension": hypertension,
+        "diabetes": diabetes
       };
 
       var response = await http.put(
@@ -108,34 +112,35 @@ class _AddPatientDataState extends State<AddPatientData> {
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
         print(jsonResponse);
-        showDialog(
-          barrierLabel: "Data submission",
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(
-                'Data submitted successfully',
-                style: TextStyle(fontSize: 20),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: Theme.of(context).textTheme.labelLarge,
-                  ),
-                  child: const Text('OK'),
-                  onPressed: () {
-                   
-                    clearText();
-                    setState(() {
-                      _paths = null;
-                       Navigator.pop(context, 'refresh');
-                    });
-                  },
-                ),
-              ],
-            );
-          },
-        );
+             Navigator.pop(context, 'refresh');
+        // showDialog(
+        //   barrierLabel: "Data submission",
+        //   context: context,
+        //   builder: (BuildContext context) {
+        //     return AlertDialog(
+        //       title: Text(
+        //         'Data submitted successfully',
+        //         style: TextStyle(fontSize: 20),
+        //       ),
+        //       actions: <Widget>[
+        //         TextButton(
+        //           style: TextButton.styleFrom(
+        //             textStyle: Theme.of(context).textTheme.labelLarge,
+        //           ),
+        //           child: const Text('OK'),
+        //           onPressed: () {
+        //             clearText();
+        //             setState(() {
+        //               _paths = null;
+                     
+        //             });
+                
+        //           },
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // );
 
         print('Patient data added successfully');
       } else {
@@ -239,6 +244,7 @@ class _AddPatientDataState extends State<AddPatientData> {
       _userAborted = false;
     });
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -332,7 +338,46 @@ class _AddPatientDataState extends State<AddPatientData> {
                 ),
               ),
               SizedBox(
-                height: 40,
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40),
+                child: Row(
+                  children: <Widget>[
+                    Checkbox(
+                      // checkColor: Colors.greenAccent,
+                      activeColor: Colors.white,
+                      value: hypertension,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          print(value);
+                          hypertension = value!;
+                        });
+                      },
+                    ),
+                    Text(
+                      'Hypertension',
+                      style: TextStyle(fontSize: 17.0),
+                    ),
+                    Checkbox(
+                      activeColor: Colors.white,
+                      value: diabetes,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          print(value);
+                          diabetes = value!;
+                        });
+                      },
+                    ),
+                    Text(
+                      'Diabetes',
+                      style: TextStyle(fontSize: 17.0),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 30, left: 30),
@@ -618,4 +663,5 @@ class _AddPatientDataState extends State<AddPatientData> {
           )),
         ]));
   }
+ 
 }
