@@ -17,7 +17,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   void initState() {
     super.initState();
-        getUserType();
+    getUserType();
     notificationCounts = MessagingService.notifications.length;
     print('notificationCounts inscreen $notificationCounts');
 
@@ -82,13 +82,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
           return Dismissible(
             direction: DismissDirection.endToStart,
-            key: Key(notification.toString()),
+            key: UniqueKey(),
             onDismissed: (direction) {
               setState(() {
                 MessagingService.notifications.removeAt(index);
               });
             },
-            background: Container(color: Color.fromARGB(255, 202, 13, 0),),
+            background: Container(
+              color: Color.fromARGB(255, 202, 13, 0),
+            ),
             child: ListTile(
               title: Container(
                 width: double.infinity,
@@ -108,7 +110,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Color.fromARGB(255, 218, 218, 218),
-                              fontSize: MediaQuery.of(context).size.width * 0.035,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.035,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -133,7 +136,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                 ),
               ),
-            
+
               // title: Text(title),
               // subtitle: Text(body),
               onTap: () {
