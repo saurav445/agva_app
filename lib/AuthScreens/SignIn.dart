@@ -1,4 +1,3 @@
-
 // ignore_for_file: unused_field, use_build_context_synchronously
 
 import 'dart:convert';
@@ -117,6 +116,10 @@ class _SignInState extends State<SignIn> {
             );
           }
         } else {
+          print(jsonResponse);
+          var data = jsonResponse['data'];
+          var err = data['err'];
+          var msg = err['msg'];
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -129,7 +132,7 @@ class _SignInState extends State<SignIn> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Please check your email/password",
+                      msg.toString(),
                       style: TextStyle(
                         color: const Color.fromARGB(255, 0, 0, 0),
                         fontWeight: FontWeight.bold,
@@ -288,7 +291,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   SizedBox(height: 60),
                   Form(
-                           key: _formKey,
+                    key: _formKey,
                     child: Column(
                       children: [
                         Padding(

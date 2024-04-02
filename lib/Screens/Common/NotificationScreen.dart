@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, sort_child_properties_last
 
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/NurseHomeScreen.dart';
@@ -71,7 +71,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
         centerTitle: true,
         title: Text("Notifications"),
       ),
-      body: ListView.builder(
+      body: 
+       ListView.builder(
         itemCount: MessagingService.notifications.length,
         itemBuilder: (context, index) {
           // Access notification data
@@ -90,6 +91,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
             },
             background: Container(
               color: Color.fromARGB(255, 202, 13, 0),
+              child: Icon(
+                Icons.delete,
+                color: Colors.white,
+                size: 36,
+              ),
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.only(right: 20),
             ),
             child: ListTile(
               title: Container(

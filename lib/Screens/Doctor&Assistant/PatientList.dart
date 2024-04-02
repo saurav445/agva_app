@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable
 import 'package:agva_app/Screens/Doctor&Assistant/AddPatientData.dart';
-import 'package:agva_app/Screens/Doctor&Assistant/DosageHistory.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/EventsHistory.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -203,6 +203,8 @@ class _PatientListState extends State<PatientList>
       String uhid = '${user['UHID']}';
       String userId = '${user['_id']}';
       String deviceId = '${user['deviceId']}';
+      String hyper = '${user['hypertension']}';
+      String diabe = '${user['diabetes']}';
 
       return Column(
         children: [
@@ -254,6 +256,14 @@ class _PatientListState extends State<PatientList>
                             'Height :',
                             style: TextStyle(fontWeight: FontWeight.w400),
                           ),
+                          Text(
+                            'Hypertension :',
+                            style: TextStyle(fontWeight: FontWeight.w400),
+                          ),
+                          Text(
+                            'Diabetes :',
+                            style: TextStyle(fontWeight: FontWeight.w400),
+                          ),
 
                           // Text('Last Active :'),
                         ],
@@ -291,6 +301,25 @@ class _PatientListState extends State<PatientList>
                             '${user['height']}',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
+                            SizedBox(
+                            width: 16,
+                            child: Image.asset(
+                              getHypertensioninfo(hyper),
+                            ),
+                          ),
+                          // Text(
+                          //   '${user['diabetes']}',
+                          //   style: TextStyle(fontWeight: FontWeight.w200),
+                          // ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          SizedBox(
+                            width: 16,
+                            child: Image.asset(
+                              getDiabetesinfo(diabe),
+                            ),
+                          ),
 
                           // Text('${user['lastLogin']}'),
                         ],
@@ -311,7 +340,7 @@ class _PatientListState extends State<PatientList>
                       backgroundColor: const Color.fromARGB(255, 181, 0, 100),
                     ),
                     child: Text(
-                      "Events",
+                      "View Events",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -474,7 +503,7 @@ class _PatientListState extends State<PatientList>
                                 const Color.fromARGB(255, 181, 0, 100),
                           ),
                           child: Text(
-                            "    Events   ",
+                        "View Events",
                             style: TextStyle(color: Colors.white),
                           ),
                         ),

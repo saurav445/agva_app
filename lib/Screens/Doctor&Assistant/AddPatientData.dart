@@ -289,6 +289,7 @@ class _AddPatientDataState extends State<AddPatientData> {
                   padding: const EdgeInsets.only(right: 30, left: 30),
                   child: TextFormField(
                     readOnly: true,
+            
                     style: TextStyle(color: Colors.white70),
                     decoration: InputDecoration(
                       icon: Icon(
@@ -504,7 +505,11 @@ class _AddPatientDataState extends State<AddPatientData> {
                         _paths = result.files;
                         uploadFilewithuhid(result.files);
                       });
-                    } else {}
+                    } else { 
+                        setState(() {
+                      _isLoading = false;
+                    });
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -528,7 +533,11 @@ class _AddPatientDataState extends State<AddPatientData> {
                         _paths = result.files;
                         uploadFilewithoutuhid(result.files);
                       });
-                    } else {}
+                    } else { 
+                        setState(() {
+                      _isLoading = false;
+                    });
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -554,29 +563,34 @@ class _AddPatientDataState extends State<AddPatientData> {
                           ),
                         ],
                       )
-                    : _userAborted
-                        ? Row(
-                            children: [
-                              Expanded(
-                                child: Center(
-                                  child: SizedBox(
-                                    height: 10,
-                                    child: ListTile(
-                                      leading: Icon(
-                                        Icons.error_outline,
-                                      ),
-                                      contentPadding:
-                                          EdgeInsets.symmetric(vertical: 10.0),
-                                      title: const Text(
-                                        'User has aborted the dialog',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : _paths != null
+                    : _paths == null ? Text(
+                                        '',
+                                      ) : 
+                    
+                    // _userAborted
+                    //     ? Row(
+                    //         children: [
+                    //           Expanded(
+                    //             child: Center(
+                    //               child: SizedBox(
+                    //                 height: 10,
+                    //                 child: ListTile(
+                    //                   leading: Icon(
+                    //                     Icons.error_outline,
+                    //                   ),
+                    //                   contentPadding:
+                    //                       EdgeInsets.symmetric(vertical: 10.0),
+                    //                   title: const Text(
+                    //                     'User has aborted the dialog',
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       )
+                    //     :
+                         _paths != null
                             ? Container(
                                 padding: EdgeInsets.symmetric(
                                     // vertical: 1.0,

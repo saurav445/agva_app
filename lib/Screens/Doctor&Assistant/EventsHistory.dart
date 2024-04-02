@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:agva_app/Screens/Doctor&Assistant/AddDiagnose.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/AddEvents.dart';
 import 'package:agva_app/config.dart';
 
 class DosageHistory extends StatefulWidget {
@@ -70,14 +69,18 @@ class _DosageHistoryState extends State<DosageHistory> {
       print('dosagelist: $data');
       String event = data['medicine'];
       String diagnosis = data['procedure'];
-      // String others = data['others'];
       String date = data['date'];
+      String time = data['time'];
 
-      DateTime dateTime = DateTime.parse(date);
+      // Parse the date string using the provided format
+      // DateFormat inputFormat = DateFormat('E MMM dd yyyy HH:mm:ss');
+      // DateTime dateTime = inputFormat.parse(date);
 
-      String formattedTime = DateFormat('HH:mm:00').format(dateTime);
+      // // Format date and time in the required format
+      // String formattedDate = DateFormat('dd-MM-yyyy').format(dateTime);
+      // String formattedTime = DateFormat('HH:mm:ss').format(dateTime);
 
-      print(formattedTime); // Output: 05:14:00
+      // print(formattedTime);
 
       return ListTile(
         title: Container(
@@ -111,14 +114,6 @@ class _DosageHistoryState extends State<DosageHistory> {
                       'Time',
                       style: TextStyle(fontWeight: FontWeight.w400),
                     ),
-
-                    // Text(
-                    //   'Others',
-                    //   style: TextStyle(fontWeight: FontWeight.w400),
-                    // ),
-                    // SizedBox(
-                    //   height: 5,
-                    // ),
                   ],
                 ),
                 Column(
@@ -129,23 +124,16 @@ class _DosageHistoryState extends State<DosageHistory> {
                       event,
                       style: TextStyle(fontWeight: FontWeight.w200),
                     ),
-                     Text(
+                    Text(
                       diagnosis,
                       style: TextStyle(fontWeight: FontWeight.w200),
                     ),
                     Text(
-                      formattedTime,
+                      date, // Display formatted date
                       style: TextStyle(fontWeight: FontWeight.w200),
                     ),
-                    // TextButton(
-                    //   onPressed: () => _dialogBuilder(context, others),
-                    //   child: Text(
-                    //     'Show More',
-                    //     style: TextStyle(fontWeight: FontWeight.w400),
-                    //   ),
-                    // ),
                     Text(
-                      date.substring(0, 10),
+                      time, // Display formatted time
                       style: TextStyle(fontWeight: FontWeight.w200),
                     ),
                   ],

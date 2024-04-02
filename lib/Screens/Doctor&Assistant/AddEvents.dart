@@ -64,6 +64,8 @@ class _AddDiagnoseState extends State<AddDiagnose> {
       "medicine": eventController.text,
       "procedure": diagnosisController.text,
       "others": otherController.text,
+      "time": timeInput.text,
+      "date": dateInput.text,
     };
 
     var response = await http.post(
@@ -224,27 +226,10 @@ class _AddDiagnoseState extends State<AddDiagnose> {
                   ),
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
-                    
-                    
                         context: context,
                         initialDate: DateTime.now(),
                         firstDate: DateTime(1950),
                         lastDate: DateTime(2100));
-                        builder: (BuildContext context, Widget child) {
-            return Theme(
-              data: ThemeData.dark().copyWith(
-                colorScheme: ColorScheme.dark( 
-                    primary: Colors.deepPurple,
-                    onPrimary: Colors.white,
-                    surface: Colors.pink,
-                    onSurface: Colors.yellow,
-                    ),
-                dialogBackgroundColor:Colors.blue[900],
-              ),
-              child: child,
-            );
-          };
-
                     if (pickedDate != null) {
                       print(pickedDate);
                       String formattedDate =
@@ -254,8 +239,7 @@ class _AddDiagnoseState extends State<AddDiagnose> {
                         dateInput.text = formattedDate;
                       });
                     }
-                  }
-                  ),
+                  }),
               SizedBox(
                 height: 30,
               ),
@@ -278,7 +262,7 @@ class _AddDiagnoseState extends State<AddDiagnose> {
                   );
 
                   if (pickedTime != null) {
-                    print(pickedTime);
+                    // print(pickedTime);
                     String formattedTime = pickedTime.format(context);
                     print(formattedTime);
                     setState(() {
@@ -333,7 +317,7 @@ class _AddDiagnoseState extends State<AddDiagnose> {
               SizedBox(
                 height: 30,
               ),
-            
+
               SizedBox(
                 height: 80,
               ),
