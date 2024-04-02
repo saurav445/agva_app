@@ -256,17 +256,23 @@ class _SignInState extends State<SignIn> {
   String? validateEmail(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Please enter email';
+    }else if (RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)){
+      return null;
     }
-    return null;
+    return 'Invalid Email';
   }
 
   String? validatePassword(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Please enter password';
+    // }else if (RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$').hasMatch(value)){
+    //   return null;
     }
     return null;
   }
 
+
+//"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$"
   @override
   Widget build(BuildContext context) {
     return Scaffold(

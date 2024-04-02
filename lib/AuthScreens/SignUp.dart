@@ -542,6 +542,24 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
+   String? validateEmail(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Please enter email';
+    }else if (RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)){
+      return null;
+    }
+    return 'Invalid Email';
+  }
+
+  String? validatePassword(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Please enter password';
+    // }else if (RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$').hasMatch(value)){
+    //   return null;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -781,6 +799,7 @@ class _SignUpState extends State<SignUp> {
                         padding: const EdgeInsets.only(right: 30, left: 30),
                         child: TextFormField(
                           controller: emailController,
+                          validator: validateEmail,
                           style: TextStyle(color: Colors.white70),
                           decoration: InputDecoration(
                             icon: Icon(
@@ -969,6 +988,7 @@ class _SignUpState extends State<SignUp> {
                         child: TextFormField(
                           controller: passwordController,
                           obscureText: passwordVisible,
+                          validator: validatePassword,
                           style: TextStyle(color: Colors.white70),
                           decoration: InputDecoration(
                             icon: Icon(
