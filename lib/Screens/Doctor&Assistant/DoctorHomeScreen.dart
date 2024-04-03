@@ -1,18 +1,23 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:agva_app/AuthScreens/SignIn.dart';
 import 'package:agva_app/Screens/Common/NotificationScreen.dart';
 import 'package:agva_app/Screens/Common/Profile.dart';
-import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusAlarms.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/UserControl.dart';
 import 'package:agva_app/Service/MessagingService.dart';
+import 'package:agva_app/config.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Common/Settings.dart';
+import 'package:http/http.dart' as http;
 
 class DoctorHomeScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -28,7 +33,9 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   String? savedUsername;
   String? savedsecurityCode;
   String? saveUseremail;
+  String? saveduserID;
   late SharedPreferences prefs;
+  String? token;
   int notificationCounts = MessagingService.notifications.length;
 
   void updateBadgeCount() {
@@ -47,6 +54,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
 
     print('notificationCounts in home $notificationCounts');
     getsavedToken();
+    getFCMtoken();
     getUsername().then((name) {
       setState(() {
         savedUsername = name;
@@ -57,11 +65,18 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
         savedsecurityCode = securityCode;
       });
     });
+    getUserId().then((userID) {
+      setState(() {
+        saveduserID = userID;
+      });
+    });
     getUseremail().then((email) {
       setState(() {
         saveUseremail = email;
       });
     });
+    sendFCM();
+
     SystemChrome.setPreferredOrientations([
       // DeviceOrientation.landscapeRight,
       // DeviceOrientation.landscapeLeft,
@@ -79,6 +94,44 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
       DeviceOrientation.portraitDown,
     ]);
     super.dispose();
+  }
+
+  Future<String?> getFCMtoken() async {
+    token = (await FirebaseMessaging.instance.getToken())!;
+    // print(' FCM Token: $token');
+    return token;
+  }
+
+  void sendFCM() async {
+    String? jwttoken = await getsavedToken();
+    String? fcmToken = await getFCMtoken();
+    print(saveduserID);
+    if (jwttoken != null) {
+      print(' fcm token $fcmToken');
+      var response = await http.post(
+        Uri.parse(sendFCMandUserId),
+        headers: {
+          // "Authorization": 'Bearer $jwttoken̉̉',
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({"fcmToken": fcmToken, "userId": saveduserID}),
+      );
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+      } else {
+        print('Failed ${response.statusCode}');
+      }
+    } else {
+      print("Token is null");
+    }
+  }
+
+  Future<String?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userID = prefs.getString('userID');
+    print('Retrieved savedToken: $userID');
+    return userID;
   }
 
   Future<String?> getsavedToken() async {
@@ -180,7 +233,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                         Image.asset(
                           'assets/images/profile.png',
                           height: 50,
-                         
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.020,

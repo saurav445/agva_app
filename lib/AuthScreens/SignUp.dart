@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_print, use_build_context_synchronously, unused_field
+// ignore_for_file: prefer_const_constructors, avoid_print, use_build_context_synchronously, unused_field, prefer_const_literals_to_create_immutables
 
 import 'dart:async';
 import 'package:agva_app/AuthScreens/RegDone.dart';
@@ -1266,3 +1266,4 @@ class _SignUpState extends State<SignUp> {
         ]));
   }
 }
+

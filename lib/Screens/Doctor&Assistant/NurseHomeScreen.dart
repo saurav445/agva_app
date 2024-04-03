@@ -6,7 +6,7 @@ import 'package:agva_app/Screens/Doctor&Assistant/AddPatientData.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/AllPatientList.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/AssistantList.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceList.dart';
-import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusAlarms.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
 import 'package:agva_app/Screens/Common/NotificationScreen.dart';

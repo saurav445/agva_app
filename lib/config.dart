@@ -40,7 +40,7 @@ final getAssignedList = '$url/api/logger/get-assistant-list';
 final revokeAssign = '$url/api/logger/logs/delete-access-from-assistant';
 final getAssignedAssistandList ='$url/api/logger/logs/get-device-access-ast-list';
 final gethospitallist = '$url/hospital/get-access-hospital-list';
-
+final sendFCMandUserId = '$url/api/common/send-fcm-token';
 
 
 // &&  device['deviceInfo']?[0]['Hospital_Name'] == 'KGMU Lucknow' 

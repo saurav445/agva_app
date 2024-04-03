@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
   late String token;
   getToken() async {
     token = (await FirebaseMessaging.instance.getToken())!;
-    print(' FCM Token: $token');
+    // print(' FCM Token: $token');
   }
 
   @override

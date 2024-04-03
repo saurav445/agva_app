@@ -5,6 +5,7 @@ import 'package:agva_app/AuthScreens/SignUp.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/NurseHomeScreen.dart';
 import 'package:agva_app/Screens/User/UserHomeScreen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class _SignInState extends State<SignIn> {
   @override
   void initState() {
     super.initState();
-
+getToken();
     initSharedPref();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -41,6 +42,12 @@ class _SignInState extends State<SignIn> {
 
   String mytoken = "token";
 
+  late String token;
+  getToken() async {
+    token = (await FirebaseMessaging.instance.getToken())!;
+    print(' signin FCM Token: $token');
+  }
+
   void signIn() async {
     if (_formKey.currentState!.validate()) {
       try {
@@ -48,7 +55,7 @@ class _SignInState extends State<SignIn> {
           Uri.parse(loginUser),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode({
-            "email": emailController.text,
+            "email": emailController.text.trim(),
             "passwordHash": passwordController.text,
           }),
         );
@@ -256,7 +263,7 @@ class _SignInState extends State<SignIn> {
   String? validateEmail(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Please enter email';
-    }else if (RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)){
+    } else if (RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
       return null;
     }
     return 'Invalid Email';
@@ -265,14 +272,12 @@ class _SignInState extends State<SignIn> {
   String? validatePassword(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Please enter password';
-    // }else if (RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$').hasMatch(value)){
-    //   return null;
+      // }else if (RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$').hasMatch(value)){
+      //   return null;
     }
     return null;
   }
 
-
-//"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$"
   @override
   Widget build(BuildContext context) {
     return Scaffold(

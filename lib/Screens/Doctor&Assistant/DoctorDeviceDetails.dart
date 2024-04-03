@@ -36,6 +36,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
   double progress = 0.0;
   int loadingCount = 0;
   bool showLoader = false;
+    String? saveduserID;
   late String deviceId;
   List<Map<String, dynamic>> focusedDevices = [];
 
@@ -107,6 +108,11 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
       });
     });
     getFocusStatus();
+ getUserId().then((userID) {
+      setState(() {
+        saveduserID = userID;
+      });
+    });
     print("I am here");
     widget.socketService.initializeSocket(url, widget.deviceId);
     widget.socketService.tilesDataCallBack((
@@ -175,27 +181,36 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
     ]);
   }
 
+    Future<String?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userID = prefs.getString('userID');
+    print('Retrieved savedToken: $userID');
+    return userID;
+  }
+
   void toggleFocus() async {
     setState(() {
       isLoading = true;
     });
-    String? token = await getToken();
+    String? jwttoken = await getToken();
     print(widget.deviceId);
 
-    if (token != null) {
+    if (jwttoken != null) {
       var response = await http.put(
         Uri.parse('$addtofocus/${widget.deviceId}'),
         headers: {
-          "Authorization": 'Bearer $token',
+          "Authorization": 'Bearer $jwttoken',
           "Content-Type": "application/json",
         },
         body: jsonEncode({
           "addTofocus": !currentStatus,
+             "userId": saveduserID
         }),
       );
       print('before set $setFocus');
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
         var data = jsonResponse['data'];
         var focusStatus = data['addTofocus'];
         setState(() {
