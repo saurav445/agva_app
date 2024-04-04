@@ -24,7 +24,6 @@ final _messageController = StreamController<RemoteMessage>.broadcast();
 
 Stream<RemoteMessage> get messageStream => _messageController.stream;
 
-
   Future<void> init(BuildContext context) async {
     NotificationSettings settings = await _fcm.requestPermission(
       alert: true,
@@ -62,7 +61,7 @@ Stream<RemoteMessage> get messageStream => _messageController.stream;
                 android: AndroidNotificationDetails(
                   channel.id,
                   channel.name,
-                  channelShowBadge: false,
+                  channelShowBadge: true,
                   icon: "@drawable/ic_launcher",
                 ),
               ));

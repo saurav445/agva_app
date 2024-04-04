@@ -4,6 +4,7 @@ import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/NurseHomeScreen.dart';
 import 'package:agva_app/Screens/User/UserHomeScreen.dart';
 import 'package:agva_app/Service/MessagingService.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,12 +15,14 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  
   @override
   void initState() {
     super.initState();
     getUserType();
-    notificationCounts = MessagingService.notifications.length;
-    print('notificationCounts inscreen $notificationCounts');
+    
+    // notificationCounts = MessagingService.notifications.length;
+    // print('notificationCounts inscreen $notificationCounts');
 
     SystemChrome.setPreferredOrientations([
       // DeviceOrientation.landscapeRight,
@@ -55,7 +58,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     }
   }
 
-  int notificationCounts = MessagingService.notifications.length;
+  // int notificationCounts = MessagingService.notifications.length;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +67,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context, 'refresh');
           },
         ),
         backgroundColor: Colors.black,
@@ -72,88 +75,97 @@ class _NotificationScreenState extends State<NotificationScreen> {
         title: Text("Notifications"),
       ),
       body: 
-       ListView.builder(
-        itemCount: MessagingService.notifications.length,
-        itemBuilder: (context, index) {
-          // Access notification data
-          final notification = MessagingService.notifications[index];
-          final notificationData = notification.data;
-          final title = notification.notification!.title ?? "";
-          final body = notification.notification!.body ?? "";
-
-          return Dismissible(
-            direction: DismissDirection.endToStart,
-            key: UniqueKey(),
-            onDismissed: (direction) {
-              setState(() {
-                MessagingService.notifications.removeAt(index);
-              });
-            },
-            background: Container(
-              color: Color.fromARGB(255, 202, 13, 0),
-              child: Icon(
-                Icons.delete,
-                color: Colors.white,
-                size: 36,
-              ),
-              alignment: Alignment.centerRight,
-              padding: EdgeInsets.only(right: 20),
-            ),
-            child: ListTile(
-              title: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 55, 55, 55),
-                    borderRadius: BorderRadius.circular(5)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+       StreamBuilder<Object>(
+         stream: FirebaseMessaging.onMessage,
+         builder: (context, snapshot) {
+           return ListView.builder(
+            itemCount: MessagingService.notifications.length,
+            itemBuilder: (context, index) {
+              // Access notification data
+              final notification = MessagingService.notifications[index];
+              final notificationData = notification.data;
+              final title = notification.notification!.title ?? "";
+              final body = notification.notification!.body ?? "";
+           
+              return Dismissible(
+                direction: DismissDirection.endToStart,
+                key: UniqueKey(),
+                onDismissed: (direction) {
+                  setState(() {
+                    MessagingService.notifications.removeAt(index);
+                  });
+                },
+                background: Container(
+                  color: Color.fromARGB(255, 202, 13, 0),
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                    size: 36,
+                  ),
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(right: 20),
+                ),
+                child: ListTile(
+                  title: Container(
+                    width: double.infinity,
+                    
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 55, 55, 55),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            title,
-                            style: TextStyle(
-                              fontFamily: 'Avenir',
-                              color: Color.fromARGB(255, 218, 218, 218),
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.035,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                title,
+                                style: TextStyle(
+                                  fontFamily: 'Avenir',
+                                  color: Color.fromARGB(255, 218, 218, 218),
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.035,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.width * 0.02,
+                              ),
+                              SizedBox(
+                                width: 330,
+                                child: Text(
+                                  body,
+                                  style: TextStyle(
+                                      fontFamily: 'Avenir',
+                                      color: Color.fromARGB(255, 218, 218, 218),
+                                      fontSize:
+                                          MediaQuery.of(context).size.width * 0.03,
+                                      fontWeight: FontWeight.w200),
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.02,
-                          ),
-                          Text(
-                            body,
-                            style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.03,
-                                fontWeight: FontWeight.w200),
-                          ),
+                          // SizedBox(
+                          //     height: 20,
+                          //     child: Image.asset('assets/images/Logo.png'))
                         ],
                       ),
-                      SizedBox(
-                          height: 20,
-                          child: Image.asset('assets/images/Logo.png'))
-                    ],
+                    ),
                   ),
+           
+                  // title: Text(title),
+                  // subtitle: Text(body),
+                  onTap: () {
+                    _handleNotificationTap(context, notificationData);
+                  },
                 ),
-              ),
-
-              // title: Text(title),
-              // subtitle: Text(body),
-              onTap: () {
-                _handleNotificationTap(context, notificationData);
-              },
-            ),
-          );
-        },
-      ),
+              );
+            },
+                 );
+         }
+       ),
     );
   }
 

@@ -49,10 +49,9 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     super.initState();
     _messagingService.init(context);
     _messagingService.messageStream.listen((message) {
+      print('show msg in homescreen: $message');
       updateBadgeCount();
     });
-
-    print('notificationCounts in home $notificationCounts');
     getsavedToken();
     getFCMtoken();
     getUsername().then((name) {
@@ -76,7 +75,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
       });
     });
     sendFCM();
-
     SystemChrome.setPreferredOrientations([
       // DeviceOrientation.landscapeRight,
       // DeviceOrientation.landscapeLeft,
@@ -174,149 +172,158 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          actions: <Widget>[
-            if (MessagingService.notifications.isNotEmpty)
-              badges.Badge(
-                position: badges.BadgePosition.topEnd(top: 11, end: 11),
-                // badgeContent: Text(notificationCounts.toString()),
-                child: IconButton(
-                  icon: Icon(Icons.notifications),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NotificationScreen()),
-                    );
-                  },
-                ),
-              )
-            else
-              IconButton(
-                icon: Icon(Icons.notifications),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NotificationScreen()),
-                  );
-                },
-              ),
-          ],
-        ),
-        body: SingleChildScrollView(child: _buildPortraitLayout(context)),
-        drawer: Drawer(
-          backgroundColor: Colors.black,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            physics: BouncingScrollPhysics(),
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2,
-                child: DrawerHeader(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                        Color.fromARGB(255, 218, 0, 138),
-                        Color.fromARGB(255, 117, 0, 74)
-                      ])),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/profile.png',
-                          height: 50,
+      child: StreamBuilder<Object>(
+        stream: FirebaseMessaging.onMessage,
+        builder: (context, snapshot) {
+          return Scaffold(
+            backgroundColor: Colors.black,
+            appBar: AppBar(
+              backgroundColor: Colors.black,
+              actions: <Widget>[
+                if (MessagingService.notifications.isNotEmpty)
+                  badges.Badge(
+                    position: badges.BadgePosition.topEnd(top: 11, end: 11),
+                    // badgeContent: Text(notificationCounts.toString()),
+                    child: IconButton(
+                      icon: Icon(Icons.notifications),
+                      onPressed: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NotificationScreen()),
+              );
+
+              if (result != null && result == 'refresh') {
+                updateBadgeCount();
+              }
+            },
+                    ),
+                  )
+                else
+                  IconButton(
+                    icon: Icon(Icons.notifications),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NotificationScreen()),
+                      );
+                    },
+                  ),
+              ],
+            ),
+            body: SingleChildScrollView(child: _buildPortraitLayout(context)),
+            drawer: Drawer(
+              backgroundColor: Colors.black,
+              child: ListView(
+                padding: EdgeInsets.zero,
+                physics: BouncingScrollPhysics(),
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    child: DrawerHeader(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                            Color.fromARGB(255, 218, 0, 138),
+                            Color.fromARGB(255, 117, 0, 74)
+                          ])),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/profile.png',
+                              height: 50,
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.020,
+                            ),
+                            Text(
+                              savedUsername ?? '-',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: MediaQuery.of(context).size.width * 0.025,
+                              ),
+                            ),
+                            Text(
+                              saveUseremail ?? '-',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                                fontSize: MediaQuery.of(context).size.width * 0.02,
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.020,
-                        ),
-                        Text(
-                          savedUsername ?? '-',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.width * 0.025,
-                          ),
-                        ),
-                        Text(
-                          saveUseremail ?? '-',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize: MediaQuery.of(context).size.width * 0.02,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-              ListTile(
-                leading: const Icon(Icons.home, color: Colors.white),
-                title: Text(
-                  'HOME',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.person, color: Colors.white),
-                title: Text(
-                  'PROFILE',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Profile()));
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings, color: Colors.white),
-                title: Text(
-                  'SETTINGS',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Settings(),
+                  ListTile(
+                    leading: const Icon(Icons.home, color: Colors.white),
+                    title: Text(
+                      'HOME',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                      ),
                     ),
-                  );
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.logout, color: Colors.white),
-                title: Text(
-                  'Logout',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                ),
-                onTap: logout,
+                  ListTile(
+                    leading: const Icon(Icons.person, color: Colors.white),
+                    title: Text(
+                      'PROFILE',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Profile()));
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.settings, color: Colors.white),
+                    title: Text(
+                      'SETTINGS',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Settings(),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.logout, color: Colors.white),
+                    title: Text(
+                      'Logout',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                      ),
+                    ),
+                    onTap: logout,
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        }
       ),
     );
   }
