@@ -105,7 +105,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   void sendFCM() async {
     String? jwttoken = await getsavedToken();
     String? fcmToken = await getFCMtoken();
-    print(saveduserID);
+    print(savedsecurityCode);
     if (jwttoken != null) {
       print(' fcm token $fcmToken');
       var response = await http.post(
@@ -114,7 +114,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
           // "Authorization": 'Bearer $jwttoken̉̉',
           "Content-Type": "application/json",
         },
-        body: jsonEncode({"fcmToken": fcmToken, "userId": saveduserID}),
+        body: jsonEncode({"fcmToken": fcmToken, "userId": savedsecurityCode}),
       );
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);

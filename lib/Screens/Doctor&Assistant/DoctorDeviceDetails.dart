@@ -36,7 +36,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
   double progress = 0.0;
   int loadingCount = 0;
   bool showLoader = false;
-    String? saveduserID;
+    String? savedsecurityCode;
   late String deviceId;
   List<Map<String, dynamic>> focusedDevices = [];
 
@@ -108,9 +108,9 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
       });
     });
     getFocusStatus();
- getUserId().then((userID) {
+ getUserId().then((securityCode) {
       setState(() {
-        saveduserID = userID;
+        savedsecurityCode = securityCode;
       });
     });
     print("I am here");
@@ -183,9 +183,9 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
 
     Future<String?> getUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? userID = prefs.getString('userID');
-    print('Retrieved savedToken: $userID');
-    return userID;
+    String? securityCode = prefs.getString('securityCode');
+    print('Retrieved savedToken: $securityCode');
+    return securityCode;
   }
 
   void toggleFocus() async {
@@ -204,7 +204,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
         },
         body: jsonEncode({
           "addTofocus": !currentStatus,
-             "userId": saveduserID
+             "userId": savedsecurityCode
         }),
       );
       print('before set $setFocus');

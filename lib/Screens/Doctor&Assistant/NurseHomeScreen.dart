@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_const, unused_import, library_private_types_in_public_api, prefer_typing_uninitialized_variables, unused_local_variable, use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:agva_app/AuthScreens/SignIn.dart';
 import 'package:agva_app/Screens/Common/Profile.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/AddPatientData.dart';
@@ -11,11 +13,13 @@ import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
 import 'package:agva_app/Screens/Common/NotificationScreen.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/LiveWebView.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:agva_app/Service/MessagingService.dart';
+import 'package:agva_app/config.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart' as http;
 import '../Common/Settings.dart';
 
 class NurseHomeScreen extends StatefulWidget {
@@ -28,24 +32,57 @@ class NurseHomeScreen extends StatefulWidget {
 }
 
 class _NurseHomeScreenState extends State<NurseHomeScreen> {
+    final _messagingService = MessagingService();
    String? saveUseremail;
   String? savedUsername;
+  String? saveduserID;
+  String? savedsecurityCode;
   late SharedPreferences prefs;
+  String? token;
+  int notificationCounts = MessagingService.notifications.length;
+
+  void updateBadgeCount() {
+    setState(() {
+      notificationCounts = MessagingService.notifications.length;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    _messagingService.init(context);
+    _messagingService.messageStream.listen((message) {
+      updateBadgeCount();
+    });
+
+    print('notificationCounts in home $notificationCounts');
     getsavedToken();
+    getFCMtoken();
     getUsername().then((name) {
       setState(() {
         savedUsername = name;
       });
     });
-    // hospitalName = widget.data['hospitalName'];
-    // hospitalAddress = widget.data['hospitalAddress'];
+    getSecuritycode().then((securityCode) {
+      setState(() {
+        savedsecurityCode = securityCode;
+      });
+    });
+    getUserId().then((userID) {
+      setState(() {
+        saveduserID = userID;
+      });
+    });
+    getUseremail().then((email) {
+      setState(() {
+        saveUseremail = email;
+      });
+    });
+    sendFCM();
+
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
+      // DeviceOrientation.landscapeRight,
+      // DeviceOrientation.landscapeLeft,
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
@@ -62,6 +99,44 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
     super.dispose();
   }
 
+  Future<String?> getFCMtoken() async {
+    token = (await FirebaseMessaging.instance.getToken())!;
+    // print(' FCM Token: $token');
+    return token;
+  }
+
+  void sendFCM() async {
+    String? jwttoken = await getsavedToken();
+    String? fcmToken = await getFCMtoken();
+    print(saveduserID);
+    if (jwttoken != null) {
+      print(' fcm token $fcmToken');
+      var response = await http.post(
+        Uri.parse(sendFCMandUserId),
+        headers: {
+          // "Authorization": 'Bearer $jwttoken̉̉',
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({"fcmToken": fcmToken, "userId": savedsecurityCode}),
+      );
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+      } else {
+        print('Failed ${response.statusCode}');
+      }
+    } else {
+      print("Token is null");
+    }
+  }
+
+Future<String?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userID = prefs.getString('userID');
+    print('Retrieved savedToken: $userID');
+    return userID;
+  }
+
   Future<String?> getsavedToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? mytoken = prefs.getString('mytoken');
@@ -69,11 +144,25 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
     return mytoken;
   }
 
+  Future<String?> getUseremail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? email = prefs.getString('email');
+    print('Retrieved Useremail: $email');
+    return email;
+  }
+
   Future<String?> getUsername() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? name = prefs.getString('name');
     print('Retrieved Username: $name');
     return name;
+  }
+
+  Future<String?> getSecuritycode() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? securityCode = prefs.getString('securityCode');
+    print('Retrieved securityCode: $securityCode');
+    return securityCode;
   }
 
   Future<void> logout() async {
