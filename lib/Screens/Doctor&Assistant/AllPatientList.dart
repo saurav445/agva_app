@@ -99,7 +99,7 @@ class _AllPatientListState extends State<AllPatientList> {
             height: MediaQuery.of(context).size.height * 0.025,
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.25,
+
             width: MediaQuery.of(context).size.width * 0.8,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 60, 60, 60),

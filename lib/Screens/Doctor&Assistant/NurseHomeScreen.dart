@@ -18,6 +18,7 @@ import 'package:agva_app/config.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../Common/Settings.dart';
@@ -32,8 +33,8 @@ class NurseHomeScreen extends StatefulWidget {
 }
 
 class _NurseHomeScreenState extends State<NurseHomeScreen> {
-    final _messagingService = MessagingService();
-   String? saveUseremail;
+  final _messagingService = MessagingService();
+  String? saveUseremail;
   String? savedUsername;
   String? saveduserID;
   String? savedsecurityCode;
@@ -54,8 +55,6 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
     _messagingService.messageStream.listen((message) {
       updateBadgeCount();
     });
-
-    print('notificationCounts in home $notificationCounts');
     getsavedToken();
     getFCMtoken();
     getUsername().then((name) {
@@ -130,7 +129,7 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
     }
   }
 
-Future<String?> getUserId() async {
+  Future<String?> getUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userID = prefs.getString('userID');
     print('Retrieved savedToken: $userID');
@@ -182,16 +181,36 @@ Future<String?> getUserId() async {
         appBar: AppBar(
           backgroundColor: Colors.black,
           actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.notifications),
-              onPressed: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => NotificationScreen(
-                //             )));
-              },
-            )
+            if (MessagingService.notifications.isNotEmpty)
+              badges.Badge(
+                position: badges.BadgePosition.topEnd(top: 11, end: 11),
+                // badgeContent: Text(notificationCounts.toString()),
+                child: IconButton(
+                  icon: Icon(Icons.notifications),
+                  onPressed: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NotificationScreen()),
+                    );
+
+                    if (result != null && result == 'refresh') {
+                      updateBadgeCount();
+                    }
+                  },
+                ),
+              )
+            else
+              IconButton(
+                icon: Icon(Icons.notifications),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NotificationScreen()),
+                  );
+                },
+              ),
           ],
         ),
         body: OrientationBuilder(builder: (context, orientation) {
@@ -201,7 +220,7 @@ Future<String?> getUserId() async {
             return _buildLandscapeLayout(context);
           }
         }),
-          drawer: Drawer(
+        drawer: Drawer(
           backgroundColor: Colors.black,
           child: ListView(
             padding: EdgeInsets.zero,
@@ -260,7 +279,6 @@ Future<String?> getUserId() async {
                 ),
               ),
               ListTile(
-            
                 leading: const Icon(Icons.home, color: Colors.white),
                 title: Text(
                   'HOME',
@@ -323,8 +341,6 @@ Future<String?> getUserId() async {
     );
   }
 
-
- 
   Widget _buildPortraitLayout(BuildContext context) {
     return Stack(
       children: [
@@ -397,8 +413,7 @@ Future<String?> getUserId() async {
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             color: Color.fromARGB(255, 218, 218, 218),
-                            fontSize:
-                                MediaQuery.of(context).size.width * 0.05,
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -648,7 +663,7 @@ Future<String?> getUserId() async {
     );
   }
 
-   Widget _buildLandscapeLayout(BuildContext context) {
+  Widget _buildLandscapeLayout(BuildContext context) {
     return Stack(
       children: [
         Padding(
@@ -699,7 +714,6 @@ Future<String?> getUserId() async {
       ],
     );
   }
-
 }
 
 class scrrollwidgetforlandscape extends StatelessWidget {
@@ -712,79 +726,78 @@ class scrrollwidgetforlandscape extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-         GestureDetector(
-                onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => AddPatientData(),
-                  //   ),
-                  // );
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                      colors: [
-                        Color.fromARGB(255, 92, 74, 251),
-                        Color.fromARGB(255, 30, 30, 30),
-                      ],
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30, right: 20),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'ADD DATA',
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.02,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.03,
-                            ),
-                            Text(
-                              'Add Patient Data',
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 218, 218, 218),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.030,
-                                fontWeight: FontWeight.w300,
-                                
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 22),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.22,
-                            child: Image.asset("assets/images/nurse.png"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+        GestureDetector(
+          onTap: () {
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => AddPatientData(),
+            //   ),
+            // );
+          },
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.3,
+            width: MediaQuery.of(context).size.width * 0.5,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+              gradient: LinearGradient(
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+                colors: [
+                  Color.fromARGB(255, 92, 74, 251),
+                  Color.fromARGB(255, 30, 30, 30),
+                ],
               ),
-              SizedBox(height: 20,),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30, right: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'ADD DATA',
+                        style: TextStyle(
+                          fontFamily: 'Avenir',
+                          color: Color.fromARGB(255, 218, 218, 218),
+                          fontSize: MediaQuery.of(context).size.width * 0.02,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      Text(
+                        'Add Patient Data',
+                        style: TextStyle(
+                          fontFamily: 'Avenir',
+                          color: Color.fromARGB(255, 218, 218, 218),
+                          fontSize: MediaQuery.of(context).size.width * 0.030,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 22),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.22,
+                      child: Image.asset("assets/images/nurse.png"),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
         GestureDetector(
           onTap: () {
             Navigator.push(
@@ -811,7 +824,6 @@ class scrrollwidgetforlandscape extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.only(left: 20),
-              
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -821,8 +833,7 @@ class scrrollwidgetforlandscape extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize:
-                          MediaQuery.of(context).size.width * 0.02,
+                      fontSize: MediaQuery.of(context).size.width * 0.02,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -835,7 +846,9 @@ class scrrollwidgetforlandscape extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 20,),
+        SizedBox(
+          height: 20,
+        ),
         GestureDetector(
           onTap: () {
             Navigator.push(
@@ -871,22 +884,22 @@ class scrrollwidgetforlandscape extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize:
-                          MediaQuery.of(context).size.width * 0.02,
+                      fontSize: MediaQuery.of(context).size.width * 0.02,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.15,
-                    child:
-                        Image.asset("assets/images/alarmimage.png"),
+                    child: Image.asset("assets/images/alarmimage.png"),
                   ),
                 ],
               ),
             ),
           ),
         ),
-         SizedBox(height: 20,),
+        SizedBox(
+          height: 20,
+        ),
         GestureDetector(
           onTap: () {
             Navigator.push(
@@ -922,8 +935,7 @@ class scrrollwidgetforlandscape extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Avenir',
                       color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize:
-                          MediaQuery.of(context).size.width * 0.02,
+                      fontSize: MediaQuery.of(context).size.width * 0.02,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -933,8 +945,7 @@ class scrrollwidgetforlandscape extends StatelessWidget {
                       // height:
                       //     MediaQuery.of(context).size.height * 0.15,
                       width: MediaQuery.of(context).size.width * 0.15,
-                      child: Image.asset(
-                          "assets/images/deviceimage.png"),
+                      child: Image.asset("assets/images/deviceimage.png"),
                     ),
                   ),
                 ],
@@ -942,8 +953,9 @@ class scrrollwidgetforlandscape extends StatelessWidget {
             ),
           ),
         ),
-         SizedBox(height: 20,),
-       
+        SizedBox(
+          height: 20,
+        ),
       ],
     );
   }
