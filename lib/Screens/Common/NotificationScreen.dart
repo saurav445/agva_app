@@ -19,7 +19,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void initState() {
     super.initState();
     getUserType();
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     // notificationCounts = MessagingService.notifications.length;
     // print('notificationCounts inscreen $notificationCounts');
     SystemChrome.setPreferredOrientations([
@@ -37,13 +36,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return usertype;
   }
 
-  Future<void> _firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
-    // If you're going to use other Firebase services in the background, such as Firestore,
-    // make sure you call `initializeApp` before using other Firebase services.
-    MessagingService.notifications.add(message);
-    print("Handling a background message: ${message.messageId}");
-  }
 
   Future<void> checkandNavigate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -190,20 +182,17 @@ class _NotificationScreenState extends State<NotificationScreen> {
           builder: (context, snapshot) {
             return Visibility(
               visible: MessagingService.notifications.isNotEmpty,
-              child: SizedBox(
-                height: 35,
-                width: 100,
+              child: Padding(
+
+                padding: const EdgeInsets.only(bottom: 20),
                 child: FloatingActionButton(
-                  backgroundColor: const Color.fromARGB(137, 158, 158, 158),
+                  backgroundColor: Color.fromARGB(0, 158, 158, 158),
                   onPressed: () {
                     setState(() {
                       MessagingService.notifications.clear();
                     });
                   },
-                  child: Text(
-                    'Clear',
-                    style: TextStyle(fontWeight: FontWeight.w400),
-                  ),
+                  child: Image.asset('assets/images/clear.png'),
                 ),
               ),
             );

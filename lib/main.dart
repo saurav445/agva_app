@@ -9,6 +9,7 @@ import 'package:agva_app/Screens/Doctor&Assistant/UserControl.dart';
 import 'package:agva_app/Screens/User/DeviceDetails.dart';
 import 'package:agva_app/Screens/User/DeviceList.dart';
 import 'package:agva_app/Screens/User/UserHomeScreen.dart';
+import 'package:agva_app/Service/MessagingService.dart';
 import 'package:agva_app/Service/firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -22,14 +23,21 @@ import 'package:overlay_support/overlay_support.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
-
+  Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    // If you're going to use other Firebase services in the background, such as Firestore,
+    // make sure you call `initializeApp` before using other Firebase services.
+    MessagingService.notifications.add(message);
+    print("Handling a background message: ${message.messageId}");
+  }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+ 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(MyApp());
 }

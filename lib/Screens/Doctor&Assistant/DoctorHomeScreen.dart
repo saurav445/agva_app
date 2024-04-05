@@ -214,6 +214,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
             ),
             body: SingleChildScrollView(child: _buildPortraitLayout(context)),
             drawer: Drawer(
+               width: MediaQuery.of(context).size.width / 2,
               backgroundColor: Colors.black,
               child: ListView(
                 padding: EdgeInsets.zero,

@@ -139,7 +139,7 @@ class MessagingService {
       if (message != null) {
         _handleNotificationClick(context, message);
         final notificationData = message.data;
-    notifications.add(message);
+        notifications.add(message);
         if (notificationData.containsKey('screen')) {
           final screen = notificationData['screen'];
           Navigator.of(context).pushNamed(screen);
@@ -165,7 +165,7 @@ class MessagingService {
   // Handling a notification click event by navigating to the specified screen
   void _handleNotificationClick(BuildContext context, RemoteMessage message) {
     final notificationData = message.data;
-     notifications.add(message);
+    notifications.add(message);
     if (notificationData.containsKey('screen')) {
       final screen = notificationData['screen'];
       Navigator.of(context).pushNamed(screen);
