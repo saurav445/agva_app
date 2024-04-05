@@ -74,7 +74,6 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
           'HOSPITALS',
           style: TextStyle(
             fontFamily: 'Avenir',
-
             color: Color.fromARGB(255, 255, 255, 255),
           ),
         ),
@@ -82,14 +81,48 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
       body: RefreshIndicator(
         onRefresh: getHospitals,
         child: Stack(children: [
-          ListView(children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+           if (isLoading)
+          SizedBox(
+              height: 1,
+              child: LinearProgressIndicator(color: Colors.pink))
+         else if (hospitals.isEmpty)
+            SizedBox(
+              width: double.infinity,
+              
               child: Column(
-                children: buildPatientListWidgets(),
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'No Hospital List Found',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 158, 158, 158),
+                      fontSize: MediaQuery.of(context).size.width * 0.05,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'Please Contact Doctor to Access List',
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      color: Color.fromARGB(255, 218, 218, 218),
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                      fontWeight: FontWeight.w100,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ]),
+            )
+          else
+            ListView(children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: buildPatientListWidgets(),
+                ),
+              ),
+            ]),
         ]),
       ),
     );
@@ -117,13 +150,13 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                 color: Color.fromARGB(255, 51, 50, 50),
               ),
               child: Padding(
-                padding:  EdgeInsets.only(left: 20),
+                padding: EdgeInsets.only(left: 20),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding:  EdgeInsets.only(top: 5),
+                      padding: EdgeInsets.only(top: 5),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -141,7 +174,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                             height: MediaQuery.of(context).size.height * 0.04,
                           ),
                           Padding(
-                            padding:  EdgeInsets.only(bottom: 1),
+                            padding: EdgeInsets.only(bottom: 1),
                             child: Row(
                               children: [
                                 Text(
@@ -150,11 +183,13 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                                     fontFamily: 'Avenir',
                                     color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize:
-                                        MediaQuery.of(context).size.width * 0.03,
+                                        MediaQuery.of(context).size.width *
+                                            0.03,
                                   ),
                                 ),
                                 SizedBox(
-                                  width:    MediaQuery.of(context).size.width * 0.01,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.01,
                                 ),
                                 Text(
                                   pincode,
@@ -162,18 +197,18 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                                     fontFamily: 'Avenir',
                                     color: Color.fromARGB(255, 218, 218, 218),
                                     fontSize:
-                                        MediaQuery.of(context).size.width * 0.03,
+                                        MediaQuery.of(context).size.width *
+                                            0.03,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                         
                         ],
                       ),
                     ),
                     Padding(
-                      padding:  EdgeInsets.only(top: 5),
+                      padding: EdgeInsets.only(top: 5),
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.1,
                         child: Image.asset("assets/images/hospital.png"),
@@ -224,13 +259,12 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Container(
-                    
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Color.fromARGB(255, 62, 62, 62),
                       ),
                       child: Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,

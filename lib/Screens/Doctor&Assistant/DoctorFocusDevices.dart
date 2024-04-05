@@ -78,6 +78,39 @@ class _DoctorFocusAlarmsState extends State<DoctorFocusAlarms> {
           onRefresh: fetchFocusedDevices,
           child: Stack(
             children: [
+               if (isLoading)
+          SizedBox(
+              height: 1,
+              child: LinearProgressIndicator(color: Colors.pink))
+              else if (focusedDevices.isEmpty)
+                SizedBox(
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'No Focused Devices Found',
+                        style: TextStyle(
+                          fontFamily: 'Avenir',
+                          color: Color.fromARGB(255, 158, 158, 158),
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Please Add Device to Focus',
+                        style: TextStyle(
+                          fontFamily: 'Avenir',
+                          color: Color.fromARGB(255, 218, 218, 218),
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
+                          fontWeight: FontWeight.w100,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              else
               ListView(
                 children: [
                   Column(
