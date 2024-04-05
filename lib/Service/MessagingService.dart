@@ -20,9 +20,9 @@ class MessagingService {
 
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
-final _messageController = StreamController<RemoteMessage>.broadcast();
+  final _messageController = StreamController<RemoteMessage>.broadcast();
 
-Stream<RemoteMessage> get messageStream => _messageController.stream;
+  Stream<RemoteMessage> get messageStream => _messageController.stream;
 
   Future<void> init(BuildContext context) async {
     NotificationSettings settings = await _fcm.requestPermission(
@@ -139,7 +139,7 @@ Stream<RemoteMessage> get messageStream => _messageController.stream;
       if (message != null) {
         _handleNotificationClick(context, message);
         final notificationData = message.data;
-
+    notifications.add(message);
         if (notificationData.containsKey('screen')) {
           final screen = notificationData['screen'];
           Navigator.of(context).pushNamed(screen);
@@ -165,7 +165,7 @@ Stream<RemoteMessage> get messageStream => _messageController.stream;
   // Handling a notification click event by navigating to the specified screen
   void _handleNotificationClick(BuildContext context, RemoteMessage message) {
     final notificationData = message.data;
-
+     notifications.add(message);
     if (notificationData.containsKey('screen')) {
       final screen = notificationData['screen'];
       Navigator.of(context).pushNamed(screen);
@@ -173,14 +173,22 @@ Stream<RemoteMessage> get messageStream => _messageController.stream;
   }
 
   @pragma('vm:entry-point')
+//   Future<void> _firebaseMessagingBackgroundHandler(
+//       RemoteMessage message) async {
+//     notifications.add(message);
+//     // If you're going to use other Firebase services in the background, such as Firestore,
+//     // make sure you call `initializeApp` before using other Firebase services.
+//     debugPrint('Handling a background message: ${message.notification!.title}');
+//   }
+// }
+
   Future<void> _firebaseMessagingBackgroundHandler(
       RemoteMessage message) async {
-    notifications.add(message);
     // If you're going to use other Firebase services in the background, such as Firestore,
     // make sure you call `initializeApp` before using other Firebase services.
-    debugPrint('Handling a background message: ${message.notification!.title}');
+    notifications.add(message);
+    print("Handling a background message: ${message.messageId}");
   }
 }
-
 // Handler for background messages
 

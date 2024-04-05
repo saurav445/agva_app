@@ -22,8 +22,11 @@ import 'package:overlay_support/overlay_support.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -50,6 +53,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     var initialzationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_launcher');
     var initializationSettings =

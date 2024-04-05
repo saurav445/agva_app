@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +57,7 @@ class _UserControlState extends State<UserControl>
   void removeUser(String userID) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? mytoken = prefs.getString('mytoken');
-
+print(userID);
     if (mytoken != null) {
       var response = await http.put(
         Uri.parse('$updateUserstatus/$userID'),
@@ -111,14 +111,12 @@ class _UserControlState extends State<UserControl>
             );
           },
         );
-        print(response.statusCode);
-        print('user removed');
-        setState(() {
-          getActiveUser();
+           getActiveUser();
           getPendingUser();
-        });
+        print('user removed');
+
       } else {
-        print('Failed to update focus status: ${response.statusCode}');
+        print('Failed to remove: ${response.statusCode}');
       }
     } else {
       print("Token is null");
@@ -187,7 +185,7 @@ class _UserControlState extends State<UserControl>
         getinActiveUser();
         getPendingUser();
       } else {
-        print('Failed to update focus status: ${response.statusCode}');
+                print('Failed to active: ${response.statusCode}');
       }
     } else {
       print("Token is null");
@@ -215,7 +213,7 @@ class _UserControlState extends State<UserControl>
           isLoading = false;
         });
       } else {
-        print('Invalid User Credential: ${response.statusCode}');
+        print(response.statusCode);
         setState(() {
           isLoading = false;
         });
@@ -244,7 +242,7 @@ class _UserControlState extends State<UserControl>
           isLoading = false;
         });
       } else {
-        print('Invalid User Credential: ${response.statusCode}');
+        print(response.statusCode);
         setState(() {
           isLoading = false;
         });
@@ -272,7 +270,7 @@ class _UserControlState extends State<UserControl>
           isLoading = false;
         });
       } else {
-        print('Invalid User Credential: ${response.statusCode}');
+        print(response.statusCode);
         setState(() {
           isLoading = false;
         });
@@ -371,7 +369,7 @@ class _UserControlState extends State<UserControl>
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
-                        child: Container(
+                        child: SizedBox(
                           height: 30,
                           width: 100,
                           child: ElevatedButton(
@@ -703,7 +701,7 @@ class _UserControlState extends State<UserControl>
                 else
                   Column(
                     children: buildRequestsUserWidgets(
-                        requestsuserData, activeUser, removeUser),
+                        requestsuserData, removeUser, activeUser),
                   ),
               ],
             )),

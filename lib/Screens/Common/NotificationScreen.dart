@@ -19,6 +19,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void initState() {
     super.initState();
     getUserType();
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     // notificationCounts = MessagingService.notifications.length;
     // print('notificationCounts inscreen $notificationCounts');
     SystemChrome.setPreferredOrientations([
@@ -34,6 +35,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
     String? usertype = prefs.getString('usertype');
     print('Retrieved usertype: $usertype');
     return usertype;
+  }
+
+  Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    // If you're going to use other Firebase services in the background, such as Firestore,
+    // make sure you call `initializeApp` before using other Firebase services.
+    MessagingService.notifications.add(message);
+    print("Handling a background message: ${message.messageId}");
   }
 
   Future<void> checkandNavigate() async {
@@ -74,6 +83,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       body: StreamBuilder<Object>(
           stream: FirebaseMessaging.onMessage,
           builder: (context, snapshot) {
+            // if ()
             if (MessagingService.notifications.length <= 0)
               return Center(
                 child: SizedBox(
