@@ -19,10 +19,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void initState() {
     super.initState();
     getUserType();
-
     // notificationCounts = MessagingService.notifications.length;
     // print('notificationCounts inscreen $notificationCounts');
-
     SystemChrome.setPreferredOrientations([
       // DeviceOrientation.landscapeRight,
       // DeviceOrientation.landscapeLeft,
@@ -78,8 +76,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
           builder: (context, snapshot) {
             if (MessagingService.notifications.length <= 0)
               return Center(
-                child: Container(
-                  width: 220,
+                child: SizedBox(
+                  width: 200,
                   child: Image.asset('assets/images/NoNotification.png'),
                 ),
               );
@@ -175,34 +173,31 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       ),
                     );
                   });
-          }
-          
-          
-          ),
-
-
+          }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: StreamBuilder<Object>(
-        stream: FirebaseMessaging.onMessage,
-        builder: (context, snapshot) {
-          return Visibility(
-          visible: MessagingService.notifications.isNotEmpty,
-            child: SizedBox(
-              height: 35,
-              width: 100,
-              child: FloatingActionButton(
-                backgroundColor: const Color.fromARGB(137, 158, 158, 158),
-                onPressed: () {
-                  setState(() {
-                    MessagingService.notifications.clear();
-                  });
-                },
-                child: Text('Clear',style: TextStyle(fontWeight: FontWeight.w400),),
+          stream: FirebaseMessaging.onMessage,
+          builder: (context, snapshot) {
+            return Visibility(
+              visible: MessagingService.notifications.isNotEmpty,
+              child: SizedBox(
+                height: 35,
+                width: 100,
+                child: FloatingActionButton(
+                  backgroundColor: const Color.fromARGB(137, 158, 158, 158),
+                  onPressed: () {
+                    setState(() {
+                      MessagingService.notifications.clear();
+                    });
+                  },
+                  child: Text(
+                    'Clear',
+                    style: TextStyle(fontWeight: FontWeight.w400),
+                  ),
+                ),
               ),
-            ),
-          );
-        }
-      ),
+            );
+          }),
     );
   }
 
