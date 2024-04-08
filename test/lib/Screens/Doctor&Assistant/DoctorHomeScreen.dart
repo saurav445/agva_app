@@ -167,7 +167,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     return SafeArea(
       child: StreamBuilder<Object>(
           stream: FirebaseMessaging.onMessageOpenedApp,
-          builder: (context, snapshot) {
+          builder: (context, snapsho) {
             return Scaffold(
               backgroundColor: Colors.black,
               appBar: AppBar(

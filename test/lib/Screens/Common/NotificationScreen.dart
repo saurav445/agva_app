@@ -19,7 +19,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void initState() {
     super.initState();
     getUserType();
-
     // notificationCounts = MessagingService.notifications.length;
     // print('notificationCounts inscreen $notificationCounts');
     SystemChrome.setPreferredOrientations([
@@ -29,8 +28,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
       DeviceOrientation.portraitDown,
     ]);
   }
-
-
 
   Future<String?> getUserType() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -58,7 +55,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     }
   }
 
-  // int notificationCounts = MessagingService.notifications.length;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

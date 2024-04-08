@@ -163,4 +163,6 @@ class MessagingService {
     notifications.add(message);
     print("Handling a background message: ${message.messageId}");
   }
+
+  
 }
