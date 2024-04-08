@@ -19,6 +19,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void initState() {
     super.initState();
     getUserType();
+
     // notificationCounts = MessagingService.notifications.length;
     // print('notificationCounts inscreen $notificationCounts');
     SystemChrome.setPreferredOrientations([
@@ -35,7 +36,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     print('Retrieved usertype: $usertype');
     return usertype;
   }
-
 
   Future<void> checkandNavigate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -75,7 +75,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
       body: StreamBuilder<Object>(
           stream: FirebaseMessaging.onMessage,
           builder: (context, snapshot) {
-            // if ()
             if (MessagingService.notifications.length <= 0)
               return Center(
                 child: SizedBox(
@@ -166,9 +165,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             ),
                           ),
                         ),
-
-                        // title: Text(title),
-                        // subtitle: Text(body),
                         onTap: () {
                           _handleNotificationTap(context, notificationData);
                         },
@@ -183,7 +179,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
             return Visibility(
               visible: MessagingService.notifications.isNotEmpty,
               child: Padding(
-
                 padding: const EdgeInsets.only(bottom: 20),
                 child: FloatingActionButton(
                   backgroundColor: Color.fromARGB(0, 158, 158, 158),

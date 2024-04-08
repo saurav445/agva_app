@@ -23,21 +23,12 @@ import 'package:overlay_support/overlay_support.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
-  Future<void> _firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
-    // If you're going to use other Firebase services in the background, such as Firestore,
-    // make sure you call `initializeApp` before using other Firebase services.
-    MessagingService.notifications.add(message);
-    print("Handling a background message: ${message.messageId}");
-  }
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
- 
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(MyApp());
 }
@@ -61,13 +52,19 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    MessagingService().init(context);
+    // MessagingService().messageStream.listen((message) {
+    //   print('show msg in homescreen: $message');
+    // });
 
+    FirebaseMessaging.instance.getInitialMessage().then((message) => {
+          if (message != null) {MessagingService.notifications.add(message)}
+        });
     var initialzationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_launcher');
     var initializationSettings =
         InitializationSettings(android: initialzationSettingsAndroid);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
     getToken();
   }
 

@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, curly_braces_in_flow_control_structures
 
 import 'dart:async';
-
 import 'package:agva_app/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -132,22 +131,6 @@ class MessagingService {
       }
     });
 
-    // Handling the initial message received when the app is launched from dead (killed state)
-    // When the app is killed and a new notification arrives when user clicks on it
-    // It gets the data to which screen to open
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
-      if (message != null) {
-        _handleNotificationClick(context, message);
-        final notificationData = message.data;
-        notifications.add(message);
-        if (notificationData.containsKey('screen')) {
-          final screen = notificationData['screen'];
-          Navigator.of(context).pushNamed(screen);
-        }
-      }
-    });
-
-    // Handling a notification click event when the app is in the background
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       debugPrint(
           'onMessageOpenedApp: ${message.notification!.title.toString()}');
@@ -162,7 +145,6 @@ class MessagingService {
     });
   }
 
-  // Handling a notification click event by navigating to the specified screen
   void _handleNotificationClick(BuildContext context, RemoteMessage message) {
     final notificationData = message.data;
     notifications.add(message);
@@ -172,23 +154,13 @@ class MessagingService {
     }
   }
 
-  @pragma('vm:entry-point')
-//   Future<void> _firebaseMessagingBackgroundHandler(
-//       RemoteMessage message) async {
-//     notifications.add(message);
-//     // If you're going to use other Firebase services in the background, such as Firestore,
-//     // make sure you call `initializeApp` before using other Firebase services.
-//     debugPrint('Handling a background message: ${message.notification!.title}');
-//   }
-// }
-
+  // @pragma('vm:entry-point')
   Future<void> _firebaseMessagingBackgroundHandler(
       RemoteMessage message) async {
     // If you're going to use other Firebase services in the background, such as Firestore,
     // make sure you call `initializeApp` before using other Firebase services.
+
     notifications.add(message);
     print("Handling a background message: ${message.messageId}");
   }
 }
-// Handler for background messages
-
