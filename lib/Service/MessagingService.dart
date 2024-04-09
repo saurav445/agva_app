@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors, curly_braces_in_flow_control_structures
 
 import 'dart:async';
+
 import 'package:agva_app/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 
 class MessagingService {
   static String? fcmToken;
@@ -41,7 +43,7 @@ class MessagingService {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     // Listening for incoming messages while the app is in the foreground
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       debugPrint('Got a message whilst in the foreground!');
       debugPrint('Message data: ${message.notification!.title.toString()}');
       notifications.add(message);
@@ -50,6 +52,8 @@ class MessagingService {
         if (message.notification!.title != null &&
             message.notification!.body != null) {
           final notificationData = message.data;
+          // final title = message.notification?.title;
+          // final body = message.notification?.body;
           final screen = notificationData['screen'];
 
           flutterLocalNotificationsPlugin.show(
