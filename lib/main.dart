@@ -32,10 +32,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
   runApp(MyApp());
 }
 
@@ -63,7 +61,6 @@ class _MyAppState extends State<MyApp> {
     //   print('show msg in homescreen: $message');
     // });
 
-    
     var initialzationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_launcher');
     var initializationSettings =
