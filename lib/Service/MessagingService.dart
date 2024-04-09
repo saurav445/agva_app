@@ -40,7 +40,7 @@ class MessagingService {
         'User granted notifications permission: ${settings.authorizationStatus}');
 
     // Handling background messages using the specified handler
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     // Listening for incoming messages while the app is in the foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -159,14 +159,7 @@ class MessagingService {
   }
 
   // @pragma('vm:entry-point')
-  Future<void> _firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
-    // If you're going to use other Firebase services in the background, such as Firestore,
-    // make sure you call `initializeApp` before using other Firebase services.
-
-    notifications.add(message);
-    print("Handling a background message: ${message.messageId}");
-  }
+  
 
   
 }

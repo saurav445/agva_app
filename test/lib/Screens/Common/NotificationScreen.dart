@@ -29,6 +29,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
     ]);
   }
 
+
+
   Future<String?> getUserType() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? usertype = prefs.getString('usertype');
@@ -55,6 +57,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     }
   }
 
+  // int notificationCounts = MessagingService.notifications.length;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +79,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             if (MessagingService.notifications.length <= 0)
               return Center(
                 child: SizedBox(
-                  width: 200,
+                         width: MediaQuery.of(context).size.width / 2,
                   child: Image.asset('assets/images/NoNotification.png'),
                 ),
               );
@@ -89,7 +92,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     final notificationData = notification.data;
                     final title = notification.notification!.title ?? "";
                     final body = notification.notification!.body ?? "";
-
+              
                     return Dismissible(
                       direction: DismissDirection.endToStart,
                       key: UniqueKey(),
@@ -140,7 +143,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                               0.02,
                                     ),
                                     SizedBox(
-                                      width: 330,
+                                           width: MediaQuery.of(context).size.width / 1.5,
                                       child: Text(
                                         body,
                                         style: TextStyle(
@@ -200,3 +203,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     }
   }
 }
+
+
+ 

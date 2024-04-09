@@ -220,119 +220,122 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
             return _buildLandscapeLayout(context);
           }
         }),
-        drawer: Drawer(
-          backgroundColor: Colors.black,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            physics: BouncingScrollPhysics(),
-            children: [
-              SizedBox(
-                height: 200,
-                child: DrawerHeader(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                        Color.fromARGB(255, 218, 0, 138),
-                        Color.fromARGB(255, 117, 0, 74)
-                      ])),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/profile.png',
-                          height: 80,
-                          width: 80,
+drawer: Drawer(
+               width: MediaQuery.of(context).size.width / 2,
+              backgroundColor: Colors.black,
+              child: ListView(
+                padding: EdgeInsets.zero,
+                physics: BouncingScrollPhysics(),
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 5,
+         
+                    child: DrawerHeader(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                            Color.fromARGB(255, 218, 0, 138),
+                            Color.fromARGB(255, 117, 0, 74)
+                          ])),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          
+                          children: [
+                            Image.asset(
+                              'assets/images/profile.png',
+                              height: 50,
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.020,
+                            ),
+                            Text(
+                              savedUsername ?? '-',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: MediaQuery.of(context).size.width * 0.025,
+                              ),
+                            ),
+                            Text(
+                              saveUseremail ?? '-',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                                fontSize: MediaQuery.of(context).size.width * 0.02,
+                              ),
+                            ),
+                             Text(
+                              '#$savedsecurityCode',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                                fontSize: MediaQuery.of(context).size.width * 0.02,
+                              ),
+                            ),
+                          ],
                         ),
-                        // Text(
-                        //   'AgVa',
-                        //   style: TextStyle(
-                        //     color: Color.fromARGB(255, 255, 255, 255),
-                        //     fontSize: MediaQuery.of(context).size.width * 0.1,
-                        //   ),
-                        // ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          savedUsername ?? '-',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.width * 0.04,
-                          ),
-                        ),
-                        Text(
-                          saveUseremail ?? '-',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w200,
-                            fontSize: MediaQuery.of(context).size.width * 0.03,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-              ListTile(
-                leading: const Icon(Icons.home, color: Colors.white),
-                title: Text(
-                  'HOME',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.person, color: Colors.white),
-                title: Text(
-                  'PROFILE',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Profile()));
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings, color: Colors.white),
-                title: Text(
-                  'SETTINGS',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Settings(),
+                  ListTile(
+                    leading: const Icon(Icons.home, color: Colors.white),
+                    title: Text(
+                      'HOME',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                      ),
                     ),
-                  );
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.logout, color: Colors.white),
-                title: Text(
-                  'Logout',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                ),
-                onTap: logout,
+                  ListTile(
+                    leading: const Icon(Icons.person, color: Colors.white),
+                    title: Text(
+                      'PROFILE',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Profile()));
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.settings, color: Colors.white),
+                    title: Text(
+                      'SETTINGS',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Settings(),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.logout, color: Colors.white),
+                    title: Text(
+                      'Logout',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                      ),
+                    ),
+                    onTap: logout,
               ),
             ],
           ),

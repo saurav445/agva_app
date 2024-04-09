@@ -10,25 +10,31 @@ import 'package:agva_app/Screens/User/DeviceDetails.dart';
 import 'package:agva_app/Screens/User/DeviceList.dart';
 import 'package:agva_app/Screens/User/UserHomeScreen.dart';
 import 'package:agva_app/Service/MessagingService.dart';
-import 'package:agva_app/Service/firebase_options.dart';
+import 'package:agva_app/firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'AuthScreens/SignIn.dart';
 import 'AuthScreens/SplashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    // MessagingService.notifications.add(message);
+    FirebaseMessaging.instance.getInitialMessage().then((message) => {
+          if (message != null) {MessagingService.notifications.add(message)}
+        });
+  print("Handling a background message: ${message.notification?.title}");
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(MyApp());
 }
@@ -42,7 +48,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 class MyApp extends StatefulWidget {
-  static FirebaseInAppMessaging fiam = FirebaseInAppMessaging.instance;
+  // static FirebaseInAppMessaging fiam = FirebaseInAppMessaging.instance;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -52,10 +58,12 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    MessagingService().init(context).then((message) => {
-      FirebaseMessaging.instance.getInitialMessage(),
-    });
+    MessagingService().init(context);
+    // MessagingService().messageStream.listen((message) {
+    //   print('show msg in homescreen: $message');
+    // });
 
+    
     var initialzationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_launcher');
     var initializationSettings =
@@ -73,30 +81,26 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return OverlaySupport(
-      child: StreamBuilder<Object>(
-          stream: FirebaseMessaging.onMessageOpenedApp,
-          builder: (context, snapshot) {
-            return MaterialApp(
-              themeMode: ThemeMode.dark,
-              theme: ThemeData(primarySwatch: Colors.blue),
-              darkTheme: ThemeData(brightness: Brightness.dark),
-              debugShowCheckedModeBanner: false,
-              initialRoute: "/splash",
-              routes: {
-                "/regdone": (context) => RegDone(),
-                "/signin": (context) => SignIn(),
-                "/splash": (context) => const SplashScreen(),
-                "/userhome": (context) => UserHomeScreen({}),
-                "/doctorhome": (context) => DoctorHomeScreen({}),
-                "/nursehome": (context) => NurseHomeScreen({}),
-                "/devicedetails": (context) => DeviceDetails('', '', '', ''),
-                "/tandc": (context) => TermsCondition(),
-                "/devicelist": (context) => DeviceList(),
-                "/notification": (context) => NotificationScreen(),
-                "/usercontrol": (context) => UserControl(),
-              },
-            );
-          }),
+      child: MaterialApp(
+        themeMode: ThemeMode.dark,
+        theme: ThemeData(primarySwatch: Colors.blue),
+        darkTheme: ThemeData(brightness: Brightness.dark),
+        debugShowCheckedModeBanner: false,
+        initialRoute: "/splash",
+        routes: {
+          "/regdone": (context) => RegDone(),
+          "/signin": (context) => SignIn(),
+          "/splash": (context) => const SplashScreen(),
+          "/userhome": (context) => UserHomeScreen({}),
+          "/doctorhome": (context) => DoctorHomeScreen({}),
+          "/nursehome": (context) => NurseHomeScreen({}),
+          "/devicedetails": (context) => DeviceDetails('', '', '', ''),
+          "/tandc": (context) => TermsCondition(),
+          "/devicelist": (context) => DeviceList(),
+          "/notification": (context) => NotificationScreen(),
+          "/usercontrol": (context) => UserControl(),
+        },
+      ),
     );
   }
 }

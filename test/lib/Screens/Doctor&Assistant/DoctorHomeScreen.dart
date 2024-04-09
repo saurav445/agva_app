@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, library_private_types_in_public_api
 
 import 'dart:convert';
 import 'package:agva_app/AuthScreens/SignIn.dart';
@@ -166,14 +166,14 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: StreamBuilder<Object>(
-          stream: FirebaseMessaging.onMessageOpenedApp,
-          builder: (context, snapsho) {
+          stream: FirebaseMessaging.onMessage,
+          builder: (context, snapshot) {
             return Scaffold(
               backgroundColor: Colors.black,
               appBar: AppBar(
                 backgroundColor: Colors.black,
                 actions: <Widget>[
-                  if (MessagingService.notifications.isNotEmpty)
+                  if (MessagingService.notifications.length != 0)
                     badges.Badge(
                       position: badges.BadgePosition.topEnd(top: 11, end: 11),
                       // badgeContent: Text(notificationCounts.toString()),
@@ -214,7 +214,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                   physics: BouncingScrollPhysics(),
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.2,
+                      height: MediaQuery.of(context).size.height / 4.5,
                       child: DrawerHeader(
                         decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -248,6 +248,15 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                               ),
                               Text(
                                 saveUseremail ?? '-',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                ),
+                              ),
+                              Text(
+                                '#$savedsecurityCode',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w400,
@@ -505,8 +514,9 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 30),
                           child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.15,
-                            width: MediaQuery.of(context).size.width * 0.3,
+                            // height: MediaQuery.of(context).size.height / 4,
+                            width: MediaQuery.of(context).size.width / 4,
+
                             child: Image.asset("assets/images/deviceimage.png"),
                           ),
                         ),
@@ -571,7 +581,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 //   Navigator.push(
                 //     context,
                 //     MaterialPageRoute(
-                //       builder: (context) => WebViewPage(),
+                //       builder: (context) => NotificationListing(),
                 //     ),
                 //   );
                 // },
