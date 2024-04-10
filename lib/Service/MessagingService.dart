@@ -7,7 +7,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-
 class MessagingService {
   static String? fcmToken;
 
@@ -45,7 +44,7 @@ class MessagingService {
     // Listening for incoming messages while the app is in the foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       debugPrint('Got a message whilst in the foreground!');
-      debugPrint('Message data: ${message.notification!.title.toString()}');
+      // debugPrint('Message data: ${message.notification!.title.toString()}');
       notifications.add(message);
 
       if (message.notification != null) {
@@ -157,9 +156,4 @@ class MessagingService {
       Navigator.of(context).pushNamed(screen);
     }
   }
-
-  // @pragma('vm:entry-point')
-  
-
-  
 }

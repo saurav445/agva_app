@@ -101,3 +101,239 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+// import 'dart:async';
+// import 'dart:io';
+// import 'dart:ui';
+// import 'package:agva_app/AuthScreens/RegDone.dart';
+// import 'package:agva_app/Screens/Common/NotificationScreen.dart';
+// import 'package:agva_app/Screens/Common/TermsCondition.dart';
+// import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';
+// import 'package:agva_app/Screens/Doctor&Assistant/NurseHomeScreen.dart';
+// import 'package:agva_app/Screens/Doctor&Assistant/UserControl.dart';
+// import 'package:agva_app/Screens/User/DeviceDetails.dart';
+// import 'package:agva_app/Screens/User/DeviceList.dart';
+// import 'package:agva_app/Screens/User/UserHomeScreen.dart';
+// import 'package:agva_app/firebase_options.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_background_service/flutter_background_service.dart';
+// import 'package:flutter_background_service_android/flutter_background_service_android.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'AuthScreens/SignIn.dart';
+// import 'AuthScreens/SplashScreen.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:overlay_support/overlay_support.dart';
+
+// final navigatorKey = GlobalKey<NavigatorState>();
+
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+//   print("Handling a background message: ${message.messageId}");
+//   flutterLocalNotificationsPlugin.show(
+//       message.data.hashCode,
+//       message.data['title'],
+//       message.data['body'],
+//       NotificationDetails(
+//         android: AndroidNotificationDetails(
+//           channel.id,
+//           channel.name,
+//         ),
+//       ));
+
+// }
+
+// const AndroidNotificationChannel channel = AndroidNotificationChannel(
+//   'high_importance_channel', // id
+//   'High Importance Notifications', // title
+//   importance: Importance.high,
+// );
+
+// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//     FlutterLocalNotificationsPlugin();
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+//   await initializeService();
+//   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+//   await flutterLocalNotificationsPlugin
+//       .resolvePlatformSpecificImplementation<
+//           AndroidFlutterLocalNotificationsPlugin>()
+//       ?.createNotificationChannel(channel);
+//   await _requestNotificationPermissions();
+//   runApp(MyApp());
+// }
+
+// Future<void> initializeService() async {
+//   final service = FlutterBackgroundService();
+
+//   await service.configure(
+//     androidConfiguration: AndroidConfiguration(
+//       onStart: onStart,
+//       autoStart: true,
+//       isForegroundMode: true,
+//       notificationChannelId: 'my_foreground',
+//       initialNotificationContent: 'running',
+//       foregroundServiceNotificationId: 888,
+//     ),
+//     iosConfiguration: IosConfiguration(),
+//   );
+
+//   if (Platform.isAndroid) {
+//     await _createNotificationChannel();
+//   }
+// }
+
+// String? fcmToken;
+
+// List<RemoteMessage> notifications = [];
+
+// final _messageController = StreamController<RemoteMessage>.broadcast();
+
+// Stream<RemoteMessage> get messageStream => _messageController.stream;
+
+// Future<void> _requestNotificationPermissions() async {
+//   final NotificationSettings settings =
+//       await FirebaseMessaging.instance.requestPermission(
+//     alert: true,
+//     announcement: true,
+//     badge: true,
+//     carPlay: true,
+//     criticalAlert: true,
+//     provisional: true,
+//     sound: true,
+//   );
+
+//   debugPrint(
+//       'User granted notifications permission: ${settings.authorizationStatus}');
+
+
+//   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+//     debugPrint('onMessageOpenedApp: ${message.notification!.title.toString()}');
+//     // _handleNotificationClick(context, message);
+//     notifications.add(message);
+//     final notificationData = message.data;
+
+//     if (notificationData.containsKey('screen')) {
+//       final screen = notificationData['screen'];
+//       Navigator.of(context as BuildContext).pushNamed(screen);
+//     }
+//   });
+// }
+
+// void _handleNotificationClick(BuildContext context, RemoteMessage message) {
+//   final notificationData = message.data;
+//   notifications.add(message);
+//   if (notificationData.containsKey('screen')) {
+//     final screen = notificationData['screen'];
+//     Navigator.of(context).pushNamed(screen);
+//   }
+// }
+
+// Future<bool> onIosBackground(ServiceInstance service) async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   DartPluginRegistrant.ensureInitialized();
+//   return true;
+// }
+
+// @pragma('vm:entry-point')
+// void onStart(ServiceInstance service) async {
+//   DartPluginRegistrant.ensureInitialized();
+//   if (service is AndroidServiceInstance) {
+//     service.on('setAsForeground').listen((event) {
+//       service.setAsForegroundService();
+//     });
+//     service.on('setAsBackground').listen((event) {
+//       service.setAsBackgroundService();
+//     });
+//   }
+//   service.on('stopService').listen((event) {
+//     service.stopSelf();
+//   });
+// }
+
+// class MyApp extends StatefulWidget {
+//   @override
+//   State<MyApp> createState() => _MyAppState();
+// }
+
+
+// class _MyAppState extends State<MyApp> {
+//   @override
+//   void initState() {
+//     super.initState();
+
+//     final initializationSettingsAndroid =
+//         AndroidInitializationSettings('@drawable/ic_launcher');
+//     final initializationSettings =
+//         InitializationSettings(android: initializationSettingsAndroid);
+//    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+//     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+//       RemoteNotification? notification = message.notification;
+//       AndroidNotification? android = message.notification?.android;
+//       notifications.add(message);
+
+//       if (notification != null && android != null) {
+//         // if (message.notification!.title != null &&
+//         //     message.notification!.body != null) {
+//         // final notificationData = message.data;
+//         // final title = message.notification?.title;
+//         // final body = message.notification?.body;
+//         // final screen = notificationData['screen'];
+
+//         flutterLocalNotificationsPlugin.show(
+//             notification.hashCode,
+//             notification.title,
+//             notification.body,
+//             NotificationDetails(
+//               android: AndroidNotificationDetails(
+//                 channel.id,
+//                 channel.name,
+//                 channelShowBadge: true,
+//                 icon: "@drawable/ic_launcher",
+//               ),
+//             ));
+//       }
+//     });
+//     getToken();
+//   }
+
+//   late String token;
+//   getToken() async {
+//     token = (await FirebaseMessaging.instance.getToken())!;
+//     // print(' FCM Token: $token');
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return OverlaySupport(
+//       child: MaterialApp(
+//         themeMode: ThemeMode.dark,
+//         theme: ThemeData(primarySwatch: Colors.blue),
+//         darkTheme: ThemeData(brightness: Brightness.dark),
+//         debugShowCheckedModeBanner: false,
+//         initialRoute: "/splash",
+//         routes: {
+//           "/regdone": (context) => RegDone(),
+//           "/signin": (context) => SignIn(),
+//           "/splash": (context) => const SplashScreen(),
+//           "/userhome": (context) => UserHomeScreen({}),
+//           "/doctorhome": (context) => DoctorHomeScreen({}),
+//           "/nursehome": (context) => NurseHomeScreen({}),
+//           "/devicedetails": (context) => DeviceDetails('', '', '', ''),
+//           "/tandc": (context) => TermsCondition(),
+//           "/devicelist": (context) => DeviceList(),
+//           "/notification": (context) => NotificationScreen(),
+//           "/usercontrol": (context) => UserControl(),
+//         },
+//       ),
+//     );
+//   }
+// }
+
+
+
+
+

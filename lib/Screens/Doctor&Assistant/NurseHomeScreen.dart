@@ -33,7 +33,7 @@ class NurseHomeScreen extends StatefulWidget {
 }
 
 class _NurseHomeScreenState extends State<NurseHomeScreen> {
-  final _messagingService = MessagingService();
+  // final _messagingService = MessagingService();
   String? saveUseremail;
   String? savedUsername;
   String? saveduserID;
@@ -51,10 +51,10 @@ class _NurseHomeScreenState extends State<NurseHomeScreen> {
   @override
   void initState() {
     super.initState();
-    _messagingService.init(context);
-    _messagingService.messageStream.listen((message) {
-      updateBadgeCount();
-    });
+    // _messagingService.init(context);
+    // _messagingService.messageStream.listen((message) {
+    //   updateBadgeCount();
+    // });
     getsavedToken();
     getFCMtoken();
     getUsername().then((name) {
