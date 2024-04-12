@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, use_build_context_synchronously
+// ignore_for_file: unused_field, use_build_context_synchronously, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, file_names, use_key_in_widget_constructors, library_private_types_in_public_api
 
 import 'dart:convert';
 import 'package:agva_app/AuthScreens/SignUp.dart';
@@ -28,7 +28,7 @@ class _SignInState extends State<SignIn> {
   @override
   void initState() {
     super.initState();
-getToken();
+    getToken();
     initSharedPref();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -285,7 +285,6 @@ getToken();
       body: Center(
         child: SingleChildScrollView(
           child: Column(
-                
             children: [
               SizedBox(height: 0),
               Text(

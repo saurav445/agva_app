@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
+import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceList2.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,7 @@ class DoctorHospitals extends StatefulWidget {
 }
 
 class _DoctorHospitalsState extends State<DoctorHospitals> {
+  String patientmonitor = '003';
   late SharedPreferences prefs;
   bool isLoading = true;
   List<dynamic> hospitals = [];
@@ -33,7 +35,8 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
 
   List<String> projectsForHospital = [
     'AgVa PRO',
-    'Emergency',
+    'AgVa Emer',
+    'Patient Monitor'
   ];
 
   Future<void> getHospitals() async {
@@ -81,14 +84,12 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
       body: RefreshIndicator(
         onRefresh: getHospitals,
         child: Stack(children: [
-           if (isLoading)
-          SizedBox(
-              height: 1,
-              child: LinearProgressIndicator(color: Colors.pink))
-         else if (hospitals.isEmpty)
+          if (isLoading)
+            SizedBox(
+                height: 1, child: LinearProgressIndicator(color: Colors.pink))
+          else if (hospitals.isEmpty)
             SizedBox(
               width: double.infinity,
-              
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -232,8 +233,21 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                       final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
+                          builder: (context) => DoctorDeviceList(
+                            hospitalname,
+                            hospitaladdress,
+                          ),
+                        ),
+                      );
+                      if (result != null && result == 'refresh') {
+                        getHospitals();
+                      }
+                    } else if (project == 'Patient Monitor') {
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
                           builder: (context) =>
-                              DoctorDeviceList(hospitalname, hospitaladdress),
+                              DoctorDeviceList2(hospitalname, hospitaladdress, patientmonitor),
                         ),
                       );
                       if (result != null && result == 'refresh') {
@@ -304,8 +318,10 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
     switch (project) {
       case 'AgVa PRO':
         return "assets/images/deviceimage.png";
-      case 'Emergency':
+      case 'AgVa Emer':
         return "assets/images/deviceimage.png";
+        case 'Patient Monitor':
+        return "assets/images/PatientMonitor.png";
       default:
         return "assets/images/inactive.png";
     }

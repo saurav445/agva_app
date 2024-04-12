@@ -8,16 +8,18 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DoctorDeviceList extends StatefulWidget {
+class DoctorDeviceList2 extends StatefulWidget {
   final String hospitalName;
   final String hospitaladdress;
-  DoctorDeviceList(this.hospitalName, this.hospitaladdress);
+  final String patientmonitor;
+  DoctorDeviceList2(
+      this.hospitalName, this.hospitaladdress, this.patientmonitor);
 
   @override
-  _DoctorDeviceListState createState() => _DoctorDeviceListState();
+  _DoctorDeviceList2State createState() => _DoctorDeviceList2State();
 }
 
-class _DoctorDeviceListState extends State<DoctorDeviceList> {
+class _DoctorDeviceList2State extends State<DoctorDeviceList2> {
   bool isLoading = true;
   late String hospitalName;
   late String hospitaladdress;
@@ -28,7 +30,6 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
   @override
   void initState() {
     super.initState();
-    print(widget.hospitalName);
     print('i am in device list');
     fetchGetDevicesForDoctor();
     SystemChrome.setPreferredOrientations([
@@ -55,7 +56,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
     String? token = await getToken();
     if (token != null) {
       var response = await http.get(
-        Uri.parse(getDeviceForDoctor),
+        Uri.parse('$getDeviceForDoctor2/${widget.patientmonitor}'),
         headers: {
           "Authorization": 'Bearer $token',
         },
@@ -67,7 +68,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
         // devicesForUserList = List<Map<String, dynamic>>.from(data['data']);
         focusedDevices = List<Map<String, dynamic>>.from(data)
             .where((device) =>
-                device['isAssigned'] == true &&
+                // device['deviceInfo'][0]?['isAssigned'] == true &&
                 device['deviceInfo'][0]?['Hospital_Name'] ==
                     widget.hospitalName)
             .toList();
