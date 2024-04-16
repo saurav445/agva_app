@@ -17,7 +17,6 @@ class DoctorHospitals extends StatefulWidget {
 }
 
 class _DoctorHospitalsState extends State<DoctorHospitals> {
-  String patientmonitor = '003';
   late SharedPreferences prefs;
   bool isLoading = true;
   List<dynamic> hospitals = [];
@@ -35,8 +34,9 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
 
   List<String> projectsForHospital = [
     'AgVa PRO',
-    'AgVa Emer',
-    'Patient Monitor'
+    'Emergency',
+    'Patient Monitor',
+    'AgVa OXY+'
   ];
 
   Future<void> getHospitals() async {
@@ -247,7 +247,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              DoctorDeviceList2(hospitalname, hospitaladdress, patientmonitor),
+                              DoctorDeviceList2(hospitalname, hospitaladdress),
                         ),
                       );
                       if (result != null && result == 'refresh') {
@@ -318,10 +318,12 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
     switch (project) {
       case 'AgVa PRO':
         return "assets/images/deviceimage.png";
-      case 'AgVa Emer':
+      case 'Emergency':
         return "assets/images/deviceimage.png";
-        case 'Patient Monitor':
+      case 'Patient Monitor':
         return "assets/images/PatientMonitor.png";
+      case 'AgVa OXY+':
+        return "assets/images/deviceimage.png";
       default:
         return "assets/images/inactive.png";
     }

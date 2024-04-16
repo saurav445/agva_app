@@ -11,9 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DoctorDeviceList2 extends StatefulWidget {
   final String hospitalName;
   final String hospitaladdress;
-  final String patientmonitor;
   DoctorDeviceList2(
-      this.hospitalName, this.hospitaladdress, this.patientmonitor);
+      this.hospitalName, this.hospitaladdress);
 
   @override
   _DoctorDeviceList2State createState() => _DoctorDeviceList2State();
@@ -55,8 +54,9 @@ class _DoctorDeviceList2State extends State<DoctorDeviceList2> {
 
     String? token = await getToken();
     if (token != null) {
+     String code = '003';
       var response = await http.get(
-        Uri.parse('$getDeviceForDoctor2/${widget.patientmonitor}'),
+        Uri.parse('$getDeviceForDoctor2/$code'),
         headers: {
           "Authorization": 'Bearer $token',
         },

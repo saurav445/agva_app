@@ -9,6 +9,7 @@ import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/UserControl.dart';
 import 'package:agva_app/Service/MessagingService.dart';
+import 'package:agva_app/Service/Payment.dart';
 import 'package:agva_app/config.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -310,6 +311,24 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => Settings(),
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.payments, color: Colors.white),
+                      title: Text(
+                        'Make Payment',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: MediaQuery.of(context).size.width * 0.035,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Payment(),
                           ),
                         );
                       },
