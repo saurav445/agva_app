@@ -35,19 +35,15 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   String? saveduserID;
   late SharedPreferences prefs;
   String? token;
-  int notificationCounts = MessagingService.notifications.length;
-
-  void updateBadgeCount() {
-    setState(() {
-      notificationCounts = MessagingService.notifications.length;
-    });
-  }
+  List<dynamic> notificationList = [];
 
   @override
   void initState() {
     super.initState();
     getsavedToken();
     getFCMtoken();
+    getNotification();
+    print('at home');
     getUsername().then((name) {
       setState(() {
         savedUsername = name;
@@ -70,8 +66,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     });
     sendFCM();
     SystemChrome.setPreferredOrientations([
-      // DeviceOrientation.landscapeRight,
-      // DeviceOrientation.landscapeLeft,
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
@@ -94,7 +88,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     return token;
   }
 
-  void sendFCM() async {
+  Future<void> sendFCM() async {
     String? jwttoken = await getsavedToken();
     String? fcmToken = await getFCMtoken();
     print(savedsecurityCode);
@@ -103,7 +97,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
       var response = await http.post(
         Uri.parse(sendFCMandUserId),
         headers: {
-          // "Authorization": 'Bearer $jwttoken̉̉',
           "Content-Type": "application/json",
         },
         body: jsonEncode({"fcmToken": fcmToken, "userId": savedsecurityCode}),
@@ -116,6 +109,27 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
       }
     } else {
       print("Token is null");
+    }
+  }
+
+  Future<void> getNotification() async {
+    String? fcmToken = await getFCMtoken();
+    if (fcmToken != null) {
+      var response = await http.get(
+        Uri.parse('$getnotificationList/$fcmToken'),
+      );
+      var jsonResponse = jsonDecode(response.body);
+      if (jsonResponse['statusCode'] == 200) {
+        print(jsonResponse);
+        setState(() {
+          notificationList = jsonResponse['data'];
+        });
+      } else {
+        setState(() {
+          notificationList = [];
+          MessagingService.notifications.clear();
+        });
+      }
     }
   }
 
@@ -174,7 +188,8 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
               appBar: AppBar(
                 backgroundColor: Colors.black,
                 actions: <Widget>[
-                  if (MessagingService.notifications.length != 0)
+                  if (notificationList.isNotEmpty ||
+                      MessagingService.notifications.length != 0)
                     badges.Badge(
                       position: badges.BadgePosition.topEnd(top: 11, end: 11),
                       // badgeContent: Text(notificationCounts.toString()),
@@ -188,7 +203,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                           );
 
                           if (result != null && result == 'refresh') {
-                            updateBadgeCount();
+                            getNotification();
                           }
                         },
                       ),
@@ -196,12 +211,16 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                   else
                     IconButton(
                       icon: Icon(Icons.notifications),
-                      onPressed: () {
-                        Navigator.push(
+                      onPressed: () async {
+                        final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => NotificationScreen()),
                         );
+
+                        if (result != null && result == 'refresh') {
+                          getNotification();
+                        }
                       },
                     ),
                 ],
@@ -363,32 +382,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     Text(
-              //       'Welcome,',
-              //       style: TextStyle(
-              //         fontFamily: 'Avenir',
-              //         color: Color.fromARGB(255, 172, 172, 172),
-              //         fontSize: MediaQuery.of(context).size.width * 0.04,
-              //         fontWeight: FontWeight.bold,
-              //       ),
-              //     ),
-              //     Text(
-              //       savedUsername ?? 'Default User Name',
-              //       style: TextStyle(
-              //         fontFamily: 'Avenir',
-              //         color: Color.fromARGB(255, 255, 255, 255),
-              //         fontSize: MediaQuery.of(context).size.width * 0.05,
-              //         fontWeight: FontWeight.bold,
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // SizedBox(
-              //   height: MediaQuery.of(context).size.height * 0.03,
-              // ),
               GestureDetector(
                 onTap: () {
                   Navigator.push(

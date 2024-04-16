@@ -38,10 +38,11 @@ final requestDeviceinfo = '$url/api/logger/send-device-req';
 final assignDevice = '$url/api/logger/assign-device-to-assistant';
 final getAssignedList = '$url/api/logger/get-assistant-list';
 final revokeAssign = '$url/api/logger/logs/delete-access-from-assistant';
-final getAssignedAssistandList ='$url/api/logger/logs/get-device-access-ast-list';
+final getAssignedAssistandList = '$url/api/logger/logs/get-device-access-ast-list';
 final gethospitallist = '$url/hospital/get-access-hospital-list';
 final sendFCMandUserId = '$url/api/common/send-fcm-token';
 final getDeviceForDoctor2 = '$url/api/logger/logs/v2/Allevents/Events';
-
+final getnotificationList = '$url/api/common/get-notification-list';
+final deleteNotification = '$url/api/common/delete-notification';
 
 // &&  device['deviceInfo']?[0]['Hospital_Name'] == 'KGMU Lucknow' 
