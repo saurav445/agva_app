@@ -160,12 +160,61 @@ class _DoctorDeviceList2State extends State<DoctorDeviceList2> {
                       else
                         for (var device in focusedDevices)
                           Builder(builder: (context) {
+                           print('Alarm Data : ${device['alarmData']}');
+                            print('Patient Data : ${device['patientData']}');
                             var newColor;
                             if (device['addTofocus'] == true) {
                               newColor = Color.fromARGB(255, 174, 34, 104);
                             } else {
                               newColor = Color.fromARGB(
                                   255, 58, 58, 58); // Or any default color
+                            }
+
+                            Color? alarmColor;
+                            if (device['alarmData']?.isNotEmpty ?? false) {
+                              String priority =
+                                  device['alarmData'][0]['priority'];
+
+                              if (priority == 'ALARM_LOW_LEVEL') {
+                                alarmColor = Colors.amber;
+                              } else if (priority == 'ALARM_MEDIUM_LEVEL') {
+                                alarmColor = Colors.amber;
+                              } else if (priority == 'ALARM_HIGH_LEVEL') {
+                                alarmColor = Colors.red;
+                              } else if (priority == 'ALARM_CRITICAL_LEVEL') {
+                                alarmColor = Colors.red;
+                              }
+                            } else {
+                              alarmColor = Colors.green;
+                            }
+
+                            String? ptName;
+                            String? ptAge;
+                            String? ptWeight;
+                            if (device['patientData']?.isNotEmpty ?? false) {
+                              if (device['patientData'][0]['patientName']
+                                  .isNotEmpty) {
+                                ptName =
+                                    'PT. ${device['patientData'][0]['patientName']}';
+                              } else {
+                                ptName = '-';
+                              }
+                              if (device['patientData'][0]['age'].isNotEmpty) {
+                                ptAge = '${device['patientData'][0]['age']} YEARS';
+                              } else {
+                                ptAge = '-';
+                              }
+                              if (device['patientData'][0]['weight']
+                                  .isNotEmpty) {
+                                ptWeight =
+                                    '${device['patientData'][0]['weight']} KG';
+                              } else {
+                                ptWeight = '-';
+                              }
+                            } else {
+                              ptName = '-';
+                              ptAge = '-';
+                              ptWeight = '-';
                             }
 
                             return Padding(
@@ -208,7 +257,7 @@ class _DoctorDeviceList2State extends State<DoctorDeviceList2> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          color: Colors.green,
+                                          color: alarmColor,
                                         ),
                                         child: Padding(
                                           padding:
@@ -321,7 +370,7 @@ class _DoctorDeviceList2State extends State<DoctorDeviceList2> {
                                                                 .end,
                                                         children: [
                                                           Text(
-                                                            'PT. Salim Raza',
+                                                            ptName,
                                                             style: TextStyle(
                                                               fontFamily:
                                                                   'Avenir',
@@ -346,7 +395,7 @@ class _DoctorDeviceList2State extends State<DoctorDeviceList2> {
                                                                 0.02,
                                                           ),
                                                           Text(
-                                                            '24 YEARS',
+                                                            ptAge,
                                                             style: TextStyle(
                                                               fontFamily:
                                                                   'Avenir',
@@ -371,7 +420,7 @@ class _DoctorDeviceList2State extends State<DoctorDeviceList2> {
                                                                 0.01,
                                                           ),
                                                           Text(
-                                                            '58 KG',
+                                                            ptWeight,
                                                             style: TextStyle(
                                                               fontFamily:
                                                                   'Avenir',

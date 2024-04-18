@@ -66,36 +66,50 @@ class _PaymentState extends State<Payment> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'RazorPay Payment',
+         debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.black,
         appBar: AppBar(
-            // title: Text('Your App Title'),
-            ),
-        body: Column(
-          children: [
-            TextField(
-              controller: textEditingController,
-              decoration: InputDecoration(hintText: "Enter Amount"),
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.green,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(200),
+            backgroundColor: Colors.black,
+          centerTitle: true,
+          title: Text('Payment', style: TextStyle(color: Colors.white),),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.pop(context, 'refresh');
+            },
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              SizedBox(height: 40,),
+              TextField(
+                controller: textEditingController,
+                decoration: InputDecoration(hintText: "Enter Amount", hintStyle: TextStyle(color: Colors.white70),),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 92, 175, 76),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(200),
+                  ),
+                ),
+                onPressed: () {
+                  openCheckout();
+                },
+                child: Text(
+                  "Make Payment",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
-              onPressed: () {
-                openCheckout();
-              },
-              child: Text(
-                "Make Payment",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
