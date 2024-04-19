@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:agva_app/AuthScreens/SignUp.dart';
+import 'package:agva_app/Service/Products.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/NurseHomeScreen.dart';
 import 'package:agva_app/Screens/User/UserHomeScreen.dart';
@@ -436,6 +437,28 @@ class _SignInState extends State<SignIn> {
                         fontSize: 15,
                       ),
                     ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Products(),
+                    ),
+                  );
+                  print('Terms and Conditions clicked');
+                },
+                child: Text(
+                  "Continue as Guest",
+                  style: TextStyle(
+                    color: Color.fromARGB(148, 255, 255, 255),
+                    fontSize: 14,
                   ),
                 ),
               ),

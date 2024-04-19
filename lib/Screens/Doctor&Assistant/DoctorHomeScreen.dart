@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:agva_app/AuthScreens/SignIn.dart';
 import 'package:agva_app/Screens/Common/NotificationScreen.dart';
 import 'package:agva_app/Screens/Common/Profile.dart';
+import 'package:agva_app/Service/Products.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
@@ -124,7 +125,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
         setState(() {
           notificationList = jsonResponse['data'];
         });
-      } else {
+      } else  {
         setState(() {
           notificationList = [];
           MessagingService.notifications.clear();
@@ -348,6 +349,24 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => Payment(),
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.shopping_bag, color: Colors.white),
+                      title: Text(
+                        'AgVa Products',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: MediaQuery.of(context).size.width * 0.035,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Products(),
                           ),
                         );
                       },
