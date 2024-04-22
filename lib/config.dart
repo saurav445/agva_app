@@ -44,5 +44,6 @@ final sendFCMandUserId = '$url/api/common/send-fcm-token';
 final getDeviceForDoctor2 = '$url/api/logger/logs/v2/Allevents/Events';
 final getnotificationList = '$url/api/common/get-notification-list';
 final deleteNotification = '$url/api/common/delete-notification';
+final getproductAdList = '$url/projects/product-list';
 
 // &&  device['deviceInfo']?[0]['Hospital_Name'] == 'KGMU Lucknow' 
