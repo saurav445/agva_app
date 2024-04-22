@@ -1,4 +1,4 @@
-// ignore_for_file: prefer__literals_to_create_immutables, prefer__ructors, prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer__literals_to_create_immutables, prefer__ructors, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
 
 import 'dart:convert';
 import 'package:agva_app/config.dart';
@@ -31,6 +31,7 @@ class _TrendsState extends State<Trends> {
     );
     var jsonResponse = jsonDecode(response.body);
     if (jsonResponse['statusCode'] == 200) {
+      print('this is my json response $jsonResponse');
       setState(() {
         isLoading = false;
         trendsDataList = List<Map<String, String>>.from(
@@ -45,7 +46,10 @@ class _TrendsState extends State<Trends> {
         );
       });
     } else {
-      print('Invalid User Credential: ${response.statusCode}');
+      setState(() {
+        isLoading = false;
+        print(jsonResponse['message']);
+      });
     }
   }
 
@@ -77,7 +81,7 @@ class _TrendsState extends State<Trends> {
 
   Widget buildEmptyContainer() {
     return Padding(
-      padding: EdgeInsets.only(top: 80),
+      padding: EdgeInsets.only(top: 120),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -156,7 +160,7 @@ class trendData extends StatelessWidget {
                   ),
                 ),
                 Container(
-                                color: Color.fromARGB(255, 161, 161, 161),
+                  color: Color.fromARGB(255, 161, 161, 161),
                   height: 25,
                   width: 140,
                   child: Center(
@@ -212,7 +216,7 @@ class trendData extends StatelessWidget {
                   ),
                 ),
                 Container(
-                         color: Color.fromARGB(255, 161, 161, 161),
+                  color: Color.fromARGB(255, 161, 161, 161),
                   height: 25,
                   width: 140,
                   child: Center(
@@ -240,7 +244,7 @@ class trendData extends StatelessWidget {
                   ),
                 ),
                 Container(
-                            color: Color.fromARGB(255, 161, 161, 161),
+                  color: Color.fromARGB(255, 161, 161, 161),
                   height: 25,
                   width: 140,
                   child: Center(
@@ -268,7 +272,7 @@ class trendData extends StatelessWidget {
                   ),
                 ),
                 Container(
-                            color: Color.fromARGB(255, 161, 161, 161),
+                  color: Color.fromARGB(255, 161, 161, 161),
                   height: 25,
                   width: 140,
                   child: Center(
@@ -300,13 +304,13 @@ class trendData extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                                Container(
+                Container(
                   color: Color.fromARGB(255, 77, 77, 77),
                   height: 30,
                   width: 120,
                   child: Center(
                     child: Text(
-                           'Unit',
+                      'Unit',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 255, 255, 255),
@@ -320,7 +324,7 @@ class trendData extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                            'ModeType',
+                      'ModeType',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -343,12 +347,12 @@ class trendData extends StatelessWidget {
                   ),
                 ),
                 Container(
-                                color: Color.fromARGB(255, 161, 161, 161),
+                  color: Color.fromARGB(255, 161, 161, 161),
                   height: 25,
                   width: 120,
                   child: Center(
                     child: Text(
-                    'cmH2O',
+                      'cmH2O',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -362,7 +366,7 @@ class trendData extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                 'cmH2O',
+                      'cmH2O',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -399,12 +403,12 @@ class trendData extends StatelessWidget {
                   ),
                 ),
                 Container(
-                         color: Color.fromARGB(255, 161, 161, 161),
+                  color: Color.fromARGB(255, 161, 161, 161),
                   height: 25,
                   width: 120,
                   child: Center(
                     child: Text(
-                 'Litre',
+                      'Litre',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -418,7 +422,7 @@ class trendData extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                 'Litre',
+                      'Litre',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -427,40 +431,12 @@ class trendData extends StatelessWidget {
                   ),
                 ),
                 Container(
-                            color: Color.fromARGB(255, 161, 161, 161),
+                  color: Color.fromARGB(255, 161, 161, 161),
                   height: 25,
                   width: 120,
                   child: Center(
                     child: Text(
-                     '%',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                    'BPM',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                            color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                       'Ratio',
+                      '%',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -474,7 +450,35 @@ class trendData extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                  'sec',
+                      'BPM',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Color.fromARGB(255, 161, 161, 161),
+                  height: 25,
+                  width: 120,
+                  child: Center(
+                    child: Text(
+                      'Ratio',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Color.fromARGB(255, 218, 217, 217),
+                  height: 25,
+                  width: 120,
+                  child: Center(
+                    child: Text(
+                      'sec',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -497,188 +501,188 @@ class trendData extends StatelessWidget {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                                    Container(
-                  color: Color.fromARGB(255, 77, 77, 77),
-                  height: 30,
-                  width: 140,
-                  child: Center(
-                    child: Text(
+                    Container(
+                      color: Color.fromARGB(255, 77, 77, 77),
+                      height: 30,
+                      width: 140,
+                      child: Center(
+                        child: Text(
                           '${trendsData['time']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 255, 255, 255),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                                 '${trendsData['mode']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${trendsData['mode']}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                '${trendsData['pip']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${trendsData['pip']}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                                color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                             '${trendsData['peep']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${trendsData['peep']}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
                           '${trendsData['mean_Airway']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                            '${trendsData['vti']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${trendsData['vti']}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                            '${trendsData['vte']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${trendsData['vte']}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                         color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                         '${trendsData['mve']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${trendsData['mve']}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                            '${trendsData['mvi']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${trendsData['mvi']}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                            color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                       '${trendsData['fio2']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${trendsData['fio2']}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                    '${trendsData['respiratory_Rate']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${trendsData['respiratory_Rate']}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                            color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                   '${trendsData['ie']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${trendsData['ie']}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                            '${trendsData['tinsp']}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${trendsData['tinsp']}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
                   ],
                 );
               }).toList(),

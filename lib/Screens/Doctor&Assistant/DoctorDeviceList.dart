@@ -63,7 +63,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['statusValue'] == 'SUCCESS') {
         var data = jsonResponse['data']['data'];
-        // print(jsonResponse);
+        print(jsonResponse);
         // devicesForUserList = List<Map<String, dynamic>>.from(data['data']);
         focusedDevices = List<Map<String, dynamic>>.from(data)
             .where((device) =>
@@ -159,7 +159,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                       else
                         for (var device in focusedDevices)
                           Builder(builder: (context) {
-                            print('Alarm Data : ${device['alarmData']}');
+                            // print('Alarm Data : ${device['alarmData']}');
                             print('Patient Data : ${device['patientData']}');
                             var newColor;
                             if (device['addTofocus'] == true) {

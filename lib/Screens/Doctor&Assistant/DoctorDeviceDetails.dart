@@ -101,7 +101,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
   @override
   void initState() {
     super.initState();
-
+print(widget.deviceId);
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         loadingCount = 1;

@@ -33,7 +33,7 @@ class _ProductsState extends State<Products> {
 
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 2), (Timer timer) {
-      if (_currentPage < 2) {
+      if (_currentPage < 2 ) {
         _currentPage++;
       } else {
         _currentPage = 0;
@@ -41,7 +41,7 @@ class _ProductsState extends State<Products> {
       _pageController.animateToPage(
         _currentPage,
         duration: Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
+        curve: Curves.easeInOutCubicEmphasized,
       );
     });
   }
@@ -74,30 +74,25 @@ class _ProductsState extends State<Products> {
                 'AgVa PRO',
                 style: TextStyle(
                   fontFamily: 'Avenir',
-                  color: Color.fromARGB(255, 255, 23, 116),
+                  color: Color.fromARGB(255, 148, 15, 69),
                   fontSize: MediaQuery.of(context).size.width * 0.05,
                   fontWeight: FontWeight.w300,
                 ),
               ),
-              Text(
-                'VENTILATOR',
-                style: TextStyle(
-                  fontFamily: 'Avenir',
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  fontSize: MediaQuery.of(context).size.width * 0.035,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
+              
               SizedBox(
                 height: 20,
               ),
-              Text(
-                'Rs.XXXXXX',
-                style: TextStyle(
-                  fontFamily: 'Avenir',
-                  color: Color.fromARGB(161, 0, 0, 0),
-                  fontSize: MediaQuery.of(context).size.width * 0.03,
-                  fontWeight: FontWeight.bold,
+              SizedBox(
+                width: 150,
+                child: Text(
+                  'WORLD’S MOST INTELLIGENT ICU VENTILATOR',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    color: Color.fromARGB(161, 0, 0, 0),
+                    fontSize: MediaQuery.of(context).size.width * 0.025,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(
@@ -107,7 +102,7 @@ class _ProductsState extends State<Products> {
                 'Readmore',
                 style: TextStyle(
                   fontFamily: 'Avenir',
-                  color: Color.fromARGB(255, 0, 107, 184),
+                 color: Color.fromARGB(255, 0, 75, 129),
                   fontSize: MediaQuery.of(context).size.width * 0.03,
                   fontWeight: FontWeight.w300,
                 ),
@@ -163,20 +158,20 @@ class _ProductsState extends State<Products> {
                     'Insulin Pump',
                     style: TextStyle(
                       fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 255, 23, 116),
+                          color: Color.fromARGB(255, 148, 15, 69),
                       fontSize: MediaQuery.of(context).size.width * 0.03,
                       fontWeight: FontWeight.w300,
                     ),
                   ),
-                  Text(
-                    'Rs.xxxxx',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
+                 Text(
+                'Readmore',
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                 color: Color.fromARGB(255, 0, 75, 129),
+                  fontSize: MediaQuery.of(context).size.width * 0.03,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
                 ],
               ),
             ],
@@ -224,20 +219,20 @@ class _ProductsState extends State<Products> {
                     'Patient Monitor',
                     style: TextStyle(
                       fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 255, 23, 116),
+                          color: Color.fromARGB(255, 148, 15, 69),
                       fontSize: MediaQuery.of(context).size.width * 0.03,
                       fontWeight: FontWeight.w300,
                     ),
                   ),
                   Text(
-                    'Rs.xxxxx',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
+                'Readmore',
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                 color: Color.fromARGB(255, 0, 75, 129),
+                  fontSize: MediaQuery.of(context).size.width * 0.03,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
                 ],
               ),
             ],
@@ -285,20 +280,20 @@ class _ProductsState extends State<Products> {
                     'DVT Pump',
                     style: TextStyle(
                       fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 255, 23, 116),
+                          color: Color.fromARGB(255, 148, 15, 69),
                       fontSize: MediaQuery.of(context).size.width * 0.03,
                       fontWeight: FontWeight.w300,
                     ),
                   ),
                   Text(
-                    'Rs.xxxxx',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
+                'Readmore',
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                  color: Color.fromARGB(255, 0, 75, 129),
+                  fontSize: MediaQuery.of(context).size.width * 0.025,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
                 ],
               ),
             ],
@@ -346,20 +341,20 @@ class _ProductsState extends State<Products> {
                     'Suction Pump',
                     style: TextStyle(
                       fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 255, 23, 116),
+                          color: Color.fromARGB(255, 148, 15, 69),
                       fontSize: MediaQuery.of(context).size.width * 0.03,
                       fontWeight: FontWeight.w300,
                     ),
                   ),
                   Text(
-                    'Rs.xxxxx',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
+                'Readmore',
+                style: TextStyle(
+                  fontFamily: 'Avenir',
+                 color: Color.fromARGB(255, 0, 75, 129),
+                  fontSize: MediaQuery.of(context).size.width * 0.03,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
                 ],
               ),
             ],

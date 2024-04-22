@@ -26,15 +26,20 @@ class _CalibrationState extends State<Calibration> {
   }
 
   Future<void> getCalibrationbyId() async {
-    var response = await http.get(Uri.parse('$getDeviceCalibyID/$deviceId?page=1&limit=5'));
+    var response = await http
+        .get(Uri.parse('$getDeviceCalibyID/$deviceId?page=1&limit=5'));
     jsonResponse = jsonDecode(response.body);
     print('Current Device ID: $deviceId');
     if (jsonResponse['statusCode'] == 200) {
+      print(jsonResponse);
       setState(() {
         isLoading = false;
       });
     } else {
-      print('Invalid User Credential: ${response.statusCode}');
+      setState(() {
+        isLoading = false;
+        print(jsonResponse['message']);
+      });
     }
   }
 
@@ -63,7 +68,7 @@ class _CalibrationState extends State<Calibration> {
             ),
             if (isLoading)
               buildEmptyContainer2()
-            else if (jsonResponse['data'].isEmpty)
+            else if (jsonResponse['statusCode'] > 400)
               buildEmptyContainer()
             else
               for (var calbData in jsonResponse['data'])
@@ -157,7 +162,7 @@ class _CalibrationState extends State<Calibration> {
     } else if (text == "FAILED") {
       backgroundColor = const Color.fromARGB(255, 255, 17, 0);
     } else {
-    backgroundColor = Color.fromARGB(255, 43, 199, 0);
+      backgroundColor = Color.fromARGB(255, 43, 199, 0);
     }
 
     return Container(

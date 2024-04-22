@@ -165,7 +165,9 @@ class _EventsState extends State<Events> {
               children: [
                 Row(
                   children: [
-                    SizedBox(width: 20),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 30,
+                    ),
                     buildColumnContent(buildMsgContent(eventData['message'])),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.01,
@@ -175,7 +177,7 @@ class _EventsState extends State<Events> {
                     buildColumnContent(buildTimeContent(eventData['time'])),
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox( height: MediaQuery.of(context).size.height / 60,),
                 Container(
                   height: 0.1,
                   color: Colors.white,
@@ -202,7 +204,7 @@ class _EventsState extends State<Events> {
 
   Widget buildMsgContent(String text) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.223,
+       width: MediaQuery.of(context).size.width / 5.2,
       child: Text(
         text,
         maxLines: 3,

@@ -70,49 +70,51 @@ class _MonitorDataState extends State<MonitorData> {
     return SafeArea(
       child: Scaffold(
      backgroundColor: Colors.black,
-        body: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding:
-                       EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        width: MediaQuery.of(context).size.width * 1,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Color.fromARGB(255, 157, 0, 86),
+        body: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding:
+                         EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          width: MediaQuery.of(context).size.width * 1,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Color.fromARGB(255, 157, 0, 86),
+                          ),
+                          child: Row(
+                            children: [
+                              buildButton('Events'),
+                              buildButton('Alarms'),
+                              buildButton('Trends'),
+                              buildButton('Calibration'),
+                            ],
+                          ),
                         ),
-                        child: Row(
-                          children: [
-                            buildButton('Events'),
-                            buildButton('Alarms'),
-                            buildButton('Trends'),
-                            buildButton('Calibration'),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.85,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                        color: Color.fromARGB(255, 58, 58, 58),
-                        ),
-                        child: buildBigContainerContent(),
-                      )
-                    ],
+                        Container(
+                           height: MediaQuery.of(context).size.height / 1.22,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          color: Color.fromARGB(255, 58, 58, 58),
+                          ),
+                          child: buildBigContainerContent(),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                // TextButton(onPressed: loadMore, child: Text ('next'))
-              ],
-            ),
-          ],
+                  // TextButton(onPressed: loadMore, child: Text ('next'))
+                ],
+              ),
+            ],
+          ),
         ),
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(left: 5.0),

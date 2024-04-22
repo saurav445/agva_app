@@ -135,7 +135,7 @@ class _PatientListState extends State<PatientList>
                         color: Color.fromARGB(255, 181, 0, 100),
                       ),
                     )
-                  else if (userData.isEmpty)
+                  else if (currentData.isEmpty)
                     Column(
                       children: [
                         SizedBox(
