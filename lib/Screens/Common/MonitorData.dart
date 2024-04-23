@@ -99,7 +99,7 @@ class _MonitorDataState extends State<MonitorData> {
                           ),
                         ),
                         Container(
-                           height: MediaQuery.of(context).size.height / 1.22,
+                           height: MediaQuery.of(context).size.height / 1.2,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),

@@ -75,8 +75,7 @@ class _ProductsState extends State<Products> {
     return Row(
       children: [
         Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          width: MediaQuery.of(context).size.width * 0.28,
+          width: MediaQuery.of(context).size.width / 3.5,
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -93,20 +92,20 @@ class _ProductsState extends State<Products> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.11,
-                width: MediaQuery.of(context).size.width * 0.25,
+                height: MediaQuery.of(context).size.height / 9,
+                width: MediaQuery.of(context).size.width / 4.1,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Color.fromARGB(71, 251, 172, 103),
                 ),
                 child: Image.asset(
                   'assets/images/Insulin ad.png',
-                  height: 20,
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                 
                   Text(
                     'Insulin Pump',
                     style: TextStyle(
@@ -127,6 +126,7 @@ class _ProductsState extends State<Products> {
                   ),
                 ],
               ),
+         
             ],
           ),
         ),
@@ -134,8 +134,7 @@ class _ProductsState extends State<Products> {
           width: 10,
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          width: MediaQuery.of(context).size.width * 0.28,
+            width: MediaQuery.of(context).size.width / 3.5,
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -152,8 +151,8 @@ class _ProductsState extends State<Products> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.11,
-                width: MediaQuery.of(context).size.width * 0.25,
+           height: MediaQuery.of(context).size.height / 9,
+                width: MediaQuery.of(context).size.width / 4.1,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Color.fromARGB(67, 103, 167, 251),
@@ -195,8 +194,7 @@ class _ProductsState extends State<Products> {
           width: 10,
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          width: MediaQuery.of(context).size.width * 0.28,
+            width: MediaQuery.of(context).size.width / 3.5,
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -213,8 +211,8 @@ class _ProductsState extends State<Products> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.11,
-                width: MediaQuery.of(context).size.width * 0.25,
+           height: MediaQuery.of(context).size.height / 9,
+                width: MediaQuery.of(context).size.width / 4.1,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Color.fromARGB(53, 251, 103, 155),
@@ -256,8 +254,7 @@ class _ProductsState extends State<Products> {
           width: 10,
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          width: MediaQuery.of(context).size.width * 0.28,
+            width: MediaQuery.of(context).size.width / 3.5,
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -274,8 +271,8 @@ class _ProductsState extends State<Products> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.11,
-                width: MediaQuery.of(context).size.width * 0.25,
+           height: MediaQuery.of(context).size.height / 9,
+                width: MediaQuery.of(context).size.width / 4.1,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Color.fromARGB(54, 184, 103, 251),
@@ -347,7 +344,8 @@ class _ProductsState extends State<Products> {
             productAdList.isEmpty
                 ? CircularProgressIndicator()
                 : SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height / 4,
+                    width: MediaQuery.of(context).size.width / 1,
                     child: PageView(
                       controller: _pageController,
                       children: productAdList
@@ -356,9 +354,7 @@ class _ProductsState extends State<Products> {
                                     horizontal: 20, vertical: 10),
                                 child: Container(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.2,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.9,
+                                      MediaQuery.of(context).size.height / 5,
                                   decoration: BoxDecoration(
                                     boxShadow: [
                                       BoxShadow(
@@ -399,10 +395,16 @@ class _ProductsState extends State<Products> {
                                               ),
                                             ),
                                             SizedBox(
-                                              height: 20,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  50,
                                             ),
                                             SizedBox(
-                                              width: 180,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3,
                                               child: Text(
                                                 '${data['project_description']}',
                                                 style: TextStyle(
@@ -425,7 +427,8 @@ class _ProductsState extends State<Products> {
                                               color: Color.fromARGB(
                                                   255, 148, 15, 69),
                                               child: Padding(
-                                                padding: const EdgeInsets.all(5.0),
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
                                                 child: Text(
                                                   'View Product',
                                                   style: TextStyle(
@@ -446,6 +449,10 @@ class _ProductsState extends State<Products> {
                                         ),
                                         Image.network(
                                           '${data['image_url']}',
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3,
                                         ),
                                       ],
                                     ),
@@ -464,7 +471,7 @@ class _ProductsState extends State<Products> {
               height: 10,
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: MediaQuery.of(context).size.height / 4.5,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: 1,

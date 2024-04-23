@@ -33,6 +33,7 @@ class _AlarmsState extends State<Alarms> {
     jsonResponse = jsonDecode(response.body);
     print('Current Device ID: $deviceId');
     if (jsonResponse['statusCode'] == 200) {
+      print(jsonResponse);
       setState(() {
         isLoading = false;
       });
