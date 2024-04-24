@@ -242,7 +242,8 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                       if (result != null && result == 'refresh') {
                         getHospitals();
                       }
-                    } else if (project == 'Patient Monitor') {
+                    }
+                     else if (project == 'Patient Monitor') {
                       final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -253,7 +254,8 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                       if (result != null && result == 'refresh') {
                         getHospitals();
                       }
-                    } else {
+                    } 
+                    else {
                       final snackBar = SnackBar(
                         backgroundColor: const Color.fromARGB(255, 65, 65, 65),
                         content: Text(

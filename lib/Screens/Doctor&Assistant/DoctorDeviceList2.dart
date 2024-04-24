@@ -1,7 +1,5 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, library_private_types_in_public_api, use_key_in_widget_constructors, use_build_context_synchronously, must_be_immutable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, library_private_types_in_public_api, use_key_in_widget_constructors, use_build_context_synchronously, must_be_immutable, prefer_const_constructors_in_immutables
 import 'dart:convert';
-import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceDetails.dart';
-import 'package:agva_app/Service/SocketService.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DoctorDeviceList2 extends StatefulWidget {
   final String hospitalName;
   final String hospitaladdress;
-  DoctorDeviceList2(
-      this.hospitalName, this.hospitaladdress);
+  DoctorDeviceList2(this.hospitalName, this.hospitaladdress);
 
   @override
   _DoctorDeviceList2State createState() => _DoctorDeviceList2State();
@@ -54,7 +51,7 @@ class _DoctorDeviceList2State extends State<DoctorDeviceList2> {
 
     String? token = await getToken();
     if (token != null) {
-     String code = '003';
+      String code = '003';
       var response = await http.get(
         Uri.parse('$getDeviceForDoctor2/$code'),
         headers: {
@@ -70,7 +67,7 @@ class _DoctorDeviceList2State extends State<DoctorDeviceList2> {
             .where((device) =>
                 // device['deviceInfo'][0]?['isAssigned'] == true &&
                 device['deviceInfo'][0]?['Hospital_Name'] ==
-                    widget.hospitalName)
+                widget.hospitalName)
             .toList();
 
         setState(() {
@@ -160,7 +157,7 @@ class _DoctorDeviceList2State extends State<DoctorDeviceList2> {
                       else
                         for (var device in focusedDevices)
                           Builder(builder: (context) {
-                           print('Alarm Data : ${device['alarmData']}');
+                            print('Alarm Data : ${device['alarmData']}');
                             print('Patient Data : ${device['patientData']}');
                             var newColor;
                             if (device['addTofocus'] == true) {
@@ -200,7 +197,8 @@ class _DoctorDeviceList2State extends State<DoctorDeviceList2> {
                                 ptName = '-';
                               }
                               if (device['patientData'][0]['age'].isNotEmpty) {
-                                ptAge = '${device['patientData'][0]['age']} YEARS';
+                                ptAge =
+                                    '${device['patientData'][0]['age']} YEARS';
                               } else {
                                 ptAge = '-';
                               }
@@ -230,29 +228,29 @@ class _DoctorDeviceList2State extends State<DoctorDeviceList2> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 10),
                                     child: GestureDetector(
-                                      onTap: () async {
-                                        final result = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                DoctorDeviceDetails(
-                                              device['deviceInfo']?[0]
-                                                  ['DeviceId'],
-                                              SocketServices(),
-                                              device['deviceInfo']?[0]
-                                                  ['Ward_No'],
-                                              device['deviceInfo']?[0]
-                                                  ['DeviceType'],
-                                              device['message'],
-                                            ),
-                                          ),
-                                        );
+                                      // onTap: () async {
+                                      //   final result = await Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //       builder: (context) =>
+                                      //           DoctorDeviceDetails(
+                                      //         device['deviceInfo']?[0]
+                                      //             ['DeviceId'],
+                                      //         SocketServices(),
+                                      //         device['deviceInfo']?[0]
+                                      //             ['Ward_No'],
+                                      //         device['deviceInfo']?[0]
+                                      //             ['DeviceType'],
+                                      //         device['message'],
+                                      //       ),
+                                      //     ),
+                                      //   );
 
-                                        if (result != null &&
-                                            result == 'refresh') {
-                                          fetchGetDevicesForDoctor();
-                                        }
-                                      },
+                                      //   if (result != null &&
+                                      //       result == 'refresh') {
+                                      //     fetchGetDevicesForDoctor();
+                                      //   }
+                                      // },
                                       child: Container(
                                         decoration: BoxDecoration(
                                           borderRadius:

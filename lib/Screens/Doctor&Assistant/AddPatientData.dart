@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings, library_private_types_in_public_api, avoid_print, prefer_final_fields, unused_field, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings, library_private_types_in_public_api, avoid_print, prefer_final_fields, unused_field, use_build_context_synchronously, prefer_const_constructors_in_immutables
 
 import 'dart:async';
 import 'dart:convert';

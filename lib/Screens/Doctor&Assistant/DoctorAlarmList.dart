@@ -167,7 +167,7 @@ class DoctorAlarmListState extends State<DoctorAlarmList> {
                             Row(
                               children: [
                                 Text(
-                                  alarmData['ack']['date'],
+                                  alarmData['ack']['date'] ?? '',
                                   style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),
@@ -180,7 +180,7 @@ class DoctorAlarmListState extends State<DoctorAlarmList> {
                                   width: 5,
                                 ),
                                 Text(
-                                  alarmData['ack']['time'],
+                                  alarmData['ack']['time'] ?? '',
                                   style: TextStyle(
                                       fontFamily: 'Avenir',
                                       color: Color.fromARGB(255, 218, 218, 218),

@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, library_private_types_in_public_api
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +17,7 @@ class _ProductsState extends State<Products> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
   Timer? _timer;
-  List<dynamic> productAdList = [];
+  List<dynamic> productList = [];
   bool isLoading = true;
 
   void getProductsAdList() async {
@@ -24,10 +25,11 @@ class _ProductsState extends State<Products> {
       Uri.parse(getproductAdList),
     );
     var jsonResponse = jsonDecode(response.body);
-    print(jsonResponse);
+
     if (jsonResponse['statusCode'] == 'SUCCESS') {
       setState(() {
-        productAdList = jsonResponse['data'];
+        productList = jsonResponse['data'];
+        print(productList);
         isLoading = false;
       });
     } else {
@@ -60,6 +62,7 @@ class _ProductsState extends State<Products> {
     _timer = Timer.periodic(Duration(seconds: 2), (Timer timer) {
       if (_currentPage < 2) {
         _currentPage++;
+        //  getProductsAdList();
       } else {
         _currentPage = 0;
       }
@@ -71,251 +74,15 @@ class _ProductsState extends State<Products> {
     });
   }
 
-  Widget _buildProductCard2() {
-    return Row(
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width / 3.5,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 3,
-                blurRadius: 10,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ],
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height / 9,
-                width: MediaQuery.of(context).size.width / 4.1,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(71, 251, 172, 103),
-                ),
-                child: Image.asset(
-                  'assets/images/Insulin ad.png',
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                 
-                  Text(
-                    'Insulin Pump',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 148, 15, 69),
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  Text(
-                    'Readmore',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 0, 75, 129),
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ],
-              ),
-         
-            ],
-          ),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Container(
-            width: MediaQuery.of(context).size.width / 3.5,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 3,
-                blurRadius: 10,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ],
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-           height: MediaQuery.of(context).size.height / 9,
-                width: MediaQuery.of(context).size.width / 4.1,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(67, 103, 167, 251),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Image.asset(
-                    'assets/images/ad patientmonitor.png',
-                  ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Patient Monitor',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 148, 15, 69),
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  Text(
-                    'Readmore',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 0, 75, 129),
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Container(
-            width: MediaQuery.of(context).size.width / 3.5,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 3,
-                blurRadius: 10,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ],
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-           height: MediaQuery.of(context).size.height / 9,
-                width: MediaQuery.of(context).size.width / 4.1,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(53, 251, 103, 155),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Image.asset(
-                    'assets/images/DVT 3.png',
-                  ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'DVT Pump',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 148, 15, 69),
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  Text(
-                    'Readmore',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 0, 75, 129),
-                      fontSize: MediaQuery.of(context).size.width * 0.025,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Container(
-            width: MediaQuery.of(context).size.width / 3.5,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 3,
-                blurRadius: 10,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ],
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-           height: MediaQuery.of(context).size.height / 9,
-                width: MediaQuery.of(context).size.width / 4.1,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(54, 184, 103, 251),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Image.asset(
-                    'assets/images/Suction 2.png',
-                  ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Suction Pump',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 148, 15, 69),
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  Text(
-                    'Readmore',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 0, 75, 129),
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    Color randomColor = Color.fromRGBO(
+      Random().nextInt(255),
+      Random().nextInt(255),
+      Random().nextInt(255),
+      220,
+    );
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -339,152 +106,215 @@ class _ProductsState extends State<Products> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            productAdList.isEmpty
-                ? CircularProgressIndicator()
-                : SizedBox(
-                    height: MediaQuery.of(context).size.height / 4,
-                    width: MediaQuery.of(context).size.width / 1,
-                    child: PageView(
-                      controller: _pageController,
-                      children: productAdList
-                          .map((data) => Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height / 5,
-                                  decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.3),
-                                        spreadRadius: 3,
-                                        blurRadius: 10,
-                                        offset: Offset(
-                                            0, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white,
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              '${data['project_name']}',
-                                              style: TextStyle(
-                                                fontFamily: 'Avenir',
-                                                color: Color.fromARGB(
-                                                    255, 148, 15, 69),
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.05,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  50,
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  3,
-                                              child: Text(
-                                                '${data['project_description']}',
-                                                style: TextStyle(
-                                                  fontFamily: 'Avenir',
-                                                  color: Color.fromARGB(
-                                                      161, 0, 0, 0),
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.025,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Container(
-                                              color: Color.fromARGB(
-                                                  255, 148, 15, 69),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(5.0),
-                                                child: Text(
-                                                  'View Product',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Avenir',
-                                                    color: Color.fromARGB(
-                                                        255, 251, 253, 255),
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.02,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Image.network(
-                                          '${data['image_url']}',
-                                          width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  3,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ))
-                          .toList(),
-                      onPageChanged: (int index) {
-                        setState(() {
-                          _currentPage = index;
-                        });
-                      },
+        child: productList.isEmpty
+            ? SizedBox( height:2, 
+             child: LinearProgressIndicator(color: Colors.pink,))
+            : Column(
+                children: [
+                  bannerList(
+                      context,
+                      productList
+                          .where((data) => data['type'] == 'banner')
+                          .toList()),
+                  featureList(
+                      context,
+                      randomColor,
+                      productList
+                          .where((data) => data['type'] == 'featured')
+                          .toList()),
+                  featureList(
+                      context,
+                      randomColor,
+                      productList
+                          .where((data) => data['type'] == 'commingsoon')
+                          .toList()),
+                  featureList(
+                      context,
+                      randomColor,
+                      productList
+                          .where((data) => data['type'] == 'topselling')
+                          .toList()),
+                  // bannerList(
+                  //     context,
+                  //     productList
+                  //         .where((data) => data['type'] == 'topproduct')
+                  //         .toList()),
+                ],
+              ),
+      ),
+    );
+  }
+
+  SizedBox featureList(
+      BuildContext context, Color randomColor, List<dynamic> dataList) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height / 4.5,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 1,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              children: dataList.map((data) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 11),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 3.5,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 3,
+                          blurRadius: 10,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height / 9,
+                          width: MediaQuery.of(context).size.width / 4,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color.fromARGB(27, 178, 0, 59)),
+                          child: Image.network(
+                            '${data['image_url']}',
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${data['product_name']}',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 148, 15, 69),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            Text(
+                              'Readmore',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 0, 75, 129),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-            SizedBox(
-              height: 10,
+                );
+              }).toList(),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 4.5,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    child: _buildProductCard2(),
-                  );
-                },
+          );
+        },
+      ),
+    );
+  }
+
+  SizedBox bannerList(BuildContext context, List<dynamic> dataList) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height / 4.5,
+      width: MediaQuery.of(context).size.width / 1,
+      child: PageView(
+        controller: _pageController,
+        children: dataList.map((data) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Container(
+              height: MediaQuery.of(context).size.height / 5,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 3,
+                    blurRadius: 10,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '${data['project_name']}',
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            color: Color.fromARGB(255, 148, 15, 69),
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 50,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 3,
+                          child: Text(
+                            '${data['project_description']}',
+                            style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(161, 0, 0, 0),
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          color: Color.fromARGB(255, 148, 15, 69),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text(
+                              'View Product',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 251, 253, 255),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.02,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Image.network(
+                      '${data['image_url']}',
+                    ),
+                  ],
+                ),
               ),
             ),
-          ],
-        ),
+          );
+        }).toList(),
+        onPageChanged: (int index) {
+          setState(() {
+            _currentPage = index;
+          });
+        },
       ),
     );
   }
