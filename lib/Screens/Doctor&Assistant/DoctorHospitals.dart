@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
-import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceList2.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceList.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'DoctorDeviceList.dart';
+import 'DeviceListAgVaPro.dart';
 import 'package:http/http.dart' as http;
 
 class DoctorHospitals extends StatefulWidget {
@@ -233,7 +233,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                       final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DoctorDeviceList(
+                          builder: (context) => DeviceListAgVaPro(
                             hospitalname,
                             hospitaladdress,
                           ),
@@ -242,20 +242,18 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                       if (result != null && result == 'refresh') {
                         getHospitals();
                       }
-                    }
-                     else if (project == 'Patient Monitor') {
+                    } else if (project == 'Patient Monitor') {
                       final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              DoctorDeviceList2(hospitalname, hospitaladdress),
+                              DoctorDeviceList(hospitalname, hospitaladdress),
                         ),
                       );
                       if (result != null && result == 'refresh') {
                         getHospitals();
                       }
-                    } 
-                    else {
+                    } else {
                       final snackBar = SnackBar(
                         backgroundColor: const Color.fromARGB(255, 65, 65, 65),
                         content: Text(

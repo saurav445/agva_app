@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, library_private_types_in_public_api, use_key_in_widget_constructors, use_build_context_synchronously, must_be_immutable
 import 'dart:convert';
-import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceDetails.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/DeviceDetailsAgVaPro.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';

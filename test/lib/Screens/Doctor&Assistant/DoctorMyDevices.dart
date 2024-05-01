@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
-import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceDetails.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/DeviceDetailsAgVaPro.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'dart:convert';
 import 'package:agva_app/config.dart';

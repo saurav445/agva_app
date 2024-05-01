@@ -65,6 +65,7 @@ class _PatientListState extends State<PatientList>
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse);
       if (jsonResponse['statusCode'] == 200) {
+        print(jsonResponse);
         setState(() {
           userData = jsonResponse['data'];
           currentData = jsonResponse['currentData'];
@@ -135,7 +136,7 @@ class _PatientListState extends State<PatientList>
                         color: Color.fromARGB(255, 181, 0, 100),
                       ),
                     )
-                  else if (currentData.isEmpty)
+                  else if (currentData.isEmpty || currentData.contains(null) )
                     Column(
                       children: [
                         SizedBox(
@@ -273,32 +274,32 @@ class _PatientListState extends State<PatientList>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '${user['patientName']}',
+                            '${user['patientName']}' ?? '',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
                           Text(
-                            '${user['UHID']}',
+                            '${user['UHID']}'?? '',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
                           //ward no. change to bed no.
                           Text(
-                            '${user['bed_no']}',
+                            '${user['bed_no']}'?? '',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
                           Text(
-                            '${user['ward_no']}',
+                            '${user['ward_no']}'?? '',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
                           Text(
-                            '${user['age']}',
+                            '${user['age']}'?? '',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
                           Text(
-                            '${user['weight']}',
+                            '${user['weight']}'?? '',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
                           Text(
-                            '${user['height']}',
+                            '${user['height']}'?? '',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
                             SizedBox(

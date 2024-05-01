@@ -4,13 +4,13 @@ import 'dart:convert';
 import 'package:agva_app/AuthScreens/SignIn.dart';
 import 'package:agva_app/Screens/Common/NotificationScreen.dart';
 import 'package:agva_app/Screens/Common/Profile.dart';
-import 'package:agva_app/Service/Products.dart';
-import 'package:agva_app/Screens/Doctor&Assistant/DoctorFocusDevices.dart';
+import 'package:agva_app/Service/ProductsService.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/DoctorAlarmDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHospitals.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorMyDevices.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/UserControl.dart';
 import 'package:agva_app/Service/MessagingService.dart';
-import 'package:agva_app/Service/Payment.dart';
+import 'package:agva_app/Service/PaymentService.dart';
 import 'package:agva_app/config.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -457,7 +457,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DoctorFocusAlarms(),
+                      builder: (context) => AlarmDeviceList(),
                     ),
                   );
                 },

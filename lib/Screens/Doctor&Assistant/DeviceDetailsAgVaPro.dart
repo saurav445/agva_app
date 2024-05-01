@@ -14,21 +14,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class DoctorDeviceDetails extends StatefulWidget {
+class DeviceDetailsAgVaPro extends StatefulWidget {
   final String deviceId;
   final SocketServices socketService;
   final String wardNo;
   final String deviceType;
   final String message;
 
-  const DoctorDeviceDetails(this.deviceId, this.socketService, this.wardNo,
+  const DeviceDetailsAgVaPro(this.deviceId, this.socketService, this.wardNo,
       this.deviceType, this.message);
 
   @override
-  State<DoctorDeviceDetails> createState() => _DoctorDeviceDetailsState();
+  State<DeviceDetailsAgVaPro> createState() => _DeviceDetailsAgVaProState();
 }
 
-class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
+class _DeviceDetailsAgVaProState extends State<DeviceDetailsAgVaPro> {
   late SocketServices socketService;
   bool isLoading = false;
   bool setFocus = false;
@@ -101,7 +101,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
   @override
   void initState() {
     super.initState();
-
+print(widget.deviceId);
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         loadingCount = 1;

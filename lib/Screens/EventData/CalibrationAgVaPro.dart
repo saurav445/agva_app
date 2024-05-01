@@ -113,20 +113,13 @@ class _CalibrationState extends State<Calibration> {
 
   Widget buildEmptyContainer() {
     return Padding(
-      padding: const EdgeInsets.only(top: 80),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'No Calibration Data',
-            style: TextStyle(
-              fontSize: 12,
-              color: Color.fromARGB(255, 218, 218, 218),
-            ),
-          ),
-          SizedBox(height: 10),
-        ],
+     padding: const EdgeInsets.only(top: 80),
+      child: Text(
+        'No Calibration Data',
+        style: TextStyle(
+          fontSize: 12,
+          color: Color.fromARGB(255, 218, 218, 218),
+        ),
       ),
     );
   }

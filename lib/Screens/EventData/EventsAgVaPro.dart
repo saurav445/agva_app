@@ -137,20 +137,14 @@ class _EventsState extends State<Events> {
   }
 
   Widget buildEmptyContainer() {
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'No Events Found',
-            style: TextStyle(
-              fontSize: 12,
-              color: Color.fromARGB(255, 218, 218, 218),
-            ),
-          ),
-          SizedBox(height: 10),
-        ],
+    return Padding(
+    padding: const EdgeInsets.only(top: 80),
+      child: Text(
+        'No Events Found',
+        style: TextStyle(
+          fontSize: 12,
+          color: Color.fromARGB(255, 218, 218, 218),
+        ),
       ),
     );
   }

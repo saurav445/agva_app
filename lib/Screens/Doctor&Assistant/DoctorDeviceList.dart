@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, library_private_types_in_public_api, use_key_in_widget_constructors, use_build_context_synchronously, must_be_immutable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, library_private_types_in_public_api, use_key_in_widget_constructors, use_build_context_synchronously, must_be_immutable, prefer_const_constructors_in_immutables
 import 'dart:convert';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceDetails.dart';
 import 'package:agva_app/Service/SocketService.dart';
@@ -28,7 +28,6 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
   @override
   void initState() {
     super.initState();
-    print(widget.hospitalName);
     print('i am in device list');
     fetchGetDevicesForDoctor();
     SystemChrome.setPreferredOrientations([
@@ -54,8 +53,9 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
 
     String? token = await getToken();
     if (token != null) {
+      String code = '003';
       var response = await http.get(
-        Uri.parse(getDeviceForDoctor),
+        Uri.parse('$getDeviceForDoctor2/$code'),
         headers: {
           "Authorization": 'Bearer $token',
         },
@@ -64,12 +64,12 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
       if (jsonResponse['statusValue'] == 'SUCCESS') {
         var data = jsonResponse['data']['data'];
         print(jsonResponse);
-        // devicesForUserList = List<Map<String, dynamic>>.from(data['data']);
+
         focusedDevices = List<Map<String, dynamic>>.from(data)
             .where((device) =>
-                device['isAssigned'] == true &&
+                // device['deviceInfo'][0]?['isAssigned'] == true &&
                 device['deviceInfo'][0]?['Hospital_Name'] ==
-                    widget.hospitalName)
+                widget.hospitalName)
             .toList();
 
         setState(() {
@@ -159,10 +159,14 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                       else
                         for (var device in focusedDevices)
                           Builder(builder: (context) {
-                            // print('Alarm Data : ${device['alarmData']}');
+                            print('Alarm Data : ${device['alarmData']}');
                             print('Patient Data : ${device['patientData']}');
-                            var newColor;
+
+                            Color? newColor;
                             if (device['addTofocus'] == true) {
+                              bool i = device['addTofocus'];
+                              print(i);
+                            
                               newColor = Color.fromARGB(255, 174, 34, 104);
                             } else {
                               newColor = Color.fromARGB(
@@ -190,7 +194,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                             String? ptName;
                             String? ptAge;
                             String? ptWeight;
-                            if (device['patientData'].isNotEmpty) {
+                            if (device['patientData']?.isNotEmpty ?? false) {
                               if (device['patientData'][0]['patientName']
                                   .isNotEmpty) {
                                 ptName =
@@ -199,7 +203,8 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                                 ptName = '-';
                               }
                               if (device['patientData'][0]['age'].isNotEmpty) {
-                                ptAge = '${device['patientData'][0]['age']} YEARS';
+                                ptAge =
+                                    '${device['patientData'][0]['age']} YEARS';
                               } else {
                                 ptAge = '-';
                               }

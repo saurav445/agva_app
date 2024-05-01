@@ -1,7 +1,5 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
-
-import 'package:agva_app/Screens/Doctor&Assistant/DeviceDetailsAgVaPro.dart';
-import 'package:agva_app/Service/SocketService.dart';
+import 'package:agva_app/Screens/Doctor&Assistant/DoctorAlarmList.dart';
 import 'dart:convert';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-class DoctorMyDevices extends StatefulWidget {
+class AlarmDeviceList extends StatefulWidget {
   @override
-  _DoctorMyDevicesState createState() => _DoctorMyDevicesState();
+  _AlarmDeviceListState createState() => _AlarmDeviceListState();
 }
 
-class _DoctorMyDevicesState extends State<DoctorMyDevices> {
+class _AlarmDeviceListState extends State<AlarmDeviceList> {
   List<Map<String, dynamic>> focusedDevices = [];
   List<Map<String, dynamic>> focusedDevices2 = [];
   bool isLoading = true;
@@ -153,8 +151,7 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
           children: [
               for (var device in focusedDevices2)
                 Builder(builder: (context) {
-                  print('Alarm Data : ${device['alarmData']}');
-                  print('Patient Data : ${device['patientData']}');
+        
                   var newColor;
                   if (device['addTofocus'] == true) {
                     newColor = Color.fromARGB(255, 174, 34, 104);
@@ -221,12 +218,9 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
                               final result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => DeviceDetailsAgVaPro(
+                                  builder: (context) => DoctorAlarmList(
                                     device['deviceInfo']?[0]['DeviceId'],
-                                    SocketServices(),
-                                    device['deviceInfo']?[0]['Ward_No'],
-                                    device['deviceInfo']?[0]['DeviceType'],
-                                    device['message'],
+                                    device['deviceInfo']?[0]['Hospital_Name'],
                                   ),
                                 ),
                               );
@@ -396,8 +390,7 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
           children: [
               for (var device in focusedDevices)
                 Builder(builder: (context) {
-                  print('Alarm Data : ${device['alarmData']}');
-                  print('Patient Data : ${device['patientData']}');
+        
                   var newColor;
                   if (device['addTofocus'] == true) {
                     newColor = Color.fromARGB(255, 174, 34, 104);
@@ -464,15 +457,16 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
                               final result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => DeviceDetailsAgVaPro(
+                                      builder: (context) => DoctorAlarmList(
                                     device['deviceInfo']?[0]['DeviceId'],
-                                    SocketServices(),
-                                    device['deviceInfo']?[0]['Ward_No'],
-                                    device['deviceInfo']?[0]['DeviceType'],
-                                    device['message'],
+                                    device['deviceInfo']?[0]['Hospital_Name'],
                                   ),
                                 ),
                               );
+
+                          
+                          
+
 
                               if (result != null && result == 'refresh') {
                                   fetchFocusedDevices();
