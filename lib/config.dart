@@ -14,6 +14,7 @@ final getProjects = '$url/api/logger/projects';
 final getProductionData = '$url/production/get-byid';
 //v2
 final getDeviceEventbyID = '$url/api/logger/logs/deviceEvents';
+final getDeviceEventbyID2 = '$url/api/logger/logs/v2/deviceEvents';
 //v2
 final getDeviceTrendsbyID = '$url/api/logger/logs/deviceTrends';
 //v2
@@ -56,5 +57,6 @@ final deleteNotification = '$url/api/common/delete-notification';
 final getproductAdList = '$url/projects/product-list';
 
 final getAllFocusDevice = '$url/api/logger/logs/Allevents-for-app/Events';
+final getAllalertDevice = '$url/api/logger/logs/v2/deviceAlerts';
 
 // &&  device['deviceInfo']?[0]['Hospital_Name'] == 'KGMU Lucknow' 

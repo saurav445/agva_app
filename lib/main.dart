@@ -6,9 +6,6 @@ import 'package:agva_app/Screens/Common/TermsCondition.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/NurseHomeScreen.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/UserControl.dart';
-import 'package:agva_app/Screens/User/DeviceDetails.dart';
-import 'package:agva_app/Screens/User/DeviceList.dart';
-import 'package:agva_app/Screens/User/UserHomeScreen.dart';
 import 'package:agva_app/Service/MessagingService.dart';
 import 'package:agva_app/firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -23,10 +20,10 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-    // MessagingService.notifications.add(message);
-    FirebaseMessaging.instance.getInitialMessage().then((message) => {
-          if (message != null) {MessagingService.notifications.add(message)}
-        });
+  // MessagingService.notifications.add(message);
+  FirebaseMessaging.instance.getInitialMessage().then((message) => {
+        if (message != null) {MessagingService.notifications.add(message)}
+      });
   print("Handling a background message: ${message.notification?.title}");
 }
 
@@ -88,12 +85,9 @@ class _MyAppState extends State<MyApp> {
           "/regdone": (context) => RegDone(),
           "/signin": (context) => SignIn(),
           "/splash": (context) => const SplashScreen(),
-          "/userhome": (context) => UserHomeScreen({}),
           "/doctorhome": (context) => DoctorHomeScreen({}),
           "/nursehome": (context) => NurseHomeScreen({}),
-          "/devicedetails": (context) => DeviceDetails('', '', '', ''),
           "/tandc": (context) => TermsCondition(),
-          "/devicelist": (context) => DeviceList(),
           "/notification": (context) => NotificationScreen(),
           "/usercontrol": (context) => UserControl(),
         },

@@ -12,8 +12,9 @@ import 'package:http/http.dart' as http;
 
 class MonitorData extends StatefulWidget {
   final String deviceId;
+  final String type;
 
-  MonitorData(this.deviceId);
+  MonitorData(this.deviceId, this.type);
 
   @override
   _MonitorDataState createState() => _MonitorDataState();
@@ -22,6 +23,7 @@ class MonitorData extends StatefulWidget {
 class _MonitorDataState extends State<MonitorData> {
   bool isLoading = true;
   late String deviceId;
+  late String type;
   String activeButton = 'Events';
   String activeButtonColor = 'Events';
   late Map<String, dynamic> jsonResponse;
@@ -30,8 +32,9 @@ class _MonitorDataState extends State<MonitorData> {
   void initState() {
     super.initState();
     deviceId = widget.deviceId;
+    type = widget.type;
+    checkAnLoad();
 
-    getEventusingId();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
@@ -50,9 +53,32 @@ class _MonitorDataState extends State<MonitorData> {
     super.dispose();
   }
 
+  void checkAnLoad() {
+    if (type.isEmpty) {
+      getEventusingId();
+    } else {
+      getEventusingId2();
+    }
+  }
+
   Future<void> getEventusingId() async {
     var response = await http.get(
       Uri.parse('$getDeviceEventbyID/$deviceId'),
+    );
+    jsonResponse = jsonDecode(response.body);
+    print('Current Device ID: $deviceId');
+    if (jsonResponse['statusCode'] == 200) {
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      print('Invalid User Credential: ${response.statusCode}');
+    }
+  }
+
+  Future<void> getEventusingId2() async {
+    var response = await http.get(
+      Uri.parse('$getDeviceEventbyID2/$deviceId'),
     );
     jsonResponse = jsonDecode(response.body);
     print('Current Device ID: $deviceId');
@@ -69,7 +95,7 @@ class _MonitorDataState extends State<MonitorData> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-     backgroundColor: Colors.black,
+        backgroundColor: Colors.black,
         body: SingleChildScrollView(
           child: Stack(
             children: [
@@ -78,8 +104,7 @@ class _MonitorDataState extends State<MonitorData> {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding:
-                         EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                     child: Column(
                       children: [
                         Container(
@@ -99,11 +124,11 @@ class _MonitorDataState extends State<MonitorData> {
                           ),
                         ),
                         Container(
-                           height: MediaQuery.of(context).size.height / 1.2,
+                          height: MediaQuery.of(context).size.height / 1.2,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                          color: Color.fromARGB(255, 58, 58, 58),
+                            color: Color.fromARGB(255, 58, 58, 58),
                           ),
                           child: buildBigContainerContent(),
                         )
@@ -180,7 +205,9 @@ class _MonitorDataState extends State<MonitorData> {
       case 'Alarms':
         return isLoading ? buildLoading() : Alarms(deviceId);
       case 'Trends':
-        return isLoading ? buildLoading() : SingleChildScrollView(child: Trends(deviceId));
+        return isLoading
+            ? buildLoading()
+            : SingleChildScrollView(child: Trends(deviceId));
       case 'Calibration':
         return isLoading ? buildLoading() : Calibration(deviceId);
       default:

@@ -20,9 +20,10 @@ class DoctorDeviceDetails extends StatefulWidget {
   final String wardNo;
   final String deviceType;
   final String message;
+  final String type;
 
   const DoctorDeviceDetails(this.deviceId, this.socketService, this.wardNo,
-      this.deviceType, this.message);
+      this.deviceType, this.message, this.type);
 
   @override
   State<DoctorDeviceDetails> createState() => _DoctorDeviceDetailsState();
@@ -55,6 +56,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
   late String modeData = '--';
   late String alarmName;
   late String alarmColor;
+  late String type = '';
 
   // String get uri =>
   //     'http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=';
@@ -67,41 +69,13 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
     return mytoken;
   }
 
-  Future<void> fetchFocusedDevices() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? mytoken = prefs.getString('mytoken');
-
-    if (mytoken != null) {
-      var response = await http.get(
-        Uri.parse(getDeviceForDoctor),
-        headers: {
-          "Authorization": 'Bearer $mytoken',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
-        var data = jsonResponse['data']['data'];
-        setState(() {
-          isLoading = false;
-          focusedDevices = List<Map<String, dynamic>>.from(data)
-              .where((device) => device['addTofocus'] == true)
-              .toList();
-        });
-      } else {
-        print('Failed to fetch focused devices: ${response.statusCode}');
-      }
-    } else {
-      print("Token is null");
-    }
-  }
-
   late String webUrl;
 
   @override
   void initState() {
     super.initState();
 print(widget.deviceId);
+print(widget.type);
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         loadingCount = 1;
@@ -547,6 +521,7 @@ print(widget.deviceId);
                                     MaterialPageRoute(
                                       builder: (context) => MonitorData(
                                         widget.deviceId,
+                                        widget.type
                                       ),
                                     ),
                                   );
@@ -903,6 +878,7 @@ print(widget.deviceId);
                                   MaterialPageRoute(
                                     builder: (context) => MonitorData(
                                       widget.deviceId,
+                                         widget.type
                                     ),
                                   ),
                                 );

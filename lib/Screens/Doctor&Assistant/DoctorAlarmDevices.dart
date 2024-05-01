@@ -76,7 +76,7 @@ class _AlarmDeviceListState extends State<AlarmDeviceList> {
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
         var data = jsonResponse['data']['data'];
-        print(' my data $data');
+
         setState(() {
           focusedDevices2 = List<Map<String, dynamic>>.from(data)
               .where((device) => device['addTofocus'] == true)
@@ -221,6 +221,7 @@ class _AlarmDeviceListState extends State<AlarmDeviceList> {
                                   builder: (context) => DoctorAlarmList(
                                     device['deviceInfo']?[0]['DeviceId'],
                                     device['deviceInfo']?[0]['Hospital_Name'],
+                                    device['type'] ?? '',
                                   ),
                                 ),
                               );
@@ -460,6 +461,7 @@ class _AlarmDeviceListState extends State<AlarmDeviceList> {
                                       builder: (context) => DoctorAlarmList(
                                     device['deviceInfo']?[0]['DeviceId'],
                                     device['deviceInfo']?[0]['Hospital_Name'],
+                                           device['type'] ?? '',
                                   ),
                                 ),
                               );

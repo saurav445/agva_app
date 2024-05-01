@@ -89,18 +89,19 @@ class _SignInState extends State<SignIn> {
           saveSpeciality(speciality);
           savePhoneno(phoneno);
 
-          if (usertype == 'User') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => UserHomeScreen({
-                  'hospitalName': hospitalName,
-                  'name': name,
-                  'hospitalAddress': hospitalAddress
-                }),
-              ),
-            );
-          } else if (usertype == 'Assistant') {
+          // if (usertype == 'User') {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => UserHomeScreen({
+          //         'hospitalName': hospitalName,
+          //         'name': name,
+          //         'hospitalAddress': hospitalAddress
+          //       }),
+          //     ),
+          //   );
+          // } else
+           if (usertype == 'Assistant') {
             Navigator.push(
               context,
               MaterialPageRoute(

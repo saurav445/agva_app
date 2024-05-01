@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/NurseHomeScreen.dart';
-import 'package:agva_app/Screens/User/UserHomeScreen.dart';
 import 'package:agva_app/config.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -86,11 +85,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String usertype = prefs.getString('usertype') ?? "";
 
-    if (usertype == 'User') {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => UserHomeScreen({})),
-      );
-    } else if (usertype == 'Assistant') {
+    // if (usertype == 'User') {
+    //   Navigator.of(context).pushReplacement(
+    //     MaterialPageRoute(builder: (context) => UserHomeScreen({})),
+    //   );
+    // } else 
+    if (usertype == 'Assistant') {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => NurseHomeScreen({})),
       );

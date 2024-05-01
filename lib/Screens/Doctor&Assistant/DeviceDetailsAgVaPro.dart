@@ -20,6 +20,7 @@ class DeviceDetailsAgVaPro extends StatefulWidget {
   final String wardNo;
   final String deviceType;
   final String message;
+  final String type = '';
 
   const DeviceDetailsAgVaPro(this.deviceId, this.socketService, this.wardNo,
       this.deviceType, this.message);
@@ -547,6 +548,7 @@ print(widget.deviceId);
                                     MaterialPageRoute(
                                       builder: (context) => MonitorData(
                                         widget.deviceId,
+                                        widget.type
                                       ),
                                     ),
                                   );
@@ -903,6 +905,7 @@ print(widget.deviceId);
                                   MaterialPageRoute(
                                     builder: (context) => MonitorData(
                                       widget.deviceId,
+                                              widget.type
                                     ),
                                   ),
                                 );

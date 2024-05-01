@@ -159,9 +159,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                       else
                         for (var device in focusedDevices)
                           Builder(builder: (context) {
-                            print('Alarm Data : ${device['alarmData']}');
-                            print('Patient Data : ${device['patientData']}');
-
+                  
                             Color? newColor;
                             if (device['addTofocus'] == true) {
                               bool i = device['addTofocus'];
@@ -248,6 +246,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                                               device['deviceInfo']?[0]
                                                   ['DeviceType'],
                                               device['message'],
+                                              device['type'] ?? ''
                                             ),
                                           ),
                                         );

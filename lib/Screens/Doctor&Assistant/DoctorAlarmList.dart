@@ -7,9 +7,11 @@ import 'package:http/http.dart' as http;
 
 class DoctorAlarmList extends StatefulWidget {
   final String deviceId;
+  // ignore: non_constant_identifier_names
   final String hospital_Name;
+  final String type;
 
-  DoctorAlarmList(this.deviceId, this.hospital_Name);
+  DoctorAlarmList(this.deviceId, this.hospital_Name, this.type);
 
   @override
   DoctorAlarmListState createState() => DoctorAlarmListState();
@@ -18,25 +20,52 @@ class DoctorAlarmList extends StatefulWidget {
 class DoctorAlarmListState extends State<DoctorAlarmList> {
   bool isLoading = true;
   late String deviceId;
+  // ignore: non_constant_identifier_names
   late String hospital_Name;
   late Map<String, dynamic> jsonResponse;
+  late String type;
   Color? newColor;
 
   @override
   void initState() {
     super.initState();
-      SystemChrome.setPreferredOrientations([
+    SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
-  ]);
+    ]);
     deviceId = widget.deviceId;
     hospital_Name = widget.hospital_Name;
-    getAlarmbyId();
+    type = widget.type;
+    print(type);
+    checkAnLoad();
+  }
+
+  void checkAnLoad() {
+    if (type.isEmpty) {
+      getAlarmbyId();
+    } else {
+      getAlarmbyId2();
+    }
   }
 
   Future<void> getAlarmbyId() async {
     var response = await http.get(
       Uri.parse('$getDeviceAlarmsbyID/$deviceId?page=1&limit=5'),
+    );
+    jsonResponse = jsonDecode(response.body);
+    print('Current Device ID: $jsonResponse');
+    if (jsonResponse['statusCode'] == 200) {
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      print('Invalid User Credential: ${response.statusCode}');
+    }
+  }
+
+  Future<void> getAlarmbyId2() async {
+    var response = await http.get(
+      Uri.parse('$getAllalertDevice/$deviceId?page=1&limit=5'),
     );
     jsonResponse = jsonDecode(response.body);
     print('Current Device ID: $jsonResponse');
@@ -55,12 +84,12 @@ class DoctorAlarmListState extends State<DoctorAlarmList> {
       child: Scaffold(
           backgroundColor: Colors.black,
           appBar: AppBar(
-             leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context, 'refresh');
-            },
-          ),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context, 'refresh');
+              },
+            ),
             backgroundColor: Colors.black,
             centerTitle: true,
             title: Text(
@@ -128,9 +157,8 @@ class DoctorAlarmListState extends State<DoctorAlarmList> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                  color: Color.fromARGB(255, 45, 45, 45),
+                color: Color.fromARGB(255, 45, 45, 45),
               ),
-  
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

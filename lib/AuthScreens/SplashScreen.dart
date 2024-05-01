@@ -39,11 +39,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
 // if token is not empty this code will execute
     if (storedToken.isNotEmpty) {
-      if (usertype == 'User') {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => UserHomeScreen({})),
-        );
-      } else if (usertype == 'Assistant') {
+      // if (usertype == 'User') {
+      //   Navigator.of(context).pushReplacement(
+      //     MaterialPageRoute(builder: (context) => UserHomeScreen({})),
+      //   );
+      // } else
+       if (usertype == 'Assistant') {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => NurseHomeScreen({})),
         );

@@ -243,6 +243,7 @@ class _DeviceListAgVaProState extends State<DeviceListAgVaPro> {
                                               device['deviceInfo']?[0]
                                                   ['DeviceType'],
                                               device['message'],
+                                              
                                             ),
                                           ),
                                         );
