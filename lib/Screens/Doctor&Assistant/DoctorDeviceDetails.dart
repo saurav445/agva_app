@@ -86,7 +86,8 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
       setState(() {
         savedsecurityCode = securityCode;
       });
-    });
+    }); 
+       savedevicetype(widget.type);
     print("I am here");
     widget.socketService.initializeSocket(url, widget.deviceId);
     widget.socketService.tilesDataCallBack((
@@ -153,6 +154,13 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
       // DeviceOrientation.landscapeLeft,
       // DeviceOrientation.landscapeRight
     ]);
+  }
+
+  Future<void> savedevicetype(String type) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('type', type);
+        print('saved DeviceCode: $type');
+    
   }
 
   Future<String?> getUserId() async {

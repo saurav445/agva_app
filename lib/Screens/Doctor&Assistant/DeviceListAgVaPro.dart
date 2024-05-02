@@ -159,8 +159,8 @@ class _DeviceListAgVaProState extends State<DeviceListAgVaPro> {
                       else
                         for (var device in focusedDevices)
                           Builder(builder: (context) {
-                            // print('Alarm Data : ${device['alarmData']}');
-                            print('Patient Data : ${device['patientData']}');
+                        
+                         
                             var newColor;
                             if (device['addTofocus'] == true) {
                               newColor = Color.fromARGB(255, 174, 34, 104);
@@ -243,6 +243,7 @@ class _DeviceListAgVaProState extends State<DeviceListAgVaPro> {
                                               device['deviceInfo']?[0]
                                                   ['DeviceType'],
                                               device['message'],
+                                              
                                               
                                             ),
                                           ),

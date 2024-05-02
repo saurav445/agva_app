@@ -46,6 +46,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
       setState(() {
         productList = jsonResponse['data'];
         print('my product list $productList');
+        
         // isLoading2 = false;
       });
     } else {

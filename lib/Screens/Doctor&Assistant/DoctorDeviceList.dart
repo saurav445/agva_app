@@ -30,6 +30,8 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
   @override
   void initState() {
     super.initState();
+
+    
     print('i am in device list');
     
     fetchGetDevicesForDoctor();
@@ -39,6 +41,8 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
     ]);
     initSharedPref();
   }
+
+
 
   void initSharedPref() async {
     prefs = await SharedPreferences.getInstance();
@@ -54,9 +58,10 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
       isLoading = true;
     });
 
+    
+
     String? token = await getToken();
     if (token != null) {
-      String code = '003';
       var response = await http.get(
         Uri.parse('$getDeviceForDoctor2/${widget.type}'),
         headers: {
@@ -86,6 +91,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
       }
     }
   }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +252,8 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                                                     device['deviceInfo']?[0]
                                                         ['Ward_No'],
                                                     device['deviceInfo']?[0]
-                                                        ['DeviceType'],
+                                                        ['DeviceType'] ??     device['deviceInfo']?[0]
+                                                        ['deviceType'],
                                                     device['message'],
                                                     device['type'] ?? ''),
                                           ),
@@ -296,7 +303,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            '${device['deviceInfo']?[0]?['DeviceType']}',
+                                                            '${device['deviceInfo']?[0]?['DeviceType']}' ,
                                                             style: TextStyle(
                                                               fontFamily:
                                                                   'Avenir',

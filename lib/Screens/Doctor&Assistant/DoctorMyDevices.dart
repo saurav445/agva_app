@@ -153,8 +153,7 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
           children: [
               for (var device in focusedDevices2)
                 Builder(builder: (context) {
-                  print('Alarm Data : ${device['alarmData']}');
-                  print('Patient Data : ${device['patientData']}');
+ 
                   var newColor;
                   if (device['addTofocus'] == true) {
                     newColor = Color.fromARGB(255, 174, 34, 104);

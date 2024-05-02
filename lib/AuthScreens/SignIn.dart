@@ -5,7 +5,6 @@ import 'package:agva_app/AuthScreens/SignUp.dart';
 import 'package:agva_app/Service/ProductsService.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorHomeScreen.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/NurseHomeScreen.dart';
-import 'package:agva_app/Screens/User/UserHomeScreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';

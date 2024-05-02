@@ -116,7 +116,8 @@ class _MonitorDataState extends State<MonitorData> {
                           ),
                           child: Row(
                             children: [
-                              buildButton('Events'),
+            
+                                buildButton('Events'),
                               buildButton('Alarms'),
                               buildButton('Trends'),
                               buildButton('Calibration'),

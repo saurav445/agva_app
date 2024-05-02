@@ -20,7 +20,7 @@ class DeviceDetailsAgVaPro extends StatefulWidget {
   final String wardNo;
   final String deviceType;
   final String message;
-  final String type = '';
+  final String type = '002';
 
   const DeviceDetailsAgVaPro(this.deviceId, this.socketService, this.wardNo,
       this.deviceType, this.message);
@@ -99,6 +99,13 @@ class _DeviceDetailsAgVaProState extends State<DeviceDetailsAgVaPro> {
 
   late String webUrl;
 
+    Future<void> savedevicetype(String type) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('type', type);
+        print('saved DeviceCode: $type');
+    
+  }
+
   @override
   void initState() {
     super.initState();
@@ -109,6 +116,7 @@ print(widget.deviceId);
       });
     });
     getFocusStatus();
+    savedevicetype(widget.type);
  getUserId().then((securityCode) {
       setState(() {
         savedsecurityCode = securityCode;

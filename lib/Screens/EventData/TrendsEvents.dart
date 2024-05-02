@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Trends extends StatefulWidget {
   final String deviceId;
@@ -23,12 +24,13 @@ class _TrendsState extends State<Trends> {
   @override
   void initState() {
     super.initState();
+    getdeviceType();
     type = widget.type;
     deviceId = widget.deviceId;
     checkAnLoad();
   }
 
- void checkAnLoad() {
+  void checkAnLoad() {
     if (type.isEmpty) {
       getTrendsbyId();
     } else {
@@ -64,7 +66,6 @@ class _TrendsState extends State<Trends> {
     }
   }
 
-
   Future<void> getTrendsbyId2() async {
     var response = await http.get(
       Uri.parse('$getDeviceTrendsbyID2/$deviceId'),
@@ -91,6 +92,14 @@ class _TrendsState extends State<Trends> {
         print(jsonResponse['message']);
       });
     }
+  }
+
+    Future<String?> getdeviceType() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? type = prefs.getString('type');
+    print('Retrieved devieCode: $type');
+    return type;
+
   }
 
   @override
