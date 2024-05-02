@@ -22,6 +22,7 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
   List<dynamic> hospitals = [];
   List<dynamic> productList = [];
   String? selectedHospital;
+  Map<String, bool> expansionStates = {};
 
   @override
   void initState() {
@@ -67,6 +68,10 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
         setState(() {
           hospitals = jsonResponse['data'];
           isLoading = false;
+          hospitals.forEach((hospital) {
+            expansionStates[hospital['Hospital_Name']] = false;
+            isLoading = false;
+          });
         });
       } else {
         print('Invalid User Credential : ${response.statusCode}');
@@ -140,44 +145,6 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
                   ),
                 ],
               ),
-            if (productList.isNotEmpty && selectedHospital != null)
-              ListView.builder(
-                itemCount: productList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var product = productList[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Color.fromARGB(255, 62, 62, 62),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              product['projectName'],
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 228, 228, 228),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.05,
-                              ),
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.08,
-                              child: Image.network(product['imageUrl']),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
           ],
         ),
       ),
@@ -189,13 +156,14 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
       String hospitalname = '${hospital['Hospital_Name']}';
       String city = '${hospital['City']}';
       String pincode = '${hospital['Pincode']}';
+      String hospitaladdress = '${hospital['Hospital_Address']}';
       return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           GestureDetector(
             onTap: () {
               setState(() {
-                selectedHospital = hospitalname;
+                expansionStates[hospitalname] = !expansionStates[hospitalname]!;
               });
             },
             child: Container(
@@ -274,7 +242,73 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
               ),
             ),
           ),
-
+          SizedBox(
+            height: 10,
+          ),
+          if (expansionStates[hospitalname]!)
+            ...productList.map(
+              (product) => Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                child: GestureDetector(
+  
+                  onTap: () async {
+                                  var type =  product['projectCode'];
+                    if (product['projectCode'] == '002') {
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DeviceListAgVaPro(hospitalname, hospitaladdress),
+                        ),
+                      );
+                      if (result != null && result == 'refresh') {
+                        getHospitals();
+                      }
+                    } else {
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DoctorDeviceList(hospitalname, hospitaladdress, type),
+                        ),
+                      );
+                      if (result != null && result == 'refresh') {
+                        getHospitals();
+                      }
+                    }
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color.fromARGB(255, 62, 62, 62),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            product['projectName'],
+                            style: TextStyle(
+                              fontFamily: 'Avenir',
+                              color: Color.fromARGB(255, 228, 228, 228),
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.05,
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            child: Image.network(product['imageUrl']),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
         ],
       );
     }).toList();

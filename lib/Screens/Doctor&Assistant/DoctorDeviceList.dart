@@ -11,7 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DoctorDeviceList extends StatefulWidget {
   final String hospitalName;
   final String hospitaladdress;
-  DoctorDeviceList(this.hospitalName, this.hospitaladdress);
+  final String type;
+  DoctorDeviceList(this.hospitalName, this.hospitaladdress, this.type);
 
   @override
   _DoctorDeviceListState createState() => _DoctorDeviceListState();
@@ -21,6 +22,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
   bool isLoading = true;
   late String hospitalName;
   late String hospitaladdress;
+  late String type;
   List<Map<String, dynamic>> focusedDevices = [];
   bool requestdata = false;
   late SharedPreferences prefs;
@@ -29,6 +31,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
   void initState() {
     super.initState();
     print('i am in device list');
+    
     fetchGetDevicesForDoctor();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
@@ -55,7 +58,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
     if (token != null) {
       String code = '003';
       var response = await http.get(
-        Uri.parse('$getDeviceForDoctor2/$code'),
+        Uri.parse('$getDeviceForDoctor2/${widget.type}'),
         headers: {
           "Authorization": 'Bearer $token',
         },
@@ -159,12 +162,11 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                       else
                         for (var device in focusedDevices)
                           Builder(builder: (context) {
-                  
                             Color? newColor;
                             if (device['addTofocus'] == true) {
                               bool i = device['addTofocus'];
                               print(i);
-                            
+
                               newColor = Color.fromARGB(255, 174, 34, 104);
                             } else {
                               newColor = Color.fromARGB(
@@ -238,16 +240,15 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 DoctorDeviceDetails(
-                                              device['deviceInfo']?[0]
-                                                  ['DeviceId'],
-                                              SocketServices(),
-                                              device['deviceInfo']?[0]
-                                                  ['Ward_No'],
-                                              device['deviceInfo']?[0]
-                                                  ['DeviceType'],
-                                              device['message'],
-                                              device['type'] ?? ''
-                                            ),
+                                                    device['deviceInfo']?[0]
+                                                        ['DeviceId'],
+                                                    SocketServices(),
+                                                    device['deviceInfo']?[0]
+                                                        ['Ward_No'],
+                                                    device['deviceInfo']?[0]
+                                                        ['DeviceType'],
+                                                    device['message'],
+                                                    device['type'] ?? ''),
                                           ),
                                         );
 
