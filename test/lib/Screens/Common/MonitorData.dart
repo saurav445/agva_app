@@ -2,10 +2,10 @@
 
 import 'dart:convert';
 import 'package:agva_app/config.dart';
-import 'package:agva_app/Screens/EventData/AlarmsAgVaPro.dart';
-import 'package:agva_app/Screens/EventData/CalibrationAgVaPro.dart';
-import 'package:agva_app/Screens/EventData/EventsAgVaPro.dart';
-import 'package:agva_app/Screens/EventData/TrendsAgVaPro.dart';
+import 'package:agva_app/Screens/EventData/AlarmsEvents.dart';
+import 'package:agva_app/Screens/EventData/CalibrationEvents.dart';
+import 'package:agva_app/Screens/EventData/EventsData.dart';
+import 'package:agva_app/Screens/EventData/TrendsEvents.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;

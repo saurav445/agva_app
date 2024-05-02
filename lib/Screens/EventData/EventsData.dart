@@ -7,7 +7,8 @@ import 'package:http/http.dart' as http;
 
 class Events extends StatefulWidget {
   final String deviceId;
-  const Events(this.deviceId);
+  final String type;
+  const Events(this.deviceId, this.type);
 
   @override
   State<Events> createState() => _EventsState();
@@ -16,14 +17,16 @@ class Events extends StatefulWidget {
 class _EventsState extends State<Events> {
   bool isLoading = true;
   late String deviceId;
+  late String type;
   late Map<String, dynamic> jsonResponse;
   int currentPage = 1;
 
   @override
   void initState() {
     super.initState();
+    type = widget.type;
     deviceId = widget.deviceId;
-    getEventusingId(currentPage);
+    checkAnLoad();
   }
 
   @override
@@ -31,9 +34,33 @@ class _EventsState extends State<Events> {
     super.dispose();
   }
 
+  void checkAnLoad() {
+    if (type.isEmpty) {
+      getEventusingId(currentPage);
+    } else {
+      getEventusingId2(currentPage);
+    }
+  }
+
   Future<void> getEventusingId(currentPage) async {
     var response = await http.get(
       Uri.parse('$getDeviceEventbyID/$deviceId?page=$currentPage&limit=4'),
+    );
+    jsonResponse = jsonDecode(response.body);
+    print('Current Device ID: $deviceId');
+    if (jsonResponse['statusCode'] == 200) {
+      print(jsonResponse);
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      print('Invalid User Credential: ${response.statusCode}');
+    }
+  }
+
+  Future<void> getEventusingId2(currentPage) async {
+    var response = await http.get(
+      Uri.parse('$getDeviceEventbyID2/$deviceId?page=$currentPage&limit=4'),
     );
     jsonResponse = jsonDecode(response.body);
     print('Current Device ID: $deviceId');
@@ -138,7 +165,7 @@ class _EventsState extends State<Events> {
 
   Widget buildEmptyContainer() {
     return Padding(
-    padding: const EdgeInsets.only(top: 80),
+      padding: const EdgeInsets.only(top: 80),
       child: Text(
         'No Events Found',
         style: TextStyle(
@@ -171,7 +198,9 @@ class _EventsState extends State<Events> {
                     buildColumnContent(buildTimeContent(eventData['time'])),
                   ],
                 ),
-                SizedBox( height: MediaQuery.of(context).size.height / 60,),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 60,
+                ),
                 Container(
                   height: 0.1,
                   color: Colors.white,
@@ -198,7 +227,7 @@ class _EventsState extends State<Events> {
 
   Widget buildMsgContent(String text) {
     return SizedBox(
-       width: MediaQuery.of(context).size.width / 5.2,
+      width: MediaQuery.of(context).size.width / 5.2,
       child: Text(
         text,
         maxLines: 3,

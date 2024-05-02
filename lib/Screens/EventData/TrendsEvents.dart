@@ -7,7 +7,8 @@ import 'package:http/http.dart' as http;
 
 class Trends extends StatefulWidget {
   final String deviceId;
-  Trends(this.deviceId);
+  final String type;
+  Trends(this.deviceId, this.type);
 
   @override
   State<Trends> createState() => _TrendsState();
@@ -16,18 +17,57 @@ class Trends extends StatefulWidget {
 class _TrendsState extends State<Trends> {
   bool isLoading = true;
   late String deviceId;
+  late String type;
   List<Map<String, String>> trendsDataList = [];
 
   @override
   void initState() {
     super.initState();
+    type = widget.type;
     deviceId = widget.deviceId;
-    getTrendsbyId();
+    checkAnLoad();
+  }
+
+ void checkAnLoad() {
+    if (type.isEmpty) {
+      getTrendsbyId();
+    } else {
+      getTrendsbyId2();
+    }
   }
 
   Future<void> getTrendsbyId() async {
     var response = await http.get(
       Uri.parse('$getDeviceTrendsbyID/$deviceId'),
+    );
+    var jsonResponse = jsonDecode(response.body);
+    if (jsonResponse['statusCode'] == 200) {
+      print('this is my json response $jsonResponse');
+      setState(() {
+        isLoading = false;
+        trendsDataList = List<Map<String, String>>.from(
+          (jsonResponse['data']['findDeviceById'] as List<dynamic>)
+              .map((dynamic item) {
+            Map<String, String> stringMap = {};
+            (item as Map<String, dynamic>).forEach((key, value) {
+              stringMap[key] = value.toString();
+            });
+            return stringMap;
+          }),
+        );
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+        print(jsonResponse['message']);
+      });
+    }
+  }
+
+
+  Future<void> getTrendsbyId2() async {
+    var response = await http.get(
+      Uri.parse('$getDeviceTrendsbyID2/$deviceId'),
     );
     var jsonResponse = jsonDecode(response.body);
     if (jsonResponse['statusCode'] == 200) {

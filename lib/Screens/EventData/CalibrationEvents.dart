@@ -7,7 +7,8 @@ import 'package:http/http.dart' as http;
 
 class Calibration extends StatefulWidget {
   final String deviceId;
-  const Calibration(this.deviceId);
+  final String type;
+  const Calibration(this.deviceId, this.type);
 
   @override
   State<Calibration> createState() => _CalibrationState();
@@ -16,11 +17,13 @@ class Calibration extends StatefulWidget {
 class _CalibrationState extends State<Calibration> {
   bool isLoading = true;
   late String deviceId;
+  late String type;
   late Map<String, dynamic> jsonResponse;
 
   @override
   void initState() {
     super.initState();
+    type = widget.type;
     deviceId = widget.deviceId;
     getCalibrationbyId();
   }
@@ -113,7 +116,7 @@ class _CalibrationState extends State<Calibration> {
 
   Widget buildEmptyContainer() {
     return Padding(
-     padding: const EdgeInsets.only(top: 80),
+      padding: const EdgeInsets.only(top: 80),
       child: Text(
         'No Calibration Data',
         style: TextStyle(

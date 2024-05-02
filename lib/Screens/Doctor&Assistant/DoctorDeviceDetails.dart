@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, curly_braces_in_flow_control_structures
 import 'package:agva_app/Screens/Doctor&Assistant/DoctorDeviceAbout.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/PatientList.dart';
-import 'package:agva_app/Screens/EventData/MonitorDataAgVaPro.dart';
+import 'package:agva_app/Screens/EventData/MonitorDataMain.dart';
 import 'package:agva_app/Screens/Doctor&Assistant/LiveWebView.dart';
 import 'package:agva_app/Service/SocketService.dart';
 import 'package:agva_app/config.dart';
@@ -37,7 +37,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
   double progress = 0.0;
   int loadingCount = 0;
   bool showLoader = false;
-    String? savedsecurityCode;
+  String? savedsecurityCode;
   late String deviceId;
   List<Map<String, dynamic>> focusedDevices = [];
 
@@ -74,15 +74,15 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
   @override
   void initState() {
     super.initState();
-print(widget.deviceId);
-print(widget.type);
+    print(widget.deviceId);
+    print(widget.type);
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         loadingCount = 1;
       });
     });
     getFocusStatus();
- getUserId().then((securityCode) {
+    getUserId().then((securityCode) {
       setState(() {
         savedsecurityCode = securityCode;
       });
@@ -155,7 +155,7 @@ print(widget.type);
     ]);
   }
 
-    Future<String?> getUserId() async {
+  Future<String?> getUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? securityCode = prefs.getString('securityCode');
     print('Retrieved savedToken: $securityCode');
@@ -176,10 +176,8 @@ print(widget.type);
           "Authorization": 'Bearer $jwttoken',
           "Content-Type": "application/json",
         },
-        body: jsonEncode({
-          "addTofocus": !currentStatus,
-             "userId": savedsecurityCode
-        }),
+        body: jsonEncode(
+            {"addTofocus": !currentStatus, "userId": savedsecurityCode}),
       );
       print('before set $setFocus');
       if (response.statusCode == 200) {
@@ -345,6 +343,7 @@ print(widget.type);
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.04,
                 ),
+     
                 LayoutBuilder(
                   builder: (context, constraints) {
                     return Row(
@@ -468,6 +467,8 @@ print(widget.type);
                     );
                   },
                 ),
+       
+                
                 SizedBox(height: 16),
 //buttons
                 Padding(
@@ -520,9 +521,7 @@ print(widget.type);
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => MonitorData(
-                                        widget.deviceId,
-                                        widget.type
-                                      ),
+                                          widget.deviceId, widget.type),
                                     ),
                                   );
                                 },
@@ -877,9 +876,7 @@ print(widget.type);
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => MonitorData(
-                                      widget.deviceId,
-                                         widget.type
-                                    ),
+                                        widget.deviceId, widget.type),
                                   ),
                                 );
                               },

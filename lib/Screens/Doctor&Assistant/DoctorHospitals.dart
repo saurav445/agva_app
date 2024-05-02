@@ -20,24 +20,40 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
   late SharedPreferences prefs;
   bool isLoading = true;
   List<dynamic> hospitals = [];
-  Map<String, bool> expansionStates = {};
+  List<dynamic> productList = [];
+  String? selectedHospital;
 
   @override
   void initState() {
     super.initState();
     getHospitals();
+    getProductsList();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
     ]);
   }
 
-  List<String> projectsForHospital = [
-    'AgVa PRO',
-    'Emergency',
-    'Patient Monitor',
-    'AgVa OXY+'
-  ];
+  void getProductsList() async {
+    var response = await http.get(
+      Uri.parse(getproductList),
+    );
+
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      print(' data $jsonResponse');
+      setState(() {
+        productList = jsonResponse['data'];
+        print('my product list $productList');
+        // isLoading2 = false;
+      });
+    } else {
+      print(' ${response.statusCode}');
+      setState(() {
+        // isLoading2 = false;
+      });
+    }
+  }
 
   Future<void> getHospitals() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,15 +63,10 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
         "Authorization": 'Bearer $mytoken',
       });
       var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse);
       if (jsonResponse['statusCode'] == 200) {
         setState(() {
           hospitals = jsonResponse['data'];
-
-          hospitals.forEach((hospital) {
-            expansionStates[hospital['Hospital_Name']] = false;
-            isLoading = false;
-          });
+          isLoading = false;
         });
       } else {
         print('Invalid User Credential : ${response.statusCode}');
@@ -83,48 +94,92 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
       ),
       body: RefreshIndicator(
         onRefresh: getHospitals,
-        child: Stack(children: [
-          if (isLoading)
-            SizedBox(
-                height: 1, child: LinearProgressIndicator(color: Colors.pink))
-          else if (hospitals.isEmpty)
-            SizedBox(
-              width: double.infinity,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'No Hospital List Found',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 158, 158, 158),
-                      fontSize: MediaQuery.of(context).size.width * 0.05,
-                      fontWeight: FontWeight.bold,
+        child: Stack(
+          children: [
+            if (isLoading)
+              SizedBox(
+                height: 1,
+                child: LinearProgressIndicator(color: Colors.pink),
+              )
+            else if (hospitals.isEmpty)
+              SizedBox(
+                width: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'No Hospital List Found',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 158, 158, 158),
+                        fontSize: MediaQuery.of(context).size.width * 0.05,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Please Contact Doctor to Access List',
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      color: Color.fromARGB(255, 218, 218, 218),
-                      fontSize: MediaQuery.of(context).size.width * 0.04,
-                      fontWeight: FontWeight.w100,
+                    Text(
+                      'Please Contact Doctor to Access List',
+                      style: TextStyle(
+                        fontFamily: 'Avenir',
+                        color: Color.fromARGB(255, 218, 218, 218),
+                        fontSize: MediaQuery.of(context).size.width * 0.04,
+                        fontWeight: FontWeight.w100,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              ListView(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: buildPatientListWidgets(),
                     ),
                   ),
                 ],
               ),
-            )
-          else
-            ListView(children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: buildPatientListWidgets(),
-                ),
+            if (productList.isNotEmpty && selectedHospital != null)
+              ListView.builder(
+                itemCount: productList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  var product = productList[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Color.fromARGB(255, 62, 62, 62),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              product['projectName'],
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                color: Color.fromARGB(255, 228, 228, 228),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
+                              ),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.08,
+                              child: Image.network(product['imageUrl']),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
-            ]),
-        ]),
+          ],
+        ),
       ),
     );
   }
@@ -134,14 +189,13 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
       String hospitalname = '${hospital['Hospital_Name']}';
       String city = '${hospital['City']}';
       String pincode = '${hospital['Pincode']}';
-      String hospitaladdress = '${hospital['Hospital_Address']}';
       return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           GestureDetector(
             onTap: () {
               setState(() {
-                expansionStates[hospitalname] = !expansionStates[hospitalname]!;
+                selectedHospital = hospitalname;
               });
             },
             child: Container(
@@ -220,112 +274,9 @@ class _DoctorHospitalsState extends State<DoctorHospitals> {
               ),
             ),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.01,
-          ),
-          if (expansionStates[hospitalname]!)
-            ...projectsForHospital.map(
-              (project) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () async {
-                    if (project == 'AgVa PRO') {
-                      final result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DeviceListAgVaPro(
-                            hospitalname,
-                            hospitaladdress,
-                          ),
-                        ),
-                      );
-                      if (result != null && result == 'refresh') {
-                        getHospitals();
-                      }
-                    } else if (project == 'Patient Monitor') {
-                      final result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DoctorDeviceList(hospitalname, hospitaladdress),
-                        ),
-                      );
-                      if (result != null && result == 'refresh') {
-                        getHospitals();
-                      }
-                    } else {
-                      final snackBar = SnackBar(
-                        backgroundColor: const Color.fromARGB(255, 65, 65, 65),
-                        content: Text(
-                          "Not Available",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        action: SnackBarAction(
-                          textColor: Colors.black,
-                          backgroundColor: Colors.white,
-                          label: 'OK',
-                          onPressed: () {},
-                        ),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Color.fromARGB(255, 62, 62, 62),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              project,
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 228, 228, 228),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.05,
-                              ),
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.08,
-                              child: Image.asset(
-                                getImagePath(project),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.010,
-          ),
+
         ],
       );
     }).toList();
-  }
-
-  String getImagePath(project) {
-    switch (project) {
-      case 'AgVa PRO':
-        return "assets/images/deviceimage.png";
-      case 'Emergency':
-        return "assets/images/deviceimage.png";
-      case 'Patient Monitor':
-        return "assets/images/PatientMonitor.png";
-      case 'AgVa OXY+':
-        return "assets/images/deviceimage.png";
-      default:
-        return "assets/images/inactive.png";
-    }
   }
 }

@@ -2,10 +2,10 @@
 
 import 'dart:convert';
 import 'package:agva_app/config.dart';
-import 'package:agva_app/Screens/EventData/AlarmsAgVaPro.dart';
-import 'package:agva_app/Screens/EventData/CalibrationAgVaPro.dart';
-import 'package:agva_app/Screens/EventData/EventsAgVaPro.dart';
-import 'package:agva_app/Screens/EventData/TrendsAgVaPro.dart';
+import 'package:agva_app/Screens/EventData/AlarmsEvents.dart';
+import 'package:agva_app/Screens/EventData/CalibrationEvents.dart';
+import 'package:agva_app/Screens/EventData/EventsData.dart';
+import 'package:agva_app/Screens/EventData/TrendsEvents.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -201,15 +201,15 @@ class _MonitorDataState extends State<MonitorData> {
   Widget buildBigContainerContent() {
     switch (activeButton) {
       case 'Events':
-        return isLoading ? buildLoading() : Events(deviceId);
+        return isLoading ? buildLoading() : Events(deviceId, type);
       case 'Alarms':
-        return isLoading ? buildLoading() : Alarms(deviceId);
+        return isLoading ? buildLoading() : Alarms(deviceId, type);
       case 'Trends':
         return isLoading
             ? buildLoading()
-            : SingleChildScrollView(child: Trends(deviceId));
+            : SingleChildScrollView(child: Trends(deviceId, type));
       case 'Calibration':
-        return isLoading ? buildLoading() : Calibration(deviceId);
+        return isLoading ? buildLoading() : Calibration(deviceId, type);
       default:
         return Container();
     }

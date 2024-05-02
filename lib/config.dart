@@ -8,20 +8,19 @@ final registerUser = '$url/api/logger/auth/register';
 final loginUser = '$url/api/logger/auth/login';
 final getDevicesByHospital = '$url/devices/get-devices-by-hospital';
 final getDeviceForUser = '$url/api/logger/logs/Allevents/get-devices-for-users';
-
 final getProjects = '$url/api/logger/projects';
-
 final getProductionData = '$url/production/get-byid';
 //v2
 final getDeviceEventbyID = '$url/api/logger/logs/deviceEvents';
 final getDeviceEventbyID2 = '$url/api/logger/logs/v2/deviceEvents';
 //v2
 final getDeviceTrendsbyID = '$url/api/logger/logs/deviceTrends';
+final getDeviceTrendsbyID2 = '$url/api/logger/logs/v2/deviceTrends';
 //v2
 final getDeviceAlarmsbyID = '$url/api/logger/logs/deviceAlerts';
+final getAllalertDevice = '$url/api/logger/logs/v2/deviceAlerts';
 //v2
 final getDeviceCalibyID = '$url/api/logger/logs/calibration';
-
 final getDeviceCrashLogsbyID = '$url/api/logger/logs/deviceLogs';
 final addtofocus = '$url/devices/update-addtofocus';
 final getFocusDevices = '$url/api/logger/logs/Allevents/get-focused-devices';
@@ -55,8 +54,9 @@ final getDeviceForDoctor2 = '$url/api/logger/logs/v2/Allevents/Events';
 final getnotificationList = '$url/api/common/get-notification-list';
 final deleteNotification = '$url/api/common/delete-notification';
 final getproductAdList = '$url/projects/product-list';
+final getproductList = '$url/projects/project-list-for-app';
 
 final getAllFocusDevice = '$url/api/logger/logs/Allevents-for-app/Events';
-final getAllalertDevice = '$url/api/logger/logs/v2/deviceAlerts';
+
 
 // &&  device['deviceInfo']?[0]['Hospital_Name'] == 'KGMU Lucknow' 

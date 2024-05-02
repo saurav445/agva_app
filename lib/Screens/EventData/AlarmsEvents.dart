@@ -7,7 +7,8 @@ import 'package:http/http.dart' as http;
 
 class Alarms extends StatefulWidget {
   final String deviceId;
-  const Alarms(this.deviceId);
+  final String type;
+  const Alarms(this.deviceId, this.type);
 
   @override
   State<Alarms> createState() => _AlarmsState();
@@ -16,6 +17,7 @@ class Alarms extends StatefulWidget {
 class _AlarmsState extends State<Alarms> {
   bool isLoading = true;
   late String deviceId;
+  late String type;
   late Map<String, dynamic> jsonResponse;
   int currentPage = 1;
 
@@ -23,7 +25,16 @@ class _AlarmsState extends State<Alarms> {
   void initState() {
     super.initState();
     deviceId = widget.deviceId;
-    getAlarmbyId(currentPage);
+      type = widget.type;
+  checkAnLoad();
+  }
+
+  void checkAnLoad() {
+    if (type.isEmpty) {
+      getAlarmbyId(currentPage);
+    } else {
+      getAlarmbyId2(currentPage);
+    }
   }
 
   Future<void> getAlarmbyId(currentPage) async {
@@ -41,13 +52,28 @@ class _AlarmsState extends State<Alarms> {
       print('Invalid User Credential: ${response.statusCode}');
     }
   }
-   void next() {
+   Future<void> getAlarmbyId2(currentPage) async {
+    var response = await http.get(
+      Uri.parse('$getAllalertDevice/$deviceId?page=$currentPage&limit=5'),
+    );
+    jsonResponse = jsonDecode(response.body);
+    print('Current Device ID: $deviceId');
+    if (jsonResponse['statusCode'] == 200) {
+      print(jsonResponse);
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      print('Invalid User Credential: ${response.statusCode}');
+    }
+  }
+
+  void next() {
     {
       currentPage++;
       getAlarmbyId(currentPage);
     }
   }
-
 
   void back() {
     {
@@ -59,7 +85,7 @@ class _AlarmsState extends State<Alarms> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-         backgroundColor: Color.fromARGB(255, 58, 58, 58),
+      backgroundColor: Color.fromARGB(255, 58, 58, 58),
       body: Column(
         children: [
           Padding(
@@ -90,7 +116,7 @@ class _AlarmsState extends State<Alarms> {
               buildAlarmDataRow(alarmData),
         ],
       ),
-       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
         // width: 150,
         height: 45,
@@ -144,10 +170,12 @@ class _AlarmsState extends State<Alarms> {
               buildColumnContent(buildMsgContent(alarmData['ack']['msg'])),
               SizedBox(width: 10),
               buildColumnContent(buildPriContent(alarmData['priority'])),
-              buildColumnContent(buildDateContent(alarmData['ack']['date'] ?? '')),
+              buildColumnContent(
+                  buildDateContent(alarmData['ack']['date'] ?? '')),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 40),
-                child: buildColumnContent(buildTimeContent(alarmData['ack']['time'] ?? '')),
+                child: buildColumnContent(
+                    buildTimeContent(alarmData['ack']['time'] ?? '')),
               ),
             ],
           ),
@@ -241,7 +269,7 @@ class _AlarmsState extends State<Alarms> {
       width: 60,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-      color: Color.fromARGB(255, 255, 166, 0),
+        color: Color.fromARGB(255, 255, 166, 0),
       ),
     );
   }

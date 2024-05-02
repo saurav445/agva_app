@@ -464,7 +464,7 @@ print(userID);
                     padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
                     child: Container(
                       height: 30,
-                      width: 100,
+             
                       child: StatefulBuilder(builder: (context, setState) {
                         return ElevatedButton(
                           onPressed: () async {
@@ -554,7 +554,7 @@ print(userID);
                     padding: EdgeInsets.fromLTRB(15, 0, 22, 0),
                     child: Container(
                       height: 30,
-                      width: 100,
+                      // width: 100,
                       child: StatefulBuilder(builder: (context, setState) {
                         return ElevatedButton(
                           onPressed: () async {
