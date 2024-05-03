@@ -224,7 +224,7 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
                                     device['deviceInfo']?[0]['DeviceId'],
                                     SocketServices(),
                                     device['deviceInfo']?[0]['Ward_No'],
-                                    device['deviceInfo']?[0]['DeviceType'],
+                                    device['deviceInfo']?[0]['deviceType'],
                                     device['message'],
                                   ),
                                 ),
@@ -265,7 +265,7 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  '${device['deviceInfo']?[0]?['DeviceType']}',
+                                                  '${device['deviceInfo']?[0]?['deviceType']}',
                                                   style: TextStyle(
                                                     fontFamily: 'Avenir',
                                                     color: Color.fromARGB(
@@ -467,7 +467,7 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
                                     device['deviceInfo']?[0]['DeviceId'],
                                     SocketServices(),
                                     device['deviceInfo']?[0]['Ward_No'],
-                                    device['deviceInfo']?[0]['DeviceType'],
+                                    device['deviceInfo']?[0]['deviceType'],
                                     device['message'],
                                   ),
                                 ),
@@ -508,7 +508,7 @@ class _DoctorMyDevicesState extends State<DoctorMyDevices> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  '${device['deviceInfo']?[0]?['DeviceType']}',
+                                                  '${device['deviceInfo']?[0]?['deviceType']}',
                                                   style: TextStyle(
                                                     fontFamily: 'Avenir',
                                                     color: Color.fromARGB(

@@ -261,7 +261,7 @@ class _AlarmDeviceListState extends State<AlarmDeviceList> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  '${device['deviceInfo']?[0]?['DeviceType']}',
+                                                  '${device['deviceInfo']?[0]?['deviceType']}',
                                                   style: TextStyle(
                                                     fontFamily: 'Avenir',
                                                     color: Color.fromARGB(
@@ -505,7 +505,7 @@ class _AlarmDeviceListState extends State<AlarmDeviceList> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  '${device['deviceInfo']?[0]?['DeviceType']}',
+                                                  '${device['deviceInfo']?[0]?['deviceType']}',
                                                   style: TextStyle(
                                                     fontFamily: 'Avenir',
                                                     color: Color.fromARGB(

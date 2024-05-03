@@ -760,234 +760,234 @@ class trendDataForPatientMonitor extends StatelessWidget {
       children: [
         Row(
           children: [
-            Column(
-              children: [
-                Container(
-                  color: Color.fromARGB(255, 77, 77, 77),
-                  height: 30,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'Parameter',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'Mode',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'PIP',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'PEEP',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'Mean Airway',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'VTi',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'VTe',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'MVe',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'MVi',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'FiO2',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'RR',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'I:E',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'Tinsp',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-    color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'Tinsp',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'Tinsp',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-        color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'Tinsp',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+    //         Column(
+    //           children: [
+    //             Container(
+    //               color: Color.fromARGB(255, 77, 77, 77),
+    //               height: 30,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'Parameter',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 255, 255, 255),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //               color: Color.fromARGB(255, 161, 161, 161),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'Mode',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //               color: Color.fromARGB(255, 218, 217, 217),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'PIP',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //               color: Color.fromARGB(255, 161, 161, 161),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'PEEP',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //               color: Color.fromARGB(255, 218, 217, 217),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'Mean Airway',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //               color: Color.fromARGB(255, 161, 161, 161),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'VTi',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //               color: Color.fromARGB(255, 218, 217, 217),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'VTe',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //               color: Color.fromARGB(255, 161, 161, 161),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'MVe',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //               color: Color.fromARGB(255, 218, 217, 217),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'MVi',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //               color: Color.fromARGB(255, 161, 161, 161),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'FiO2',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //               color: Color.fromARGB(255, 218, 217, 217),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'RR',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //               color: Color.fromARGB(255, 161, 161, 161),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'I:E',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //               color: Color.fromARGB(255, 218, 217, 217),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'Tinsp',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    // color: Color.fromARGB(255, 161, 161, 161),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'Tinsp',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //               color: Color.fromARGB(255, 218, 217, 217),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'Tinsp',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             Container(
+    //     color: Color.fromARGB(255, 161, 161, 161),
+    //               height: 25,
+    //               width: 140,
+    //               child: Center(
+    //                 child: Text(
+    //                   'Tinsp',
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Color.fromARGB(255, 0, 0, 0),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //           ],
+    //         ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -1011,7 +1011,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'ModeType',
+                      'SpO2',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1025,7 +1025,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'cmH2O',
+                      'PR',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1039,7 +1039,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'cmH2O',
+                      'HR',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1053,7 +1053,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'cmH2O',
+                      'ECGRR',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1067,7 +1067,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'ml',
+                      'IBP-S',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1081,7 +1081,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'ml',
+                      'IBP-D',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1095,7 +1095,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'Litre',
+                      'CGM',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1109,7 +1109,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'Litre',
+                      'EtCO2',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1123,7 +1123,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      '%',
+                      'RR',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1137,7 +1137,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'BPM',
+                      'NIBP-S',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1151,7 +1151,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'Ratio',
+                      'NIBP-D',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1165,7 +1165,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'sec',
+                      'Temp-1',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1179,7 +1179,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'sec',
+                      'Temp-2',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1192,7 +1192,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'sec',
+                      'IBP2-S',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -1206,7 +1206,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                   width: 120,
                   child: Center(
                     child: Text(
-                      'sec',
+                      'IBP2-D',
                       style: TextStyle(
                         fontSize: 12,
                         color: Color.fromARGB(255, 0, 0, 0),
