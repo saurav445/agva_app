@@ -303,7 +303,7 @@ class _DoctorDeviceListState extends State<DoctorDeviceList> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            '${device['deviceInfo']?[0]?['DeviceType']}' ,
+                                                            '${device['deviceInfo']?[0]?['deviceType']}' ,
                                                             style: TextStyle(
                                                               fontFamily:
                                                                   'Avenir',

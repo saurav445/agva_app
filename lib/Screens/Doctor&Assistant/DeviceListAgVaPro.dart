@@ -241,9 +241,9 @@ class _DeviceListAgVaProState extends State<DeviceListAgVaPro> {
                                               device['deviceInfo']?[0]
                                                   ['Ward_No'],
                                               device['deviceInfo']?[0]
-                                                  ['DeviceType'],
+                                                  ['deviceType'],
                                               device['message'],
-                                              
+
                                               
                                             ),
                                           ),
@@ -293,7 +293,7 @@ class _DeviceListAgVaProState extends State<DeviceListAgVaPro> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            '${device['deviceInfo']?[0]?['DeviceType']}',
+                                                            '${device['deviceInfo']?[0]?['deviceType']}',
                                                             style: TextStyle(
                                                               fontFamily:
                                                                   'Avenir',
