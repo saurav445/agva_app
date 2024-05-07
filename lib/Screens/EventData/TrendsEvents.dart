@@ -5,6 +5,7 @@ import 'package:agva_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class Trends extends StatefulWidget {
   final String deviceId;
@@ -20,6 +21,7 @@ class _TrendsState extends State<Trends> {
   late String deviceId;
   late String type;
   List<Map<String, String>> trendsDataList = [];
+  List<dynamic> trendsSideData = [];
 
   @override
   void initState() {
@@ -57,6 +59,7 @@ class _TrendsState extends State<Trends> {
             return stringMap;
           }),
         );
+        trendsSideData = jsonResponse['data2'];
       });
     } else {
       setState(() {
@@ -80,11 +83,32 @@ class _TrendsState extends State<Trends> {
               .map((dynamic item) {
             Map<String, String> stringMap = {};
             (item as Map<String, dynamic>).forEach((key, value) {
-              stringMap[key] = value.toString();
+              if (value is Map<String, dynamic>) {
+                stringMap[key] = jsonEncode(value);
+              } else {
+                stringMap[key] = value.toString();
+              }
             });
             return stringMap;
           }),
         );
+
+        trendsSideData = jsonResponse['data2'];
+
+        // trendsSideData = List<Map<String, String>>.from(
+        //   (jsonResponse['data']['findDeviceById'] as List<dynamic>)
+        //       .map((dynamic item) {
+        //     Map<String, String> stringMap = {};
+        //     (item as Map<String, dynamic>).forEach((key, value) {
+        //       if (value is Map<String, dynamic>) {
+        //         stringMap[key] = jsonEncode(value);
+        //       } else {
+        //         stringMap[key] = value.toString();
+        //       }
+        //     });
+        //     return stringMap;
+        //   }),
+        // ); // There's an issue here
       });
     } else {
       setState(() {
@@ -110,9 +134,11 @@ class _TrendsState extends State<Trends> {
         else if (trendsDataList.isEmpty)
           buildEmptyContainer()
         else if (type == '002')
-          trendData(trendsDataList: trendsDataList)
+          trendData(
+              trendsDataList: trendsDataList, trendsSideData: trendsSideData)
         else if (type == '003')
-          trendDataForPatientMonitor(trendsDataList: trendsDataList),
+          trendDataForPatientMonitor(
+              trendsDataList: trendsDataList, trendsSideData: trendsSideData),
       ],
     );
   }
@@ -151,394 +177,1152 @@ class _TrendsState extends State<Trends> {
 }
 
 // ignore: camel_case_types
-class trendData extends StatelessWidget {
-  trendData({
-    super.key,
-    required this.trendsDataList,
-  });
+class trendDataForPatientMonitor extends StatelessWidget {
+  trendDataForPatientMonitor(
+      {super.key, required this.trendsDataList, required this.trendsSideData});
 
   final List<Map<String, String>> trendsDataList;
+  final List<dynamic> trendsSideData;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Row(
-          children: [
-            Column(
+          children: trendsSideData.map((sideData) {
+            return Row(
               children: [
-                Container(
-                  color: Color.fromARGB(255, 77, 77, 77),
-                  height: 30,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'Parameter',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 255, 255, 255),
+                Column(
+                  children: [
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["Header Color"]}'),
+                      height: 30,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["0"]}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(
+                                '${sideData["colorCode"]["0"]}',
+                              )),
+                        ),
                       ),
                     ),
-                  ),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["1"]}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(
+                                '${sideData["colorCode"]["1"]}',
+                              )),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG EVEN Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["2"]}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(
+                                '${sideData["colorCode"]["2"]}',
+                              )),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["3"]}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(
+                                '${sideData["colorCode"]["3"]}',
+                              )),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG EVEN Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["4"]}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(
+                                '${sideData["colorCode"]["4"]}',
+                              )),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["5"]}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(
+                                '${sideData["colorCode"]["5"]}',
+                              )),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG EVEN Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["6"]}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(
+                                '${sideData["colorCode"]["6"]}',
+                              )),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["7"]}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(
+                                '${sideData["colorCode"]["7"]}',
+                              )),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG EVEN Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["8"]}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(
+                                '${sideData["colorCode"]["8"]}',
+                              )),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["9"]}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(
+                                '${sideData["colorCode"]["9"]}',
+                              )),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG EVEN Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["10"]}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(
+                                '${sideData["colorCode"]["10"]}',
+                              )),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["11"]}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(
+                                '${sideData["colorCode"]["11"]}',
+                              )),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG EVEN Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["12"]}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(
+                                '${sideData["colorCode"]["12"]}',
+                              )),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'Mode',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                Column(
+                  children: [
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["Header Color"]}'),
+                      height: 30,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["0"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(
+                              '${sideData["colorCode"]["0"]}',
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'PIP',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["1"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(
+                              '${sideData["colorCode"]["1"]}',
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'PEEP',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG EVEN Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["2"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(
+                              '${sideData["colorCode"]["2"]}',
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'Mean Airway',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["3"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(
+                              '${sideData["colorCode"]["3"]}',
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'VTi',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG EVEN Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["4"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(
+                              '${sideData["colorCode"]["4"]}',
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'VTe',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["5"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(
+                              '${sideData["colorCode"]["5"]}',
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'MVe',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG EVEN Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["6"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(
+                              '${sideData["colorCode"]["6"]}',
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'MVi',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["7"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(
+                              '${sideData["colorCode"]["7"]}',
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'FiO2',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG EVEN Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["8"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(
+                              '${sideData["colorCode"]["8"]}',
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'RR',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["9"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(
+                              '${sideData["colorCode"]["9"]}',
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'I:E',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG EVEN Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["10"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(
+                              '${sideData["colorCode"]["10"]}',
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      'Tinsp',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["11"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(
+                              '${sideData["colorCode"]["11"]}',
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Container(
+                      color:
+                          HexColor('${sideData["colorCode"]["BG EVEN Color"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["12"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(
+                              '${sideData["colorCode"]["12"]}',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
+            );
+          }).toList(),
+        ),
+        // if (trendsDataList.isEmpty) buildEmptyContainer() else TrendsHeader(),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: trendsDataList.map((trendsData) {
+                return Column(
+                  children: trendsSideData.map((sideData) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          color: HexColor(
+                            '${sideData["colorCode"]["Header Color"]}',
+                          ),
+                          height: 30,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['time']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["0"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG ODD Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['hr']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["1"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG EVEN Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['spo2']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["3"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG ODD Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['pr']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["4"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG EVEN Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['nibp_S']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["5"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG ODD Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['nibp_D']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["6"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG EVEN Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['etCo2']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["7"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG ODD Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['cgm']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["8"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG EVEN Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['etCo2']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["9"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG ODD Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['rr']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["10"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG EVEN Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['nibp_S']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["11"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG ODD Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['nibp_D']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["12"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG EVEN Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['temp1']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["9"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        //     Container(
+                        //  color:
+                        //       HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                        //       height: 25,
+                        //       width: 140,
+                        //       child: Center(
+                        //         child: Text(
+                        //           '${trendsData['temp2']}',
+                        //           style: TextStyle(
+                        //             fontSize: 12,
+                        //              color: HexColor(
+                        //               '${sideData["colorCode"]["10"]}',
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     Container(
+                        //     color:
+                        //       HexColor('${sideData["colorCode"]["BG EVEN Color"]}'),
+                        //       height: 25,
+                        //       width: 140,
+                        //       child: Center(
+                        //         child: Text(
+                        //           '${trendsData['iBP2_S']}',
+                        //           style: TextStyle(
+                        //             fontSize: 12,
+                        //              color: HexColor(
+                        //               '${sideData["colorCode"]["11"]}',
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     Container(
+                        //    color:
+                        //       HexColor('${sideData["colorCode"]["BG ODD Color"]}'),
+                        //       height: 25,
+                        //       width: 140,
+                        //       child: Center(
+                        //         child: Text(
+                        //           '${trendsData['iBP2_D']}',
+                        //           style: TextStyle(
+                        //             fontSize: 12,
+                        //              color: HexColor(
+                        //               '${sideData["colorCode"]["12"]}',
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                      ],
+                    );
+                  }).toList(),
+                );
+              }).toList(),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ignore: camel_case_types
+class trendData extends StatelessWidget {
+  trendData(
+      {super.key, required this.trendsDataList, required this.trendsSideData});
+
+  final List<Map<String, String>> trendsDataList;
+  final List<dynamic> trendsSideData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Row(
+          children: trendsSideData.map((sideData) {
+            return Row(
               children: [
-                Container(
-                  color: Color.fromARGB(255, 77, 77, 77),
-                  height: 30,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'Unit',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 255, 255, 255),
+                Column(
+                  children: [
+                    Container(
+                      color: HexColor('${sideData["colorCode"]["0"]}'),
+                      height: 30,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["0"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Container(
+                      color: HexColor('${sideData["colorCode"]["0"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["1"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: HexColor('${sideData["colorCode"]["0"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["2"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["3"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["4"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["5"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["6"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["7"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["8"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["9"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["10"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["11"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["Mode"]["12"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'ModeType',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                Column(
+                  children: [
+                    Container(
+                      color: Color.fromARGB(255, 77, 77, 77),
+                      height: 30,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["0"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'cmH2O',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["1"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'cmH2O',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["2"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'cmH2O',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["3"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'ml',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["4"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'ml',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["5"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'Litre',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["6"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'Litre',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["7"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      '%',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 218, 217, 217),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["8"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'BPM',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: Color.fromARGB(255, 161, 161, 161),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["9"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'Ratio',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: HexColor('${sideData["colorCode"]["0"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["10"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'sec',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Container(
+                      color: HexColor('${sideData["colorCode"]["0"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["11"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Container(
+                      color: HexColor('${sideData["colorCode"]["0"]}'),
+                      height: 25,
+                      width: 140,
+                      child: Center(
+                        child: Text(
+                          '${sideData["ModeType"]["12"]}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
-          ],
+            );
+          }).toList(),
         ),
         // if (trendsDataList.isEmpty) buildEmptyContainer() else TrendsHeader(),
         Expanded(
@@ -726,726 +1510,6 @@ class trendData extends StatelessWidget {
                       child: Center(
                         child: Text(
                           '${trendsData['tinsp']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              }).toList(),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-
-// ignore: camel_case_types
-class trendDataForPatientMonitor extends StatelessWidget {
-  trendDataForPatientMonitor({
-    super.key,
-    required this.trendsDataList,
-  });
-
-  final List<Map<String, String>> trendsDataList;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Row(
-          children: [
-    //         Column(
-    //           children: [
-    //             Container(
-    //               color: Color.fromARGB(255, 77, 77, 77),
-    //               height: 30,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'Parameter',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 255, 255, 255),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               color: Color.fromARGB(255, 161, 161, 161),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'Mode',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               color: Color.fromARGB(255, 218, 217, 217),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'PIP',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               color: Color.fromARGB(255, 161, 161, 161),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'PEEP',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               color: Color.fromARGB(255, 218, 217, 217),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'Mean Airway',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               color: Color.fromARGB(255, 161, 161, 161),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'VTi',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               color: Color.fromARGB(255, 218, 217, 217),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'VTe',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               color: Color.fromARGB(255, 161, 161, 161),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'MVe',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               color: Color.fromARGB(255, 218, 217, 217),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'MVi',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               color: Color.fromARGB(255, 161, 161, 161),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'FiO2',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               color: Color.fromARGB(255, 218, 217, 217),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'RR',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               color: Color.fromARGB(255, 161, 161, 161),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'I:E',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               color: Color.fromARGB(255, 218, 217, 217),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'Tinsp',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    // color: Color.fromARGB(255, 161, 161, 161),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'Tinsp',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               color: Color.fromARGB(255, 218, 217, 217),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'Tinsp',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //     color: Color.fromARGB(255, 161, 161, 161),
-    //               height: 25,
-    //               width: 140,
-    //               child: Center(
-    //                 child: Text(
-    //                   'Tinsp',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                     color: Color.fromARGB(255, 0, 0, 0),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  color: Color.fromARGB(255, 77, 77, 77),
-                  height: 30,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'Time',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'SpO2',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'PR',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'HR',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'ECGRR',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'IBP-S',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'IBP-D',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'CGM',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'EtCO2',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'RR',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'NIBP-S',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'NIBP-D',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'Temp-1',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                 Container(
-   color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'Temp-2',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ), Container(
-                  color: Color.fromARGB(255, 218, 217, 217),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'IBP2-S',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-                 Container(
-  color: Color.fromARGB(255, 161, 161, 161),
-                  height: 25,
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      'IBP2-D',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        // if (trendsDataList.isEmpty) buildEmptyContainer() else TrendsHeader(),
-        Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: trendsDataList.map((trendsData) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      color: Color.fromARGB(255, 77, 77, 77),
-                      height: 30,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['time']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Color.fromARGB(255, 161, 161, 161),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['spo2']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Color.fromARGB(255, 218, 217, 217),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['pr']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Color.fromARGB(255, 161, 161, 161),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['hr']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Color.fromARGB(255, 218, 217, 217),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['ecgRR']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Color.fromARGB(255, 161, 161, 161),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['iBP_S']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Color.fromARGB(255, 218, 217, 217),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['iBP_D']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Color.fromARGB(255, 161, 161, 161),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['cgm']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Color.fromARGB(255, 218, 217, 217),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['etCo2']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Color.fromARGB(255, 161, 161, 161),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['rr']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Color.fromARGB(255, 218, 217, 217),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['nibp_S']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Color.fromARGB(255, 161, 161, 161),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['nibp_D']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Color.fromARGB(255, 218, 217, 217),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['temp1']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                    color: Color.fromARGB(255, 161, 161, 161),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['temp2']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Color.fromARGB(255, 218, 217, 217),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['iBP2_S']}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                     Container(
-                 color: Color.fromARGB(255, 161, 161, 161),
-                      height: 25,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          '${trendsData['iBP2_D']}',
                           style: TextStyle(
                             fontSize: 12,
                             color: Color.fromARGB(255, 0, 0, 0),
