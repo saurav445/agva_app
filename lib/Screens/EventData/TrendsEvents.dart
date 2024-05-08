@@ -675,8 +675,8 @@ class trendDataForPatientMonitor extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 12,
                                 color: HexColor(
-                                  '${sideData["colorCode"]["1"]}',
-                                ),
+                                '${sideData["colorCode"]["1"]}',
+                              )
                               ),
                             ),
                           ),
@@ -692,7 +692,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 12,
                                 color: HexColor(
-                                  '${sideData["colorCode"]["3"]}',
+                                  '${sideData["colorCode"]["2"]}',
                                 ),
                               ),
                             ),
@@ -709,7 +709,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 12,
                                 color: HexColor(
-                                  '${sideData["colorCode"]["4"]}',
+                                  '${sideData["colorCode"]["3"]}',
                                 ),
                               ),
                             ),
@@ -726,7 +726,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 12,
                                 color: HexColor(
-                                  '${sideData["colorCode"]["5"]}',
+                                  '${sideData["colorCode"]["4"]}',
                                 ),
                               ),
                             ),
@@ -743,7 +743,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 12,
                                 color: HexColor(
-                                  '${sideData["colorCode"]["6"]}',
+                                  '${sideData["colorCode"]["5"]}',
                                 ),
                               ),
                             ),
@@ -760,7 +760,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 12,
                                 color: HexColor(
-                                  '${sideData["colorCode"]["7"]}',
+                                  '${sideData["colorCode"]["6"]}',
                                 ),
                               ),
                             ),
@@ -773,11 +773,11 @@ class trendDataForPatientMonitor extends StatelessWidget {
                           width: 140,
                           child: Center(
                             child: Text(
-                              '${trendsData['cgm']}',
+                              '${trendsData['iBP_S']}',
                               style: TextStyle(
                                 fontSize: 12,
                                 color: HexColor(
-                                  '${sideData["colorCode"]["8"]}',
+                                  '${sideData["colorCode"]["7"]}',
                                 ),
                               ),
                             ),
@@ -790,11 +790,45 @@ class trendDataForPatientMonitor extends StatelessWidget {
                           width: 140,
                           child: Center(
                             child: Text(
-                              '${trendsData['etCo2']}',
+                              '${trendsData['iBP_D']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["8"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG ODD Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['temp1']}',
                               style: TextStyle(
                                 fontSize: 12,
                                 color: HexColor(
                                   '${sideData["colorCode"]["9"]}',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: HexColor(
+                              '${sideData["colorCode"]["BG EVEN Color"]}'),
+                          height: 25,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              '${trendsData['temp2']}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: HexColor(
+                                  '${sideData["colorCode"]["10"]}',
                                 ),
                               ),
                             ),
@@ -811,41 +845,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 12,
                                 color: HexColor(
-                                  '${sideData["colorCode"]["10"]}',
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          color: HexColor(
-                              '${sideData["colorCode"]["BG EVEN Color"]}'),
-                          height: 25,
-                          width: 140,
-                          child: Center(
-                            child: Text(
-                              '${trendsData['nibp_S']}',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: HexColor(
                                   '${sideData["colorCode"]["11"]}',
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          color: HexColor(
-                              '${sideData["colorCode"]["BG ODD Color"]}'),
-                          height: 25,
-                          width: 140,
-                          child: Center(
-                            child: Text(
-                              '${trendsData['nibp_D']}',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: HexColor(
-                                  '${sideData["colorCode"]["12"]}',
                                 ),
                               ),
                             ),
@@ -862,7 +862,7 @@ class trendDataForPatientMonitor extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 12,
                                 color: HexColor(
-                                  '${sideData["colorCode"]["9"]}',
+                                  '${sideData["colorCode"]["12"]}',
                                 ),
                               ),
                             ),

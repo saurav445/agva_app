@@ -44,7 +44,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
       var response = await http.get(
         Uri.parse('$getnotificationList/$fcmToken'),
       );
+      
       var jsonResponse = jsonDecode(response.body);
+      print(jsonResponse);
       if (jsonResponse['statusCode'] == 200) {
 
         setState(() {
