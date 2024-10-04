@@ -23,6 +23,7 @@ class _SignUpState extends State<SignUp> {
   bool passwordVisible = false;
   bool confirmpasswordVisible = false;
   bool _isNotValidate = false;
+  String? _errorText;
   bool first = false;
   String rolesSelection = '';
   bool isPhoneNumberVerified = false;
@@ -486,13 +487,16 @@ class _SignUpState extends State<SignUp> {
   Widget buildHospitalList() {
     List<String> filteredList = filterHospitalList(searchText);
     return Padding(
-      padding: const EdgeInsets.only(left: 35),
+      padding:  EdgeInsets.only(left: 35, top: 0),
       child: Container(
+  
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 36, 36, 36),
+          color: Color.fromARGB(255, 49, 49, 49),
         ),
         child: ListView.builder(
+                  padding: EdgeInsets.all(0),
           shrinkWrap: true,
+          reverse: false,
           itemCount: filteredList.length,
           itemBuilder: (context, index) {
             return ListTile(
@@ -542,10 +546,10 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-   String? validateEmail(String? value) {
+  String? validateEmail(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Please enter email';
-    }else if (RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)){
+    } else if (RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
       return null;
     }
     return 'Invalid Email';
@@ -554,8 +558,8 @@ class _SignUpState extends State<SignUp> {
   String? validatePassword(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Please enter password';
-    // }else if (RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$').hasMatch(value)){
-    //   return null;
+      // }else if (RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$').hasMatch(value)){
+      //   return null;
     }
     return null;
   }
@@ -685,7 +689,7 @@ class _SignUpState extends State<SignUp> {
                         Padding(
                           padding: const EdgeInsets.only(
                               right: 30, left: 30, top: 30),
-                          child: TextFormField(
+                          child: TextField(
                             keyboardType: TextInputType.number,
                             controller: doctorkeyController,
                             style: TextStyle(color: Colors.white70),
@@ -754,31 +758,41 @@ class _SignUpState extends State<SignUp> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 30, left: 30),
-                        child: TextFormField(
-                            controller: firstNameController,
-                            style: TextStyle(color: Colors.white70),
-                            decoration: InputDecoration(
-                              icon: Icon(
-                                Icons.person,
-                                color: Colors.white70,
-                              ),
-                              hintText: 'First Name',
-                              errorText: _isNotValidate ? "Required" : null,
-                              hintStyle: TextStyle(color: Colors.white70),
+                        child: TextField(
+                          controller: firstNameController,
+                          style: TextStyle(color: Colors.white70),
+                          decoration: InputDecoration(
+                            icon: Icon(
+                              Icons.person,
+                              color: Colors.white70,
                             ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Enter Name';
+                            hintText: 'First Name',
+                            errorText: _errorText,
+                            hintStyle: TextStyle(color: Colors.white70),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              final hasNumber = RegExp(r'[0-9]');
+                              final hasSpace = RegExp(r'\s');
+                              if (value.isEmpty) {
+                                _errorText = 'Name cannot be empty';
+                              } else if (hasNumber.hasMatch(value)) {
+                                _errorText = 'Name cannot contain numbers';
+                              } else if (hasSpace.hasMatch(value)) {
+                                _errorText = 'Name cannot contain spaces';
+                              } else {
+                                _errorText = null;
                               }
-                              return null;
-                            }),
+                            });
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 40,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 30, left: 30),
-                        child: TextFormField(
+                        child: TextField(
                           controller: lastNameController,
                           style: TextStyle(color: Colors.white70),
                           decoration: InputDecoration(
@@ -787,9 +801,24 @@ class _SignUpState extends State<SignUp> {
                               color: Colors.white70,
                             ),
                             hintText: 'Last Name',
-                            errorText: _isNotValidate ? "Required" : null,
+                            errorText: _errorText,
                             hintStyle: TextStyle(color: Colors.white70),
                           ),
+                            onChanged: (value) {
+                            setState(() {
+                              final hasNumber = RegExp(r'[0-9]');
+                              final hasSpace = RegExp(r'\s');
+                              if (value.isEmpty) {
+                                _errorText = 'Name cannot be empty';
+                              } else if (hasNumber.hasMatch(value)) {
+                                _errorText = 'Name cannot contain numbers';
+                              } else if (hasSpace.hasMatch(value)) {
+                                _errorText = 'Name cannot contain spaces';
+                              } else {
+                                _errorText = null;
+                              }
+                            });
+                          },
                         ),
                       ),
                       SizedBox(
@@ -797,9 +826,9 @@ class _SignUpState extends State<SignUp> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 30, left: 30),
-                        child: TextFormField(
+                        child: TextField(
                           controller: emailController,
-                          validator: validateEmail,
+                          onChanged: validateEmail,
                           style: TextStyle(color: Colors.white70),
                           decoration: InputDecoration(
                             icon: Icon(
@@ -834,6 +863,14 @@ class _SignUpState extends State<SignUp> {
                                 errorText: _isNotValidate ? "Required" : null,
                                 hintStyle: TextStyle(color: Colors.white70),
                               ),
+                              validator: (value) {
+                                if (value == null ||
+                                    value.isEmpty ||
+                                    value == int) {
+                                  return 'Please enter some text';
+                                }
+                                return null;
+                              },
                             ),
                             if (searchText.isNotEmpty)
                               SingleChildScrollView(
@@ -847,7 +884,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 30, left: 30),
-                        child: TextFormField(
+                        child: TextField(
                           controller: departmentController,
                           style: TextStyle(color: Colors.white70),
                           decoration: InputDecoration(
@@ -985,10 +1022,10 @@ class _SignUpState extends State<SignUp> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 30, left: 30),
-                        child: TextFormField(
+                        child: TextField(
                           controller: passwordController,
                           obscureText: passwordVisible,
-                          validator: validatePassword,
+                          onChanged: validatePassword,
                           style: TextStyle(color: Colors.white70),
                           decoration: InputDecoration(
                             icon: Icon(
@@ -1018,7 +1055,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 30, left: 30),
-                        child: TextFormField(
+                        child: TextField(
                           controller: confirmPasswordController,
                           obscureText: confirmpasswordVisible,
                           style: TextStyle(color: Colors.white70),
@@ -1266,4 +1303,3 @@ class _SignUpState extends State<SignUp> {
         ]));
   }
 }
-

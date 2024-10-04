@@ -136,7 +136,7 @@ class _PatientListState extends State<PatientList>
                         color: Color.fromARGB(255, 181, 0, 100),
                       ),
                     )
-                  else if (currentData.isEmpty || currentData.contains(null) )
+                  else if (currentData.isEmpty || currentData.contains(null))
                     Column(
                       children: [
                         SizedBox(
@@ -278,31 +278,31 @@ class _PatientListState extends State<PatientList>
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
                           Text(
-                            '${user['UHID']}'?? '',
+                            '${user['UHID']}' ?? '',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
                           //ward no. change to bed no.
                           Text(
-                            '${user['bed_no']}'?? '',
+                            '${user['bed_no']}' ?? '',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
                           Text(
-                            '${user['ward_no']}'?? '',
+                            '${user['ward_no']}' ?? '',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
                           Text(
-                            '${user['age']}'?? '',
+                            '${user['age']}' ?? '',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
                           Text(
-                            '${user['weight']}'?? '',
+                            '${user['weight']}' ?? '',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
                           Text(
-                            '${user['height']}'?? '',
+                            '${user['height']}' ?? '',
                             style: TextStyle(fontWeight: FontWeight.w200),
                           ),
-                            SizedBox(
+                          SizedBox(
                             width: 16,
                             child: Image.asset(
                               getHypertensioninfo(hyper),
@@ -504,7 +504,7 @@ class _PatientListState extends State<PatientList>
                                 const Color.fromARGB(255, 181, 0, 100),
                           ),
                           child: Text(
-                        "View Events",
+                            "View Events",
                             style: TextStyle(color: Colors.white),
                           ),
                         ),

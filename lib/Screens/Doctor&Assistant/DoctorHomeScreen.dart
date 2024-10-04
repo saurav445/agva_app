@@ -232,7 +232,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 backgroundColor: Colors.black,
                 child: ListView(
                   padding: EdgeInsets.zero,
-                  physics: BouncingScrollPhysics(),
+               
                   children: [
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 4.5,

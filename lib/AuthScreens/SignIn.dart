@@ -305,7 +305,7 @@ class _SignInState extends State<SignIn> {
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: TextFormField(
                         controller: emailController,
-                        validator: validateEmail,
+                        onChanged: validateEmail,
                         style: TextStyle(color: Colors.white70),
                         decoration: InputDecoration(
                           icon: Icon(Icons.email, color: Colors.white70),

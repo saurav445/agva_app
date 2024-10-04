@@ -21,9 +21,10 @@ class DoctorDeviceDetails extends StatefulWidget {
   final String deviceType;
   final String message;
   final String type;
+  final String ptName;
 
   const DoctorDeviceDetails(this.deviceId, this.socketService, this.wardNo,
-      this.deviceType, this.message, this.type);
+      this.deviceType, this.message, this.type,this.ptName);
 
   @override
   State<DoctorDeviceDetails> createState() => _DoctorDeviceDetailsState();
@@ -57,11 +58,14 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
   late String alarmName;
   late String alarmColor;
   late String type = '';
+  late String ptName;
 
   // String get uri =>
   //     'http://medtap.in/live?code=SBXMH&projectName=Ventilator&DeviceId=';
   String get uri =>
       'http://172.20.10.10:3000/live?code=SBXMH&projectName=Ventilator&DeviceId=';
+      
+      
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -338,7 +342,8 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
                 Text(
-                  "SALIM RAZA",
+                  widget.ptName
+                 ,
                   style: TextStyle(
                     fontFamily: 'Avenir',
                     fontSize: MediaQuery.of(context).size.width * 0.06,
@@ -749,7 +754,7 @@ class _DoctorDeviceDetailsState extends State<DoctorDeviceDetails> {
                 height: MediaQuery.of(context).size.height * 0.035,
               ),
               Text(
-                "SALIM RAZA",
+             widget.ptName,
                 style: TextStyle(
                   fontFamily: 'Avenir',
                   fontSize: MediaQuery.of(context).size.width * 0.02,

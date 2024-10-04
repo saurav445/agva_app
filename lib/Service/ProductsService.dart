@@ -14,8 +14,9 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
+  final PageController _bannerTopPageController = PageController();
+  final PageController _featureListPageController = PageController();
+  int _currentBannerTopPage = 0;
   Timer? _timer;
   List<dynamic> productList = [];
   bool isLoading = true;
@@ -54,21 +55,24 @@ class _ProductsState extends State<Products> {
   @override
   void dispose() {
     _timer?.cancel();
-    _pageController.dispose();
+    _bannerTopPageController.dispose();
+    _featureListPageController.dispose();
     super.dispose();
   }
 
   void _startTimer() {
+    print('timer is started ');
     _timer = Timer.periodic(Duration(seconds: 2), (Timer timer) {
-      if (_currentPage < 2) {
-        _currentPage++;
-        //  getProductsAdList();
+      print('timer is started 2');
+      if (_currentBannerTopPage < 2) {
+        _currentBannerTopPage++;
+        print('timer is started 3');
       } else {
-        _currentPage = 0;
+        _currentBannerTopPage = 0;
       }
-      _pageController.animateToPage(
-        _currentPage,
-        duration: Duration(milliseconds: 500),
+      _bannerTopPageController.animateToPage(
+        _currentBannerTopPage,
+        duration: Duration(seconds: 2),
         curve: Curves.easeInOutCubicEmphasized,
       );
     });
@@ -141,60 +145,6 @@ class _ProductsState extends State<Products> {
       ),
     );
   }
-
-
-// for random list tiles 
-// import 'dart:math';
-
-// body: SingleChildScrollView(
-//   child: productList.isEmpty
-//       ? SizedBox(
-//           height: 2,
-//           child: LinearProgressIndicator(
-//             color: Colors.pink,
-//           ))
-//       : Column(
-//           children: [
-//             // Shuffle the list of widgets
-//             ..._shuffleWidgets(context, productList),
-//           ],
-//         ),
-// ),
-
- // Function to shuffle widgets
-// List<Widget> _shuffleWidgets(BuildContext context, List<dynamic> productList) {
-//   // Create lists to hold different types of widgets
-//   List<Widget> bannerTopWidgets = [];
-//   List<Widget> featureWidgets = [];
-//   List<Widget> bannerWidgets = [];
-
-//   // Loop through productList and distribute widgets based on type
-//   productList.forEach((product) {
-//     if (product['type'] == 'banner') {
-//       bannerTopWidgets.add(bannerTopList(context, [product]));
-//     } else if (product['type'] == 'featured') {
-//       featureWidgets.add(featureList(context, randomColor, [product]));
-//     } else if (product['type'] == 'commingsoon') {
-//       featureWidgets.add(featureList(context, randomColor, [product]));
-//     } else if (product['type'] == 'topselling') {
-//       bannerWidgets.add(bannerTopList(context, [product]));
-//     }
-//     // Add other conditions for different types if needed
-//   });
-
-//   // Shuffle each list of widgets
-//   bannerTopWidgets.shuffle();
-//   featureWidgets.shuffle();
-//   bannerWidgets.shuffle();
-
-//   // Combine shuffled lists into one list
-//   List<Widget> shuffledWidgets = [];
-//   shuffledWidgets.addAll(bannerTopWidgets);
-//   shuffledWidgets.addAll(featureWidgets);
-//   shuffledWidgets.addAll(bannerWidgets);
-
-//   return shuffledWidgets;
-// }
 
   SizedBox featureList(
       BuildContext context, Color randomColor, List<dynamic> dataList) {
@@ -274,108 +224,12 @@ class _ProductsState extends State<Products> {
     );
   }
 
-  SizedBox bannerList(BuildContext context, List<dynamic> dataList) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height / 4.5,
-      width: MediaQuery.of(context).size.width / 1,
-      child: PageView(
-        // controller: _pageController,
-        children: dataList.map((data) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Container(
-              height: MediaQuery.of(context).size.height / 5,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 3,
-                    blurRadius: 10,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '${data['project_name']}',
-                          style: TextStyle(
-                            fontFamily: 'Avenir',
-                            color: Color.fromARGB(255, 148, 15, 69),
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 50,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 3,
-                          child: Text(
-                            '${data['project_description']}',
-                            style: TextStyle(
-                              fontFamily: 'Avenir',
-                              color: Color.fromARGB(161, 0, 0, 0),
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.025,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          color: Color.fromARGB(255, 148, 15, 69),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text(
-                              'View Product',
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                color: Color.fromARGB(255, 251, 253, 255),
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.02,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Image.network(
-                      '${data['image_url']}',
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        }).toList(),
-        onPageChanged: (int index) {
-          setState(() {
-            _currentPage = index;
-          });
-        },
-      ),
-    );
-  }
-
   SizedBox bannerTopList(BuildContext context, List<dynamic> dataList) {
     return SizedBox(
       height: MediaQuery.of(context).size.height / 4.5,
       width: MediaQuery.of(context).size.width / 1,
       child: PageView(
-        controller: _pageController,
+        controller: _bannerTopPageController,
         children: dataList.map((data) {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -459,7 +313,7 @@ class _ProductsState extends State<Products> {
         }).toList(),
         onPageChanged: (int index) {
           setState(() {
-            _currentPage = index;
+            _currentBannerTopPage = index;
           });
         },
       ),
