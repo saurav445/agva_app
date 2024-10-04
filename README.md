@@ -2,11 +2,10 @@
 
 A Flutter project.
 
-<img width="1920" alt="file cover - 1" src="https://github.com/developer-agva/logcatApp/assets/156594610/186c0bc0-5123-4b49-9912-12fb6ffebd2d">
+![AgVa App (iot)](https://github.com/user-attachments/assets/19f16493-9173-437f-933e-8139ffe922c6)
 
 
-# Getting Started
 
-1 - Clone Repository, Install Dependencies by running command "flutter pub get", Run App Command "flutter run"
+
 
 
